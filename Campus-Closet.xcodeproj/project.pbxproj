@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D92287028EB96AB00ECAD95 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92286F28EB96AB00ECAD95 /* LoginView.swift */; };
 		C527281E28E64419008C1D60 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281D28E64419008C1D60 /* PostView.swift */; };
 		C527282028E644D6008C1D60 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281F28E644D6008C1D60 /* HomeView.swift */; };
 		C527282228E64660008C1D60 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527282128E64660008C1D60 /* ChatView.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7D92286F28EB96AB00ECAD95 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C527281D28E64419008C1D60 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		C527281F28E644D6008C1D60 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		C527282128E64660008C1D60 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				C527282328E64698008C1D60 /* ProfileView.swift */,
 				C527281F28E644D6008C1D60 /* HomeView.swift */,
 				C527282828E7480B008C1D60 /* Masonry.swift */,
+				7D92286F28EB96AB00ECAD95 /* LoginView.swift */,
 				C527281D28E64419008C1D60 /* PostView.swift */,
 				C527282128E64660008C1D60 /* ChatView.swift */,
 				C527282A28E788FD008C1D60 /* ItemCardView.swift */,
@@ -322,6 +325,7 @@
 				C55ED99D28DD01E1001BD218 /* ContentView.swift in Sources */,
 				C527282B28E788FD008C1D60 /* ItemCardView.swift in Sources */,
 				C527282028E644D6008C1D60 /* HomeView.swift in Sources */,
+				7D92287028EB96AB00ECAD95 /* LoginView.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
 				C527282428E64698008C1D60 /* ProfileView.swift in Sources */,
