@@ -42,7 +42,7 @@ struct FormBox: View {
         VStack (alignment: .leading, spacing: 16){
             Text("Email")
                 .font(.callout).bold()
-            TextField("example@example.com", text: $email)
+            TextField("example@vanderbilt.edu", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             Text("Password")
                 .font(.callout).bold()
@@ -51,14 +51,15 @@ struct FormBox: View {
             Button(action: {print ("Hello Button")}){
                 HStack{
                     Text("Sign In")
+                        .frame(maxWidth: .infinity, alignment: .center)
                     Spacer()
+
                 }
             }
             .padding()
             .background(Color("Dark Pink"))
             .cornerRadius(10)
             .foregroundColor(Color.white)
-   
         }
         .padding (.all, 36)
         .background(Color(UIColor.systemGray6))
