@@ -50,16 +50,26 @@ struct FormBox: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             Button(action: {print ("Hello Button")}){
                 HStack{
-                    Text("Sign In")
+                    Text("Log In")
                         .frame(maxWidth: .infinity, alignment: .center)
                     Spacer()
 
                 }
             }
-            .padding()
+            .padding(10)
             .background(Color("Dark Pink"))
             .cornerRadius(10)
             .foregroundColor(Color.white)
+            Button(action: {print ("Hello Button")}){
+                HStack{
+                    Text("Sign Up")
+                        .underline()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Color ("Dark Pink"))
+                    Spacer()
+
+                }
+            }
         }
         .padding (.all, 36)
         .background(Color(UIColor.systemGray6))
