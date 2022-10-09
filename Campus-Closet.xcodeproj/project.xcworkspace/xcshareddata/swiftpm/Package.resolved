@@ -101,6 +101,15 @@
         }
       },
       {
+        "package": "SlidingTabView",
+        "repositoryURL": "https://github.com/QuynhNguyen/SlidingTabView",
+        "state": {
+          "branch": null,
+          "revision": "b0f0662977418824d50546b2850a523dcd793bb0",
+          "version": "1.0.2"
+        }
+      },
+      {
         "package": "SwiftProtobuf",
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {

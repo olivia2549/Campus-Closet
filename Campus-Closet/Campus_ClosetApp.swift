@@ -15,7 +15,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     FirebaseApp.configure()
     let db = Firestore.firestore()
-
+    
     return true
   }
 }
@@ -25,12 +25,9 @@ struct Campus_ClosetApp: App {
   // register app delegate for Firebase setup
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-
   var body: some Scene {
     WindowGroup {
-      NavigationView {
         ContentView()
-      }
     }
   }
 }
