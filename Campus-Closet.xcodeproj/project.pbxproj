@@ -23,6 +23,7 @@
 		C527284828E8C1B9008C1D60 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C527284728E8C1B9008C1D60 /* FirebaseAuth */; };
 		C527284A28E8C1B9008C1D60 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C527284928E8C1B9008C1D60 /* FirebaseFirestore */; };
 		C527284C28E8C1B9008C1D60 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C527284B28E8C1B9008C1D60 /* FirebaseFirestoreSwift */; };
+		C532138F28F341C9004F2267 /* SlidingTabView in Frameworks */ = {isa = PBXBuildFile; productRef = C532138E28F341C9004F2267 /* SlidingTabView */; };
 		C55ED99B28DD01E1001BD218 /* Campus_ClosetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED99A28DD01E1001BD218 /* Campus_ClosetApp.swift */; };
 		C55ED99D28DD01E1001BD218 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED99C28DD01E1001BD218 /* ContentView.swift */; };
 		C55ED99F28DD01E2001BD218 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C55ED99E28DD01E2001BD218 /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 		C55ED9AC28DD01E3001BD218 /* Campus_ClosetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9AB28DD01E3001BD218 /* Campus_ClosetTests.swift */; };
 		C55ED9B628DD01E3001BD218 /* Campus_ClosetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B528DD01E3001BD218 /* Campus_ClosetUITests.swift */; };
 		C55ED9B828DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */; };
+		C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B84AC028EF7678004D1146 /* EditProfile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,7 @@
 		C55ED9B128DD01E3001BD218 /* Campus-ClosetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Campus-ClosetUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C55ED9B528DD01E3001BD218 /* Campus_ClosetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITests.swift; sourceTree = "<group>"; };
 		C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C5B84AC028EF7678004D1146 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C532138F28F341C9004F2267 /* SlidingTabView in Frameworks */,
 				C527284C28E8C1B9008C1D60 /* FirebaseFirestoreSwift in Frameworks */,
 				C527284628E8C1B9008C1D60 /* FirebaseAnalyticsSwift in Frameworks */,
 				C527284A28E8C1B9008C1D60 /* FirebaseFirestore in Frameworks */,
@@ -114,12 +118,13 @@
 			children = (
 				7D92287128EF71CA00ECAD95 /* LogInView.swift */,
 				C55ED99C28DD01E1001BD218 /* ContentView.swift */,
-				C527282328E64698008C1D60 /* ProfileView.swift */,
 				C527281F28E644D6008C1D60 /* HomeView.swift */,
 				C527282828E7480B008C1D60 /* Masonry.swift */,
 				C527281D28E64419008C1D60 /* PostView.swift */,
 				C527282128E64660008C1D60 /* ChatView.swift */,
 				C527282A28E788FD008C1D60 /* ItemCardView.swift */,
+				C527282328E64698008C1D60 /* ProfileView.swift */,
+				C5B84AC028EF7678004D1146 /* EditProfile.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -204,6 +209,7 @@
 				C527284728E8C1B9008C1D60 /* FirebaseAuth */,
 				C527284928E8C1B9008C1D60 /* FirebaseFirestore */,
 				C527284B28E8C1B9008C1D60 /* FirebaseFirestoreSwift */,
+				C532138E28F341C9004F2267 /* SlidingTabView */,
 			);
 			productName = "Campus-Closet";
 			productReference = C55ED99728DD01E1001BD218 /* Campus-Closet.app */;
@@ -279,6 +285,7 @@
 			mainGroup = C55ED98E28DD01E1001BD218;
 			packageReferences = (
 				C527284228E8C1B9008C1D60 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				C532138D28F341C8004F2267 /* XCRemoteSwiftPackageReference "SlidingTabView" */,
 			);
 			productRefGroup = C55ED99828DD01E1001BD218 /* Products */;
 			projectDirPath = "";
@@ -332,6 +339,7 @@
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
 				2EF0007528EB972E00F2FAAE /* LoginModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
+				C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */,
 				C527282428E64698008C1D60 /* ProfileView.swift in Sources */,
 				C527282928E7480B008C1D60 /* Masonry.swift in Sources */,
 				C55ED99B28DD01E1001BD218 /* Campus_ClosetApp.swift in Sources */,
@@ -671,6 +679,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		C532138D28F341C8004F2267 /* XCRemoteSwiftPackageReference "SlidingTabView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/QuynhNguyen/SlidingTabView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -698,6 +714,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C527284228E8C1B9008C1D60 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		C532138E28F341C9004F2267 /* SlidingTabView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C532138D28F341C8004F2267 /* XCRemoteSwiftPackageReference "SlidingTabView" */;
+			productName = SlidingTabView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
