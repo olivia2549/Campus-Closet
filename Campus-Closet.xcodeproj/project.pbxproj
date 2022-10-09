@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2EF0007528EB972E00F2FAAE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF0007428EB972E00F2FAAE /* LoginModel.swift */; };
+		7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92287128EF71CA00ECAD95 /* LogInView.swift */; };
 		C527281E28E64419008C1D60 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281D28E64419008C1D60 /* PostView.swift */; };
 		C527282028E644D6008C1D60 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281F28E644D6008C1D60 /* HomeView.swift */; };
 		C527282228E64660008C1D60 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527282128E64660008C1D60 /* ChatView.swift */; };
@@ -50,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2EF0007428EB972E00F2FAAE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		7D92287128EF71CA00ECAD95 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		C527281D28E64419008C1D60 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		C527281F28E644D6008C1D60 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		C527282128E64660008C1D60 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -101,9 +105,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C527284D28E8C223008C1D60 /* Model */ = {
+		2EF0007328EB971300F2FAAE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2EF0007428EB972E00F2FAAE /* LoginModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,6 +116,7 @@
 		C527284E28E8C22B008C1D60 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7D92287128EF71CA00ECAD95 /* LogInView.swift */,
 				C55ED99C28DD01E1001BD218 /* ContentView.swift */,
 				C527281F28E644D6008C1D60 /* HomeView.swift */,
 				C527282828E7480B008C1D60 /* Masonry.swift */,
@@ -149,7 +155,7 @@
 				C55ED99E28DD01E2001BD218 /* Assets.xcassets */,
 				C55ED99A28DD01E1001BD218 /* Campus_ClosetApp.swift */,
 				C527284E28E8C22B008C1D60 /* View */,
-				C527284D28E8C223008C1D60 /* Model */,
+				2EF0007328EB971300F2FAAE /* Model */,
 				C55ED9A028DD01E2001BD218 /* Preview Content */,
 				C527283E28E8BEF4008C1D60 /* GoogleService-Info.plist */,
 			);
@@ -326,10 +332,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */,
 				C55ED99D28DD01E1001BD218 /* ContentView.swift in Sources */,
 				C527282B28E788FD008C1D60 /* ItemCardView.swift in Sources */,
 				C527282028E644D6008C1D60 /* HomeView.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
+				2EF0007528EB972E00F2FAAE /* LoginModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
 				C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */,
 				C527282428E64698008C1D60 /* ProfileView.swift in Sources */,
