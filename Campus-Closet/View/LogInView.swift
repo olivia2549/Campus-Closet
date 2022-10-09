@@ -8,13 +8,77 @@
 import SwiftUI
 
 struct LogInView: View {
+    
     var body: some View {
         VStack(spacing: 0) {
+            Logo()
+            FormBox()
             
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+            
+
+            
         }
+        .padding(.all, 20)
+        
     }
 }
+
+struct Logo: View {
+    var body: some View {
+        Color ("LightGrey")
+        Image("logo_grey")
+            .resizable()
+            .offset(y: -50)
+            .background(Color("LightGrey"))
+            .frame(width: 400, height:400)
+    }
+}
+
+struct FormBox: View {
+    @State var email: String = ""
+    @State var password: String = ""
+    var body: some View{
+        VStack (alignment: .leading, spacing: 16){
+            Text("Email")
+                .font(.callout).bold()
+            TextField("example@vanderbilt.edu", text: $email)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            Text("Password")
+                .font(.callout).bold()
+            SecureField("password", text: $password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            Button(action: {print ("Hello Button")}){
+                HStack{
+                    Text("Log In")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
+
+                }
+            }
+            .padding(10)
+            .background(Color("Dark Pink"))
+            .cornerRadius(10)
+            .foregroundColor(Color.white)
+            Button(action: {print ("Hello Button")}){
+                HStack{
+                    Text("Sign Up")
+                        .underline()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Color ("Dark Pink"))
+                    Spacer()
+
+                }
+            }
+        }
+        .padding (.all, 36)
+        .background(Color(UIColor.systemGray6))
+        .cornerRadius (20)
+        .offset(y: -140)
+    }
+    
+}
+
 
 struct LogInView_Previews: PreviewProvider {
     static var previews: some View {
