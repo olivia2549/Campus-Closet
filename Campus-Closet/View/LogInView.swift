@@ -75,14 +75,38 @@ struct LogInFormBox: View {
     }
     
     func verifyCredentials() {
-        if self.email == "" || password == "" {
-            print("Please enter your name and password.")
+        if email.isEmpty || password.isEmpty {
+            print("Please enter your email and password.")
         }
         else if !email.hasSuffix("@vanderbilt.edu") {
             print("Please enter your Vanderbilt email address.")
         }
         else {
-            print("Authenticate with Firebase.") // FIXME: Add Firebase logic.
+            logIn()
+        }
+    }
+    
+    func logIn() {
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                return self.handleError(error: error!)
+            }
+            print("Welcome to the Campus Closet!")
+        }
+    }
+    
+    func handleError(error: Error) {
+        let authError = AuthErrorCode.Code.init(rawValue: error._code)
+        
+        switch authError {
+        case .invalidEmail:
+            print("Please enter a valid email address.")
+        case .wrongPassword:
+            print("That password is incorrect.")
+        case .userNotFound:
+            print("User not found. Please sign up!")
+        default:
+            print("Oops! An unexpected error occurred.")
         }
     }
 }
