@@ -48,7 +48,7 @@ struct SignUpFormBox: View {
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            Button(action: {print($email)}) {
+            Button(action: {verifyCredentials()}) {
                 HStack{
                     Text("Sign Up")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -59,21 +59,45 @@ struct SignUpFormBox: View {
             .background(Color("Dark Pink"))
             .cornerRadius(10)
             .foregroundColor(Color.white)
-            
-            Button(action: {print($email)}){
-                HStack{
-                    Text("Return to Log In")
-                        .underline()
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Color ("Dark Pink"))
-                    Spacer()
-                }
-            }
         }
         .padding (.all, 36)
         .background(Color(UIColor.systemGray6))
         .cornerRadius (20)
         .offset(y: -140)
+    }
+    
+    func verifyCredentials() {
+        if email.isEmpty || password.isEmpty {
+            print("Please enter your email and password.")
+        }
+        else if !email.hasSuffix("@vanderbilt.edu") {
+            print("Please enter your Vanderbilt email address.")
+        }
+        else {
+            signUp()
+        }
+    }
+    
+    func signUp() {
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                return self.handleError(error: error!)
+            }
+            print("Welcome to the Campus Closet!")
+        }
+    }
+    
+    func handleError(error: Error) {
+        let authError = AuthErrorCode.Code.init(rawValue: error._code)
+        
+        switch authError {
+        case .invalidEmail:
+            print("Please enter a valid email address.")
+        case .emailAlreadyInUse:
+            print("This email is already in use.")
+        default:
+            print("Oops! An unexpected error occurred.")
+        }
     }
 }
 

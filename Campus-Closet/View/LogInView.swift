@@ -10,11 +10,13 @@ import Firebase
 
 struct LogInView: View {
     var body: some View {
-        VStack(spacing: 0) {
-            Logo()
-            LogInFormBox()
+        NavigationView {
+            VStack(spacing: 0) {
+                Logo()
+                LogInFormBox()
+            }
+            .padding(.all, 20)
         }
-        .padding(.all, 20)
     }
 }
 
@@ -32,6 +34,7 @@ struct Logo: View {
 struct LogInFormBox: View {
     @State var email: String = ""
     @State var password: String = ""
+    @State var screen: Int? = nil
     
     var body: some View{
         VStack (alignment: .leading, spacing: 16){
@@ -46,6 +49,9 @@ struct LogInFormBox: View {
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
+            NavigationLink(destination: ContentView(), tag: 1, selection: $screen) {
+                EmptyView()
+            }
             Button(action: {verifyCredentials()}) {
                 HStack{
                     Text("Log In")
@@ -58,7 +64,10 @@ struct LogInFormBox: View {
             .cornerRadius(10)
             .foregroundColor(Color.white)
             
-            Button(action: {print ($email)}){ // FIXME: Navigate to sign up screen.
+            NavigationLink(destination: SignUpView(), tag: 2, selection: $screen) {
+                EmptyView()
+            }
+            Button(action: {self.screen = 2}){
                 HStack{
                     Text("Sign Up")
                         .underline()
@@ -91,7 +100,8 @@ struct LogInFormBox: View {
             if error != nil {
                 return self.handleError(error: error!)
             }
-            print("Welcome to the Campus Closet!")
+            print("Welcome back to the Campus Closet!")
+            self.screen = 1
         }
     }
     
@@ -113,6 +123,8 @@ struct LogInFormBox: View {
 
 struct LogInView_Previews: PreviewProvider {
     static var previews: some View {
-        LogInView()
+        NavigationView {
+            LogInView()
+        }
     }
 }

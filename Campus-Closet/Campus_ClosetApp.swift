@@ -28,7 +28,6 @@ struct Campus_ClosetApp: App {
   var body: some Scene {
     WindowGroup {
         LogInView()
-        ContentView()
     }
   }
 }
