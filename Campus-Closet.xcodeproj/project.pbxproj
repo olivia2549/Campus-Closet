@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */; };
 		2EF0007528EB972E00F2FAAE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF0007428EB972E00F2FAAE /* LoginModel.swift */; };
 		7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92287128EF71CA00ECAD95 /* LogInView.swift */; };
 		C527281E28E64419008C1D60 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281D28E64419008C1D60 /* PostView.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		2EF0007428EB972E00F2FAAE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		7D92287128EF71CA00ECAD95 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		C527281D28E64419008C1D60 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				C527282A28E788FD008C1D60 /* ItemCardView.swift */,
 				C527282328E64698008C1D60 /* ProfileView.swift */,
 				C5B84AC028EF7678004D1146 /* EditProfile.swift */,
+				2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 				C55ED99D28DD01E1001BD218 /* ContentView.swift in Sources */,
 				C527282B28E788FD008C1D60 /* ItemCardView.swift in Sources */,
 				C527282028E644D6008C1D60 /* HomeView.swift in Sources */,
+				2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
 				2EF0007528EB972E00F2FAAE /* LoginModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
