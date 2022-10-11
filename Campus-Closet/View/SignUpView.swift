@@ -45,6 +45,7 @@ struct Title: View {
 struct SignUpFormBox: View {
     @State var email: String = ""
     @State var password: String = ""
+    @State var selection: Int? = nil
     @Binding var isError: Bool
     @Binding var message: String
     
@@ -61,6 +62,7 @@ struct SignUpFormBox: View {
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
+            NavigationLink(destination: VerifyEmailView(), tag: 1, selection: $selection) { EmptyView() }
             Button(action: {verifyCredentials()}){
                 HStack{
                     Text("Sign Up")
@@ -98,7 +100,7 @@ struct SignUpFormBox: View {
             if error != nil {
                 return self.handleError(error: error!)
             }
-            print("Welcome to the Campus Closet!")
+            self.selection = 1
         }
     }
     

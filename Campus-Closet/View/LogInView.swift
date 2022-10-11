@@ -109,8 +109,13 @@ struct LogInFormBox: View {
             if error != nil {
                 return self.handleError(error: error!)
             }
-            print("Welcome back to the Campus Closet!")
-            self.selection = 1
+            else if (Auth.auth().currentUser?.isEmailVerified == false) {
+                isError.toggle()
+                message = "Please verify your email address to continue."
+            }
+            else {
+                self.selection = 1
+            }
         }
     }
     
