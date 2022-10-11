@@ -9,13 +9,24 @@ import SwiftUI
 import Firebase
 
 struct SignUpView: View {
+    @State private var isError: Bool = false
+    @State private var message: String = ""
+    
     var body: some View {
-        VStack(spacing: 0) {
-            Logo()
-            Title()
-            SignUpFormBox()
+        ZStack (alignment: .center) {
+            NavigationView {
+                VStack(spacing: 0) {
+                    Logo()
+                    Title()
+                    SignUpFormBox(isError: $isError, message: $message)
+                }
+                .padding(.all, 20)
+                .navigationTitle("")
+                .navigationBarHidden(true)
+            }
+            .statusBar(hidden: true)
+            MessageView(showMessage: $isError, message: message)
         }
-        .padding(.all, 20)
     }
 }
 
@@ -34,6 +45,8 @@ struct Title: View {
 struct SignUpFormBox: View {
     @State var email: String = ""
     @State var password: String = ""
+    @Binding var isError: Bool
+    @Binding var message: String
     
     var body: some View{
         VStack (alignment: .leading, spacing: 16){
@@ -48,7 +61,7 @@ struct SignUpFormBox: View {
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            Button(action: {verifyCredentials()}) {
+            Button(action: {verifyCredentials()}){
                 HStack{
                     Text("Sign Up")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -68,10 +81,12 @@ struct SignUpFormBox: View {
     
     func verifyCredentials() {
         if email.isEmpty || password.isEmpty {
-            print("Please enter your email and password.")
+            isError.toggle()
+            message = "Please enter your email and password."
         }
         else if !email.hasSuffix("@vanderbilt.edu") {
-            print("Please enter your Vanderbilt email address.")
+            isError.toggle()
+            message = "Please enter your Vanderbilt email."
         }
         else {
             signUp()
@@ -89,14 +104,15 @@ struct SignUpFormBox: View {
     
     func handleError(error: Error) {
         let authError = AuthErrorCode.Code.init(rawValue: error._code)
+        isError.toggle()
         
         switch authError {
         case .invalidEmail:
-            print("Please enter a valid email address.")
+            message = "Please enter a valid email address."
         case .emailAlreadyInUse:
-            print("This email is already in use.")
+            message = "This email is already in use."
         default:
-            print("Oops! An unexpected error occurred.")
+            message = "Oops! An unexpected error occurred."
         }
     }
 }
