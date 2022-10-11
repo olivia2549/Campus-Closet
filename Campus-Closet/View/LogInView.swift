@@ -9,13 +9,22 @@ import SwiftUI
 import Firebase
 
 struct LogInView: View {
+    @State private var isError: Bool = false
+    @State private var message: String = ""
+
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                Logo()
-                LogInFormBox()
+        ZStack (alignment: .center) {
+            NavigationView {
+                VStack(spacing: 0) {
+                    Logo()
+                    LogInFormBox(isError: $isError, message: $message)
+                }
+                .padding(.all, 20)
+                .navigationTitle("")
+                .navigationBarHidden(true)
             }
-            .padding(.all, 20)
+            .statusBar(hidden: true)
+            MessageView(showMessage: $isError, message: message)
         }
     }
 }
@@ -34,10 +43,12 @@ struct Logo: View {
 struct LogInFormBox: View {
     @State var email: String = ""
     @State var password: String = ""
-    @State var screen: Int? = nil
+    @State var selection: Int? = nil
+    @Binding var isError: Bool
+    @Binding var message: String
     
-    var body: some View{
-        VStack (alignment: .leading, spacing: 16){
+    var body: some View {
+        VStack (alignment: .leading, spacing: 16) {
             Text("Email")
                 .font(.callout).bold()
             TextField("email", text: $email)
@@ -49,10 +60,8 @@ struct LogInFormBox: View {
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            NavigationLink(destination: ContentView(), tag: 1, selection: $screen) {
-                EmptyView()
-            }
-            Button(action: {verifyCredentials()}) {
+            NavigationLink(destination: ContentView(), tag: 1, selection: $selection) { EmptyView() }
+            Button(action: {verifyCredentials()}){
                 HStack{
                     Text("Log In")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -64,10 +73,8 @@ struct LogInFormBox: View {
             .cornerRadius(10)
             .foregroundColor(Color.white)
             
-            NavigationLink(destination: SignUpView(), tag: 2, selection: $screen) {
-                EmptyView()
-            }
-            Button(action: {self.screen = 2}){
+            NavigationLink(destination: SignUpView(), tag: 2, selection: $selection) { EmptyView() }
+            Button(action: {self.selection = 2}){
                 HStack{
                     Text("Sign Up")
                         .underline()
@@ -85,10 +92,12 @@ struct LogInFormBox: View {
     
     func verifyCredentials() {
         if email.isEmpty || password.isEmpty {
-            print("Please enter your email and password.")
+            isError.toggle()
+            message = "Please enter your email and password."
         }
         else if !email.hasSuffix("@vanderbilt.edu") {
-            print("Please enter your Vanderbilt email address.")
+            isError.toggle()
+            message = "Please enter your Vanderbilt email."
         }
         else {
             logIn()
@@ -101,22 +110,23 @@ struct LogInFormBox: View {
                 return self.handleError(error: error!)
             }
             print("Welcome back to the Campus Closet!")
-            self.screen = 1
+            self.selection = 1
         }
     }
     
     func handleError(error: Error) {
         let authError = AuthErrorCode.Code.init(rawValue: error._code)
+        isError.toggle()
         
         switch authError {
         case .invalidEmail:
-            print("Please enter a valid email address.")
+            message = "Please enter a valid email address."
         case .wrongPassword:
-            print("That password is incorrect.")
+            message = "That password is incorrect."
         case .userNotFound:
-            print("User not found. Please sign up!")
+            message = "User not found. Please sign up!"
         default:
-            print("Oops! An unexpected error occurred.")
+            message = "Oops! An unexpected error occurred."
         }
     }
 }
