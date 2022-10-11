@@ -155,10 +155,11 @@
 		C55ED99928DD01E1001BD218 /* Campus-Closet */ = {
 			isa = PBXGroup;
 			children = (
+				2EF0007328EB971300F2FAAE /* Model */,
+				C527284E28E8C22B008C1D60 /* View */,
+				C5BF285E28F5418D00258D3D /* Controllers */,
 				C55ED99E28DD01E2001BD218 /* Assets.xcassets */,
 				C55ED99A28DD01E1001BD218 /* Campus_ClosetApp.swift */,
-				C527284E28E8C22B008C1D60 /* View */,
-				2EF0007328EB971300F2FAAE /* Model */,
 				C55ED9A028DD01E2001BD218 /* Preview Content */,
 				C527283E28E8BEF4008C1D60 /* GoogleService-Info.plist */,
 			);
@@ -188,6 +189,13 @@
 				C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */,
 			);
 			path = "Campus-ClosetUITests";
+			sourceTree = "<group>";
+		};
+		C5BF285E28F5418D00258D3D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

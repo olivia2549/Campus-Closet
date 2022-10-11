@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseAuth
+import FirebaseFirestore
 
 struct EditProfile: View {
     @State private var name: String = ""
+    @State private var venmo: String = ""
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -34,6 +38,7 @@ struct EditProfile: View {
                 autocapitalization: .words
             ) {name in
                 print("submitted name: \(name)")
+                self.name = name
             }
             .padding(.top)
             
@@ -42,7 +47,10 @@ struct EditProfile: View {
                 autocapitalization: .never
             ) { venmo in
                 print("submitted venmo: \(venmo)")
+                self.venmo = venmo
             }
+            
+            Button("Done", action: {createProfile(name: name, venmo: venmo)})
             
             Spacer()
         }
@@ -107,6 +115,33 @@ struct EditProfile_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             EditProfile()
+        }
+    }
+}
+
+func createProfile(name: String, venmo: String) {
+    let db = Firestore.firestore()
+    print("creating...")
+
+    if (name == "" || venmo == "") {
+        return
+    }
+    
+    if let user = Auth.auth().currentUser?.email {
+        db.collection("users").addDocument(data: [
+            "email": user,
+            "name": name,
+            "venmo": venmo
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully saved data.")
+                
+                DispatchQueue.main.async {
+                    // this is where we update the frontend
+                }
+            }
         }
     }
 }
