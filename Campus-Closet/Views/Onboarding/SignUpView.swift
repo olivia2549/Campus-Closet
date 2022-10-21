@@ -9,8 +9,7 @@ import SwiftUI
 import Firebase
 
 struct SignUpView: View {
-    @State private var isError: Bool = false
-    @State private var message: String = ""
+    @StateObject private var signupVM = OnboardingVM()
     
     var body: some View {
         ZStack (alignment: .center) {
@@ -18,15 +17,16 @@ struct SignUpView: View {
                 VStack(spacing: 0) {
                     Logo()
                     Title()
-                    SignUpFormBox(isError: $isError, message: $message)
+                    SignUpFormBox()
                 }
                 .padding(.all, 20)
                 .navigationTitle("")
                 .navigationBarHidden(true)
             }
             .statusBar(hidden: true)
-            MessageView(showMessage: $isError, message: message)
+            MessageView()
         }
+        .environmentObject(signupVM)
     }
 }
 
@@ -43,27 +43,23 @@ struct Title: View {
 }
 
 struct SignUpFormBox: View {
-    @State var email: String = ""
-    @State var password: String = ""
-    @State var selection: Int? = nil
-    @Binding var isError: Bool
-    @Binding var message: String
+    @EnvironmentObject private var viewModel: OnboardingVM
     
     var body: some View{
         VStack (alignment: .leading, spacing: 16){
             Text("Email")
                 .font(.callout).bold()
-            TextField("email", text: $email)
+            TextField("email", text: $viewModel.email)
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             Text("Create a Password")
                 .font(.callout).bold()
-            SecureField("password", text: $password)
+            SecureField("password", text: $viewModel.password)
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            NavigationLink(destination: VerifyEmailView(), tag: 1, selection: $selection) { EmptyView() }
-            Button(action: {verifyCredentials()}){
+            NavigationLink(destination: VerifyEmailView(), tag: 1, selection: $viewModel.selection) { EmptyView() }
+            Button(action: {viewModel.verifyAndSignup()}){
                 HStack{
                     Text("Sign Up")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -80,43 +76,7 @@ struct SignUpFormBox: View {
         .cornerRadius (20)
         .offset(y: -140)
     }
-    
-    func verifyCredentials() {
-        if email.isEmpty || password.isEmpty {
-            isError.toggle()
-            message = "Please enter your email and password."
-        }
-        else if !email.hasSuffix("@vanderbilt.edu") {
-            isError.toggle()
-            message = "Please enter your Vanderbilt email."
-        }
-        else {
-            signUp()
-        }
-    }
-    
-    func signUp() {
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-            if error != nil {
-                return self.handleError(error: error!)
-            }
-            self.selection = 1
-        }
-    }
-    
-    func handleError(error: Error) {
-        let authError = AuthErrorCode.Code.init(rawValue: error._code)
-        isError.toggle()
-        
-        switch authError {
-        case .invalidEmail:
-            message = "Please enter a valid email address."
-        case .emailAlreadyInUse:
-            message = "This email is already in use."
-        default:
-            message = "Oops! An unexpected error occurred."
-        }
-    }
+
 }
 
 struct SignUpView_Previews: PreviewProvider {
