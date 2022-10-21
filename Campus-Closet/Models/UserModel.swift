@@ -10,4 +10,5 @@ import Foundation
 struct User {
     var name: String
     var venmo: String
+    var listings: [UUID]   // ids of items
 }
