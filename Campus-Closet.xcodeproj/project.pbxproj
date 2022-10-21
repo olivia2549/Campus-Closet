@@ -10,7 +10,7 @@
 		2E0101EC28F4EC920074F404 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0101EB28F4EC910074F404 /* MessageView.swift */; };
 		2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */; };
 		2E8DD07C28F5470300D1D035 /* VerifyEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */; };
-		2EF0007528EB972E00F2FAAE /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF0007428EB972E00F2FAAE /* LoginModel.swift */; };
+		2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF0007428EB972E00F2FAAE /* UserModel.swift */; };
 		7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92287128EF71CA00ECAD95 /* LogInView.swift */; };
 		C527281E28E64419008C1D60 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281D28E64419008C1D60 /* PostView.swift */; };
 		C527282028E644D6008C1D60 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281F28E644D6008C1D60 /* HomeView.swift */; };
@@ -35,6 +35,7 @@
 		C55ED9B628DD01E3001BD218 /* Campus_ClosetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B528DD01E3001BD218 /* Campus_ClosetUITests.swift */; };
 		C55ED9B828DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */; };
 		C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B84AC028EF7678004D1146 /* EditProfile.swift */; };
+		C5D69BA52902FC47004FD7C7 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BA42902FC47004FD7C7 /* LoginVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +59,7 @@
 		2E0101EB28F4EC910074F404 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailView.swift; sourceTree = "<group>"; };
-		2EF0007428EB972E00F2FAAE /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		2EF0007428EB972E00F2FAAE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		7D92287128EF71CA00ECAD95 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		C527281D28E64419008C1D60 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		C527281F28E644D6008C1D60 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 		C55ED9B528DD01E3001BD218 /* Campus_ClosetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITests.swift; sourceTree = "<group>"; };
 		C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C5B84AC028EF7678004D1146 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
+		C5D69BA42902FC47004FD7C7 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,31 +113,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2EF0007328EB971300F2FAAE /* Model */ = {
+		2EF0007328EB971300F2FAAE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2EF0007428EB972E00F2FAAE /* LoginModel.swift */,
+				2EF0007428EB972E00F2FAAE /* UserModel.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
-		C527284E28E8C22B008C1D60 /* View */ = {
+		C527284E28E8C22B008C1D60 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7D92287128EF71CA00ECAD95 /* LogInView.swift */,
-				C55ED99C28DD01E1001BD218 /* ContentView.swift */,
-				C527281F28E644D6008C1D60 /* HomeView.swift */,
-				C527282828E7480B008C1D60 /* Masonry.swift */,
-				C527281D28E64419008C1D60 /* PostView.swift */,
-				C527282128E64660008C1D60 /* ChatView.swift */,
-				C527282A28E788FD008C1D60 /* ItemCardView.swift */,
-				C527282328E64698008C1D60 /* ProfileView.swift */,
-				C5B84AC028EF7678004D1146 /* EditProfile.swift */,
-				2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */,
+				C5D69BA6290310E2004FD7C7 /* Onboarding */,
+				C5D69BA729031123004FD7C7 /* Content */,
+				C5D69BAA29031240004FD7C7 /* Post */,
 				2E0101EB28F4EC910074F404 /* MessageView.swift */,
-				2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */,
+				C527282128E64660008C1D60 /* ChatView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		C55ED98E28DD01E1001BD218 = {
@@ -161,9 +156,9 @@
 		C55ED99928DD01E1001BD218 /* Campus-Closet */ = {
 			isa = PBXGroup;
 			children = (
-				2EF0007328EB971300F2FAAE /* Model */,
-				C527284E28E8C22B008C1D60 /* View */,
-				C5BF285E28F5418D00258D3D /* Controllers */,
+				2EF0007328EB971300F2FAAE /* Models */,
+				C527284E28E8C22B008C1D60 /* Views */,
+				C5BF285E28F5418D00258D3D /* ViewModels */,
 				C55ED99E28DD01E2001BD218 /* Assets.xcassets */,
 				C55ED99A28DD01E1001BD218 /* Campus_ClosetApp.swift */,
 				C55ED9A028DD01E2001BD218 /* Preview Content */,
@@ -197,11 +192,43 @@
 			path = "Campus-ClosetUITests";
 			sourceTree = "<group>";
 		};
-		C5BF285E28F5418D00258D3D /* Controllers */ = {
+		C5BF285E28F5418D00258D3D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				C5D69BA42902FC47004FD7C7 /* LoginVM.swift */,
 			);
-			path = Controllers;
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C5D69BA6290310E2004FD7C7 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				7D92287128EF71CA00ECAD95 /* LogInView.swift */,
+				2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */,
+				2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */,
+				C5B84AC028EF7678004D1146 /* EditProfile.swift */,
+				C527282328E64698008C1D60 /* ProfileView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C5D69BA729031123004FD7C7 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				C527282A28E788FD008C1D60 /* ItemCardView.swift */,
+				C527282828E7480B008C1D60 /* Masonry.swift */,
+				C527281F28E644D6008C1D60 /* HomeView.swift */,
+				C55ED99C28DD01E1001BD218 /* ContentView.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		C5D69BAA29031240004FD7C7 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				C527281D28E64419008C1D60 /* PostView.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,13 +383,14 @@
 				C527282028E644D6008C1D60 /* HomeView.swift in Sources */,
 				2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
-				2EF0007528EB972E00F2FAAE /* LoginModel.swift in Sources */,
+				2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
 				C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */,
 				C527282428E64698008C1D60 /* ProfileView.swift in Sources */,
 				2E0101EC28F4EC920074F404 /* MessageView.swift in Sources */,
 				C527282928E7480B008C1D60 /* Masonry.swift in Sources */,
 				C55ED99B28DD01E1001BD218 /* Campus_ClosetApp.swift in Sources */,
+				C5D69BA52902FC47004FD7C7 /* LoginVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
