@@ -36,6 +36,7 @@
 		C55ED9B828DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */; };
 		C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B84AC028EF7678004D1146 /* EditProfile.swift */; };
 		C5D69BA52902FC47004FD7C7 /* OnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */; };
+		C5D69BAF29032E64004FD7C7 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BAE29032E64004FD7C7 /* ItemModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C5B84AC028EF7678004D1146 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
 		C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVM.swift; sourceTree = "<group>"; };
+		C5D69BAE29032E64004FD7C7 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				2EF0007428EB972E00F2FAAE /* UserModel.swift */,
+				C5D69BAE29032E64004FD7C7 /* ItemModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */,
 				C55ED99D28DD01E1001BD218 /* ContentView.swift in Sources */,
 				C527282B28E788FD008C1D60 /* ItemCardView.swift in Sources */,
+				C5D69BAF29032E64004FD7C7 /* ItemModel.swift in Sources */,
 				C527282028E644D6008C1D60 /* HomeView.swift in Sources */,
 				2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,

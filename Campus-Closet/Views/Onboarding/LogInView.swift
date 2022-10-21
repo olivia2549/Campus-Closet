@@ -95,7 +95,6 @@ struct LogInFormBox: View {
         .ignoresSafeArea()
     }
     
-    
 }
 
 struct LogInView_Previews: PreviewProvider {
