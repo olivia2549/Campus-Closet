@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 
 struct SignUpView: View {
-    @StateObject private var signupVM = LoginVM()
+    @StateObject private var signupVM = OnboardingVM()
     
     var body: some View {
         ZStack (alignment: .center) {
@@ -43,7 +43,7 @@ struct Title: View {
 }
 
 struct SignUpFormBox: View {
-    @EnvironmentObject private var viewModel: LoginVM
+    @EnvironmentObject private var viewModel: OnboardingVM
     
     var body: some View{
         VStack (alignment: .leading, spacing: 16){

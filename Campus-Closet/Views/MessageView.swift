@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MessageView: View {
-    @EnvironmentObject private var viewModel: LoginVM
+    @EnvironmentObject private var viewModel: OnboardingVM
     
     var body: some View {
         ZStack {

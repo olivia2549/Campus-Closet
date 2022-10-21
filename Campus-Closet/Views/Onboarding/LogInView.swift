@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LogInView: View {
-    @StateObject private var loginVM = LoginVM()
+    @StateObject private var loginVM = OnboardingVM()
 
     var body: some View {
         ZStack (alignment: .center) {
@@ -40,7 +40,7 @@ struct Logo: View {
 }
 
 struct LogInFormBox: View {
-    @EnvironmentObject private var viewModel: LoginVM
+    @EnvironmentObject private var viewModel: OnboardingVM
     
     var body: some View {
         VStack (alignment: .leading, spacing: 16) {

@@ -35,7 +35,7 @@
 		C55ED9B628DD01E3001BD218 /* Campus_ClosetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B528DD01E3001BD218 /* Campus_ClosetUITests.swift */; };
 		C55ED9B828DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */; };
 		C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B84AC028EF7678004D1146 /* EditProfile.swift */; };
-		C5D69BA52902FC47004FD7C7 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BA42902FC47004FD7C7 /* LoginVM.swift */; };
+		C5D69BA52902FC47004FD7C7 /* OnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,7 +79,7 @@
 		C55ED9B528DD01E3001BD218 /* Campus_ClosetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITests.swift; sourceTree = "<group>"; };
 		C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C5B84AC028EF7678004D1146 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
-		C5D69BA42902FC47004FD7C7 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
+		C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +124,7 @@
 		C527284E28E8C22B008C1D60 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C5D69BAB290314D7004FD7C7 /* Profile */,
 				C5D69BA6290310E2004FD7C7 /* Onboarding */,
 				C5D69BA729031123004FD7C7 /* Content */,
 				C5D69BAA29031240004FD7C7 /* Post */,
@@ -195,7 +196,7 @@
 		C5BF285E28F5418D00258D3D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				C5D69BA42902FC47004FD7C7 /* LoginVM.swift */,
+				C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -206,8 +207,6 @@
 				7D92287128EF71CA00ECAD95 /* LogInView.swift */,
 				2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */,
 				2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */,
-				C5B84AC028EF7678004D1146 /* EditProfile.swift */,
-				C527282328E64698008C1D60 /* ProfileView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -229,6 +228,15 @@
 				C527281D28E64419008C1D60 /* PostView.swift */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		C5D69BAB290314D7004FD7C7 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C527282328E64698008C1D60 /* ProfileView.swift */,
+				C5B84AC028EF7678004D1146 /* EditProfile.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -390,7 +398,7 @@
 				2E0101EC28F4EC920074F404 /* MessageView.swift in Sources */,
 				C527282928E7480B008C1D60 /* Masonry.swift in Sources */,
 				C55ED99B28DD01E1001BD218 /* Campus_ClosetApp.swift in Sources */,
-				C5D69BA52902FC47004FD7C7 /* LoginVM.swift in Sources */,
+				C5D69BA52902FC47004FD7C7 /* OnboardingVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
