@@ -8,16 +8,15 @@
 import SwiftUI
 
 struct MessageView: View {
-    @Binding var showMessage: Bool
-    var message: String
+    @EnvironmentObject private var viewModel: LoginVM
     
     var body: some View {
         ZStack {
-            if showMessage {
+            if viewModel.isError {
                 Color.black.opacity(0.35).edgesIgnoringSafeArea(.all)
                 
                 VStack(alignment: .center, spacing: 0) {
-                    Text(message)
+                    Text(viewModel.message)
                         .multilineTextAlignment(.center)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                         .font(Font.system(size: 20, weight: .semibold))
@@ -26,7 +25,7 @@ struct MessageView: View {
                     
                     Button(action: {
                         withAnimation(.linear(duration: 0.2)){
-                            showMessage = false
+                            viewModel.isError = false
                         }
                     }, label: {
                         Text("OK")
@@ -49,6 +48,6 @@ struct MessageView_Previews: PreviewProvider {
     @State static private var showMessage: Bool = false
     
     static var previews: some View {
-        MessageView(showMessage: $showMessage, message: "")
+        MessageView()
     }
 }
