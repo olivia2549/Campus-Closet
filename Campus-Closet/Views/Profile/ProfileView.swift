@@ -56,11 +56,10 @@ struct ViewProfileHeader: View {
 }
 
 struct ProfileInfo: View {
-    // TODO: Call ProfileVM methods to populate profile information.
     @EnvironmentObject private var viewModel: ProfileVM
-    
+
     var body: some View {
-        Text("Gigi Hadid")
+        Text(viewModel.name)
             .font(.system(size: 32, weight: .medium))
         HStack(alignment: .center) {
             Image(systemName: "star.fill")
@@ -68,12 +67,12 @@ struct ProfileInfo: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 25, height: 25)
                 .foregroundColor(Color("Dark Pink"))
-            Text("4.8")
+            Text(viewModel.rating)
             Text("(12 Reviews)")
             Text("|")
             Image(systemName: "dollarsign.circle")
                 .foregroundColor(Color("Dark Pink"))
-            Text("@gigi-hadid")
+            Text(viewModel.venmo)
         }
         .frame(maxWidth: .infinity)
     }
