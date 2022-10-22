@@ -9,28 +9,14 @@ import SwiftUI
 import SlidingTabView
 
 struct ProfileView: View {
+    @StateObject private var viewModel = ProfileVM()
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 10) {
                 ViewProfileHeader()
                 ProfileImage()
-                Text("Gigi Hadid")
-                    .font(.system(size: 32, weight: .medium))
-                HStack(alignment: .center) {
-                    Image(systemName: "star.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(Color("Dark Pink"))
-                    Text("4.8")
-                    Text("(12 Reviews)")
-                    Text("|")
-                    Image(systemName: "dollarsign.circle")
-                        .foregroundColor(Color("Dark Pink"))
-                    Text("@gigi-hadid")
-                }
-                .frame(maxWidth: .infinity)
-                
+                ProfileInfo()
                 ToggleView()
                 .padding(.top)
                 Spacer()
@@ -38,6 +24,7 @@ struct ProfileView: View {
             .navigationBarHidden(true)
         }
         .statusBar(hidden: true)
+        .environmentObject(viewModel)
     }
 }
 
@@ -63,6 +50,30 @@ struct ViewProfileHeader: View {
                 }
             }
             .frame(maxWidth: .infinity)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+struct ProfileInfo: View {
+    // TODO: Call ProfileVM methods to populate profile information.
+    @EnvironmentObject private var viewModel: ProfileVM
+    
+    var body: some View {
+        Text("Gigi Hadid")
+            .font(.system(size: 32, weight: .medium))
+        HStack(alignment: .center) {
+            Image(systemName: "star.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25, height: 25)
+                .foregroundColor(Color("Dark Pink"))
+            Text("4.8")
+            Text("(12 Reviews)")
+            Text("|")
+            Image(systemName: "dollarsign.circle")
+                .foregroundColor(Color("Dark Pink"))
+            Text("@gigi-hadid")
         }
         .frame(maxWidth: .infinity)
     }
