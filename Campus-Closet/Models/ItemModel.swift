@@ -7,11 +7,14 @@
 
 import Foundation
 
-struct Item {
-    var name: String
-    var seller: UUID
-    var price: Float
-    var biddingEnabled: Bool
-    var type: String
-    var condition: String
+struct ItemModel {
+    var id: String = UUID().uuidString
+    var title: String = ""
+    var description: String = ""
+    var sellerId: String = ""
+    var price: String = ""
+    var size: String = ""
+    var biddingEnabled: Bool = true
+    var tags: [String] = []
+    var condition: String = ""
 }

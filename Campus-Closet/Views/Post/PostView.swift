@@ -20,7 +20,7 @@ struct PostView: View {
     var body: some View {
         NavigationView {
             VStack {
-                ItemInfoFormBox()
+                BasicInfo()
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -30,8 +30,9 @@ struct PostView: View {
                         .padding(.top, 50)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: EnterStats()) {
+                    NavigationLink(destination: OptionalInfo()) {
                         Text("Next")
+                            .foregroundColor(.white)
                     }
                 }
             }
@@ -40,29 +41,115 @@ struct PostView: View {
     }
 }
 
-struct ItemInfoFormBox: View {
+struct BasicInfo: View {
+    @EnvironmentObject private var viewModel: PostVM
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            CustomInput(
+                for: "Title*",
+                autocapitalization: .sentences,
+                input: $viewModel.item.title
+            ) {
+                
+            }
+            
+            CustomInput(
+                for: "Price*",
+                autocapitalization: .never,
+                input: $viewModel.item.price
+            ) {
+                
+            }
+            
+            CustomInput(
+                for: "Size*",
+                autocapitalization: .never,
+                input: $viewModel.item.size
+            ) {
+                
+            }
+            
+            CustomInput(
+                for: "Description",
+                autocapitalization: .sentences,
+                input: $viewModel.item.description
+            ) {
+                
+            }
+            
+            Spacer()
+        }
+    }
+    
+}
+
+struct OptionalInfo: View {
     @EnvironmentObject private var viewModel: PostVM
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 16) {
-            // FIXME: Button needs frontend formatting. This is just prototype to test Firebase connection.
-            Button(action: {viewModel.postItem()}){
-                HStack{
-                    Text("Post Item!")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
+        VStack(alignment: .leading, spacing: 16) {
+            TagsList()
+            TagPicker()
+            
+            Text("Settings")
+                .font(.system(size: 20, weight: .semibold))
+                .padding(.top)
+            
+            Toggle("Allow Bidding", isOn: $viewModel.item.biddingEnabled)
+                .padding(.trailing, 200)
+            
+            Toggle("Make Post Anonymous", isOn: $viewModel.sellerIsAnonymous)
+                .padding(.trailing, 200)
+            
+            Button(action: {viewModel.postItem()}) {
+                Text("Post Item!")
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
             .padding(10)
             .background(Color("Dark Pink"))
-            .foregroundColor(Color.white)
+            .cornerRadius(10)
+            .padding(.top)
+            .foregroundColor(.white)
+            
+            Spacer()
         }
+        .padding()
+        .environmentObject(viewModel)
     }
 }
 
-struct EnterStats: View {
-    @State var description: String = ""
+struct TagPicker: View {
+    @EnvironmentObject private var viewModel: PostVM
+    @State private var shouldShowDropdown = false
+
     var body: some View {
-        TextField("Description", text: $description)
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Help buyers find your item")
+                .font(.system(size: 20, weight: .semibold))
+            Menu {
+                ForEach(viewModel.tagsLeft.sorted(by: >), id: \.key) { key, value in
+                    if (value == 1) {
+                        Button(
+                            action: { viewModel.addTag(for: key) },
+                            label: { Text(key) }
+                        )
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Choose a tag").foregroundColor(.gray)
+                    Image(systemName: self.shouldShowDropdown ? "arrowtriangle.up" : "arrowtriangle.down")
+                        .resizable()
+                        .frame(width: 9, height: 5)
+                        .font(Font.system(size: 9, weight: .medium))
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+            } .onTapGesture {
+                self.shouldShowDropdown.toggle()
+            }
+        }
     }
 }
 
