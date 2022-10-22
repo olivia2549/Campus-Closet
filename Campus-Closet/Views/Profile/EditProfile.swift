@@ -29,18 +29,25 @@ struct EditProfile: View {
                     .padding(.top)
             }
             
-            Input(  // name input field
+            CustomInput(  // name input field
                 for: "Name",
-                autocapitalization: .words
-            )
+                autocapitalization: .words,
+                input: $viewModel.user.name
+            ) {
+                viewModel.updateUser()
+            }
             .padding(.top)
             
-            Input(  // venmo input field
+            CustomInput(  // venmo input field
                 for: "Venmo",
-                autocapitalization: .never
-            )
+                autocapitalization: .never,
+                input: $viewModel.user.venmo
+            ) {
+                viewModel.updateUser()
+            }
             
             Button("Delete account", action: { viewModel.deleteAccount() })
+            Button("Done", action: { viewModel.updateUser() })
             
             Spacer()
         }
@@ -52,7 +59,6 @@ struct EditProfile: View {
                     .padding(.top, 50)
             }
         }
-        .environmentObject(viewModel)
     }
 }
 
@@ -64,42 +70,6 @@ struct ProfileImage: View {
             .aspectRatio(contentMode: .fit)
             .clipShape(Circle())
     }
-}
-
-struct Input: View {
-    @EnvironmentObject private var viewModel: OnboardingVM
-    
-    let inputLabel: String
-    let autocapitalization: TextInputAutocapitalization
-    
-    init(
-        for inputLabel: String,
-        autocapitalization: TextInputAutocapitalization
-    ){
-        self.inputLabel = inputLabel
-        self.autocapitalization = autocapitalization
-    }
-    
-    var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            VStack(alignment: .leading, spacing: 20) {
-                Text(inputLabel)
-                    .font(.system(size: 20, weight: .semibold))
-                TextField("", text: $viewModel.fieldInput)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(.gray)
-                            .frame(height: 50)
-                    )
-                    .textInputAutocapitalization(autocapitalization)
-                    .onSubmit {
-                        viewModel.updateUser(with: inputLabel)
-                    }
-            }
-            .padding()
-        }
-    }
-    
 }
 
 struct EditProfile_Previews: PreviewProvider {
