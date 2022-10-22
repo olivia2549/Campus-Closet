@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2E0101EC28F4EC920074F404 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0101EB28F4EC910074F404 /* MessageView.swift */; };
 		2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */; };
+		2E817DF5290368EB001F1A75 /* PostVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E817DF4290368EB001F1A75 /* PostVM.swift */; };
 		2E8DD07C28F5470300D1D035 /* VerifyEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */; };
 		2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF0007428EB972E00F2FAAE /* UserModel.swift */; };
 		7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92287128EF71CA00ECAD95 /* LogInView.swift */; };
@@ -59,6 +60,7 @@
 /* Begin PBXFileReference section */
 		2E0101EB28F4EC910074F404 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		2E817DF4290368EB001F1A75 /* PostVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVM.swift; sourceTree = "<group>"; };
 		2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailView.swift; sourceTree = "<group>"; };
 		2EF0007428EB972E00F2FAAE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		7D92287128EF71CA00ECAD95 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */,
+				2E817DF4290368EB001F1A75 /* PostVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
 				2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
+				2E817DF5290368EB001F1A75 /* PostVM.swift in Sources */,
 				C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */,
 				C527282428E64698008C1D60 /* ProfileView.swift in Sources */,
 				2E0101EC28F4EC920074F404 /* MessageView.swift in Sources */,

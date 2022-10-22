@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PostView: View {
+    @StateObject private var postVM = PostVM()
+    
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -18,7 +20,7 @@ struct PostView: View {
     var body: some View {
         NavigationView {
             VStack {
-                
+                ItemInfoFormBox()
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -33,6 +35,26 @@ struct PostView: View {
                     }
                 }
             }
+        }
+        .environmentObject(postVM)
+    }
+}
+
+struct ItemInfoFormBox: View {
+    @EnvironmentObject private var viewModel: PostVM
+    
+    var body: some View {
+        VStack (alignment: .leading, spacing: 16) {
+            // FIXME: Button needs frontend formatting. This is just prototype to test Firebase connection.
+            Button(action: {viewModel.postItem()}){
+                HStack{
+                    Text("Post Item!")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
+            .padding(10)
+            .background(Color("Dark Pink"))
+            .foregroundColor(Color.white)
         }
     }
 }
