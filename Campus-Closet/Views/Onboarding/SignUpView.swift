@@ -12,20 +12,20 @@ struct SignUpView: View {
     @StateObject private var signupVM = OnboardingVM()
     
     var body: some View {
-        ZStack (alignment: .center) {
-            NavigationView {
+        NavigationView {
+            ZStack(alignment: .center) {
                 VStack(spacing: 0) {
                     Logo()
                     Title()
                     SignUpFormBox()
                 }
-                .padding(.all, 20)
-                .navigationTitle("")
-                .navigationBarHidden(true)
+                .padding(20)
+                MessageView()
             }
-            .statusBar(hidden: true)
-            MessageView()
+            .navigationTitle("")
+            .navigationBarHidden(true)
         }
+        .statusBar(hidden: true)
         .environmentObject(signupVM)
     }
 }
@@ -58,7 +58,6 @@ struct SignUpFormBox: View {
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            NavigationLink(destination: VerifyEmailView(), tag: 1, selection: $viewModel.selection) { EmptyView() }
             Button(action: {viewModel.verifyAndSignup()}){
                 HStack{
                     Text("Sign Up")

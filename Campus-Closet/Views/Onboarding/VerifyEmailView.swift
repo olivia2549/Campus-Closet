@@ -9,9 +9,6 @@ import SwiftUI
 import Firebase
 
 struct VerifyEmailView: View {
-    //@State var selection: Int? = nil
-    @State var successMessage: String = ""
-
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             Text("Welcome to the Campus Closet!")
@@ -21,33 +18,29 @@ struct VerifyEmailView: View {
                 .foregroundColor(.black)
                 .background(.white)
             
-            Text("Please verify your email address and return to the login screen.")
+            Text("A verification email has been sent. Please verify your email and return to login.")
                 .multilineTextAlignment(.center)
                 .padding(EdgeInsets(top: 20, leading: 5, bottom: 20, trailing: 5))
                 .font(Font.system(size: 22, weight: .semibold))
                 .foregroundColor(Color("Dark Pink"))
                 .background(.white)
-            
             Button(action: {
-                Auth.auth().currentUser?.sendEmailVerification { (error) in
-                    successMessage = "Email sent!"
+                if let window = UIApplication.shared.windows.first {
+                    window.rootViewController = UIHostingController(rootView: LogInView())
+                    window.makeKeyAndVisible()
                 }
-            }, label: {
-                Text("Verify Email")
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 60, alignment: .center)
-                    .font(Font.system(size: 28, weight: .bold))
-                    .foregroundColor(.white)
-            })
-
-            Text(successMessage)
-                .padding(EdgeInsets(top: 18, leading: 10, bottom: 18, trailing: 10))
-                .frame(maxWidth: .infinity, alignment: .center)
-                .font(Font.system(size: 20, weight: .bold))
-                .background(.white)
-                .foregroundColor(Color("Dark Pink"))
+            }){
+                HStack{
+                    Text("Done")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
+                }
+            }
+            .padding(10)
+            .background(Color("Dark Pink"))
+            .cornerRadius(10)
+            .foregroundColor(Color.white)
         }
-        .navigationBarBackButtonHidden(true)
         .frame(maxWidth: 340)
         .background(Color("Dark Pink"))
         .border(.white, width: 3)

@@ -11,19 +11,19 @@ struct LogInView: View {
     @StateObject private var loginVM = OnboardingVM()
 
     var body: some View {
-        ZStack (alignment: .center) {
-            NavigationView {
+        NavigationView {
+            ZStack(alignment: .center) {
                 VStack(spacing: 0) {
                     Logo()
                     LogInFormBox()
                 }
-                .padding(.all, 20)
-                .navigationTitle("")
-                .navigationBarHidden(true)
+                .padding(20)
+                MessageView()
             }
-            .statusBar(hidden: true)
-            MessageView()
+            .navigationTitle("")
+            .navigationBarHidden(true)
         }
+        .statusBar(hidden: true)
         .environmentObject(loginVM)
     }
 }
@@ -57,34 +57,26 @@ struct LogInFormBox: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .textInputAutocapitalization(.never)
             
-            NavigationLink(destination: ContentView().navigationBarHidden(true)
-                            .navigationTitle("")
-                            .navigationBarBackButtonHidden(true), tag: 1, selection: $viewModel.selection) {
-                Button(action: {viewModel.verifyAndLogin()}){
-                    HStack{
-                        Text("Log In")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        Spacer()
-                    }
+            Button(action: {viewModel.verifyAndLogin()}){
+                HStack{
+                    Text("Log In")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
                 }
-                .padding(10)
-                .background(Color("Dark Pink"))
-                .cornerRadius(10)
-                .foregroundColor(Color.white)
             }
-              
-            NavigationLink(destination: SignUpView(), tag: 2, selection: $viewModel.selection) {
-                Button(action: {viewModel.selection = 2}){
-                    HStack{
-                        Text("Sign Up")
-                            .underline()
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .foregroundColor(Color ("Dark Pink"))
-                        Spacer()
-                    }
+            .padding(10)
+            .background(Color("Dark Pink"))
+            .cornerRadius(10)
+            .foregroundColor(Color.white)
+            
+            NavigationLink(destination: SignUpView()) {
+                HStack{
+                    Text("Sign Up")
+                        .underline()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Color ("Dark Pink"))
+                    Spacer()
                 }
-                .navigationBarHidden(true)
-                .navigationTitle("")
             }
             
         }
@@ -99,8 +91,6 @@ struct LogInFormBox: View {
 
 struct LogInView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            LogInView()
-        }
+        LogInView()
     }
 }
