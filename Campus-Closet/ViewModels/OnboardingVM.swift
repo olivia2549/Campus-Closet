@@ -19,11 +19,7 @@ import FirebaseFirestore
     @Published var password: String = ""
     @Published var fieldInput: String = ""
     
-    func verifyAndLogin() {
-        if verify() {
-            logIn()
-        }
-    }
+    func verifyAndLogin() { if verify() {logIn()} }
     
     func verifyAndSignup() { if verify() {signUp()} }
 
