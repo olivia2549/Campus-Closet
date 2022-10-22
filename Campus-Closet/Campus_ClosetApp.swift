@@ -27,8 +27,17 @@ struct Campus_ClosetApp: App {
 
   var body: some Scene {
     WindowGroup {
-        LogInView()
-//        ContentView()
+        if let user = Auth.auth().currentUser {
+            if user.isEmailVerified {
+                ContentView()
+            }
+            else {
+                LogInView()
+            }
+        }
+        else {
+            LogInView()
+        }
     }
   }
 }

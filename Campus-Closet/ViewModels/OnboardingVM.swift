@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import Firebase
 import FirebaseCore
 import FirebaseAuth
@@ -16,10 +17,14 @@ import FirebaseFirestore
     @Published var message: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
-    @Published var selection: Int? = nil
     @Published var fieldInput: String = ""
     
-    func verifyAndLogin() { if verify() {logIn()} }
+    func verifyAndLogin() {
+        if verify() {
+            logIn()
+        }
+    }
+    
     func verifyAndSignup() { if verify() {signUp()} }
 
     func verify() -> Bool {
@@ -46,7 +51,10 @@ import FirebaseFirestore
                 self.message = "Please verify your email address to continue."
             }
             else {
-                self.selection = 1
+                if let window = UIApplication.shared.windows.first {
+                    window.rootViewController = UIHostingController(rootView: ContentView())
+                    window.makeKeyAndVisible()
+                }
             }
         }
     }
@@ -57,16 +65,22 @@ import FirebaseFirestore
             if error != nil {
                 return self.handleError(error: error!)
             }
-            self.selection = 1
-        }
-        if let email = Auth.auth().currentUser?.email {
-            db.collection("users").addDocument(data: [
-                "email": email,
-            ]) { (error) in
-                if let e = error {
-                    print("There was an issue saving data to Firestore, \(e).")
-                } else {
-                    print("Successfully saved data.")
+            
+            Auth.auth().currentUser?.sendEmailVerification()
+            if let window = UIApplication.shared.windows.first {
+                window.rootViewController = UIHostingController(rootView: VerifyEmailView())
+                window.makeKeyAndVisible()
+            }
+            
+            if let email = Auth.auth().currentUser?.email {
+                db.collection("users").addDocument(data: [
+                    "email": email,
+                ]) { (error) in
+                    if let e = error {
+                        print("There was an issue saving data to Firestore, \(e).")
+                    } else {
+                        print("Successfully saved data.")
+                    }
                 }
             }
         }

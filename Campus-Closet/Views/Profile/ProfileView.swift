@@ -35,7 +35,6 @@ struct ProfileView: View {
                 .padding(.top)
                 Spacer()
             }
-            .navigationTitle("")
             .navigationBarHidden(true)
         }
         .statusBar(hidden: true)
