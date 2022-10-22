@@ -17,7 +17,7 @@ import FirebaseFirestore
     @Published var message: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
-    @Published var fieldInput: String = ""
+    @Published var user: User = User()
     
     func verifyAndLogin() { if verify() {logIn()} }
     
@@ -68,26 +68,30 @@ import FirebaseFirestore
                 window.makeKeyAndVisible()
             }
             
-            if let email = Auth.auth().currentUser?.email {
-                db.collection("users").addDocument(data: [
-                    "email": email,
-                ]) { (error) in
-                    if let e = error {
-                        print("There was an issue saving data to Firestore, \(e).")
-                    } else {
-                        print("Successfully saved data.")
+            if let curUser = Auth.auth().currentUser {
+                if let email = curUser.email {
+                    let id = curUser.uid
+                    db.collection("users").document(id).setData([
+                        "email": email,
+                    ]) { (error) in
+                        if let e = error {
+                            print("There was an issue saving data to Firestore, \(e).")
+                        } else {
+                            print("Successfully saved data.")
+                        }
                     }
                 }
             }
         }
     }
     
-    func updateUser(with inputType: String) {
+    func updateUser() {
         let db = Firestore.firestore()
-        if let user = Auth.auth().currentUser {
-            let uid = user.uid
-            db.collection("users").document(uid).setData([
-                inputType: fieldInput
+        if let userId = Auth.auth().currentUser?.uid {
+            print("id: \(userId)")
+            db.collection("users").document(userId).setData([
+                "name": user.name,
+                "venmo": user.venmo
             ], merge: true) { err in
                 if let error = err {
                     print("There was an issue saving data to Firestore, \(error).")
