@@ -40,6 +40,7 @@
 		C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B84AC028EF7678004D1146 /* EditProfile.swift */; };
 		C5D69BA52902FC47004FD7C7 /* OnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */; };
 		C5D69BAF29032E64004FD7C7 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BAE29032E64004FD7C7 /* ItemModel.swift */; };
+		C5EAA209290492EC00775499 /* TagsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EAA208290492EC00775499 /* TagsList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		C5B84AC028EF7678004D1146 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
 		C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVM.swift; sourceTree = "<group>"; };
 		C5D69BAE29032E64004FD7C7 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
+		C5EAA208290492EC00775499 /* TagsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 				2E0101EB28F4EC910074F404 /* MessageView.swift */,
 				C527282128E64660008C1D60 /* ChatView.swift */,
 				C5262B8029044DEA0012E780 /* CustomInput.swift */,
+				C5EAA208290492EC00775499 /* TagsList.swift */,
 				C5D69BAB290314D7004FD7C7 /* Profile */,
 				C5D69BA6290310E2004FD7C7 /* Onboarding */,
 				C5D69BA729031123004FD7C7 /* Content */,
@@ -405,6 +408,7 @@
 				C527282028E644D6008C1D60 /* HomeView.swift in Sources */,
 				2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
+				C5EAA209290492EC00775499 /* TagsList.swift in Sources */,
 				2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
 				2E817DF5290368EB001F1A75 /* PostVM.swift in Sources */,

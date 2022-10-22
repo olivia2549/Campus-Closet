@@ -12,22 +12,35 @@ import FirebaseAuth
 import FirebaseFirestore
 
 @MainActor class PostVM: ObservableObject {
-    // TODO: Fetch and enter user-input data instead of this sample data.
-    @Published var name: String = "Sample shirt"
-    @Published var price: Float = 10.99
-    @Published var biddingEnabled: Bool = true
-    @Published var type: String = "shirt"
-    @Published var condition: String = "lightly worn"
+    @Published var item = ItemModel()
+    @Published var sellerIsAnonymous = false
+    @Published var tagsLeft = [
+        "womens": 1,
+        "mens": 1,
+        "tops": 1,
+        "bottoms": 1,
+        "dresses": 1,
+        "shoes": 1,
+        "accessories": 1
+    ]
 
     func postItem() {
         let db = Firestore.firestore()
+        guard let price = Float(item.price) else {
+            print("invalid price")
+            return
+        }
         
-        db.collection("items").addDocument(data: [
-            "name": name,
+        db.collection("items").document(item.id).setData([
+            "_id": item.id,
+            "title": item.title,
+            "description": item.description,
+            "sellerId": item.sellerId,
             "price": price,
-            "biddingEnabled": biddingEnabled,
-            "type": type,
-            "condition": condition
+            "size": item.size,
+            "biddingEnabled": item.biddingEnabled,
+            "tags": item.tags,
+            "condition": item.condition
         ]) { (error) in
             if let e = error {
                 print("There was an issue saving data to Firestore, \(e).")
@@ -36,4 +49,10 @@ import FirebaseFirestore
             }
         }
     }
+    
+    func addTag(for tag: String) {
+        item.tags.append(tag)
+        tagsLeft[tag] = 0
+    }
+    
 }
