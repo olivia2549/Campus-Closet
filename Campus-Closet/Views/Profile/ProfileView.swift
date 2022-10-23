@@ -22,6 +22,7 @@ struct ProfileView: View {
                 Spacer()
             }
             .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
         }
         .statusBar(hidden: true)
         .environmentObject(viewModel)
@@ -44,7 +45,7 @@ struct ViewProfileHeader: View {
                     Image(systemName: "pencil.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20, alignment: .trailing)
+                        .frame(width: 30, height: 30, alignment: .trailing)
                         .padding(.leading, 30)
                         .foregroundColor(.black)
                 }

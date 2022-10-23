@@ -9,33 +9,42 @@ import SwiftUI
 
 struct PostView: View {
     @StateObject private var postVM = PostVM()
-    
-    init() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(Color("Dark Pink"))
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-    }
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationView {
             VStack {
-                BasicInfo()
+                BasicInfo(presentationMode: presentationMode)
             }
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Post An Item")
-                        .font(.system(size: 32, weight: .semibold))
-                        .foregroundColor(.white)
-                        .padding(.top, 50)
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: OptionalInfo()) {
-                        Text("Next")
-                            .foregroundColor(.white)
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }) {
+                        ZStack(alignment: .center) {
+                            Circle()
+                                .strokeBorder()
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(.gray)
+                            Text("x")
+                                .font(.system(size: 20, weight: .light))
+                                .foregroundColor(.black)
+                        }
                     }
                 }
+                ToolbarItem(placement: .principal) {
+                    Text("Post An Item")
+                        .font(.system(size: 24, weight: .semibold))
+                }
             }
+            .gesture(
+                DragGesture().onEnded { value in
+                    if value.location.y - value.startLocation.y > 150 {
+                        /// Use presentationMode.wrappedValue.dismiss() for iOS 14 and below
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            )
         }
         .environmentObject(postVM)
     }
@@ -43,11 +52,17 @@ struct PostView: View {
 
 struct BasicInfo: View {
     @EnvironmentObject private var viewModel: PostVM
+    var presentationMode: Binding<PresentationMode>
+    
+    init(presentationMode: Binding<PresentationMode>) {
+        self.presentationMode = presentationMode
+    }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading) {
             CustomInput(
-                for: "Title*",
+                for: "Item Name*",
+                imageName: "tshirt",
                 autocapitalization: .sentences,
                 input: $viewModel.item.title
             ) {
@@ -56,6 +71,7 @@ struct BasicInfo: View {
             
             CustomInput(
                 for: "Price*",
+                imageName: "dollarsign.circle",
                 autocapitalization: .never,
                 input: $viewModel.item.price
             ) {
@@ -64,6 +80,7 @@ struct BasicInfo: View {
             
             CustomInput(
                 for: "Size*",
+                imageName: "ruler",
                 autocapitalization: .never,
                 input: $viewModel.item.size
             ) {
@@ -72,27 +89,45 @@ struct BasicInfo: View {
             
             CustomInput(
                 for: "Description",
+                imageName: "pencil",
                 autocapitalization: .sentences,
                 input: $viewModel.item.description
             ) {
                 
             }
             
+            NavigationLink(destination: OptionalInfo(prevPresentationMode: presentationMode)) {
+                HStack {
+                    Text("Next")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .padding(10)
+                .background(Color("Dark Pink"))
+                .cornerRadius(10)
+                .foregroundColor(.white)
+            }
+            
             Spacer()
         }
+        .padding()
     }
     
 }
 
 struct OptionalInfo: View {
     @EnvironmentObject private var viewModel: PostVM
+    var prevPresentationMode: Binding<PresentationMode>
+    init(prevPresentationMode: Binding<PresentationMode>) {
+        self.prevPresentationMode = prevPresentationMode
+    }
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             TagsList()
             TagPicker()
             
-            Text("Settings")
+            Text("Options")
                 .font(.system(size: 20, weight: .semibold))
                 .padding(.top)
             
@@ -115,7 +150,54 @@ struct OptionalInfo: View {
             Spacer()
         }
         .padding()
+        .navigationBarBackButtonHidden(true)
         .environmentObject(viewModel)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    ZStack {
+                        Circle()
+                            .strokeBorder()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray)
+                        Image(systemName: "arrow.backward")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Post An Item")
+                    .font(.system(size: 24, weight: .semibold))
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    self.prevPresentationMode.wrappedValue.dismiss()
+                }) {
+                    ZStack(alignment: .center) {
+                        Circle()
+                            .strokeBorder()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray)
+                        Text("x")
+                            .font(.system(size: 20, weight: .light))
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+        }
+        .gesture(
+            DragGesture().onEnded { value in
+                if value.location.y - value.startLocation.y > 150 {
+                    /// Use presentationMode.wrappedValue.dismiss() for iOS 14 and below
+                    self.prevPresentationMode.wrappedValue.dismiss()
+                }
+            }
+        )
     }
 }
 
@@ -124,7 +206,7 @@ struct TagPicker: View {
     @State private var shouldShowDropdown = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading) {
             Text("Help buyers find your item")
                 .font(.system(size: 20, weight: .semibold))
             Menu {
