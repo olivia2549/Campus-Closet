@@ -9,28 +9,30 @@ import SwiftUI
 
 struct EditProfile: View {
     @StateObject private var viewModel = OnboardingVM()
-    
-    init() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(Color("Dark Pink"))
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-    }
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
-            ZStack {
-                ProfileImage().padding(.top)
-                Text("Choose Image")
-                    .font(.system(size: 24))
-                    .foregroundColor(.black)
-                    .frame(width: 100, alignment: .center)
-                    .multilineTextAlignment(.center)
-                    .padding(.top)
+            ZStack(alignment: .bottomTrailing) {
+                ProfileImage()
+                ZStack {
+                    Circle()
+                        .foregroundColor(.white)
+                        .frame(width: 45, height: 45)
+                    Circle()
+                        .strokeBorder()
+                        .foregroundColor(.gray)
+                        .frame(width: 45, height: 45)
+                    Image(systemName: "camera.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25, height: 25)
+                }
             }
             
             CustomInput(  // name input field
                 for: "Name",
+                imageName: "person",
                 autocapitalization: .words,
                 input: $viewModel.user.name
             ) {
@@ -40,6 +42,7 @@ struct EditProfile: View {
             
             CustomInput(  // venmo input field
                 for: "Venmo",
+                imageName: "v.circle",
                 autocapitalization: .never,
                 input: $viewModel.user.venmo
             ) {
@@ -51,14 +54,31 @@ struct EditProfile: View {
             
             Spacer()
         }
+        .padding()
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    ZStack {
+                        Circle()
+                            .strokeBorder()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray)
+                        Image(systemName: "arrow.backward")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.black)
+                    }
+                }
+            }
             ToolbarItem(placement: .principal) {
                 Text("Edit Profile")
-                    .font(.system(size: 32, weight: .semibold))
-                    .foregroundColor(.white)
-                    .padding(.top, 50)
+                    .font(.system(size: 24, weight: .semibold))
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -77,5 +97,17 @@ struct EditProfile_Previews: PreviewProvider {
         NavigationView {
             EditProfile()
         }
+    }
+}
+
+// allow user to swipe back
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
     }
 }
