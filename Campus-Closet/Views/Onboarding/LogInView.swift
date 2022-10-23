@@ -65,14 +65,14 @@ struct LogInFormBox: View {
                     Spacer()
                 }
             }
-            .buttonStyle(Shared.PinkButton())
+            .buttonStyle(Styles.PinkButton())
             
             NavigationLink(destination: SignUpView()) {
                 HStack{
                     Text("Sign Up")
                         .underline()
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Shared().themePink)
+                        .foregroundColor(Styles().themePink)
                     Spacer()
                 }
             }

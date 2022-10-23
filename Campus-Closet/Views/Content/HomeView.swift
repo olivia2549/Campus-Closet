@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var searchText = ""
+    @StateObject private var viewModel = ContentVM()
+    @State private var shouldShowDropdown = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -30,24 +31,24 @@ struct HomeView: View {
             }
             .padding(.leading)
             .padding(.trailing)
-                                
-            ZStack {
-                Color("Search Bar")
-                    .overlay(
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                            TextField("Search ..", text: $searchText)
-                        }
-                        .padding(.leading, 13)
-                    )
+            
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Filter By")
+                        .font(.system(size: 20, weight: .semibold))
+                    TagPicker<ContentVM>(menuText: "All")
+                    Spacer()
+                }
+                
+                TagsList<ContentVM>()
             }
-            .frame(height: 40)
-            .cornerRadius(10)
             .padding()
+            
             ScrollView {
                 Masonry()
             }
         }
+        .environmentObject(viewModel)
     }
 }
 

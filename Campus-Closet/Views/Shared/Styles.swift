@@ -1,5 +1,5 @@
 //
-//  Shared.swift
+//  Styles.swift
 //  Campus-Closet
 //
 //  Created by Olivia Logan on 10/23/22.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Shared {
+struct Styles {
     let themePink = Color("Dark Pink")
     
     struct BackButton: View {
@@ -63,10 +63,29 @@ struct Shared {
         func makeBody(configuration: Configuration) -> some View {
             configuration.label
                 .padding(10)
-                .background(Shared().themePink)
+                .background(Styles().themePink)
                 .cornerRadius(10)
                 .padding(.top)
                 .foregroundColor(.white)
+        }
+    }
+    
+    struct SearchBar: View {
+        @State var searchText = ""
+        var body: some View {
+            ZStack {
+                Color("Search Bar")
+                    .overlay(
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                            TextField("Search ..", text: $searchText)
+                        }
+                        .padding(.leading, 13)
+                    )
+            }
+            .frame(height: 40)
+            .cornerRadius(10)
+            .padding()
         }
     }
     

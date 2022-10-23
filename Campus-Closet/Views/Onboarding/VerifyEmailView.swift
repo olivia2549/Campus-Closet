@@ -22,7 +22,7 @@ struct VerifyEmailView: View {
                 .multilineTextAlignment(.center)
                 .padding(EdgeInsets(top: 20, leading: 5, bottom: 20, trailing: 5))
                 .font(Font.system(size: 22, weight: .semibold))
-                .foregroundColor(Shared().themePink)
+                .foregroundColor(Styles().themePink)
                 .background(.white)
             Button(action: {
                 if let window = UIApplication.shared.windows.first {
@@ -36,10 +36,10 @@ struct VerifyEmailView: View {
                     Spacer()
                 }
             }
-            .buttonStyle(Shared.PinkButton())
+            .buttonStyle(Styles.PinkButton())
         }
         .frame(maxWidth: 340)
-        .background(Shared().themePink)
+        .background(Styles().themePink)
         .border(.white, width: 3)
     }
 }

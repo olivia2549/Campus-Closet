@@ -38,7 +38,7 @@ struct Title: View {
                 .font(.system(size: 26)).bold()
         }
         .padding(.all, 6)
-        .foregroundColor(Shared().themePink)
+        .foregroundColor(Styles().themePink)
         .offset(y: -160)
     }
 }
@@ -66,7 +66,7 @@ struct SignUpFormBox: View {
                     Spacer()
                 }
             }
-            .buttonStyle(Shared.PinkButton())
+            .buttonStyle(Styles.PinkButton())
         }
         .padding (.all, 36)
         .background(Color(UIColor.systemGray6))

@@ -11,8 +11,15 @@
 
 import SwiftUI
 
-struct TagsList: View {
-    @EnvironmentObject private var viewModel: PostVM
+@MainActor protocol HandlesTagsVM: ObservableObject {
+    var tags: [String] { get set }
+    var tagsLeft: [String: Int] { get set }
+    func addTag(for tag: String)
+    func removeTag(for tag: String)
+}
+
+struct TagsList<ViewModel>: View where ViewModel: HandlesTagsVM {
+    @EnvironmentObject private var viewModel: ViewModel
     @State private var totalHeight = CGFloat.infinity
 
     var body: some View {
@@ -29,8 +36,8 @@ struct TagsList: View {
         var height = CGFloat.zero
 
         return ZStack(alignment: .topLeading) {
-            ForEach(viewModel.item.tags, id: \.self) { tag in
-                self.item(for: tag)
+            ForEach(viewModel.tags, id: \.self) { tag in
+                self.createTag(for: tag)
                     .padding([.horizontal, .vertical], 4)
                     .alignmentGuide(.leading, computeValue: { d in
                         if (abs(width - d.width) > g.size.width)
@@ -39,7 +46,7 @@ struct TagsList: View {
                             height -= d.height
                         }
                         let result = width
-                        if tag == viewModel.item.tags.last! {
+                        if tag == viewModel.tags.last! {
                             width = 0 //last item
                         } else {
                             width -= d.width
@@ -48,7 +55,7 @@ struct TagsList: View {
                     })
                     .alignmentGuide(.top, computeValue: {d in
                         let result = height
-                        if tag == viewModel.item.tags.last! {
+                        if tag == viewModel.tags.last! {
                             height = 0 // last item
                         }
                         return result
@@ -57,13 +64,16 @@ struct TagsList: View {
         }.background(viewHeightReader($totalHeight))
     }
 
-    private func item(for text: String) -> some View {
-        Text(text)
-            .padding(.all, 5)
+    private func createTag(for tag: String) -> some View {
+        Text(tag)
+            .padding(5)
             .font(.body)
-            .background(Shared().themePink)
+            .background(Styles().themePink)
             .foregroundColor(Color.white)
             .cornerRadius(5)
+            .onTapGesture {
+                viewModel.removeTag(for: tag)
+            }
     }
 
     private func viewHeightReader(_ binding: Binding<CGFloat>) -> some View {
@@ -76,26 +86,4 @@ struct TagsList: View {
         }
     }
 
-}
-
-struct Tag: View {
-    private var tag: String
-    init(for tag: String) {
-        self.tag = tag
-    }
-    
-    var body: some View {
-        Text(tag)
-            .padding(5)
-            .font(.body)
-            .background(Shared().themePink)
-            .foregroundColor(Color.white)
-            .cornerRadius(5)
-    }
-}
-
-struct TagsList_Previews: PreviewProvider {
-    static var previews: some View {
-        TagsList()
-    }
 }

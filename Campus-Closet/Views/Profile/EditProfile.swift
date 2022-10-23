@@ -39,10 +39,10 @@ struct EditProfile: View {
             }
             
             Button("Delete account", action: { viewModel.deleteAccount() })
-                .buttonStyle(Shared.PinkButton())
+                .buttonStyle(Styles.PinkButton())
             
             Button("Done", action: { viewModel.updateUser() })
-                .buttonStyle(Shared.PinkButton())
+                .buttonStyle(Styles.PinkButton())
             
             Spacer()
         }
@@ -50,7 +50,7 @@ struct EditProfile: View {
         .padding()
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Shared.BackButton(presentationMode: self.presentationMode)
+                Styles.BackButton(presentationMode: self.presentationMode)
             }
             ToolbarItem(placement: .principal) {
                 Text("Edit Profile")

@@ -19,7 +19,7 @@ struct PostView: View {
             .onTapGesture { hideKeyboard() }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Shared.CancelButton(presentationMode: self.presentationMode)
+                    Styles.CancelButton(presentationMode: self.presentationMode)
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Post An Item")
@@ -88,7 +88,7 @@ struct BasicInfo: View {
                 Text("Next")
                     .frame(maxWidth: .infinity, alignment: .center)
             }
-            .buttonStyle(Shared.PinkButton())
+            .buttonStyle(Styles.PinkButton())
             
             Spacer()
         }
@@ -107,8 +107,12 @@ struct OptionalInfo: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            TagsList()
-            TagPicker()
+            VStack(alignment: .leading) {
+                Text("Help buyers find your item")
+                    .font(.system(size: 20, weight: .semibold))
+                TagPicker<PostVM>(menuText: "Add Tag")
+                TagsList<PostVM>()
+            }
             
             Text("Options")
                 .font(.system(size: 20, weight: .semibold))
@@ -124,7 +128,7 @@ struct OptionalInfo: View {
                 Text("Post Item!")
                     .frame(maxWidth: .infinity, alignment: .center)
             }
-            .buttonStyle(Shared.PinkButton())
+            .buttonStyle(Styles.PinkButton())
             
             Spacer()
         }
@@ -133,14 +137,14 @@ struct OptionalInfo: View {
         .environmentObject(viewModel)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Shared.BackButton(presentationMode: self.presentationMode)
+                Styles.BackButton(presentationMode: self.presentationMode)
             }
             ToolbarItem(placement: .principal) {
                 Text("Post An Item")
                     .font(.system(size: 24, weight: .semibold))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Shared.CancelButton(presentationMode: self.prevPresentationMode)
+                Styles.CancelButton(presentationMode: self.prevPresentationMode)
             }
         }
         .gesture(
@@ -150,40 +154,6 @@ struct OptionalInfo: View {
                 }
             }
         )
-    }
-}
-
-struct TagPicker: View {
-    @EnvironmentObject private var viewModel: PostVM
-    @State private var shouldShowDropdown = false
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Help buyers find your item")
-                .font(.system(size: 20, weight: .semibold))
-            Menu {
-                ForEach(viewModel.tagsLeft.sorted(by: >), id: \.key) { key, value in
-                    if (value == 1) {
-                        Button(
-                            action: { viewModel.addTag(for: key) },
-                            label: { Text(key) }
-                        )
-                    }
-                }
-            } label: {
-                HStack {
-                    Text("Choose a tag").foregroundColor(.gray)
-                    Image(systemName: self.shouldShowDropdown ? "arrowtriangle.up" : "arrowtriangle.down")
-                        .resizable()
-                        .frame(width: 9, height: 5)
-                        .font(Font.system(size: 9, weight: .medium))
-                        .foregroundColor(.gray)
-                    Spacer()
-                }
-            } .onTapGesture {
-                self.shouldShowDropdown.toggle()
-            }
-        }
     }
 }
 
