@@ -14,7 +14,7 @@ struct ProfileView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 10) {
-                ViewProfileHeader()
+                ProfileHeader()
                 ProfileImage()
                 ProfileInfo()
                 ToggleView()
@@ -29,7 +29,7 @@ struct ProfileView: View {
     }
 }
 
-struct ViewProfileHeader: View {
+struct ProfileHeader: View {
     var body: some View {
         HStack {
             Spacer().frame(maxWidth: .infinity)
@@ -67,12 +67,12 @@ struct ProfileInfo: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 25, height: 25)
-                .foregroundColor(Color("Dark Pink"))
+                .foregroundColor(Shared().themePink)
             Text(viewModel.rating)
             Text("(12 Reviews)")
             Text("|")
             Image(systemName: "dollarsign.circle")
-                .foregroundColor(Color("Dark Pink"))
+                .foregroundColor(Shared().themePink)
             Text(viewModel.venmo)
         }
         .frame(maxWidth: .infinity)
@@ -88,9 +88,9 @@ struct ToggleView: View {
                 tabs: ["Listed", "Sold", "Purchased"],
                 font: .system(size: 20, weight: .medium),
                 animation: .easeInOut,
-                activeAccentColor: Color("Dark Pink"),
+                activeAccentColor: Shared().themePink,
                 inactiveAccentColor: .gray,
-                selectionBarColor: Color("Dark Pink")
+                selectionBarColor: Shared().themePink
             )
             if (tabIndex == 0) {
                 Text("No listings yet")

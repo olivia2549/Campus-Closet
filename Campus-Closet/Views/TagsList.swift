@@ -61,7 +61,7 @@ struct TagsList: View {
         Text(text)
             .padding(.all, 5)
             .font(.body)
-            .background(Color("Dark Pink"))
+            .background(Shared().themePink)
             .foregroundColor(Color.white)
             .cornerRadius(5)
     }
@@ -88,7 +88,7 @@ struct Tag: View {
         Text(tag)
             .padding(5)
             .font(.body)
-            .background(Color("Dark Pink"))
+            .background(Shared().themePink)
             .foregroundColor(Color.white)
             .cornerRadius(5)
     }

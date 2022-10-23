@@ -24,6 +24,7 @@ struct SignUpView: View {
             }
             .navigationTitle("")
             .navigationBarHidden(true)
+            .onTapGesture { hideKeyboard() }
         }
         .statusBar(hidden: true)
         .environmentObject(signupVM)
@@ -37,7 +38,7 @@ struct Title: View {
                 .font(.system(size: 26)).bold()
         }
         .padding(.all, 6)
-        .foregroundColor(Color("Dark Pink"))
+        .foregroundColor(Shared().themePink)
         .offset(y: -160)
     }
 }
@@ -65,10 +66,7 @@ struct SignUpFormBox: View {
                     Spacer()
                 }
             }
-            .padding(10)
-            .background(Color("Dark Pink"))
-            .cornerRadius(10)
-            .foregroundColor(Color.white)
+            .buttonStyle(Shared.PinkButton())
         }
         .padding (.all, 36)
         .background(Color(UIColor.systemGray6))
