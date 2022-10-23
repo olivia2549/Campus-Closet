@@ -11,7 +11,8 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
 
-@MainActor class PostVM: ObservableObject {
+@MainActor class PostVM: ObservableObject, HandlesTagsVM {
+    @Published var tags: [String] = []
     @Published var item = ItemModel()
     @Published var sellerIsAnonymous = false
     @Published var tagsLeft = [
@@ -39,7 +40,7 @@ import FirebaseFirestore
             "price": price,
             "size": item.size,
             "biddingEnabled": item.biddingEnabled,
-            "tags": item.tags,
+            "tags": tags,
             "condition": item.condition
         ]) { (error) in
             if let e = error {
@@ -51,8 +52,13 @@ import FirebaseFirestore
     }
     
     func addTag(for tag: String) {
-        item.tags.append(tag)
+        tags.append(tag)
         tagsLeft[tag] = 0
+    }
+    
+    func removeTag(for tag: String) {
+        tags = tags.filter { $0 != tag }
+        tagsLeft[tag] = 1
     }
     
 }

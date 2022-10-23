@@ -67,12 +67,12 @@ struct ProfileInfo: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 25, height: 25)
-                .foregroundColor(Shared().themePink)
+                .foregroundColor(Styles().themePink)
             Text(viewModel.rating)
             Text("(12 Reviews)")
             Text("|")
             Image(systemName: "dollarsign.circle")
-                .foregroundColor(Shared().themePink)
+                .foregroundColor(Styles().themePink)
             Text(viewModel.venmo)
         }
         .frame(maxWidth: .infinity)
@@ -88,9 +88,9 @@ struct ToggleView: View {
                 tabs: ["Listed", "Sold", "Purchased"],
                 font: .system(size: 20, weight: .medium),
                 animation: .easeInOut,
-                activeAccentColor: Shared().themePink,
+                activeAccentColor: Styles().themePink,
                 inactiveAccentColor: .gray,
-                selectionBarColor: Shared().themePink
+                selectionBarColor: Styles().themePink
             )
             if (tabIndex == 0) {
                 Text("No listings yet")

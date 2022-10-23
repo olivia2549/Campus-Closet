@@ -21,7 +21,7 @@ struct MessageView: View {
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                         .font(Font.system(size: 20, weight: .semibold))
                         .foregroundColor(.white)
-                        .background(Shared().themePink)
+                        .background(Styles().themePink)
                     
                     Button(action: {
                         withAnimation(.linear(duration: 0.2)){
@@ -37,7 +37,7 @@ struct MessageView: View {
                     })
                 }
                 .frame(maxWidth: 320)
-                .background(Shared().themePink)
+                .background(Styles().themePink)
                 .border(.white, width: 3)
             }
         }

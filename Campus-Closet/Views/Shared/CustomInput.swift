@@ -35,10 +35,10 @@ struct CustomInput: View {
         isEditing || (input.count != 0)
     }
     var textFieldOutline: Color {
-        isEditing ? Shared().themePink : .gray
+        isEditing ? Styles().themePink : .gray
     }
     var textFieldHighlight: Color {
-        isEditing ? Shared().themePink.opacity(0.1) : .white
+        isEditing ? Styles().themePink.opacity(0.1) : .white
     }
     
     var body: some View {
