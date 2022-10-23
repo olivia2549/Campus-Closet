@@ -16,21 +16,10 @@ struct PostView: View {
             VStack {
                 BasicInfo(presentationMode: presentationMode)
             }
+            .onTapGesture { hideKeyboard() }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        ZStack(alignment: .center) {
-                            Circle()
-                                .strokeBorder()
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(.gray)
-                            Text("x")
-                                .font(.system(size: 20, weight: .light))
-                                .foregroundColor(.black)
-                        }
-                    }
+                    Shared.CancelButton(presentationMode: self.presentationMode)
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Post An Item")
@@ -40,7 +29,6 @@ struct PostView: View {
             .gesture(
                 DragGesture().onEnded { value in
                     if value.location.y - value.startLocation.y > 150 {
-                        /// Use presentationMode.wrappedValue.dismiss() for iOS 14 and below
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }
@@ -97,15 +85,10 @@ struct BasicInfo: View {
             }
             
             NavigationLink(destination: OptionalInfo(prevPresentationMode: presentationMode)) {
-                HStack {
-                    Text("Next")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-                .padding(10)
-                .background(Color("Dark Pink"))
-                .cornerRadius(10)
-                .foregroundColor(.white)
+                Text("Next")
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
+            .buttonStyle(Shared.PinkButton())
             
             Spacer()
         }
@@ -141,11 +124,7 @@ struct OptionalInfo: View {
                 Text("Post Item!")
                     .frame(maxWidth: .infinity, alignment: .center)
             }
-            .padding(10)
-            .background(Color("Dark Pink"))
-            .cornerRadius(10)
-            .padding(.top)
-            .foregroundColor(.white)
+            .buttonStyle(Shared.PinkButton())
             
             Spacer()
         }
@@ -154,46 +133,19 @@ struct OptionalInfo: View {
         .environmentObject(viewModel)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    ZStack {
-                        Circle()
-                            .strokeBorder()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.gray)
-                        Image(systemName: "arrow.backward")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(.black)
-                    }
-                }
+                Shared.BackButton(presentationMode: self.presentationMode)
             }
             ToolbarItem(placement: .principal) {
                 Text("Post An Item")
                     .font(.system(size: 24, weight: .semibold))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    self.prevPresentationMode.wrappedValue.dismiss()
-                }) {
-                    ZStack(alignment: .center) {
-                        Circle()
-                            .strokeBorder()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.gray)
-                        Text("x")
-                            .font(.system(size: 20, weight: .light))
-                            .foregroundColor(.black)
-                    }
-                }
+                Shared.CancelButton(presentationMode: self.prevPresentationMode)
             }
         }
         .gesture(
             DragGesture().onEnded { value in
                 if value.location.y - value.startLocation.y > 150 {
-                    /// Use presentationMode.wrappedValue.dismiss() for iOS 14 and below
                     self.prevPresentationMode.wrappedValue.dismiss()
                 }
             }

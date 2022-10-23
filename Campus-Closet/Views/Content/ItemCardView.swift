@@ -33,7 +33,7 @@ struct ItemCardView: View, Identifiable {
                 Spacer()
                 Text("$8")
                     .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Color("Dark Pink"))
+                    .foregroundColor(Shared().themePink)
                     .frame(maxWidth: 100, alignment: .trailing)
             }
             .padding(.leading)
