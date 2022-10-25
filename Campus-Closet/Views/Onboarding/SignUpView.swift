@@ -20,7 +20,7 @@ struct SignUpView: View {
                     SignUpFormBox()
                 }
                 .padding(20)
-                MessageView()
+                ErrorView()
             }
             .navigationTitle("")
             .navigationBarHidden(true)
