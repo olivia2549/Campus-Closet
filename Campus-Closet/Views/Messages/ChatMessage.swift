@@ -14,14 +14,22 @@ struct Chat_Message: View {
             VStack{
                 ChatView()
 
-                ScrollView{
-                    ForEach(messagesVM.messages, id: \.id) { message in
-                        MessageBubble(message: message)
+                ScrollViewReader { proxy in 
+                    ScrollView{
+                        ForEach(messagesVM.messages, id: \.id) { message in
+                            MessageBubble(message: message)
+                        }
                     }
-                }
-                .padding(.top, 10)
-                .background(.white)
+                    .padding(.top, 10)
+                    .background(.white)
                 .cornerRadius(30, corners: [.topLeft, .topRight])
+                .onChange(of: messagesVM.lastMessageID){ id in
+                    withAnimation{
+                        proxy.scrollTo(id, anchor: .bottom)
+                    }
+                    
+                }
+                }
             }
             .background(Color("Dark Pink"))
 
