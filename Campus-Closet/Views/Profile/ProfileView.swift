@@ -21,6 +21,9 @@ struct ProfileView: View {
                 .padding(.top)
                 Spacer()
             }
+            .onAppear(perform: {
+                viewModel.getProfileData()
+            })
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
         }
