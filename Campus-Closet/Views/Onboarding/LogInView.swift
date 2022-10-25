@@ -18,7 +18,7 @@ struct LogInView: View {
                     LogInFormBox()
                 }
                 .padding(20)
-                MessageView()
+                ErrorView()
             }
             .navigationTitle("")
             .navigationBarHidden(true)
