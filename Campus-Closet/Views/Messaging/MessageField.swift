@@ -10,7 +10,7 @@ import SwiftUI
 struct MessageField: View {
     
     @State private var message = ""
-    @EnvironmentObject var messagesManager: MessagesManager
+    @EnvironmentObject var messagesVM: MessagesVM
     
     var body: some View {
         HStack {
@@ -19,7 +19,7 @@ struct MessageField: View {
                 .frame(height: 52)
                 .disableAutocorrection(true)
             Button {
-                messagesManager.sendMessage(text: message)
+                messagesVM.sendMessage(text: message)
                 message = ""
                 } label: {
                     Image(systemName: "paperplane.fill")
@@ -40,7 +40,7 @@ struct MessageField: View {
 struct MessageField_Previews: PreviewProvider {
     static var previews: some View {
         MessageField()
-            .environmentObject(MessagesManager())
+            .environmentObject(MessagesVM())
     }
 }
 

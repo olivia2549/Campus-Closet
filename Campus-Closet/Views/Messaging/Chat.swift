@@ -1,5 +1,5 @@
 //
-//  ChatView.swift
+//  Chat.swift
 //  Campus-Closet
 //
 //  Created by Olivia Logan on 9/29/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatView: View {
+struct Chat: View {
     var imageUrl = URL(string: "https://cdn.pixabay.com/photo/2017/09/25/13/12/cocker-spaniel-2785074_1280.jpg")
     var name = "Sarah Smith"
     var body: some View {
@@ -43,9 +43,9 @@ struct ChatView: View {
 }
 
 
-struct ChatView_Previews: PreviewProvider {
+struct Chat_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView()
+        Chat()
             .background(Color("Dark Pink"))
     }
 }

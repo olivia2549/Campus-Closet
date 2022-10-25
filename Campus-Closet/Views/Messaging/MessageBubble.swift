@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Message_Bubble: View {
+struct MessageBubble: View {
     var message: Message
     @State private var showTime = false
     
@@ -36,8 +36,8 @@ struct Message_Bubble: View {
     }
 }
 
-struct Message_Bubble_Previews: PreviewProvider {
+struct MessageBubble_Previews: PreviewProvider {
     static var previews: some View {
-        Message_Bubble(message: Message(id: "12345", text: "this sucks!", received: false, timestamp: Date()))
+        MessageBubble(message: Message(id: "12345", text: "this sucks!", received: false, timestamp: Date()))
     }
 }

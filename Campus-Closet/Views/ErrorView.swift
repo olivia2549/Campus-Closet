@@ -1,5 +1,5 @@
 //
-//  MessageView.swift
+//  ErrorView.swift
 //  Campus-Closet
 //
 //  Created by Lauren on 10/10/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MessageView: View {
+struct ErrorView: View {
     @EnvironmentObject private var viewModel: OnboardingVM
     
     var body: some View {
@@ -44,10 +44,10 @@ struct MessageView: View {
     }
 }
 
-struct MessageView_Previews: PreviewProvider {
+struct ErrorView_Previews: PreviewProvider {
     @State static private var showMessage: Bool = false
     
     static var previews: some View {
-        MessageView()
+        ErrorView()
     }
 }

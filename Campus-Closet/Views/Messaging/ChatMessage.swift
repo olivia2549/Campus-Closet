@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct Chat_Message: View {
-    @StateObject var messagesManager = MessagesManager()
+struct ChatView: View {
+    @StateObject var messagesVM = MessagesVM()
    
     var body: some View {
         VStack {
             VStack{
-                ChatView()
+                Chat()
                 
                 ScrollView{
-                    ForEach(messagesManager.messages, id: \.id) { message in
-                        Message_Bubble(message: message)
+                    ForEach(messagesVM.messages, id: \.id) { message in
+                        MessageBubble(message: message)
                     }
                 }
                 .padding(.top, 10)
@@ -27,13 +27,13 @@ struct Chat_Message: View {
             .background(Color("Dark Pink"))
             
             MessageField()
-                .environmentObject(messagesManager)
+                .environmentObject(messagesVM)
         }
     }
 }
 
-struct Chat_Message_Previews: PreviewProvider {
+struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        Chat_Message()
+        ChatView()
     }
 }

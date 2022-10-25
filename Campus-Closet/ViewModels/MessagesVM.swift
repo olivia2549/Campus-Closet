@@ -1,5 +1,5 @@
 //
-//  MessagesManager.swift
+//  MessagesVM.swift
 //  Campus-Closet
 //
 //  Created by Hilly Yehoshua on 10/24/22.
@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class MessagesManager: ObservableObject {
+class MessagesVM: ObservableObject {
     @Published private(set) var messages: [Message] = []
     
     let db = Firestore.firestore()
@@ -47,7 +47,7 @@ class MessagesManager: ObservableObject {
     
     func sendMessage (text: String){
         do{
-            let newMessage = Message (id: "\(UUID())", text: text, received: false, timestamp: Date())
+            let newMessage = Message(id: "\(UUID())", text: text, received: false, timestamp: Date())
             try db.collection("Messages").document().setData(from: newMessage)
             
         }catch{
