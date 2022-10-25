@@ -28,16 +28,17 @@ struct CustomInput: View {
         self.completion = completion
     }
 
-    let textFieldHeight: CGFloat = 60
     @State private var isEditing = false
+    @FocusState private var shouldFocus: Bool
+    let textFieldHeight: CGFloat = 60
     var shouldPlaceHolderMove: Bool {
         isEditing || (input.count != 0)
     }
     var textFieldOutline: Color {
-        isEditing ? Color("Dark Pink") : .gray
+        isEditing ? Styles().themePink : .gray
     }
     var textFieldHighlight: Color {
-        isEditing ? Color("Dark Pink").opacity(0.1) : .white
+        isEditing ? Styles().themePink.opacity(0.1) : .white
     }
     
     var body: some View {
@@ -56,15 +57,19 @@ struct CustomInput: View {
                 Divider()
                     .frame(height: 30)
                 ZStack(alignment: .leading) {
-                    TextField("", text: $input, onEditingChanged: { (edit) in
-                        isEditing = edit
-                    })
+                    TextField(
+                        "",
+                        text: $input,
+                        onEditingChanged: { (edit) in isEditing = edit }
+                    )
+                    .focused($shouldFocus)
                     .foregroundColor(Color.primary)
                     .padding(shouldPlaceHolderMove ?
                              EdgeInsets(top: textFieldHeight*0.3, leading: 5, bottom: 0, trailing: 0) :
                              EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .accentColor(Color.secondary)
                     .animation(.linear)
+                    .submitLabel(.done)
                     ///Floating Placeholder
                     Text(inputLabel)
                         .foregroundColor(textFieldOutline)
@@ -74,9 +79,11 @@ struct CustomInput: View {
                         .scaleEffect(shouldPlaceHolderMove ? 1.0 : 1.2)
                         .animation(.linear)
                 }
+                .onTapGesture { shouldFocus = true }
             }
         }
         .padding(.bottom, 20)
     }
     
 }
+

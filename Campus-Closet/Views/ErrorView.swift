@@ -21,7 +21,7 @@ struct ErrorView: View {
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                         .font(Font.system(size: 20, weight: .semibold))
                         .foregroundColor(.white)
-                        .background(Color("Dark Pink"))
+                        .background(Styles().themePink)
                     
                     Button(action: {
                         withAnimation(.linear(duration: 0.2)){
@@ -37,7 +37,7 @@ struct ErrorView: View {
                     })
                 }
                 .frame(maxWidth: 320)
-                .background(Color("Dark Pink"))
+                .background(Styles().themePink)
                 .border(.white, width: 3)
             }
         }

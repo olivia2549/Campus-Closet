@@ -37,6 +37,9 @@
 		C527284A28E8C1B9008C1D60 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C527284928E8C1B9008C1D60 /* FirebaseFirestore */; };
 		C527284C28E8C1B9008C1D60 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C527284B28E8C1B9008C1D60 /* FirebaseFirestoreSwift */; };
 		C532138F28F341C9004F2267 /* SlidingTabView in Frameworks */ = {isa = PBXBuildFile; productRef = C532138E28F341C9004F2267 /* SlidingTabView */; };
+		C53E8CE22905A1500027D538 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53E8CE12905A1500027D538 /* Styles.swift */; };
+		C53E8CE42905B31C0027D538 /* ContentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53E8CE32905B31C0027D538 /* ContentVM.swift */; };
+		C53E8CE72905C4D50027D538 /* TagPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53E8CE62905C4D50027D538 /* TagPicker.swift */; };
 		C54556BB2904E3CC007CC071 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54556BA2904E3CC007CC071 /* SearchView.swift */; };
 		C55ED99B28DD01E1001BD218 /* Campus_ClosetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED99A28DD01E1001BD218 /* Campus_ClosetApp.swift */; };
 		C55ED99D28DD01E1001BD218 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED99C28DD01E1001BD218 /* ContentView.swift */; };
@@ -91,6 +94,9 @@
 		C527282828E7480B008C1D60 /* Masonry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Masonry.swift; sourceTree = "<group>"; };
 		C527282A28E788FD008C1D60 /* ItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCardView.swift; sourceTree = "<group>"; };
 		C527283E28E8BEF4008C1D60 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C53E8CE12905A1500027D538 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		C53E8CE32905B31C0027D538 /* ContentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVM.swift; sourceTree = "<group>"; };
+		C53E8CE62905C4D50027D538 /* TagPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPicker.swift; sourceTree = "<group>"; };
 		C54556BA2904E3CC007CC071 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		C55ED99728DD01E1001BD218 /* Campus-Closet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Campus-Closet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C55ED99A28DD01E1001BD218 /* Campus_ClosetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetApp.swift; sourceTree = "<group>"; };
@@ -168,11 +174,25 @@
 				C5262B8029044DEA0012E780 /* CustomInput.swift */,
 				C54556BA2904E3CC007CC071 /* SearchView.swift */,
 				C5D69BAB290314D7004FD7C7 /* Profile */,
+				C527282128E64660008C1D60 /* ChatView.swift */,
+				C53E8CEA2905C5B30027D538 /* Shared */,
 				C5D69BA6290310E2004FD7C7 /* Onboarding */,
-				C5D69BA729031123004FD7C7 /* Content */,
+				C5D69BAB290314D7004FD7C7 /* Profile */,
 				C5D69BAA29031240004FD7C7 /* Post */,
+				C5D69BA729031123004FD7C7 /* Content */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C53E8CEA2905C5B30027D538 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				C53E8CE12905A1500027D538 /* Styles.swift */,
+				C5262B8029044DEA0012E780 /* CustomInput.swift */,
+				C53E8CE62905C4D50027D538 /* TagPicker.swift */,
+				C5EAA208290492EC00775499 /* TagsList.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		C55ED98E28DD01E1001BD218 = {
@@ -242,6 +262,7 @@
 				C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */,
 				2E817DF4290368EB001F1A75 /* PostVM.swift */,
 				2E16B65429044CFD008F4B2A /* ProfileVM.swift */,
+				C53E8CE32905B31C0027D538 /* ContentVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -457,6 +478,9 @@
 				7D94FA8E2906228000FF1761 /* Message.swift in Sources */,
 				7D94FA952906250A00FF1761 /* MessageBubble.swift in Sources */,
 				C55ED99B28DD01E1001BD218 /* Campus_ClosetApp.swift in Sources */,
+				C53E8CE72905C4D50027D538 /* TagPicker.swift in Sources */,
+				C53E8CE42905B31C0027D538 /* ContentVM.swift in Sources */,
+				C53E8CE22905A1500027D538 /* Styles.swift in Sources */,
 				C5D69BA52902FC47004FD7C7 /* OnboardingVM.swift in Sources */,
 				7D94FA9D29077AB500FF1761 /* MessagesVM.swift in Sources */,
 			);

@@ -16,21 +16,10 @@ struct PostView: View {
             VStack {
                 BasicInfo(presentationMode: presentationMode)
             }
+            .onTapGesture { hideKeyboard() }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        ZStack(alignment: .center) {
-                            Circle()
-                                .strokeBorder()
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(.gray)
-                            Text("x")
-                                .font(.system(size: 20, weight: .light))
-                                .foregroundColor(.black)
-                        }
-                    }
+                    Styles.CancelButton(presentationMode: self.presentationMode)
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Post An Item")
@@ -40,7 +29,6 @@ struct PostView: View {
             .gesture(
                 DragGesture().onEnded { value in
                     if value.location.y - value.startLocation.y > 150 {
-                        /// Use presentationMode.wrappedValue.dismiss() for iOS 14 and below
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }
@@ -97,15 +85,10 @@ struct BasicInfo: View {
             }
             
             NavigationLink(destination: OptionalInfo(prevPresentationMode: presentationMode)) {
-                HStack {
-                    Text("Next")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-                .padding(10)
-                .background(Color("Dark Pink"))
-                .cornerRadius(10)
-                .foregroundColor(.white)
+                Text("Next")
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
+            .buttonStyle(Styles.PinkButton())
             
             Spacer()
         }
@@ -124,8 +107,12 @@ struct OptionalInfo: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            TagsList()
-            TagPicker()
+            VStack(alignment: .leading) {
+                Text("Help buyers find your item")
+                    .font(.system(size: 20, weight: .semibold))
+                TagPicker<PostVM>(menuText: "Add Tag")
+                TagsList<PostVM>()
+            }
             
             Text("Options")
                 .font(.system(size: 20, weight: .semibold))
@@ -141,11 +128,7 @@ struct OptionalInfo: View {
                 Text("Post Item!")
                     .frame(maxWidth: .infinity, alignment: .center)
             }
-            .padding(10)
-            .background(Color("Dark Pink"))
-            .cornerRadius(10)
-            .padding(.top)
-            .foregroundColor(.white)
+            .buttonStyle(Styles.PinkButton())
             
             Spacer()
         }
@@ -154,84 +137,23 @@ struct OptionalInfo: View {
         .environmentObject(viewModel)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    ZStack {
-                        Circle()
-                            .strokeBorder()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.gray)
-                        Image(systemName: "arrow.backward")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(.black)
-                    }
-                }
+                Styles.BackButton(presentationMode: self.presentationMode)
             }
             ToolbarItem(placement: .principal) {
                 Text("Post An Item")
                     .font(.system(size: 24, weight: .semibold))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    self.prevPresentationMode.wrappedValue.dismiss()
-                }) {
-                    ZStack(alignment: .center) {
-                        Circle()
-                            .strokeBorder()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.gray)
-                        Text("x")
-                            .font(.system(size: 20, weight: .light))
-                            .foregroundColor(.black)
-                    }
-                }
+                Styles.CancelButton(presentationMode: self.prevPresentationMode)
             }
         }
         .gesture(
             DragGesture().onEnded { value in
                 if value.location.y - value.startLocation.y > 150 {
-                    /// Use presentationMode.wrappedValue.dismiss() for iOS 14 and below
                     self.prevPresentationMode.wrappedValue.dismiss()
                 }
             }
         )
-    }
-}
-
-struct TagPicker: View {
-    @EnvironmentObject private var viewModel: PostVM
-    @State private var shouldShowDropdown = false
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Help buyers find your item")
-                .font(.system(size: 20, weight: .semibold))
-            Menu {
-                ForEach(viewModel.tagsLeft.sorted(by: >), id: \.key) { key, value in
-                    if (value == 1) {
-                        Button(
-                            action: { viewModel.addTag(for: key) },
-                            label: { Text(key) }
-                        )
-                    }
-                }
-            } label: {
-                HStack {
-                    Text("Choose a tag").foregroundColor(.gray)
-                    Image(systemName: self.shouldShowDropdown ? "arrowtriangle.up" : "arrowtriangle.down")
-                        .resizable()
-                        .frame(width: 9, height: 5)
-                        .font(Font.system(size: 9, weight: .medium))
-                        .foregroundColor(.gray)
-                    Spacer()
-                }
-            } .onTapGesture {
-                self.shouldShowDropdown.toggle()
-            }
-        }
     }
 }
 

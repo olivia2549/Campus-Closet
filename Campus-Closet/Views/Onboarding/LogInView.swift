@@ -22,6 +22,7 @@ struct LogInView: View {
             }
             .navigationTitle("")
             .navigationBarHidden(true)
+            .onTapGesture { hideKeyboard() }
         }
         .statusBar(hidden: true)
         .environmentObject(loginVM)
@@ -64,17 +65,14 @@ struct LogInFormBox: View {
                     Spacer()
                 }
             }
-            .padding(10)
-            .background(Color("Dark Pink"))
-            .cornerRadius(10)
-            .foregroundColor(Color.white)
+            .buttonStyle(Styles.PinkButton())
             
             NavigationLink(destination: SignUpView()) {
                 HStack{
                     Text("Sign Up")
                         .underline()
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Color ("Dark Pink"))
+                        .foregroundColor(Styles().themePink)
                     Spacer()
                 }
             }

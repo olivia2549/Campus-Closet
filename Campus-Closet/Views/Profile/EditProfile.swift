@@ -15,20 +15,9 @@ struct EditProfile: View {
         VStack(alignment: .center, spacing: 10) {
             ZStack(alignment: .bottomTrailing) {
                 ProfileImage()
-                ZStack {
-                    Circle()
-                        .foregroundColor(.white)
-                        .frame(width: 45, height: 45)
-                    Circle()
-                        .strokeBorder()
-                        .foregroundColor(.gray)
-                        .frame(width: 45, height: 45)
-                    Image(systemName: "camera.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 25, height: 25)
-                }
+                CameraIcon()
             }
+            .onTapGesture { hideKeyboard() }
             
             CustomInput(  // name input field
                 for: "Name",
@@ -50,28 +39,18 @@ struct EditProfile: View {
             }
             
             Button("Delete account", action: { viewModel.deleteAccount() })
+                .buttonStyle(Styles.PinkButton())
+            
             Button("Done", action: { viewModel.updateUser() })
+                .buttonStyle(Styles.PinkButton())
             
             Spacer()
         }
+        .onTapGesture { hideKeyboard() }
         .padding()
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    ZStack {
-                        Circle()
-                            .strokeBorder()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.gray)
-                        Image(systemName: "arrow.backward")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(.black)
-                    }
-                }
+                Styles.BackButton(presentationMode: self.presentationMode)
             }
             ToolbarItem(placement: .principal) {
                 Text("Edit Profile")
@@ -92,22 +71,28 @@ struct ProfileImage: View {
     }
 }
 
+struct CameraIcon: View {
+    var body: some View {
+        ZStack {
+            Circle()
+                .foregroundColor(.white)
+                .frame(width: 45, height: 45)
+            Circle()
+                .strokeBorder()
+                .foregroundColor(.gray)
+                .frame(width: 45, height: 45)
+            Image(systemName: "camera.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25, height: 25)
+        }
+    }
+}
+
 struct EditProfile_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             EditProfile()
         }
-    }
-}
-
-// allow user to swipe back
-extension UINavigationController: UIGestureRecognizerDelegate {
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        interactivePopGestureRecognizer?.delegate = self
-    }
-
-    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return viewControllers.count > 1
     }
 }
