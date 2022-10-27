@@ -22,15 +22,21 @@ struct Styles {
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 ZStack {
-                    Circle()
-                        .strokeBorder()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.gray)
-                    Image(systemName: "arrow.backward")
+                    Image(systemName: "chevron.backward")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 15, height: 15)
+                        .frame(width: 12)
+                        .padding(20)
                         .foregroundColor(.black)
+//                    Circle()
+//                        .strokeBorder()
+//                        .frame(width: 40, height: 40)
+//                        .foregroundColor(.gray)
+//                    Image(systemName: "arrow.backward")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 15, height: 15)
+//                        .foregroundColor(.black)
                 }
             }
         }
