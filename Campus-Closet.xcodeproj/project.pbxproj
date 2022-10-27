@@ -14,6 +14,8 @@
 		2E8DD07C28F5470300D1D035 /* VerifyEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */; };
 		2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF0007428EB972E00F2FAAE /* UserModel.swift */; };
 		7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92287128EF71CA00ECAD95 /* LogInView.swift */; };
+		7D94FAA22908E08F00FF1761 /* DetailItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA12908E08F00FF1761 /* DetailItemView.swift */; };
+		7D94FAA42908F22900FF1761 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA32908F22900FF1761 /* DetailView.swift */; };
 		C5262B8129044DEA0012E780 /* CustomInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5262B8029044DEA0012E780 /* CustomInput.swift */; };
 		C527281E28E64419008C1D60 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281D28E64419008C1D60 /* PostView.swift */; };
 		C527282028E644D6008C1D60 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281F28E644D6008C1D60 /* HomeView.swift */; };
@@ -77,6 +79,8 @@
 		2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailView.swift; sourceTree = "<group>"; };
 		2EF0007428EB972E00F2FAAE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		7D92287128EF71CA00ECAD95 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
+		7D94FAA12908E08F00FF1761 /* DetailItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemView.swift; sourceTree = "<group>"; };
+		7D94FAA32908F22900FF1761 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		C5262B8029044DEA0012E780 /* CustomInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInput.swift; sourceTree = "<group>"; };
 		C527281D28E64419008C1D60 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		C527281F28E644D6008C1D60 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -151,9 +155,19 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		7D4636E5290B2AD200731B84 /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				7D94FAA32908F22900FF1761 /* DetailView.swift */,
+				7D94FAA12908E08F00FF1761 /* DetailItemView.swift */,
+			);
+			path = DetailView;
+			sourceTree = "<group>";
+		};
 		C527284E28E8C22B008C1D60 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7D4636E5290B2AD200731B84 /* DetailView */,
 				C598DC7B290887860040A0F7 /* Messages */,
 				2E0101EB28F4EC910074F404 /* ErrorView.swift */,
 				C54556BA2904E3CC007CC071 /* SearchView.swift */,
@@ -456,6 +470,7 @@
 				C54556BB2904E3CC007CC071 /* SearchView.swift in Sources */,
 				2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
+				7D94FAA22908E08F00FF1761 /* DetailItemView.swift in Sources */,
 				C598DC7F290887A70040A0F7 /* MessageField.swift in Sources */,
 				2E817DF5290368EB001F1A75 /* PostVM.swift in Sources */,
 				C598DC81290887D70040A0F7 /* MessageModel.swift in Sources */,
@@ -465,6 +480,7 @@
 				C598DC852908883C0040A0F7 /* ChatMessage.swift in Sources */,
 				2E0101EC28F4EC920074F404 /* ErrorView.swift in Sources */,
 				C527282928E7480B008C1D60 /* Masonry.swift in Sources */,
+				7D94FAA42908F22900FF1761 /* DetailView.swift in Sources */,
 				C55ED99B28DD01E1001BD218 /* Campus_ClosetApp.swift in Sources */,
 				C53E8CE72905C4D50027D538 /* TagPicker.swift in Sources */,
 				C53E8CE42905B31C0027D538 /* ContentVM.swift in Sources */,

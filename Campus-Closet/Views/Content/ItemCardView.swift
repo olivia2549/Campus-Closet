@@ -15,10 +15,12 @@ struct ItemCardView: View, Identifiable {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Image(imageStr)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+            NavigationLink (destination: DetailView()){
+                Image(imageStr)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
             HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading) {
                     Text(imageStr)

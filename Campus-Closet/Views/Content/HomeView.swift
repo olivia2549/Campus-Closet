@@ -12,43 +12,48 @@ struct HomeView: View {
     @State private var shouldShowDropdown = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Image("logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 50, alignment: .leading)
-                Spacer()
-                Image(systemName: "heart")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25)
-                    .padding(7)
-                Image(systemName: "bell")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25)
-            }
-            .padding(.leading)
-            .padding(.trailing)
-            
-            VStack(alignment: .leading) {
+        NavigationView {
+            VStack(spacing: 0) {
                 HStack {
-                    Text("Filter By")
-                        .font(.system(size: 20, weight: .semibold))
-                    TagPicker<ContentVM>(menuText: "All")
+                    Image("logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 50, alignment: .leading)
                     Spacer()
+                    Image(systemName: "heart")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25)
+                        .padding(7)
+                    Image(systemName: "bell")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25)
                 }
+                .padding(.leading)
+                .padding(.trailing)
                 
-                TagsList<ContentVM>()
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("Filter By")
+                            .font(.system(size: 20, weight: .semibold))
+                        TagPicker<ContentVM>(menuText: "All")
+                        Spacer()
+                    }
+                    
+                    TagsList<ContentVM>()
+                }
+                .padding()
+                
+                ScrollView {
+                    Masonry()
+                }
             }
-            .padding()
-            
-            ScrollView {
-                Masonry()
-            }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarHidden(true)
+            .environmentObject(viewModel)
         }
-        .environmentObject(viewModel)
+        
     }
 }
 
