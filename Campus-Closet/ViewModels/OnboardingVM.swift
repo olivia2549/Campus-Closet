@@ -29,7 +29,7 @@ import FirebaseFirestore
             message = "Please enter your email and password."
             return false
         }
-        else if !email.hasSuffix("@vanderbilt.edu") {
+        else if String(email.suffix(14)).caseInsensitiveCompare("@vanderbilt.edu") == .orderedSame {
             isError.toggle()
             message = "Please enter your Vanderbilt email."
             return false
@@ -125,6 +125,8 @@ import FirebaseFirestore
             message = "That password is incorrect."
         case .userNotFound:
             message = "User not found. Please sign up!"
+        case .emailAlreadyInUse:
+            message = "That email is already in use. Please log in!"
         default:
             message = "Oops! An unexpected error occurred."
         }
