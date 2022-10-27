@@ -2,7 +2,7 @@
 //  SignUpView.swift
 //  Campus-Closet
 //
-//  Created by Lauren on 10/10/22.
+//  Created by Lauren Scott on 10/10/22.
 //
 
 import SwiftUI

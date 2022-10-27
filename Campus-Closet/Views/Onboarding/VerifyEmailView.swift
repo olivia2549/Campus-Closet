@@ -2,7 +2,7 @@
 //  VerifyEmailView.swift
 //  Campus-Closet
 //
-//  Created by Lauren on 10/11/22.
+//  Created by Lauren Scott on 10/11/22.
 //
 
 import SwiftUI
@@ -16,14 +16,13 @@ struct VerifyEmailView: View {
                 .padding(EdgeInsets(top: 5, leading: 32, bottom: 2, trailing: 32))
                 .font(Font.system(size: 36, weight: .bold))
                 .foregroundColor(.black)
-                .background(.white)
             
-            Text("A verification email has been sent. Please verify your email and return to login.")
+            Text("A verification email has been sent to you! Please verify your email and return to login.")
                 .multilineTextAlignment(.center)
-                .padding(EdgeInsets(top: 20, leading: 5, bottom: 20, trailing: 5))
+                .padding(EdgeInsets(top: 20, leading: 8, bottom: 15, trailing: 8))
                 .font(Font.system(size: 22, weight: .semibold))
                 .foregroundColor(Styles().themePink)
-                .background(.white)
+            
             Button(action: {
                 if let window = UIApplication.shared.windows.first {
                     window.rootViewController = UIHostingController(rootView: LogInView())
@@ -39,7 +38,6 @@ struct VerifyEmailView: View {
             .buttonStyle(Styles.PinkButton())
         }
         .frame(maxWidth: 340)
-        .background(Styles().themePink)
         .border(.white, width: 3)
     }
 }
