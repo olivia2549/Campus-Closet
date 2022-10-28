@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import Firebase
 import FirebaseCore
 import FirebaseAuth
@@ -25,6 +26,10 @@ import FirebaseFirestore
         "accessories": 1
     ]
 
+    func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
+        return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
+    }
+    
     func postItem() {
         let db = Firestore.firestore()
         guard let price = Float(item.price) else {

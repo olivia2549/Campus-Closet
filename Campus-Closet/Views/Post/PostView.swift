@@ -14,7 +14,7 @@ struct PostView: View {
     var body: some View {
         NavigationView {
             VStack {
-                BasicInfo(presentationMode: presentationMode)
+                ItemPhoto(presentationMode: presentationMode)
             }
             .onTapGesture { hideKeyboard() }
             .toolbar {
@@ -35,6 +35,44 @@ struct PostView: View {
             )
         }
         .environmentObject(postVM)
+    }
+}
+
+struct ItemPhoto: View {
+    @EnvironmentObject private var viewModel: PostVM
+    var presentationMode: Binding<PresentationMode>
+    @State var pickerShowing = false
+    @State var chosenPicture: UIImage?
+    
+    init(presentationMode: Binding<PresentationMode>) {
+        self.presentationMode = presentationMode
+    }
+    
+    var body: some View {
+        VStack {
+            if chosenPicture != nil {
+                Image(uiImage: chosenPicture!)
+                    .resizable()
+                    .frame(width: 200, height:200)
+            }
+            
+            Button(action: {
+                pickerShowing = true
+            }){
+                Text("Choose a Picture")
+                    .frame(minWidth: 0, maxWidth: .infinity)
+            }
+            .buttonStyle(Styles.PinkButton())
+            
+            NavigationLink(destination: BasicInfo(presentationMode: presentationMode)) {
+                Text("Next")
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .buttonStyle(Styles.PinkButton())
+        }
+        .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
+            viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
+        })
     }
 }
 
