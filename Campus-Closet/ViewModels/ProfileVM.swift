@@ -13,9 +13,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 @MainActor class ProfileVM: ObservableObject {
-    @Published var name = ""
-    @Published var venmo = ""
-    @Published var rating = ""
+    @Published var user = User()
     
     func getProfileData() {
         let db = Firestore.firestore()
@@ -24,9 +22,8 @@ import FirebaseFirestore
         
         profileRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                guard document.get("name") == nil else { self.name = String(describing: document.get("name")!); return }
-                guard document.get("venmo") == nil else { self.venmo = String(describing: document.get("venmo")!); return }
-                guard document.get("rating") == nil else { self.rating = String(describing: document.get("rating")!); return }
+                guard document.get("name") == nil else { self.user.name = String(describing: document.get("name")!); return }
+                guard document.get("venmo") == nil else { self.user.venmo = String(describing: document.get("venmo")!); return }
             } else {
                 print("Error: Profile does not exist.")
             }

@@ -63,7 +63,7 @@ struct ProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
 
     var body: some View {
-        Text(viewModel.name)
+        Text(viewModel.user.name)
             .font(.system(size: 32, weight: .medium))
         HStack(alignment: .center) {
             Image(systemName: "star.fill")
@@ -71,12 +71,12 @@ struct ProfileInfo: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 25, height: 25)
                 .foregroundColor(Styles().themePink)
-            Text(viewModel.rating)
+            Text("4.5")
             Text("(12 Reviews)")
             Text("|")
             Image(systemName: "dollarsign.circle")
                 .foregroundColor(Styles().themePink)
-            Text(viewModel.venmo)
+            Text(viewModel.user.venmo)
         }
         .frame(maxWidth: .infinity)
     }
