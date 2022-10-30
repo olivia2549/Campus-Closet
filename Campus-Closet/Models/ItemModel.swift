@@ -10,6 +10,7 @@ import Foundation
 struct ItemModel: Identifiable {
     var id: String = UUID().uuidString
     var title: String = ""
+    var picture: String = ""
     var description: String = ""
     var sellerId: String = ""
     var price: String = ""

@@ -11,10 +11,12 @@ import Firebase
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 
 @MainActor class PostVM: ObservableObject, HandlesTagsVM {
     @Published var tags: [String] = []
     @Published var item = ItemModel()
+    @Published var chosenPicture: UIImage?
     @Published var sellerIsAnonymous = false
     @Published var tagsLeft = [
         "womens": 1,
@@ -30,16 +32,37 @@ import FirebaseFirestore
         return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
     }
     
+    func uploadPicture() -> String {
+        let storageRef = Storage.storage().reference()
+        let pictureData = chosenPicture!.pngData()
+        var picturePath: String = "item-pictures/\(UUID().uuidString).png"
+        
+        if pictureData != nil {
+            let pictureRef = storageRef.child(picturePath)
+            
+            let upload = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
+                if error != nil || metadata == nil {
+                    picturePath = ""
+                }
+            }
+        }
+        
+        return picturePath
+    }
+    
     func postItem() {
-        let db = Firestore.firestore()
+        let newPicturePath = uploadPicture()
+        
         guard let price = Float(item.price) else {
             print("invalid price")
             return
         }
         
+        let db = Firestore.firestore()
         db.collection("items").document(item.id).setData([
             "_id": item.id,
             "title": item.title,
+            "picture": newPicturePath,
             "description": item.description,
             "sellerId": item.sellerId,
             "price": price,

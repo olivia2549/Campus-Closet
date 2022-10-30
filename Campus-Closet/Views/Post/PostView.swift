@@ -43,6 +43,7 @@ struct ChoosePicture: View {
     var presentationMode: Binding<PresentationMode>
     @State var pickerShowing = false
     @State var chosenPicture: UIImage?
+    @State private var presentInfoScreen: Bool = false
     
     init(presentationMode: Binding<PresentationMode>) {
         self.presentationMode = presentationMode
@@ -66,9 +67,13 @@ struct ChoosePicture: View {
             .buttonStyle(Styles.PinkButton())
             
             if chosenPicture != nil {
-                NavigationLink(destination: BasicInfo(presentationMode: presentationMode)) {
+                NavigationLink(destination: BasicInfo(presentationMode: presentationMode), isActive: $presentInfoScreen) {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
+                        .onTapGesture {
+                            viewModel.chosenPicture = chosenPicture
+                            self.presentInfoScreen = true
+                        }
                 }
                 .buttonStyle(Styles.PinkButton())
             }
