@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemModel {
+struct ItemModel: Identifiable {
     var id: String = UUID().uuidString
     var title: String = ""
     var description: String = ""

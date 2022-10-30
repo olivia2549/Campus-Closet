@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DetailView: View {
     
+    @ObservedObject private var viewModel = ItemVM()
+    
     var body: some View {
         
         VStack (spacing: 0){
@@ -51,13 +53,6 @@ struct DetailView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
-        
-        
-        
-        
-        
-        
-        
     }
 }
 
@@ -79,11 +74,6 @@ struct HeaderDetail: View{
         VStack(spacing: 0) {
             HStack {
                 Styles.BackButton(presentationMode: self.presentationMode)
-//                Image(systemName: "chevron.backward")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: 12)
-//                    .padding(20)
                 Spacer()
                 Spacer().frame(maxWidth: 10)
                 Image("logo")
@@ -223,33 +213,17 @@ struct SellerInfo: View{
                 Spacer()
                 NavigationLink(destination: Chat_Message()) {
                     Image (systemName: "ellipsis.message.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(Color("Dark Pink"))
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(Color("Dark Pink"))
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))
                 }
                 
-//                Button(action: {
-//                    print("Place Bid")
-//                }){Image (systemName: "ellipsis.message.fill")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 40, height: 40)
-//                        .foregroundColor(Color("Dark Pink"))
-//                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))}
+                
                 
                 
             }
         }
     }}
 
-
-//NavigationLink(destination: EditProfile()) {
-//    Image(systemName: "pencil.circle")
-//        .resizable()
-//        .aspectRatio(contentMode: .fit)
-//        .frame(width: 30, height: 30, alignment: .trailing)
-//        .padding(.leading, 30)
-//        .foregroundColor(.black)
-//}

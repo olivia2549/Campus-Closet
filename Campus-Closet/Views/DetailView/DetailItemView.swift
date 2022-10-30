@@ -35,8 +35,7 @@ struct DetailItemView: View, Identifiable {
                 }
             VStack{
                 HStack(alignment: .top, spacing: 0) {
-                    Text("Knitted Sweater") //Replace with title
-                    //.font(.largeTitle)
+                    Text("Knitted Sweater") 
                         .font(.system(size: 30))
                         .foregroundColor(.black)
                         .frame(maxWidth: 250, alignment: .leading)
@@ -47,31 +46,10 @@ struct DetailItemView: View, Identifiable {
                     
                     Text("$8")
                         .font(.system(size: 30))
-                        //.font(.largeTitle)
-                    //.font(.system(size: 25, weight: .bold))
                         .foregroundColor(Styles().themePink)
                         .frame(maxWidth: 100, alignment: .trailing)
                     Spacer()
                 }
-                //HStack{
-                    //RoundedRectangle(cornerRadius: 25, style: .continuous)
-                        //.fill(Color("Dark Gray"))
-                        //.frame(width: 100, height: 30)
-                        //.overlay{
-                            //Text("Size: 6")
-                                //.foregroundColor(.white)
-                                //.font(.system(size: 18))
-                        //}
-                    //RoundedRectangle(cornerRadius: 25, style: .continuous)
-                        //.fill(Color("Dark Gray"))
-                        //.frame(width: 100, height: 30)
-                        //.overlay{
-                            //Text("Sweater")
-                                //.foregroundColor(.white)
-                                //.font(.system(size: 18))
-                        //}
-                //}
-                
             }
             .padding(.leading)
             .padding(.trailing)
