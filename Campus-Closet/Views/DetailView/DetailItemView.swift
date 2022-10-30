@@ -35,7 +35,7 @@ struct DetailItemView: View, Identifiable {
                 }
             VStack{
                 HStack(alignment: .top, spacing: 0) {
-                    Text("Knitted Sweater") 
+                    Text("Knitted Sweater")
                         .font(.system(size: 30))
                         .foregroundColor(.black)
                         .frame(maxWidth: 250, alignment: .leading)

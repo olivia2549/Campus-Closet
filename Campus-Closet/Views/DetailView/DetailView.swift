@@ -9,10 +9,12 @@ import SwiftUI
 
 struct DetailView: View {
     
-    @ObservedObject private var viewModel = ItemVM()
+    //@ObservedObject private var itemVM = ItemVM()
+    //itemGrab = db.collection("items").doc("57E2051C-CE4B-43A4-AE80-68C17CD55628")
     
+
+    //57E2051C-CE4B-43A4-AE80-68C17CD55628
     var body: some View {
-        
         VStack (spacing: 0){
             HeaderDetail()
             ScrollView {
