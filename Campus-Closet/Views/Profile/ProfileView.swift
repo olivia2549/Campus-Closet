@@ -59,6 +59,27 @@ struct ProfileHeader: View {
     }
 }
 
+struct ProfileImage: View {
+    @EnvironmentObject private var viewModel: ProfileVM
+    
+    var body: some View {
+        if (viewModel.profilePicture != nil) {
+            Image(uiImage: viewModel.profilePicture!)
+                .resizable()
+                .frame(width: 175, height: 175, alignment: .center)
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+        }
+        else {
+            Image("blank-profile")
+                .resizable()
+                .frame(width: 175, height: 175, alignment: .center)
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+        }
+    }
+}
+
 struct ProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
 

@@ -9,13 +9,15 @@ import SwiftUI
 
 struct EditProfile: View {
     @StateObject private var viewModel = OnboardingVM()
+    @State var chosenPicture: UIImage?
+    @State var pickerShowing = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
-            ZStack(alignment: .bottomTrailing) {
-                ProfileImage()
-                CameraIcon()
+            ZStack(alignment: .bottomTrailing) { // profile picture selection
+                NewProfileImage(chosenPicture: $chosenPicture)
+                CameraIcon(pickerShowing: $pickerShowing)
             }
             .onTapGesture { hideKeyboard() }
             
@@ -25,7 +27,7 @@ struct EditProfile: View {
                 autocapitalization: .words,
                 input: $viewModel.user.name
             ) {
-                viewModel.updateUser()
+                viewModel.updateUser(chosenPicture: chosenPicture)
             }
             .padding(.top)
             
@@ -35,13 +37,13 @@ struct EditProfile: View {
                 autocapitalization: .never,
                 input: $viewModel.user.venmo
             ) {
-                viewModel.updateUser()
+                viewModel.updateUser(chosenPicture: chosenPicture)
             }
             
-            Button("Delete account", action: { viewModel.deleteAccount() })
+            Button("Done", action: { viewModel.updateUser(chosenPicture: chosenPicture) })
                 .buttonStyle(Styles.PinkButton())
             
-            Button("Done", action: { viewModel.updateUser() })
+            Button("Delete account", action: { viewModel.deleteAccount() })
                 .buttonStyle(Styles.PinkButton())
             
             Spacer()
@@ -57,21 +59,40 @@ struct EditProfile: View {
                     .font(.system(size: 24, weight: .semibold))
             }
         }
+        .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
+            viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
+        })
         .navigationBarBackButtonHidden(true)
+        .environmentObject(viewModel)
     }
 }
 
-struct ProfileImage: View {
+struct NewProfileImage: View {
+    @EnvironmentObject private var viewModel: OnboardingVM
+    @Binding var chosenPicture: UIImage?
+    
     var body: some View {
-        Image("blank-profile")
-            .resizable()
-            .frame(width: 175, height: 175, alignment: .center)
-            .aspectRatio(contentMode: .fit)
-            .clipShape(Circle())
+        if chosenPicture != nil {
+            Image(uiImage: chosenPicture!)
+                .resizable()
+                .frame(width: 175, height: 175, alignment: .center)
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+        }
+        else {
+            Image("blank-profile")
+                .resizable()
+                .frame(width: 175, height: 175, alignment: .center)
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+        }
     }
 }
 
 struct CameraIcon: View {
+    @EnvironmentObject private var viewModel: OnboardingVM
+    @Binding var pickerShowing: Bool
+    
     var body: some View {
         ZStack {
             Circle()
@@ -85,6 +106,9 @@ struct CameraIcon: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 25, height: 25)
+        }
+        .onTapGesture {
+            pickerShowing = true
         }
     }
 }

@@ -11,6 +11,7 @@ import Firebase
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 
 @MainActor class OnboardingVM: ObservableObject {
     @Published var isError: Bool = false
@@ -85,12 +86,41 @@ import FirebaseFirestore
         }
     }
     
-    func updateUser() {
+    func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
+        return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
+    }
+    
+    func uploadPicture(chosenPicture: UIImage?) -> String {
+        if chosenPicture == nil {
+            return user.picture
+        }
+        
+        let storageRef = Storage.storage().reference()
+        let pictureData = chosenPicture!.pngData()
+        var picturePath: String = "user-pictures/\(UUID().uuidString).png"
+        
+        if pictureData != nil {
+            let pictureRef = storageRef.child(picturePath)
+            
+            let upload = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
+                if error != nil || metadata == nil {
+                    picturePath = ""
+                }
+            }
+        }
+        
+        return picturePath
+    }
+    
+    func updateUser(chosenPicture: UIImage?) {
+        let newPicturePath = uploadPicture(chosenPicture: chosenPicture)
+        
         let db = Firestore.firestore()
         if let userId = Auth.auth().currentUser?.uid {
             print("id: \(userId)")
             db.collection("users").document(userId).setData([
                 "name": user.name,
+                "picture": newPicturePath,
                 "venmo": user.venmo
             ], merge: true) { err in
                 if let error = err {
