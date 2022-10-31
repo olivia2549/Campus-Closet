@@ -76,6 +76,18 @@ struct Styles {
         }
     }
     
+    struct PinkTextButton: ButtonStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            configuration.label
+                .padding(10)
+                .background(.white)
+                .cornerRadius(10)
+                .padding(.top)
+                .font(Font.system(size: 16, weight: .semibold))
+                .foregroundColor(Styles().themePink)
+        }
+    }
+    
     struct SearchBar: View {
         @State var searchText = ""
         var body: some View {
