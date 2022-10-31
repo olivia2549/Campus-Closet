@@ -117,9 +117,29 @@ struct ToggleView: View {
                 selectionBarColor: Styles().themePink
             )
             if (tabIndex == 0) {
-                Text("No listings yet")
+                Listings()
             } else {
                 Text("None yet")
+            }
+        }
+    }
+}
+
+struct Listings: View {
+    @EnvironmentObject private var viewModel: ProfileVM
+    private var gridLayout = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    
+    var body: some View {
+        if viewModel.listingsPictures.isEmpty {
+            Text("No listings yet")
+        }
+        else {
+            LazyVGrid(columns: gridLayout, spacing: 20) {
+                ForEach(viewModel.listingsPictures, id: \.self) { picture in
+                    Image(uiImage: picture)
+                        .resizable()
+                        .frame(width: 120, height: 120)
+                }
             }
         }
     }
