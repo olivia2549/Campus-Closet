@@ -61,6 +61,10 @@ struct ChoosePicture: View {
             Button(action: {
                 pickerShowing = true
             }){
+                Image(systemName: ("square.and.arrow.up"))
+                    .resizable()
+                    .frame(width: 80, height:100, alignment: .center)
+                
                 Text(chosenPicture == nil ? "Choose a Picture" : "Change Picture")
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .font(Font.system(size: chosenPicture == nil ? 20 : 16, weight: .semibold))
