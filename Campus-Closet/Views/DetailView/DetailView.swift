@@ -192,7 +192,7 @@ struct SellerInfo: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 15, height: 15)
                             .foregroundColor(Color("Dark Pink"))
-                        Text ("4.8 (12 Reviews)")
+                        Text ("\(String(format: "%.2f", viewModel.averageRating)) (\(viewModel.numRatings) Reviews)")
                             .font(.system(size: 12))
                     }
                 }

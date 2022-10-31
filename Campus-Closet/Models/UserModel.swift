@@ -12,4 +12,5 @@ struct User: Codable {
     var picture: String = ""
     var venmo: String = ""
     var listings: [String]? = []   // ids of items
+    var ratings: [Int]? = []
 }
