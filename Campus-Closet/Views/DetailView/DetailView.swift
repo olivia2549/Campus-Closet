@@ -15,7 +15,9 @@ import FirebaseAuth
 }
 
 struct DetailView: View {
-    @StateObject private var viewModel = ItemVM()
+    @StateObject private var itemViewModel = ItemVM()
+    @StateObject private var profileViewModel = ProfileVM()
+    
     var id: String
     init(for id: String) {
         self.id = id
@@ -27,16 +29,21 @@ struct DetailView: View {
                 VStack (alignment: .leading, spacing: 0){
                     DetailItemView()
                     Spacer()
-                    //ButtonRow()
+                    
                     DetailDescription()
                     Spacer()
                     
-                    if !viewModel.isSeller {
+                    if !itemViewModel.isSeller {
                         Divider()
                             .frame(height: 1)
                             .overlay(Color("Dark Gray"))
                         
-                        SellerInfo()
+                        if itemViewModel.item.sellerId != "" {
+                            SellerInfo()
+                                .onAppear {
+                                    profileViewModel.fetchUser(userID: itemViewModel.item.sellerId)
+                                }
+                        }
                         
                         Button(action: {
                             print("Place Bid")
@@ -55,31 +62,23 @@ struct DetailView: View {
                         .cornerRadius(25)
                     }
                     else {
-                        NavigationLink(destination: EditItem().environmentObject(viewModel)) {
+                        NavigationLink(destination: EditItem().environmentObject(itemViewModel)) {
                             Text("Edit Item")
                         }
                         .buttonStyle(Styles.PinkButton())
                     }
                 }
             }
-            .environmentObject(viewModel)
+            .environmentObject(itemViewModel)
+            .environmentObject(profileViewModel)
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
         .onAppear {
-            viewModel.fetchItem(with: id)
+            itemViewModel.fetchItem(with: id)
         }
     }
 }
-
-//struct DetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DetailView()
-//
-//
-//    }
-//}
-
 
 struct HeaderDetail: View{
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -167,19 +166,24 @@ struct DetailDescription: View{
 }
 
 struct SellerInfo: View {
+    @EnvironmentObject private var viewModel: ProfileVM
+    
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
             HStack{
-                Image ("blank-profile")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(50)
-                    .padding(EdgeInsets(top: 15, leading: 20, bottom: 0, trailing: 0))
+                if (viewModel.profilePicture != nil) {
+                    Image (uiImage: viewModel.profilePicture!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(50)
+                        .padding(EdgeInsets(top: 15, leading: 20, bottom: 0, trailing: 0))
+                }
+                
                 VStack(spacing: 0) {
-                    Text("Seller Name")
+                    Text(viewModel.user.name)
                         .font(.system(size: 18))
-                    Text("@Seller-Name")
+                    Text("@\(viewModel.user.venmo)")
                         .foregroundColor(Color("Dark Gray"))
                         .font(.system(size: 14))
                     HStack (spacing: 2){
@@ -193,6 +197,7 @@ struct SellerInfo: View {
                     }
                 }
                 Spacer()
+                
                 NavigationLink(destination: Chat_Message()) {
                     Image (systemName: "ellipsis.message.fill")
                         .resizable()

@@ -20,7 +20,10 @@ import FirebaseFirestoreSwift
     let db = Firestore.firestore()
     
     func getProfileData() {
-        let userID = Auth.auth().currentUser!.uid
+        fetchUser(userID: Auth.auth().currentUser!.uid)
+    }
+    
+    func fetchUser(userID: String) {
         let profileRef = db.collection("users").document(userID)
         
         profileRef.getDocument(as: User.self) { result in
@@ -44,5 +47,4 @@ import FirebaseFirestoreSwift
             }
         }
     }
-    
 }
