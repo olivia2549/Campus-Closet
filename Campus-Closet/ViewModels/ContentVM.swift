@@ -34,10 +34,22 @@ import Foundation
                 var itemIdsCol1: [String] = []
                 var itemIdsCol2: [String] = []
                 var col1 = true
+                var hasAllTags = true
+                
                 for document in querySnapshot!.documents {
-                    col1 ? itemIdsCol1.append(document.documentID) :
-                        itemIdsCol2.append(document.documentID)
-                    col1.toggle()
+                    let itemTags = document.get("tags") as? [String]
+                    for tag in self.tagsLeft {
+                        if tag.value == 0 && !itemTags!.contains(where: {$0 == tag.key}) {
+                            hasAllTags = false
+                            break
+                        }
+                    }
+                    
+                    if hasAllTags {
+                        col1 ? itemIdsCol1.append(document.documentID) :
+                            itemIdsCol2.append(document.documentID)
+                        col1.toggle()
+                    }
                 }
                 self.sortedColumns.append(itemIdsCol1)
                 self.sortedColumns.append(itemIdsCol2)
@@ -48,10 +60,12 @@ import Foundation
     func addTag(for tag: String) {
         tags.append(tag)
         tagsLeft[tag] = 0
+        fetchData()
     }
     
     func removeTag(for tag: String) {
         tags = tags.filter { $0 != tag }
         tagsLeft[tag] = 1
+        fetchData()
     }
 }
