@@ -63,6 +63,7 @@ struct ChoosePicture: View {
             }){
                 Text(chosenPicture == nil ? "Choose a Picture" : "Change Picture")
                     .frame(minWidth: 0, maxWidth: .infinity)
+                    .font(Font.system(size: chosenPicture == nil ? 20 : 16, weight: .semibold))
             }
             .buttonStyle(Styles.PinkTextButton())
             
