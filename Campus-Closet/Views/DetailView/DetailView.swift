@@ -8,19 +8,17 @@
 import SwiftUI
 
 struct DetailView: View {
-    
-    //@ObservedObject private var itemVM = ItemVM()
-    //itemGrab = db.collection("items").doc("57E2051C-CE4B-43A4-AE80-68C17CD55628")
-    
-
-    //57E2051C-CE4B-43A4-AE80-68C17CD55628
+    @StateObject private var viewModel = ItemVM()
+    var id: String
+    init(for id: String) {
+        self.id = id
+    }
     var body: some View {
         VStack (spacing: 0){
             HeaderDetail()
             ScrollView {
                 VStack (alignment: .leading, spacing: 0){
-                    
-                    DetailItemView(for: "sweater")
+                    DetailItemView()
                     Spacer()
                     //ButtonRow()
                     DetailDescription()
@@ -31,8 +29,6 @@ struct DetailView: View {
                         .overlay(Color("Dark Gray"))
                     
                     SellerInfo()
-                    
-                    
                     
                     Button(action: {
                         print("Place Bid")
@@ -49,24 +45,27 @@ struct DetailView: View {
                     }
                     .background(Color("Dark Pink"))
                     .cornerRadius(25)
-                    
                 }
             }
+            .environmentObject(viewModel)
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
+        .onAppear {
+            viewModel.fetchItem(with: id)
+        }
     }
 }
 
 
 
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailView()
-        
-        
-    }
-}
+//struct DetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetailView()
+//
+//
+//    }
+//}
 
 
 struct HeaderDetail: View{
@@ -98,7 +97,6 @@ struct HeaderDetail: View{
         }
     }
 }
-
 
 struct ButtonRow: View{
     var body: some View{
@@ -140,54 +138,23 @@ struct ButtonRow: View{
     }
 }
 
-
-struct ItemImage: View{
-    var body: some View{
-        HStack {
-            Image("sweater")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: 25))
-                .overlay(alignment: .topTrailing){
-                    Button(action: {
-                        print("Add to favorites")
-                    }){
-                        Image(systemName: "heart")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 30)
-                            .foregroundStyle(Color("Dark Pink"))
-                        
-                    }.offset(x: -18, y: 20)
-                    
-                }
-        }
-    }
-}
-
 struct DetailDescription: View{
-    var body: some View{
-        HStack{
-            Spacer()
-            Spacer()
+    @EnvironmentObject private var viewModel: ItemVM
+    var body: some View {
+        VStack(alignment: .leading) {
             Text("Details")
                 .underline()
                 .font(.system(size: 18))
                 .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        HStack{
-            Spacer()
-            Spacer()
-            Text("This is the description This is the of item in the photo above. This is the description of item in the photo above.")
-            
-            Spacer()
+            Text(viewModel.item.description ?? "")
             Spacer()
         }
+        .padding()
     }
 }
 
-struct SellerInfo: View{
-    var body: some View{
+struct SellerInfo: View {
+    var body: some View {
         VStack (alignment: .leading, spacing: 0) {
             HStack{
                 Image ("blank-profile")
@@ -221,11 +188,7 @@ struct SellerInfo: View{
                         .foregroundColor(Color("Dark Pink"))
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))
                 }
-                
-                
-                
-                
             }
         }
-    }}
-
+    }
+}

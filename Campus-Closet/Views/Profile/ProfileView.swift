@@ -97,14 +97,16 @@ struct ProfileInfo: View {
             Text("|")
             Image(systemName: "dollarsign.circle")
                 .foregroundColor(Styles().themePink)
-            Text(viewModel.user.venmo)
+            Text(viewModel.user.venmo ?? "")
         }
         .frame(maxWidth: .infinity)
     }
 }
 
 struct ToggleView: View {
+    @EnvironmentObject private var viewModel: ProfileVM
     @State private var tabIndex = 0
+    
     var body: some View {
         VStack {
             SlidingTabView(
@@ -117,7 +119,9 @@ struct ToggleView: View {
                 selectionBarColor: Styles().themePink
             )
             if (tabIndex == 0) {
-                Text("No listings yet")
+                ForEach(viewModel.user.listings ?? [], id: \.self) { id in
+                    ItemCardView(for: id)
+                }
             } else {
                 Text("None yet")
             }

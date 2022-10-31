@@ -14,31 +14,16 @@ struct Column: Identifiable {
 }
 
 struct Masonry: View {
+    @EnvironmentObject private var viewModel: ContentVM
     let vertSpacing: CGFloat = 25
     let horizSpacing: CGFloat = 10
     
-    let columns = [
-        Column(items: [
-            ItemCardView(for: "jeans"),
-            ItemCardView(for: "shorts"),
-            ItemCardView(for: "crop top"),
-            ItemCardView(for: "top"),
-            ItemCardView(for: "dress"),
-        ]),
-        Column(items: [
-            ItemCardView(for: "sweater"),
-            ItemCardView(for: "pants"),
-            ItemCardView(for: "skirt"),
-            ItemCardView(for: "blouse")
-        ]),
-    ]
-    
     var body: some View {
         HStack(alignment: .top, spacing: horizSpacing) {
-            ForEach(columns) { column in
+            ForEach(viewModel.sortedColumns, id: \.self) { colIds in
                 LazyVStack(spacing: vertSpacing) {
-                    ForEach(column.items) { item in
-                        item
+                    ForEach(colIds, id: \.self) { id in
+                        ItemCardView(for: id)
                     }
                 }
             }
