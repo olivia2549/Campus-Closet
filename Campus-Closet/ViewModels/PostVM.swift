@@ -52,6 +52,7 @@ import FirebaseStorage
     
     func postItem() {
         let newPicturePath = uploadPicture()
+        let userId = Auth.auth().currentUser?.uid
         
         guard let price = Float(item.price) else {
             print("invalid price")
@@ -64,7 +65,7 @@ import FirebaseStorage
             "title": item.title,
             "picture": newPicturePath,
             "description": item.description,
-            "sellerId": item.sellerId,
+            "sellerId": userId!,
             "price": price,
             "size": item.size,
             "biddingEnabled": item.biddingEnabled,
@@ -77,6 +78,10 @@ import FirebaseStorage
                 print("Successfully saved data.")
             }
         }
+        
+        db.collection("users").document(userId!).updateData([
+            "listings": FieldValue.arrayUnion([item.id])
+        ])
     }
     
     func addTag(for tag: String) {
