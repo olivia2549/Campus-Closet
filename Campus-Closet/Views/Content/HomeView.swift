@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = ContentVM()
-    @State private var shouldShowDropdown = false
+    @StateObject private var contentVM = ContentVM()
     
     var body: some View {
         NavigationView {
@@ -51,7 +50,10 @@ struct HomeView: View {
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)
-            .environmentObject(viewModel)
+            .environmentObject(contentVM)
+            .onAppear {
+                contentVM.fetchData()
+            }
         }
         
     }

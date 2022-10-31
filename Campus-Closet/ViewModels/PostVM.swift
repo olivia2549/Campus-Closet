@@ -15,7 +15,7 @@ import FirebaseStorage
 
 @MainActor class PostVM: ObservableObject, HandlesTagsVM {
     @Published var tags: [String] = []
-    @Published var item = ItemModel()
+    @Published var item = Item()
     @Published var chosenPicture: UIImage?
     @Published var sellerIsAnonymous = false
     @Published var tagsLeft = [
@@ -53,10 +53,11 @@ import FirebaseStorage
     func postItem() {
         let newPicturePath = uploadPicture()
         
-        guard let price = Float(item.price) else {
-            print("invalid price")
-            return
-        }
+        // eventually want to use this and make price a float
+//        guard let price = Float(item.price) else {
+//            print("invalid price")
+//            return
+//        }
         
         let db = Firestore.firestore()
         db.collection("items").document(item.id).setData([
@@ -64,12 +65,13 @@ import FirebaseStorage
             "title": item.title,
             "picture": newPicturePath,
             "description": item.description,
-            "sellerId": item.sellerId,
-            "price": price,
+            "sellerId": Auth.auth().currentUser!.uid,
+            "price": item.price,
             "size": item.size,
             "biddingEnabled": item.biddingEnabled,
             "tags": tags,
-            "condition": item.condition
+            "condition": item.condition,
+            "timestamp": Date.now
         ]) { (error) in
             if let e = error {
                 print("There was an issue saving data to Firestore, \(e).")

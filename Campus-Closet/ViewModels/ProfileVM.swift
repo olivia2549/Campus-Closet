@@ -12,43 +12,37 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseFirestoreSwift
 
 @MainActor class ProfileVM: ObservableObject {
     @Published var user = User()
     @Published var profilePicture: UIImage?
+    let db = Firestore.firestore()
     
     func getProfileData() {
-        let db = Firestore.firestore()
         let userID = Auth.auth().currentUser!.uid
         let profileRef = db.collection("users").document(userID)
         
-        profileRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                if document.get("name") != nil {
-                    self.user.name = String(describing: document.get("name")!)
-                }
-                if document.get("venmo") != nil {
-                    self.user.venmo = String(describing: document.get("venmo")!)
-                }
-                
-                if document.get("picture") != nil {
-                    self.user.picture = String(describing: document.get("picture")!)
-                    let pictureRef = Storage.storage().reference(withPath: self.user.picture)
-
-                    // Download profile picture with max size of 30MB.
-                    pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
-                        if let err = error {
-                            print(err)
-                        } else if data != nil {
-                            if let picture = UIImage(data: data!) {
-                                self.profilePicture = picture
-                            }
+        profileRef.getDocument(as: User.self) { result in
+            switch result {
+            case .success(let user):
+                print("User: \(user)")
+                self.user = user
+                let pictureRef = Storage.storage().reference(withPath: self.user.picture)
+                // Download profile picture with max size of 30MB.
+                pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
+                    if let err = error {
+                        print(err)
+                    } else if data != nil {
+                        if let picture = UIImage(data: data!) {
+                            self.profilePicture = picture
                         }
                     }
                 }
-            } else {
-                print("Error: Profile does not exist.")
+            case .failure(let error):
+                print("Error decoding user: \(error)")
             }
         }
     }
+    
 }

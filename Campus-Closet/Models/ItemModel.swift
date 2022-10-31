@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct ItemModel: Identifiable {
-    var id: String = UUID().uuidString
+struct Item: Codable {
+    var _id: String = UUID().uuidString
     var title: String = ""
     var picture: String = ""
     var description: String = ""
@@ -16,6 +16,10 @@ struct ItemModel: Identifiable {
     var price: String = ""
     var size: String = ""
     var biddingEnabled: Bool = true
-    var tags: [String] = []
-    var condition: String = ""
+    var tags: [String]? = []
+    var condition: String? = ""
+}
+
+extension Item: Identifiable {
+    var id: String { _id }
 }

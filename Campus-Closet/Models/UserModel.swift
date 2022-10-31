@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct User {
+struct User: Codable {
     var name: String = ""
     var picture: String = ""
     var venmo: String = ""
-    var listings: [UUID] = []   // ids of items
+    var listings: [String]? = []   // ids of items
 }
