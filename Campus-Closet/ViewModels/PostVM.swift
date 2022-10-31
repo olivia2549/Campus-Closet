@@ -13,8 +13,9 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-@MainActor class PostVM: ObservableObject, HandlesTagsVM {
+@MainActor class PostVM: ObservableObject, HandlesTagsVM, ItemInfoVM {
     @Published var tags: [String] = []
+    @Published var isEditing = false
     @Published var item = Item()
     @Published var chosenPicture: UIImage?
     @Published var sellerIsAnonymous = false
