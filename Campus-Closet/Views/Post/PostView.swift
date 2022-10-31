@@ -64,7 +64,7 @@ struct ChoosePicture: View {
                 Text(chosenPicture == nil ? "Choose a Picture" : "Change Picture")
                     .frame(minWidth: 0, maxWidth: .infinity)
             }
-            .buttonStyle(Styles.PinkButton())
+            .buttonStyle(Styles.PinkTextButton())
             
             if chosenPicture != nil {
                 NavigationLink(destination: BasicInfo(presentationMode: presentationMode), isActive: $presentInfoScreen) {

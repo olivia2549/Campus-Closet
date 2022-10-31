@@ -44,7 +44,7 @@ struct EditProfile: View {
                 .buttonStyle(Styles.PinkButton())
             
             Button("Delete account", action: { viewModel.deleteAccount() })
-                .buttonStyle(Styles.PinkButton())
+                .buttonStyle(Styles.PinkTextButton())
             
             Spacer()
         }
