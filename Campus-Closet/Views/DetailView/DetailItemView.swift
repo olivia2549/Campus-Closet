@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct DetailItemView: View {
     @EnvironmentObject private var viewModel: ItemVM
@@ -19,16 +20,18 @@ struct DetailItemView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .padding(10)
                     .overlay(alignment: .topTrailing){
-                        Button(action: {
-                            print("Add to favorites")
-                        }){
-                            Image(systemName: "heart")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30)
-                                .foregroundStyle(Color("Dark Pink"))
-                            
-                        }.offset(x: -18, y: 20)
+                        if !viewModel.isSeller {
+                            Button(action: {
+                                print("Add to favorites")
+                            }){
+                                Image(systemName: "heart")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 30)
+                                    .foregroundStyle(Color("Dark Pink"))
+                                
+                            }.offset(x: -18, y: 20)
+                        }
                     }
             }
             VStack{

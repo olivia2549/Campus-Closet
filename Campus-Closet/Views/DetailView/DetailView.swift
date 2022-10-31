@@ -6,6 +6,13 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+
+@MainActor protocol ItemInfoVM: ObservableObject {
+    var item: Item { get set }
+    var isEditing: Bool { get set }
+    func postItem()
+}
 
 struct DetailView: View {
     @StateObject private var viewModel = ItemVM()
@@ -24,27 +31,35 @@ struct DetailView: View {
                     DetailDescription()
                     Spacer()
                     
-                    Divider()
-                        .frame(height: 1)
-                        .overlay(Color("Dark Gray"))
-                    
-                    SellerInfo()
-                    
-                    Button(action: {
-                        print("Place Bid")
-                    }){
-                        Text("Place Bid")
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .font(.system(size: 18))
-                            .padding()
-                            .foregroundColor(.white)
-                            .overlay (
-                                RoundedRectangle(cornerRadius: 25)
-                                    .stroke(Color.white, lineWidth:15)
-                            )
+                    if !viewModel.isSeller {
+                        Divider()
+                            .frame(height: 1)
+                            .overlay(Color("Dark Gray"))
+                        
+                        SellerInfo()
+                        
+                        Button(action: {
+                            print("Place Bid")
+                        }){
+                            Text("Place Bid")
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .font(.system(size: 18))
+                                .padding()
+                                .foregroundColor(.white)
+                                .overlay (
+                                    RoundedRectangle(cornerRadius: 25)
+                                        .stroke(Color.white, lineWidth:15)
+                                )
+                        }
+                        .background(Color("Dark Pink"))
+                        .cornerRadius(25)
                     }
-                    .background(Color("Dark Pink"))
-                    .cornerRadius(25)
+                    else {
+                        NavigationLink(destination: EditItem().environmentObject(viewModel)) {
+                            Text("Edit Item")
+                        }
+                        .buttonStyle(Styles.PinkButton())
+                    }
                 }
             }
             .environmentObject(viewModel)
@@ -56,8 +71,6 @@ struct DetailView: View {
         }
     }
 }
-
-
 
 //struct DetailView_Previews: PreviewProvider {
 //    static var previews: some View {

@@ -72,7 +72,7 @@ struct ChoosePicture: View {
             .buttonStyle(Styles.PinkTextButton())
             
             if chosenPicture != nil {
-                NavigationLink(destination: BasicInfo(presentationMode: presentationMode), isActive: $presentInfoScreen) {
+                NavigationLink(destination: BasicInfo<PostVM>(presentationMode: presentationMode), isActive: $presentInfoScreen) {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
                         .onTapGesture {
@@ -89,8 +89,8 @@ struct ChoosePicture: View {
     }
 }
 
-struct BasicInfo: View {
-    @EnvironmentObject private var viewModel: PostVM
+struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
+    @EnvironmentObject private var viewModel: ViewModel
     var presentationMode: Binding<PresentationMode>
     
     init(presentationMode: Binding<PresentationMode>) {
@@ -135,11 +135,23 @@ struct BasicInfo: View {
                 
             }
             
-            NavigationLink(destination: OptionalInfo(prevPresentationMode: presentationMode)) {
-                Text("Next")
-                    .frame(maxWidth: .infinity, alignment: .center)
+            if viewModel.isEditing {
+                Button(action: {
+                    viewModel.postItem()
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Done")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .buttonStyle(Styles.PinkButton())
             }
-            .buttonStyle(Styles.PinkButton())
+            else {
+                NavigationLink(destination: OptionalInfo(prevPresentationMode: presentationMode)) {
+                    Text("Next")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .buttonStyle(Styles.PinkButton())
+            }
             
             Spacer()
         }
