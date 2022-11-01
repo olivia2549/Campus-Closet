@@ -154,11 +154,17 @@ struct DetailDescription: View{
     @EnvironmentObject private var viewModel: ItemVM
     var body: some View {
         VStack(alignment: .leading) {
+            Text(viewModel.item.condition ?? "")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(Styles().themePink)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Spacer()
+            
             Text("Details")
                 .underline()
                 .font(.system(size: 18))
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Text(viewModel.item.description ?? "")
+            Text(viewModel.item.description)
             Spacer()
         }
         .padding()

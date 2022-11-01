@@ -1,9 +1,10 @@
 //
-//  Message.swift
+//  MessageModel.swift
 //  Campus-Closet
 //
 //  Created by Hilly Yehoshua on 10/23/22.
 //
+
 import Foundation
 
 struct Message: Identifiable, Codable{
