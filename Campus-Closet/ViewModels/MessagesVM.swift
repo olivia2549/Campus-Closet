@@ -50,7 +50,7 @@ class MessagesVM: ObservableObject {
     func sendMessage (text: String){
         do{
             let newMessage = Message (id: "\(UUID())", text: text, received: false, timestamp: Date())
-            try db.collection("Messages").document().setData(from: newMessage)
+            try db.collection("Messages").document(newMessage.id).setData(from: newMessage)
 
         }catch{
             print ("Error adding message to Firestore: \(error)")

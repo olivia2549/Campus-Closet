@@ -8,7 +8,7 @@ import SwiftUI
 
 struct ChatView: View {
     var imageUrl = URL(string: "https://cdn.pixabay.com/photo/2017/09/25/13/12/cocker-spaniel-2785074_1280.jpg")
-    var name = "Sarah Smith"
+    var name = "Lauren Scott"
     var body: some View {
         HStack(spacing: 20){
             AsyncImage(url: imageUrl){ image in
@@ -36,6 +36,7 @@ struct ChatView: View {
                 .background(.white)
                 .cornerRadius(50)
         }
+        .navigationBarHidden(true)
         .padding()
     }
 
