@@ -161,13 +161,14 @@ struct DetailDescription: View{
                 .foregroundColor(Styles().themePink)
                 .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
-            
-            Text("Details")
-                .underline()
-                .font(.system(size: 18))
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(viewModel.item.description)
-            Spacer()
+            if (viewModel.item.description == ""){}
+            else{Text("Details")
+                    .underline()
+                    .font(.system(size: 18))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text(viewModel.item.description)
+                Spacer()
+            }
         }
         .padding()
     }
