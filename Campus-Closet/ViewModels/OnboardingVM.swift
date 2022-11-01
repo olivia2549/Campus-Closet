@@ -86,61 +86,20 @@ import FirebaseStorage
         }
     }
     
-    func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
-        return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
-    }
-    
-    func uploadPicture(chosenPicture: UIImage?) -> String {
-        if chosenPicture == nil {
-            return user.picture
-        }
-        
-        let storageRef = Storage.storage().reference()
-        let pictureData = chosenPicture!.pngData()
-        var picturePath: String = "user-pictures/\(UUID().uuidString).png"
-        
-        if pictureData != nil {
-            let pictureRef = storageRef.child(picturePath)
-            
-            let upload = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
-                if error != nil || metadata == nil {
-                    picturePath = ""
-                }
-            }
-        }
-        
-        return picturePath
-    }
-    
-    func updateUser(chosenPicture: UIImage?) {
-        let newPicturePath = uploadPicture(chosenPicture: chosenPicture)
-        
-        let db = Firestore.firestore()
-        if let userId = Auth.auth().currentUser?.uid {
-            print("id: \(userId)")
-            db.collection("users").document(userId).setData([
-                "name": user.name,
-                "picture": newPicturePath,
-                "venmo": user.venmo
-            ], merge: true) { err in
-                if let error = err {
-                    print("There was an issue saving data to Firestore, \(error).")
-                } else {
-                    print("Successfully saved data.")
-                }
-            }
-        }
-    }
-    
     func deleteAccount() {
-        let user = Auth.auth().currentUser
-
-        user?.delete { error in
-          if let error = error {
-            print("error \(error)")
-          } else {
-            print("successfully deleted.")
-          }
+        if let user = Auth.auth().currentUser {
+            user.delete { error in
+              if let error = error {
+                print("error \(error)")
+              } else {
+                print("successfully deleted.")
+              }
+            }
+        }
+                
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController = UIHostingController(rootView: LogInView())
+            window.makeKeyAndVisible()
         }
     }
     

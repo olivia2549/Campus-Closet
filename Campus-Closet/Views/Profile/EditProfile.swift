@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct EditProfile: View {
-    @StateObject private var viewModel = OnboardingVM()
+    @StateObject private var onboardingVM = OnboardingVM()
+    @EnvironmentObject private var profileVM: ProfileVM
     @State var chosenPicture: UIImage?
     @State var pickerShowing = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -25,9 +26,9 @@ struct EditProfile: View {
                 for: "Name",
                 imageName: "person",
                 autocapitalization: .words,
-                input: $viewModel.user.name
+                input: $profileVM.user.name
             ) {
-                viewModel.updateUser(chosenPicture: chosenPicture)
+                profileVM.updateUser(chosenPicture: chosenPicture)
             }
             .padding(.top)
             
@@ -35,18 +36,18 @@ struct EditProfile: View {
                 for: "Venmo",
                 imageName: "v.circle",
                 autocapitalization: .never,
-                input: $viewModel.user.venmo
+                input: $profileVM.user.venmo
             ) {
-                viewModel.updateUser(chosenPicture: chosenPicture)
+                profileVM.updateUser(chosenPicture: chosenPicture)
             }
             
             Button("Done", action: {
-                viewModel.updateUser(chosenPicture: chosenPicture)
+                profileVM.updateUser(chosenPicture: chosenPicture)
                 self.presentationMode.wrappedValue.dismiss()
             })
                 .buttonStyle(Styles.PinkButton())
             
-            Button("Delete account", action: { viewModel.deleteAccount() })
+            Button("Delete account", action: { onboardingVM.deleteAccount() })
                 .buttonStyle(Styles.PinkTextButton())
             
             Spacer()
@@ -64,14 +65,14 @@ struct EditProfile: View {
             }
         }
         .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
-            viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
+            profileVM.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
         })
-        .environmentObject(viewModel)
+        .environmentObject(profileVM)
     }
 }
 
 struct NewProfileImage: View {
-    @EnvironmentObject private var viewModel: OnboardingVM
+    @EnvironmentObject private var viewModel: ProfileVM
     @Binding var chosenPicture: UIImage?
     
     var body: some View {
@@ -93,7 +94,7 @@ struct NewProfileImage: View {
 }
 
 struct CameraIcon: View {
-    @EnvironmentObject private var viewModel: OnboardingVM
+    @EnvironmentObject private var viewModel: ProfileVM
     @Binding var pickerShowing: Bool
     
     var body: some View {

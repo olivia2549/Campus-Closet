@@ -20,6 +20,7 @@ struct MessageField: View {
             Button {
                 messagesVM.sendMessage(text: message)
                 message = ""
+                hideKeyboard()
                 } label: {
                     Image(systemName: "paperplane.fill")
                         .foregroundColor(.white)
