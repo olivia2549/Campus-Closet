@@ -34,18 +34,29 @@ import Foundation
                 var itemIdsCol1: [String] = []
                 var itemIdsCol2: [String] = []
                 var col1 = true
-                var hasAllTags = true
+                var shouldShow = true
                 
                 for document in querySnapshot!.documents {
-                    let itemTags = document.get("tags") as? [String]
+                    let itemTags = document.get("tags") as! [String]
+                    print("tags: \(itemTags)")
                     for tag in self.tagsLeft {
-                        if tag.value == 0 && !itemTags!.contains(where: {$0 == tag.key}) {
-                            hasAllTags = false
-                            break
+                        print("value: \(tag.value), key: \(tag.key)")
+                        if tag.value == 0 {
+                            if !itemTags.contains(where: {$0 == tag.key}) {
+                                print("don't show, key: \(tag.key)")
+                                shouldShow = false
+                                break
+                            }
+                            else {
+                                print("should show")
+                                col1 ? itemIdsCol1.append(document.documentID) :
+                                    itemIdsCol2.append(document.documentID)
+                                col1.toggle()
+                            }
                         }
                     }
-                    
-                    if hasAllTags {
+                    if shouldShow {
+                        print("should show")
                         col1 ? itemIdsCol1.append(document.documentID) :
                             itemIdsCol2.append(document.documentID)
                         col1.toggle()
