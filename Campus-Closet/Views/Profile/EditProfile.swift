@@ -40,7 +40,10 @@ struct EditProfile: View {
                 viewModel.updateUser(chosenPicture: chosenPicture)
             }
             
-            Button("Done", action: { viewModel.updateUser(chosenPicture: chosenPicture) })
+            Button("Done", action: {
+                viewModel.updateUser(chosenPicture: chosenPicture)
+                self.presentationMode.wrappedValue.dismiss()
+            })
                 .buttonStyle(Styles.PinkButton())
             
             Button("Delete account", action: { viewModel.deleteAccount() })

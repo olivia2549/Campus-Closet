@@ -13,8 +13,12 @@ struct Column: Identifiable {
     var items = [ItemCardView]()
 }
 
-struct Masonry: View {
-    @EnvironmentObject private var viewModel: ContentVM
+@MainActor protocol RenderContentVM: ObservableObject {
+    var sortedColumns: [[String]] { get set }
+}
+
+struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
+    @EnvironmentObject private var viewModel: ViewModel
     let vertSpacing: CGFloat = 25
     let horizSpacing: CGFloat = 10
     
@@ -32,8 +36,8 @@ struct Masonry: View {
     }
 }
 
-struct Masonry_Previews: PreviewProvider {
-    static var previews: some View {
-        Masonry()
-    }
-}
+//struct Masonry_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Masonry()
+//    }
+//}

@@ -64,8 +64,10 @@ struct DetailView: View {
                     else {
                         NavigationLink(destination: EditItem().environmentObject(itemViewModel)) {
                             Text("Edit Item")
+                                .frame(maxWidth: .infinity, alignment: .center)
                         }
                         .buttonStyle(Styles.PinkButton())
+                        .padding()
                     }
                 }
             }

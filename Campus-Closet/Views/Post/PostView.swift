@@ -196,7 +196,10 @@ struct OptionalInfo: View {
             Toggle("Make Post Anonymous", isOn: $viewModel.sellerIsAnonymous)
                 .padding(.trailing, 200)
             
-            Button(action: {viewModel.postItem()}) {
+            Button(action: {
+                viewModel.postItem()
+                self.prevPresentationMode.wrappedValue.dismiss()
+            }) {
                 Text("Post Item!")
                     .frame(maxWidth: .infinity, alignment: .center)
             }

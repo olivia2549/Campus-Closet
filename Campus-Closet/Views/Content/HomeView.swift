@@ -45,7 +45,7 @@ struct HomeView: View {
                 .padding()
                 
                 ScrollView {
-                    Masonry()
+                    Masonry<ContentVM>()
                 }
             }
             .navigationBarBackButtonHidden(true)
