@@ -13,6 +13,7 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
+                // Header
                 HStack {
                     Image("logo")
                         .resizable()
@@ -32,6 +33,7 @@ struct HomeView: View {
                 .padding(.leading)
                 .padding(.trailing)
                 
+                // Filter items
                 VStack(alignment: .leading) {
                     HStack {
                         Text("Filter By")
@@ -44,6 +46,7 @@ struct HomeView: View {
                 }
                 .padding()
                 
+                // View items for sale in 2 Masonry-style columns
                 ScrollView {
                     Masonry<ContentVM>()
                 }

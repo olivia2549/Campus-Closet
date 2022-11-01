@@ -51,6 +51,7 @@ struct EditProfile: View {
             
             Spacer()
         }
+        .navigationBarBackButtonHidden(true)
         .onTapGesture { hideKeyboard() }
         .padding()
         .toolbar {
@@ -65,7 +66,6 @@ struct EditProfile: View {
         .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
             viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
         })
-        .navigationBarBackButtonHidden(true)
         .environmentObject(viewModel)
     }
 }

@@ -25,18 +25,9 @@ struct Styles {
                     Image(systemName: "chevron.backward")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 12)
+                        .frame(width: 20, height: 20)
                         .padding(20)
                         .foregroundColor(.black)
-//                    Circle()
-//                        .strokeBorder()
-//                        .frame(width: 40, height: 40)
-//                        .foregroundColor(.gray)
-//                    Image(systemName: "arrow.backward")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 15, height: 15)
-//                        .foregroundColor(.black)
                 }
             }
         }

@@ -164,7 +164,13 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
             
             Spacer()
         }
+        .navigationBarBackButtonHidden(true)
         .padding()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Styles.BackButton(presentationMode: self.presentationMode)
+            }
+        }
     }
     
 }

@@ -19,6 +19,7 @@ import FirebaseStorage
     @Published var isSeller = false
     private var db = Firestore.firestore()
     
+    // Find an item in the database with a particular id
     func fetchItem(with id: String) {
         print("fetching: ", id)
         db.collection("items")
@@ -48,6 +49,7 @@ import FirebaseStorage
             }
     }
     
+    // Update an item (after editing)
     func postItem() {
         let db = Firestore.firestore()
         db.collection("items").document(item.id).updateData([

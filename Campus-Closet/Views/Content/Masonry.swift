@@ -30,9 +30,3 @@ struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
         .padding(horizSpacing)
     }
 }
-
-//struct Masonry_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Masonry()
-//    }
-//}

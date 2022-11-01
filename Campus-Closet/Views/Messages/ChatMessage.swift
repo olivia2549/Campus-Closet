@@ -36,6 +36,7 @@ struct Chat_Message: View {
             MessageField()
                 .environmentObject(messagesVM)
         }
+        .onTapGesture { hideKeyboard() }
     }
 }
 

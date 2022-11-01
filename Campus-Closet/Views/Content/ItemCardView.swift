@@ -9,29 +9,31 @@ import SwiftUI
 
 struct ItemCardView: View, Identifiable {
     @StateObject private var viewModel = ItemVM()
+    
     var id: String
     init(for id: String) {
         print("rendering", id)
         self.id = id
     }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
+            // Clickable image card
             NavigationLink (destination: DetailView(for: id)){
-                if (viewModel.itemImage != nil) {
+                if (viewModel.itemImage != nil) {   // render item image
                     Image(uiImage: viewModel.itemImage!)
                         .resizable()
-                        .frame(width: 175, height: 175, alignment: .center)
                         .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
+                        .clipShape(RoundedRectangle(cornerRadius: 25))
                 }
-                else {
-                    Image("blank-profile")
-                        .resizable()
-                        .frame(width: 175, height: 175, alignment: .center)
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
+                else {  // no image found
+                    Color("LightGrey")
+                        .frame(width: 175, height: 200, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: 25))
                 }
             }
+            
+            // Information under the image (title, size, and price)
             HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading) {
                     Text(viewModel.item.title)
@@ -57,9 +59,3 @@ struct ItemCardView: View, Identifiable {
         }
     }
 }
-
-//struct ItemCardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ItemCardView(for: "sweater_preview")
-//    }
-//}

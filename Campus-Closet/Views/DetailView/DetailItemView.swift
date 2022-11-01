@@ -56,9 +56,3 @@ struct DetailItemView: View {
     }
     
 }
-
-//struct DetailItemView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DetailItemView(for: "sweater_preview")
-//    }
-//}
