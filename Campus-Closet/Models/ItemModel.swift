@@ -15,9 +15,9 @@ struct Item: Codable {
     var sellerId: String = ""
     var price: String = ""
     var size: String = ""
+    var condition: String = ""
     var biddingEnabled: Bool = true
     var tags: [String]? = []
-    var condition: String? = ""
 }
 
 extension Item: Identifiable {

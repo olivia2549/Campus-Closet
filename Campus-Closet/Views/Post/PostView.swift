@@ -127,6 +127,15 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
             }
             
             CustomInput(
+                for: "Condition*",
+                imageName: "clock",
+                autocapitalization: .never,
+                input: $viewModel.item.condition
+            ) {
+                
+            }
+            
+            CustomInput(
                 for: "Description",
                 imageName: "pencil",
                 autocapitalization: .sentences,
