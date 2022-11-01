@@ -38,7 +38,7 @@ struct ItemCardView: View, Identifiable {
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.black)
                         .frame(maxWidth: 250, alignment: .leading)
-                    Text("Size: \(viewModel.item.size ?? "")")
+                    Text("Size: \(viewModel.item.size)")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.black)
                         .frame(maxWidth: 200, alignment: .leading)

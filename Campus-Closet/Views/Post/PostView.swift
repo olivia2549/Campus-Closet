@@ -51,7 +51,7 @@ struct ChoosePicture: View {
     
     var body: some View {
         VStack {
-            if $chosenPicture != nil {
+            if chosenPicture != nil {
                 Image(uiImage: chosenPicture!)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -65,7 +65,7 @@ struct ChoosePicture: View {
                     .resizable()
                     .frame(width: 80, height:100, alignment: .center)
                 
-                Text($chosenPicture == nil ? "Choose a Picture" : "Change Picture")
+                Text(chosenPicture == nil ? "Choose a Picture" : "Change Picture")
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .font(Font.system(size: chosenPicture == nil ? 20 : 16, weight: .semibold))
             }

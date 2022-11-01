@@ -140,7 +140,7 @@ struct ProfileInfo: View {
                 Text("|")
                 Image(systemName: "dollarsign.circle")
                     .foregroundColor(Styles().themePink)
-                Text(viewModel.user.venmo ?? "")
+                Text(viewModel.user.venmo)
             }
         }
         .ignoresSafeArea()
