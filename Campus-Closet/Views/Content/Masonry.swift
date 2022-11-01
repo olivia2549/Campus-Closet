@@ -8,11 +8,6 @@
 import SwiftUI
 import UIKit
 
-struct Column: Identifiable {
-    let id = UUID()
-    var items = [ItemCardView]()
-}
-
 @MainActor protocol RenderContentVM: ObservableObject {
     var sortedColumns: [[String]] { get set }
 }

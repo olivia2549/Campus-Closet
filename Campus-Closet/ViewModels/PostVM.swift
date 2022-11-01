@@ -35,20 +35,25 @@ import FirebaseStorage
     
     func uploadPicture() -> String {
         let storageRef = Storage.storage().reference()
-        let pictureData = chosenPicture!.pngData()
-        var picturePath: String = "item-pictures/\(UUID().uuidString).png"
-        
-        if pictureData != nil {
-            let pictureRef = storageRef.child(picturePath)
+        if let chosenPicture = self.chosenPicture {
+            let pictureData = chosenPicture.jpegData(compressionQuality: 0)
+            var picturePath: String = "item-pictures/\(UUID().uuidString).jpeg"
             
-            let upload = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
-                if error != nil || metadata == nil {
-                    picturePath = ""
+            if pictureData != nil {
+                let pictureRef = storageRef.child(picturePath)
+                
+                let upload = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
+                    if error != nil || metadata == nil {
+                        picturePath = ""
+                    }
                 }
             }
+            return picturePath
+        }
+        else {
+            return ""
         }
         
-        return picturePath
     }
     
     func postItem() {

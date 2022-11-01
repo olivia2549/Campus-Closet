@@ -36,7 +36,9 @@ import FirebaseStorage
                             print(err)
                         } else if data != nil {
                             if let picture = UIImage(data: data!) {
-                                self.itemImage = picture
+                                DispatchQueue.main.async {
+                                    self.itemImage = picture
+                                }
                             }
                         }
                     }

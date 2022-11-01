@@ -49,11 +49,11 @@ struct ItemCardView: View, Identifiable {
                     .foregroundColor(Styles().themePink)
                     .frame(maxWidth: 100, alignment: .trailing)
             }
+            .onAppear {
+                viewModel.fetchItem(with: id)
+            }
             .padding(.leading)
             .padding(.trailing)
-        }
-        .onAppear {
-            viewModel.fetchItem(with: id)
         }
     }
 }
