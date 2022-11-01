@@ -44,12 +44,8 @@ struct Styles {
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 ZStack(alignment: .center) {
-                    Circle()
-                        .strokeBorder()
+                    Image(systemName: "xmark")
                         .frame(width: 40, height: 40)
-                        .foregroundColor(.gray)
-                    Text("x")
-                        .font(.system(size: 20, weight: .light))
                         .foregroundColor(.black)
                 }
             }
