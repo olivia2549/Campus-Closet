@@ -156,11 +156,17 @@ struct DetailDescription: View{
     @EnvironmentObject private var viewModel: ItemVM
     var body: some View {
         VStack(alignment: .leading) {
+            Text(viewModel.item.condition)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(Styles().themePink)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Spacer()
+            
             Text("Details")
                 .underline()
                 .font(.system(size: 18))
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Text(viewModel.item.description ?? "")
+            Text(viewModel.item.description)
             Spacer()
         }
         .padding()
@@ -194,7 +200,7 @@ struct SellerInfo: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 15, height: 15)
                             .foregroundColor(Color("Dark Pink"))
-                        Text ("4.8 (12 Reviews)")
+                        Text ("\(String(format: "%.2f", viewModel.averageRating)) (\(viewModel.numRatings) Reviews)")
                             .font(.system(size: 12))
                     }
                 }

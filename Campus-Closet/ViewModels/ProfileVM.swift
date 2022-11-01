@@ -16,6 +16,8 @@ import FirebaseFirestoreSwift
 
 @MainActor class ProfileVM: ObservableObject, RenderContentVM {
     @Published var user = User()
+    @Published var numRatings = 0
+    @Published var averageRating = 0.0
     @Published var profilePicture: UIImage?
     @Published var sortedColumns: [[String]] = []
     let db = Firestore.firestore()
@@ -31,8 +33,10 @@ import FirebaseFirestoreSwift
         profileRef.getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
-                print("User: \(user)")
                 self.user = user
+                self.numRatings = user.ratings!.count
+                self.averageRating = user.ratings!.count == 0 ? 0 : Double(user.ratings!.reduce(0, +)) / Double(user.ratings!.count)
+                
                 let pictureRef = Storage.storage().reference(withPath: self.user.picture)
                 // Download profile picture with max size of 30MB.
                 pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in

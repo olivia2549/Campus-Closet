@@ -11,5 +11,6 @@ struct User: Codable {
     var name: String = ""
     var picture: String = ""
     var venmo: String = ""
-    var listings: [String]? = []   // ids of items
+    var listings: [String]? = [] // IDs of items posted by user
+    var ratings: [Int]? = []
 }
