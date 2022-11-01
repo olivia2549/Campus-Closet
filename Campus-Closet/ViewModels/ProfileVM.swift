@@ -14,10 +14,12 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseFirestoreSwift
 
-@MainActor class ProfileVM: ObservableObject {
+@MainActor class ProfileVM: ObservableObject, RenderContentVM {
     @Published var user = User()
     @Published var profilePicture: UIImage?
+    @Published var sortedColumns: [[String]] = []
     let db = Firestore.firestore()
+    let maxHeight = UIScreen.main.bounds.height / 2.5
     
     func getProfileData() {
         fetchUser(userID: Auth.auth().currentUser!.uid)
@@ -42,9 +44,21 @@ import FirebaseFirestoreSwift
                         }
                     }
                 }
+                self.sortedColumns = []
+                var itemIdsCol1: [String] = []
+                var itemIdsCol2: [String] = []
+                var col1 = true
+                user.listings?.forEach({ listing in
+                    col1 ? itemIdsCol1.append(listing) :
+                        itemIdsCol2.append(listing)
+                    col1.toggle()
+                })
+                self.sortedColumns.append(itemIdsCol1)
+                self.sortedColumns.append(itemIdsCol2)
             case .failure(let error):
                 print("Error decoding user: \(error)")
             }
         }
     }
+    
 }

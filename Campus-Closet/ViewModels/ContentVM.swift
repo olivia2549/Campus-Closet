@@ -9,9 +9,9 @@ import Firebase
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
-
 import Foundation
-@MainActor class ContentVM: ObservableObject, HandlesTagsVM {
+
+@MainActor class ContentVM: ObservableObject, HandlesTagsVM, RenderContentVM {
     private var db = Firestore.firestore()
     @Published var sortedColumns: [[String]] = []
     @Published var tags: [String] = []
