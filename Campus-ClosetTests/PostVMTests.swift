@@ -6,11 +6,16 @@
 //
 
 import XCTest
+import SwiftUI
+import Firebase
+import FirebaseCore
+import FirebaseAuth
+import FirebaseFirestore
+import FirebaseStorage
 @testable import Campus_Closet
 
 class PostVMTests : XCTestCase {
     
-    var sut: PostVM!
     override func setUp() {
         super.setUp()
     }
@@ -19,47 +24,89 @@ class PostVMTests : XCTestCase {
         super.tearDown()
     }
     
-    
-    func testCreation() {
-        var item = Item()
-        XCTAssertNotNil(sut, "The item view should not be nil.")
+    let db = Firestore.firestore()
+    @MainActor func testCreation() {
+        let postVM = PostVM()
+        let item = Item()
+        XCTAssertNotNil(postVM, "The item view should not be nil.")
         XCTAssertNotNil(item._id, "The item should have an id")
         
     }
     
-    func testUploadPicture(){
+    @MainActor func testUploadPicture(){
+        let postVM = PostVM()
+        XCTAssertNoThrow(postVM.uploadPicture(), "This call should not throw an exception")
+        
+        //TO DO:
         //test that picture successfully uploads
         //test that when picture size > max size, the proper error is thrown
         //test that when picture size < max size, program continues as normal
     }
     
+    @MainActor func testPreconditions(){
+        let postVM = PostVM()
+        XCTAssertEqual(postVM.tags.count, 0, "There should be no tags")
+        XCTAssertFalse(postVM.isEditing, "isEditing flag should be false")
+        XCTAssertFalse(postVM.sellerIsAnonymous, "sellerIsAnonymous flag should be false")
+        XCTAssertNotNil(postVM.item._id, "item in ItemVM should not be nil")
+        for tag in postVM.tagsLeft {
+            XCTAssertEqual(tag.value, 1, "No tags should be added")
+        }
+    }
+    
+    @MainActor func testPostConditions(){
+        //after postItem is called, no preconditions should be changed
+        let postVM = PostVM()
+        XCTAssertEqual(postVM.tags.count, 0, "There should be no tags")
+        XCTAssertFalse(postVM.isEditing, "isEditing flag should be false")
+        XCTAssertFalse(postVM.sellerIsAnonymous, "sellerIsAnonymous flag should be false")
+        XCTAssertNotNil(postVM.item._id, "item in ItemVM should not be nil")
+        for tag in postVM.tagsLeft {
+            XCTAssertEqual(tag.value, 1, "No tags should be added")
+        }
+        postVM.postItem()
+        XCTAssertEqual(postVM.tags.count, 0, "There should be no tags")
+        XCTAssertFalse(postVM.isEditing, "isEditing flag should be false")
+        XCTAssertFalse(postVM.sellerIsAnonymous, "sellerIsAnonymous flag should be false")
+        XCTAssertNotNil(postVM.item._id, "item in ItemVM should not be nil")
+        for tag in postVM.tagsLeft {
+            XCTAssertEqual(tag.value, 1, "No tags should be added")
+        }
+    }
+    
+    //test in the process of being resolved
     @MainActor func testPostItem(){
-        var user = User()
-        user.name = "Test User"
-        sut.postItem()
-        XCTAssertNotEqual(user.listings?.count, 0, "User should have at least one listing")
-        //XCTAssertEqual(user.listings[0], "the id of the item just posted")
+        let postVM = PostVM()
+        postVM.postItem()
+        //let user = User()
+        //let profileRef = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
+        //need some sort of call to Auth.auth().currentUser?.uid to get user and test if
+        //they have an added listing
+        //XCTAssertNotEqual(user.listings?.count, 0, "User should have at least one listing")
+        //XCTAssertEqual(user.listings[listings.count - 1], "the id of the item just posted")
         
     }
     
     @MainActor func testAddRemoveTag(){
-        for tag in sut.tagsLeft {
+        let postVM = PostVM()
+        for tag in postVM.tagsLeft {
             XCTAssertEqual(tag.value, 1, "No tags should be added yet")
         }
-        sut.addTag(for: "womens")
-        XCTAssertEqual(sut.tagsLeft["womens"], 0, "womens tag should be 0")
-        for tag in sut.tagsLeft {
+        postVM.addTag(for: "womens")
+        XCTAssertEqual(postVM.tagsLeft["womens"], 0, "womens tag should be 0")
+        for tag in postVM.tagsLeft {
             if(tag.key != "womens"){
                 XCTAssertEqual(tag.value, 1, "No tags besides womens should be 0")
             }
         }
         
-        sut.removeTag(for: "womens")
-        XCTAssertEqual(sut.tagsLeft["womens"], 1, "womens tag should be 1")
-        for tag in sut.tagsLeft {
+        postVM.removeTag(for: "womens")
+        XCTAssertEqual(postVM.tagsLeft["womens"], 1, "womens tag should be 1")
+        for tag in postVM.tagsLeft {
             XCTAssertEqual(tag.value, 1, "No tags should be 0 now that womens tag removed")
         }
     }
+
     
     
 
