@@ -15,13 +15,32 @@ struct BidFavView: View {
     let maxHeight = UIScreen.main.bounds.height / 2.5
     var body: some View {
         VStack (alignment: .center, spacing: 10){
-            HeaderDetail()
+            HStack {
+                Image("logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100, height: 50, alignment: .leading)
+                Spacer()
+                Image(systemName: "heart")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25)
+                    .padding(7)
+                Image(systemName: "bell")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25)
+            }
+            .zIndex(1)
+            .padding(.leading)
+            .padding(.trailing)
+            //HeaderDetailBid()
                 //.frame(height: maxHeight)
-                .zIndex(1)
+                //.zIndex(1)
                 
             SlidingTabView(
                 selection: $tabIndex,
-                tabs: ["Listed", "Sold", "Purchased"],
+                tabs: ["Favorites", "Bids"],
                 font: .system(size: 20, weight: .medium),
                 animation: .easeInOut,
                 activeAccentColor: Styles().themePink,
@@ -76,4 +95,34 @@ struct ToggleView2: View {
         return offset < maxHeight ? (80 - offset) : (maxHeight - offset)
     }
     
+}
+
+struct HeaderDetailBid: View{
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    var body: some View{
+        VStack(spacing: 0) {
+            HStack {
+                Styles.BackButton(presentationMode: self.presentationMode)
+                Spacer()
+                Spacer().frame(maxWidth: 10)
+                Image("logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100, height: 50, alignment: .leading)
+                Spacer()
+                Image(systemName: "heart")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25)
+                    .padding(7)
+                Image(systemName: "bell")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25)
+            }
+            .padding(.leading)
+            .padding(.trailing)
+        }
+    }
 }
