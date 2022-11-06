@@ -32,18 +32,17 @@ struct ContentView: View {
                     }
                 }
                 .tag(0)
-            SearchView()
+            Chat_Message()
                 .tabItem {
-                    if (selection == 1) {
-                        let imageConfig = UIImage(systemName: "magnifyingglass", withConfiguration: UIImage.SymbolConfiguration(weight: .black))!
-                        Image(uiImage: imageConfig)
+                    if (selection == 3) {
+                        Image(systemName: "message.fill")
                     }
                     else {
-                        Image(systemName: "magnifyingglass")
-                        .environment(\.symbolVariants, .none)
+                        Image(systemName: "message")
+                            .environment(\.symbolVariants, .none)
                     }
                 }
-                .tag(1)
+                .tag(3)
             Text("")
                 .fullScreenCover(
                     isPresented: $addPostPresented,
@@ -65,17 +64,19 @@ struct ContentView: View {
                     }
                 }
                 .tag(2)
-            Chat_Message()
+
+            BidFavView()
                 .tabItem {
-                    if (selection == 3) {
-                        Image(systemName: "message.fill")
+                    if (selection == 1) {
+                        let imageConfig = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .black))!
+                        Image(uiImage: imageConfig)
                     }
                     else {
-                        Image(systemName: "message")
-                            .environment(\.symbolVariants, .none)
+                        Image(systemName: "cart")
+                        .environment(\.symbolVariants, .none)
                     }
                 }
-                .tag(3)
+                .tag(1)
             ProfileView()
                 .tabItem {
                     if (selection == 4) {
