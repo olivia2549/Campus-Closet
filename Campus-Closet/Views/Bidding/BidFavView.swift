@@ -15,28 +15,11 @@ struct BidFavView: View {
     let maxHeight = UIScreen.main.bounds.height / 2.5
     var body: some View {
         VStack (alignment: .center, spacing: 10){
-            HStack {
-                Image("logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 50, alignment: .leading)
-                Spacer()
-                Image(systemName: "heart")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25)
-                    .padding(7)
-                Image(systemName: "bell")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25)
-            }
-            .zIndex(1)
-            .padding(.leading)
-            .padding(.trailing)
-            //HeaderDetailBid()
-                //.frame(height: maxHeight)
-                //.zIndex(1)
+            HeaderDetailBid()
+                .zIndex(1)
+                .padding(.leading)
+                .padding(.trailing)
+            
                 
             SlidingTabView(
                 selection: $tabIndex,
@@ -81,6 +64,7 @@ struct ToggleView2: View {
             .modifier(OffsetModifier(offset: $offset))
             .zIndex(1)
             if (tabIndex == 0) {
+                
                 //Text("hello")
 //                Masonry<ProfileVM>()
 //                    .zIndex(0)
@@ -98,31 +82,23 @@ struct ToggleView2: View {
 }
 
 struct HeaderDetailBid: View{
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+   
     var body: some View{
-        VStack(spacing: 0) {
-            HStack {
-                Styles.BackButton(presentationMode: self.presentationMode)
-                Spacer()
-                Spacer().frame(maxWidth: 10)
-                Image("logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 50, alignment: .leading)
-                Spacer()
-                Image(systemName: "heart")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25)
-                    .padding(7)
-                Image(systemName: "bell")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25)
-            }
-            .padding(.leading)
-            .padding(.trailing)
+        HStack {
+            Image("logo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100, height: 50, alignment: .leading)
+            Spacer()
+            Image(systemName: "heart")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25)
+                .padding(7)
+            Image(systemName: "bell")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25)
         }
     }
 }
