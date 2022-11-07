@@ -45,9 +45,7 @@ struct DetailView: View {
                                 }
                         }
                         
-                        Button(action: {
-                            print("Place Bid")
-                        }){
+                        NavigationLink(destination: BidItem()){
                             Text("Place Bid")
                                 .frame(minWidth: 0, maxWidth: .infinity)
                                 .font(.system(size: 18))
@@ -60,6 +58,23 @@ struct DetailView: View {
                         }
                         .background(Color("Dark Pink"))
                         .cornerRadius(25)
+                        
+                        
+//                        Button(action: {
+//                            print("Place Bid")
+//                        }){
+//                            Text("Place Bid")
+//                                .frame(minWidth: 0, maxWidth: .infinity)
+//                                .font(.system(size: 18))
+//                                .padding()
+//                                .foregroundColor(.white)
+//                                .overlay (
+//                                    RoundedRectangle(cornerRadius: 25)
+//                                        .stroke(Color.white, lineWidth:15)
+//                                )
+//                        }
+//                        .background(Color("Dark Pink"))
+//                        .cornerRadius(25)
                     }
                     else {
                         NavigationLink(destination: EditItem().environmentObject(itemViewModel)) {
