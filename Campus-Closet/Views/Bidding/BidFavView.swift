@@ -32,6 +32,8 @@ struct BidFavView: View {
             )
             Spacer()
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
     }
 }
 
