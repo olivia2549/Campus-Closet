@@ -34,8 +34,8 @@ import FirebaseFirestoreSwift
             switch result {
             case .success(let user):
                 self.user = user
-                self.numRatings = user.ratings!.count
-                self.averageRating = user.ratings!.count == 0 ? 0 : Double(user.ratings!.reduce(0, +)) / Double(user.ratings!.count)
+                self.numRatings = user.ratings == nil ? 0 : user.ratings!.count
+                self.averageRating = self.numRatings == 0 ? 0 : Double(user.ratings!.reduce(0, +)) / Double(user.ratings!.count)
                 
                 let pictureRef = Storage.storage().reference(withPath: self.user.picture)
                 // Download profile picture with max size of 30MB.
