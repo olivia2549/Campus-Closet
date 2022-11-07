@@ -192,15 +192,17 @@ struct OptionalInfo: View {
                 TagsList<PostVM>()
             }
             
+            Text("Promote Vanderbilt creators")
+                .font(.system(size: 20, weight: .semibold))
+            Toggle("Was this item created by a student?", isOn: $viewModel.item.studentCreated)
+            
             Text("Options")
                 .font(.system(size: 20, weight: .semibold))
                 .padding(.top)
             
             Toggle("Allow Bidding", isOn: $viewModel.item.biddingEnabled)
-                .padding(.trailing, 200)
             
             Toggle("Make Post Anonymous", isOn: $viewModel.sellerIsAnonymous)
-                .padding(.trailing, 200)
             
             Button(action: {
                 viewModel.postItem()

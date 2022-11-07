@@ -78,6 +78,7 @@ import FirebaseStorage
             "biddingEnabled": item.biddingEnabled,
             "tags": tags,
             "condition": item.condition,
+            "studentCreated": item.studentCreated,
             "timestamp": Date.now
         ]) { (error) in
             if let e = error {
