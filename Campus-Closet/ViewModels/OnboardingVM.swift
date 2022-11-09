@@ -119,7 +119,7 @@ import FirebaseStorage
         userRef.getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
-                user.listings?.forEach({ listing in
+                user.listings.forEach({ listing in
                     self.deletePost(itemId: listing)
                 })
             case .failure(let error):

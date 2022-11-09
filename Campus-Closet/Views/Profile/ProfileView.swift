@@ -11,6 +11,7 @@ import SlidingTabView
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
     @State var offset: CGFloat = 0
+
     let maxHeight = UIScreen.main.bounds.height / 2.5
     
     var body: some View {
@@ -33,9 +34,16 @@ struct ProfileView: View {
                     .offset(y: -offset)
                     .zIndex(1)
                     
-                    ToggleView(maxHeight: maxHeight)
-                        .padding(.top)
-                        .zIndex(0)
+                    if viewModel.viewingMode == ViewingMode.buyer {
+                        ToggleView(maxHeight: maxHeight, tabs: ["Bids", "Saved"])
+                            .padding(.top)
+                            .zIndex(0)
+                    }
+                    else {
+                        ToggleView(maxHeight: maxHeight, tabs: ["Listings", "Sold"])
+                            .padding(.top)
+                            .zIndex(0)
+                    }
                 }
                 .modifier(OffsetModifier(offset: $offset))
             }
@@ -110,7 +118,7 @@ struct ProfileHeader: View {
 struct ProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
-
+    
     var body: some View {
         VStack {
             if (viewModel.profilePicture != nil) {
@@ -142,11 +150,21 @@ struct ProfileInfo: View {
                     .foregroundColor(Styles().themePink)
                 Text(viewModel.user.venmo)
             }
+            Picker("userType", selection: $viewModel.viewingMode) {
+                Text("Buyer").tag(ViewingMode.buyer)
+                Text("Seller").tag(ViewingMode.seller)
+            }
+            .onReceive(viewModel.$viewingMode, perform: { _ in
+                viewModel.position = Position.first
+                viewModel.getProfileData()
+            })
+            .pickerStyle(.segmented)
         }
         .ignoresSafeArea()
         .frame(maxWidth: .infinity)
         .opacity(getOpacity())
         .background(.white)
+        .padding()
     }
     
     func getOpacity() -> CGFloat {
@@ -159,15 +177,26 @@ struct ProfileInfo: View {
 
 struct ToggleView: View {
     @EnvironmentObject private var viewModel: ProfileVM
-    @State private var tabIndex = 0
     @State var offset: CGFloat = 0
     var maxHeight: CGFloat
+    var tabs: [String]
+    var selection: Binding<Int> {
+        Binding<Int>(
+            get: {
+                viewModel.position.rawValue
+            },
+            set: {
+                viewModel.getProfileData()
+                viewModel.position = Position(rawValue: $0) ?? Position.first
+            }
+        )
+    }
     
     var body: some View {
         VStack {
             SlidingTabView(
-                selection: $tabIndex,
-                tabs: ["Listed", "Sold", "Purchased"],
+                selection: selection,
+                tabs: tabs,
                 font: .system(size: 20, weight: .medium),
                 animation: .easeInOut,
                 activeAccentColor: Styles().themePink,
@@ -178,12 +207,11 @@ struct ToggleView: View {
             .offset(y: getPosition())
             .modifier(OffsetModifier(offset: $offset))
             .zIndex(1)
-            if (tabIndex == 0) {
-                Masonry<ProfileVM>()
-                    .zIndex(0)
-            } else {
-                Text("None yet")
-            }
+            Masonry<ProfileVM>()
+                .zIndex(0)
+        }
+        .onAppear {
+            viewModel.getProfileData()
         }
         .environmentObject(viewModel)
     }
@@ -193,6 +221,8 @@ struct ToggleView: View {
     }
     
 }
+
+
 
 //struct ProfileView_Previews: PreviewProvider {
 //    static var previews: some View {

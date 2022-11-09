@@ -208,17 +208,17 @@
 		C527284E28E8C22B008C1D60 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7D74BD832918709A00133FA5 /* Bidding */,
-				7D4636E5290B2AD200731B84 /* DetailView */,
-				C598DC7B290887860040A0F7 /* Messages */,
-				2E0101EB28F4EC910074F404 /* ErrorView.swift */,
-				C54556BA2904E3CC007CC071 /* SearchView.swift */,
-				C53E8CEA2905C5B30027D538 /* Shared */,
 				C5D69BA6290310E2004FD7C7 /* Onboarding */,
-				C5D69BAB290314D7004FD7C7 /* Profile */,
-				C5D69BAA29031240004FD7C7 /* Post */,
 				C5D69BA729031123004FD7C7 /* Content */,
+				7D4636E5290B2AD200731B84 /* DetailView */,
+				7D74BD832918709A00133FA5 /* Bidding */,
+				C5D69BAA29031240004FD7C7 /* Post */,
+				C598DC7B290887860040A0F7 /* Messages */,
+				C5D69BAB290314D7004FD7C7 /* Profile */,
+				C53E8CEA2905C5B30027D538 /* Shared */,
+				2E0101EB28F4EC910074F404 /* ErrorView.swift */,
 				C59CAD4B291091E200F32FF3 /* OffsetModifier.swift */,
+				C54556BA2904E3CC007CC071 /* SearchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -710,7 +710,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Campus-Closet/Preview Content\"";
-				DEVELOPMENT_TEAM = AL3977Y2B7;
+				DEVELOPMENT_TEAM = HG434AAP92;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -739,7 +739,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Campus-Closet/Preview Content\"";
-				DEVELOPMENT_TEAM = AL3977Y2B7;
+				DEVELOPMENT_TEAM = HG434AAP92;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

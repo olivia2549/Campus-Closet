@@ -19,6 +19,9 @@ struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
     
     var body: some View {
         HStack(alignment: .top, spacing: horizSpacing) {
+            if (viewModel.sortedColumns.count == 0) {
+                Text("Nothing to show")
+            }
             ForEach(viewModel.sortedColumns, id: \.self) { colIds in
                 LazyVStack(spacing: vertSpacing) {
                     ForEach(colIds, id: \.self) { id in

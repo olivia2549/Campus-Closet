@@ -204,14 +204,13 @@ struct OptionalInfo: View {
             
             Toggle("Make Post Anonymous", isOn: $viewModel.sellerIsAnonymous)
             
-            Button(action: {
-                viewModel.postItem()
-                self.prevPresentationMode.wrappedValue.dismiss()
-            }) {
-                Text("Post Item!")
-                    .frame(maxWidth: .infinity, alignment: .center)
+            NavigationLink(destination: DetailView(for: viewModel.item.id)) {
+                Button(action: { viewModel.postItem() }) {
+                    Text("Post Item!")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .buttonStyle(Styles.PinkButton())
             }
-            .buttonStyle(Styles.PinkButton())
             
             Spacer()
         }
