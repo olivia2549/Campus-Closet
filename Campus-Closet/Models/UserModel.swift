@@ -11,6 +11,10 @@ struct User: Codable {
     var name: String = ""
     var picture: String = ""
     var venmo: String = ""
-    var listings: [String]? = [] // IDs of items posted by user
-    var ratings: [Int]? = []
+    var saved: [String] = []       // IDs of items saved by user (buyer)
+    var bids: [String] = []        // IDs of items bid by user (buyer)
+    var listings: [String] = []    // IDs of items listed by user (seller)
+    var sold: [String] = []        // IDs of items sold by user (seller)
+    var ratings: [Int] = []
+    var isSeller: Bool = false
 }

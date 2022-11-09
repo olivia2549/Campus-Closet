@@ -17,6 +17,7 @@ import FirebaseAuth
 struct DetailView: View {
     @StateObject private var itemViewModel = ItemVM()
     @StateObject private var profileViewModel = ProfileVM()
+    @State var showAlert = false
     
     var id: String
     init(for id: String) {
@@ -82,17 +83,33 @@ struct DetailView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                         }
                         .buttonStyle(Styles.PinkButton())
-                        .padding()
+                        
+                        Button(action: {
+                            showAlert = true
+                        }) {
+                            Text("Delete Item")
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                        .buttonStyle(Styles.PinkButton())
                     }
                 }
             }
             .environmentObject(itemViewModel)
             .environmentObject(profileViewModel)
         }
+        .padding()
         .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
         .onAppear {
             itemViewModel.fetchItem(with: id)
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Confirm Deletion"),
+                  message: Text("Are you sure you want to remove this item? This action cannot be undone"),
+                  primaryButton: .destructive(Text("Delete"), action: {
+                    itemViewModel.deleteItem()
+                  }),
+                  secondaryButton: .cancel())
         }
     }
 }

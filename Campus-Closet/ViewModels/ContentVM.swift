@@ -38,9 +38,7 @@ import Foundation
                 
                 for document in querySnapshot!.documents {
                     let itemTags = document.get("tags") as! [String]
-                    print("tags: \(itemTags)")
                     for tag in self.tagsLeft {
-                        print("value: \(tag.value), key: \(tag.key)")
                         if tag.value == 0 {
                             if !itemTags.contains(where: {$0 == tag.key}) {
                                 print("don't show, key: \(tag.key)")
@@ -48,7 +46,6 @@ import Foundation
                                 break
                             }
                             else {
-                                print("should show")
                                 col1 ? itemIdsCol1.append(document.documentID) :
                                     itemIdsCol2.append(document.documentID)
                                 col1.toggle()
@@ -56,7 +53,6 @@ import Foundation
                         }
                     }
                     if shouldShow {
-                        print("should show")
                         col1 ? itemIdsCol1.append(document.documentID) :
                             itemIdsCol2.append(document.documentID)
                         col1.toggle()

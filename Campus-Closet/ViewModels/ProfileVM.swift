@@ -14,12 +14,28 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseFirestoreSwift
 
+enum ViewingMode {
+    case buyer, seller
+}
+enum Position: Int {
+    case first = 0, second
+}
+//enum Buyer: Int {
+//    case bids = 0, saved
+//}
+//enum Seller: Int {
+//    case listings = 0, sold
+//}
+
 @MainActor class ProfileVM: ObservableObject, RenderContentVM {
     @Published var user = User()
     @Published var numRatings = 0
     @Published var averageRating = 0.0
     @Published var profilePicture: UIImage?
     @Published var sortedColumns: [[String]] = []
+    @Published var viewingMode: ViewingMode = ViewingMode.buyer
+    @Published var position: Position = Position.first
+    
     let db = Firestore.firestore()
     let maxHeight = UIScreen.main.bounds.height / 2.5
     
@@ -34,8 +50,8 @@ import FirebaseFirestoreSwift
             switch result {
             case .success(let user):
                 self.user = user
-                self.numRatings = user.ratings == nil ? 0 : user.ratings!.count
-                self.averageRating = self.numRatings == 0 ? 0 : Double(user.ratings!.reduce(0, +)) / Double(user.ratings!.count)
+                self.numRatings = user.ratings.count
+                self.averageRating = self.numRatings == 0 ? 0 : Double(user.ratings.reduce(0, +)) / Double(user.ratings.count)
                 
                 let pictureRef = Storage.storage().reference(withPath: self.user.picture)
                 // Download profile picture with max size of 30MB.
@@ -48,21 +64,46 @@ import FirebaseFirestoreSwift
                         }
                     }
                 }
-                self.sortedColumns = []
-                var itemIdsCol1: [String] = []
-                var itemIdsCol2: [String] = []
-                var col1 = true
-                user.listings?.forEach({ listing in
-                    col1 ? itemIdsCol1.append(listing) :
-                        itemIdsCol2.append(listing)
-                    col1.toggle()
-                })
-                self.sortedColumns.append(itemIdsCol1)
-                self.sortedColumns.append(itemIdsCol2)
+                self.fetchItems()
             case .failure(let error):
                 print("Error decoding user: \(error)")
             }
         }
+    }
+    
+    func fetchItems() {
+        self.sortedColumns = []
+        var itemIdsCol1: [String] = []
+        var itemIdsCol2: [String] = []
+        var col1 = true
+        var data: [String] = []
+        // figure out which data to display (based on the selected toggle combination)
+        if (self.viewingMode == ViewingMode.buyer) {
+            switch (self.position) {
+            case .first:
+                data = user.bids
+            case .second:
+                data = user.saved
+            }
+        } else {
+            switch (self.position) {
+            case .first:
+                data = user.listings
+            case .second:
+                data = user.sold
+            }
+        }
+        // sort data into 2 columns
+        if data.count == 0 {
+            return
+        }
+        data.forEach({ item in
+            col1 ? itemIdsCol1.append(item) :
+                itemIdsCol2.append(item)
+            col1.toggle()
+        })
+        self.sortedColumns.append(itemIdsCol1)
+        self.sortedColumns.append(itemIdsCol2)
     }
     
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
@@ -96,7 +137,6 @@ import FirebaseFirestoreSwift
         
         let db = Firestore.firestore()
         if let userId = Auth.auth().currentUser?.uid {
-            print("id: \(userId)")
             db.collection("users").document(userId).setData([
                 "name": user.name,
                 "picture": newPicturePath,

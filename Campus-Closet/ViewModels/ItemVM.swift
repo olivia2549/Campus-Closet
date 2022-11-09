@@ -21,13 +21,11 @@ import FirebaseStorage
     
     // Find an item in the database with a particular id
     func fetchItem(with id: String) {
-        print("fetching: ", id)
         db.collection("items")
             .document(id)
             .getDocument(as: Item.self) { result in
                 switch result {
                 case .success(let item):
-                    print("Item: \(item)")
                     self.item = item
                     self.isSeller = item.sellerId == Auth.auth().currentUser?.uid
                     let pictureRef = Storage.storage().reference(withPath: self.item.picture)
@@ -62,6 +60,22 @@ import FirebaseStorage
                 print("There was an issue saving data to Firestore, \(e).")
             } else {
                 print("Successfully saved data.")
+            }
+        }
+    }
+    
+    func deleteItem() {
+        let db = Firestore.firestore()
+        db.collection("items").document(item.id).delete()
+        if let user = Auth.auth().currentUser?.uid {
+            db.collection("users").document(user).updateData([
+                "listings": FieldValue.arrayRemove([item.id])
+            ]) { error in
+                if let e = error {
+                    print("There was an issue deleting the item, \(e)")
+                } else {
+                    print("Successfully deleted.")
+                }
             }
         }
     }

@@ -12,7 +12,6 @@ struct ItemCardView: View, Identifiable {
     
     var id: String
     init(for id: String) {
-        print("rendering", id)
         self.id = id
     }
     
