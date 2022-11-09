@@ -35,14 +35,16 @@ struct BidItem: View {
                 .fontWeight(.semibold)
                 .foregroundColor(Color("Dark Pink"))
                 .font(.system(size: 25))
-            HStack(alignment: .center){
-                Spacer()
-                Text("$")
-                    .font(.system(size:80))
-                    .padding (.leading)
-                TextField("0", text: $name)
-                    .font(.system(size:100))
-                    .padding (.leading)
+            VStack(alignment: .center) {
+                HStack(alignment: .center){
+                
+                    Text("$")
+                        .font(.system(size:80))
+                        .padding (.leading)
+                    TextField("0", text: $name)
+                        .font(.system(size:100))
+                        .padding (.leading)
+                }
             }
             HStack {
                 Spacer()
