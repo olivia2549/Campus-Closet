@@ -89,7 +89,10 @@ import FirebaseStorage
     }
     
     func deleteAccount() {
+        // Delete user account and post data from the database.
         deleteAccountData()
+        
+        // Delete the user account.
         if let user = Auth.auth().currentUser {
             user.delete { error in
                 if let error = error {
@@ -101,7 +104,8 @@ import FirebaseStorage
             }
         }
 
-        if let window = UIApplication.shared.windows.first { // Direct deleted user to login screen.
+        // Return deleted user to login screen.
+        if let window = UIApplication.shared.windows.first {
             window.rootViewController = UIHostingController(rootView: LogInView())
             window.makeKeyAndVisible()
         }
@@ -111,31 +115,35 @@ import FirebaseStorage
         let db = Firestore.firestore()
         let userRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         
-        // Delete all items listed by this user.
+        // Delete all items listed by this user from the database.
         userRef.getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
                 user.listings?.forEach({ listing in
-                    print(listing)
-                    db.collection("items").document(listing).delete() { error in
-                        if let error = error {
-                            print("Error in deleting item document \(error)")
-                        } else {
-                            print("Item document successfully deleted.")
-                        }
-                    }
+                    self.deletePost(itemId: listing)
                 })
             case .failure(let error):
                 print("Error decoding item: \(error)")
             }
         }
         
-        // Delete the database entry for this user.
+        // Delete account data for this user from the database.
         userRef.delete() { error in
             if let error = error {
-                print("Error in deleting user document \(error)")
+                print("Error in deleting user \(error)")
             } else {
-                print("User document successfully deleted.")
+                print("User successfully deleted.")
+            }
+        }
+    }
+    
+    func deletePost(itemId: String) {
+        let db = Firestore.firestore()
+        db.collection("items").document(itemId).delete() { error in
+            if let error = error {
+                print("Error in deleting item \(error)")
+            } else {
+                print("Item successfully deleted.")
             }
         }
     }
