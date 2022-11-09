@@ -36,12 +36,25 @@ struct DetailItemView: View {
             }
             VStack{
                 HStack(alignment: .top, spacing: 0) {
-                    Text(viewModel.item.title)
-                        .font(.system(size: 30))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: 250, alignment: .leading)
-
-                    Spacer()
+                    if viewModel.item.studentCreated {
+                        Text(viewModel.item.title)
+                            .font(.system(size: 30))
+                            .foregroundColor(.black)
+                        Spacer()
+                        Image(systemName: "v.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20)
+                            .foregroundStyle(Color("Dark Pink"))
+                            .frame(maxWidth: 250, alignment: .leading)
+                    }
+                    else {
+                        Text(viewModel.item.title)
+                            .font(.system(size: 30))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: 250, alignment: .leading)
+                        Spacer()
+                    }
                     
                     Text("$\(viewModel.item.price)")
                         .font(.system(size: 30))
