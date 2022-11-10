@@ -11,19 +11,29 @@ struct GeneralMessages: View {
     @State private var searchText = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
-        VStack (alignment: .center, spacing: 0){
-            MessagingHeader()
-            NavigationView {
-                Text("\(searchText)") .searchable(text: $searchText, prompt: "Search for a user ")
-                
-                
+        NavigationView {
+            VStack (alignment: .center, spacing: 0){
+                    MessagingHeader()
+                    NavigationView {
+                        Text("\(searchText)") .searchable(text: $searchText, prompt: "Search for a user ")
+                        
+                        
+                    }
+                    
+                        VStack (alignment: .leading, spacing: 0){
+                            MessageSingle()
+                            Divider()
+                                .padding (EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
+                            MessageSingle()
+                            MessageSingle()
+                            Spacer()
+                        }
+                    
+                    
+
             }
-            VStack (alignment: .leading, spacing: 0){
-                MessageSingle()
-            }
-            
-            Spacer()
         }
+        
     }
 }
 
@@ -39,7 +49,7 @@ struct MessageSingle: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 50)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 0))
                 VStack (alignment:.leading, spacing: 0){
                     Text ("John Smith")
                         .fontWeight(.semibold)
@@ -51,7 +61,7 @@ struct MessageSingle: View {
                 
                 
             }
-            Spacer()
+            //Spacer()
         }
     }
 }
@@ -66,11 +76,14 @@ struct MessagingHeader: View {
                 .font(.system(size: 30))
                 .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: 0))
             Spacer()
-            Image(systemName: "square.and.pencil")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 30, height: 30)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
+            NavigationLink(destination: Chat_Message()){
+                Image(systemName: "square.and.pencil")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 30, height: 30)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
+            }
+            
         }
     }
 }

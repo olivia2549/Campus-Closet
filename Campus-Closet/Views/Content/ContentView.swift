@@ -32,7 +32,7 @@ struct ContentView: View {
                     }
                 }
                 .tag(0)
-            Chat_Message()
+            GeneralMessages()
                 .tabItem {
                     if (selection == 3) {
                         Image(systemName: "message.fill")
