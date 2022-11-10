@@ -15,6 +15,7 @@ import FirebaseStorage
 
 @MainActor class OnboardingVM: ObservableObject {
     @Published var isError: Bool = false
+    @Published var isResetPassword: Bool = false
     @Published var message: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
@@ -24,8 +25,10 @@ import FirebaseStorage
     
     func verifyAndSignup() { if verify() {signUp()} }
     
+    func verifyAndResetPassword() { if verify() {resetPassword()} }
+    
     func verify() -> Bool {
-        if email.isEmpty || password.isEmpty {
+        if email.isEmpty || (password.isEmpty && !isResetPassword) {
             isError.toggle()
             message = "Please enter your email and password."
             return false
@@ -85,6 +88,12 @@ import FirebaseStorage
                     }
                 }
             }
+        }
+    }
+    
+    func resetPassword() {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            print("Error in sending password reset email.")
         }
     }
     
