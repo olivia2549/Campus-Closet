@@ -44,7 +44,7 @@ struct LogInFormBox: View {
     @EnvironmentObject private var viewModel: OnboardingVM
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 16) {
+        VStack (alignment: .leading, spacing: 15) {
             Text("Email")
                 .font(.callout).bold()
             TextField("email", text: $viewModel.email)
@@ -57,10 +57,15 @@ struct LogInFormBox: View {
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .textInputAutocapitalization(.never)
+            Text("Forgot password?")
+                .font(Font.system(size: 15, weight: .semibold))
+                .foregroundColor(Styles().themePink)
+                .frame(maxWidth: .infinity, alignment: .trailing)
             
             Button(action: {viewModel.verifyAndLogin()}){
                 HStack{
                     Text("Log In")
+                        .font(Font.system(size: 16, weight: .bold))
                         .frame(maxWidth: .infinity, alignment: .center)
                     Spacer()
                 }
@@ -71,6 +76,7 @@ struct LogInFormBox: View {
                 HStack{
                     Text("Sign Up")
                         .underline()
+                        .font(Font.system(size: 16, weight: .bold))
                         .frame(maxWidth: .infinity, alignment: .center)
                         .foregroundColor(Styles().themePink)
                     Spacer()
