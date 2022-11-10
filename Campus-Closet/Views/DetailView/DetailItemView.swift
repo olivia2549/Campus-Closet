@@ -24,10 +24,10 @@ struct DetailItemView: View {
                             Button(action: {
                                 print("Add to favorites")
                             }){
-                                Image(systemName: "heart")
+                                Image(systemName: "bookmark")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width: 30)
+                                    .frame(width: 15)
                                     .foregroundStyle(Color("Dark Pink"))
                                 
                             }.offset(x: -18, y: 20)

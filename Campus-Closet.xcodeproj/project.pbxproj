@@ -92,6 +92,8 @@
 		2E8DD07B28F5470300D1D035 /* VerifyEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailView.swift; sourceTree = "<group>"; };
 		2EF0007428EB972E00F2FAAE /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		7D05A55A290F231400CB57F1 /* ItemVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemVM.swift; sourceTree = "<group>"; };
+		7D067D96291DA8A000942890 /* Campus-Closet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Campus-Closet.entitlements"; sourceTree = "<group>"; };
+		7D067D97291DA8C600942890 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7D4F4B2D291AF93C005B95D5 /* GeneralMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralMessages.swift; sourceTree = "<group>"; };
 		7D74BD84291870BD00133FA5 /* BidFavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidFavView.swift; sourceTree = "<group>"; };
 		7D74BD862918923200133FA5 /* BidItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidItem.swift; sourceTree = "<group>"; };
@@ -258,6 +260,8 @@
 		C55ED99928DD01E1001BD218 /* Campus-Closet */ = {
 			isa = PBXGroup;
 			children = (
+				7D067D97291DA8C600942890 /* Info.plist */,
+				7D067D96291DA8A000942890 /* Campus-Closet.entitlements */,
 				C55ED99A28DD01E1001BD218 /* Campus_ClosetApp.swift */,
 				2EF0007328EB971300F2FAAE /* Models */,
 				C527284E28E8C22B008C1D60 /* Views */,
@@ -707,12 +711,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Campus-Closet/Campus-Closet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Campus-Closet/Preview Content\"";
 				DEVELOPMENT_TEAM = HG434AAP92;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Campus-Closet/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -736,12 +742,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Campus-Closet/Campus-Closet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Campus-Closet/Preview Content\"";
 				DEVELOPMENT_TEAM = HG434AAP92;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Campus-Closet/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

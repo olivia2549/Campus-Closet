@@ -40,7 +40,7 @@ struct GeneralMessages: View {
 
 
 struct MessageSingle: View {
-    //    @ObservedObject private var zipCodeModel = ZipCodeModel()
+
     var body: some View {
         VStack
         {
