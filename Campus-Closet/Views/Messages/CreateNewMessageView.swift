@@ -8,67 +8,22 @@
 import SwiftUI
 import Firebase
 
-
-
-
-class CreateNewMessageViewModel : ObservableObject{
-    @Published var users =  [User]()
-    @Published var errorMessage = ""
-    
-    init(){
-        fetchAllUsers()
-    }
-    
-    private func fetchAllUsers(){
-        let db = Firestore.firestore()
-        db.collection("users").getDocuments{ documentsSnapshot, error in
-            if let error = error {
-                self.errorMessage = "Failed to fetch users: \(error)"
-                print ("Failed to fetch users: \(error)")
-                return
-            }
-            documentsSnapshot?.documents.forEach({ snapshot in
-                let data = snapshot.data()
-                //self.users.append(snapshot.)
-
-                
-            })
-            //self.errorMessage = "Fetched successfully"
-        }
-    }
-}
-
-//const querySnapshot = await getDocs(collection(db, "cities"));
-//querySnapshot.forEach((doc) => {
-//  // doc.data() is never undefined for query doc snapshots
-//  console.log(doc.id, " => ", doc.data());
-//});
-
 struct CreateNewMessageView: View {
     @Environment (\.presentationMode) var presentationMode
-    @ObservedObject var vm = CreateNewMessageViewModel()
+    @ObservedObject var vm = MessagesVM()
     
     var body: some View {
         NavigationView{
             ScrollView{
                 Text(vm.errorMessage)
-                ForEach(0..<10){ num in
-                    HStack (spacing: 16){
-                        Image(systemName: "person.crop.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width:50, height:50)
-                            .clipped()
-                            .cornerRadius(50)
-                            .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
-                        Text("FirstName LastName")
-                            .foregroundColor(.black)//insert usernam
-                        Spacer()
-                        
-                    }.padding (.horizontal)
+                
+                ForEach(vm.users, id: \.self) { id in
+                    HStack(spacing: 16) {
+                        UserListView(for: id)
+                    }
+                    .padding (.horizontal)
                     Divider()
                         .padding (.vertical, 8)
-                    //Text("new user")
                 }
             }.navigationTitle("New Message")
                 .toolbar{
@@ -84,9 +39,31 @@ struct CreateNewMessageView: View {
     }
 }
 
-struct CreateNewMessageView_Previews: PreviewProvider {
-    static var previews: some View {
-        //CreateNewMessageView()
-        MainMessagesView()
+struct UserListView: View, Identifiable {
+    @StateObject private var viewModel = ProfileVM()
+    var id: String
+    
+    init(for id: String) {
+        self.id = id
+    }
+    
+    var body: some View {
+        Image(systemName: "person.crop.circle.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width:50, height:50)
+            .clipped()
+            .cornerRadius(50)
+            .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
+        Text(viewModel.user.name)
+            .foregroundColor(.black)
+        Spacer()
+            .onAppear(perform: { viewModel.fetchUser(userID: id) })
     }
 }
+
+//struct CreateNewMessageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CreateNewMessageView()
+//    }
+//}
