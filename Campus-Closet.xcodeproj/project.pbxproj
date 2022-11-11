@@ -16,7 +16,9 @@
 		2E9BFEA0290C941F0074B704 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2E9BFE9F290C941F0074B704 /* FirebaseStorage */; };
 		2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF0007428EB972E00F2FAAE /* UserModel.swift */; };
 		7D05A55B290F231400CB57F1 /* ItemVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D05A55A290F231400CB57F1 /* ItemVM.swift */; };
-		7D4F4B2E291AF93C005B95D5 /* GeneralMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4F4B2D291AF93C005B95D5 /* GeneralMessages.swift */; };
+		7D067D9B291DB97300942890 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7D067D9A291DB97300942890 /* FirebaseMessaging */; };
+		7D067DA3291DD03E00942890 /* MainMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D067DA2291DD03E00942890 /* MainMessagesView.swift */; };
+		7D0978EC291DF23C00BD15DB /* CreateNewMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0978EB291DF23C00BD15DB /* CreateNewMessageView.swift */; };
 		7D74BD85291870BD00133FA5 /* BidFavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D74BD84291870BD00133FA5 /* BidFavView.swift */; };
 		7D74BD872918923200133FA5 /* BidItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D74BD862918923200133FA5 /* BidItem.swift */; };
 		7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92287128EF71CA00ECAD95 /* LogInView.swift */; };
@@ -94,7 +96,8 @@
 		7D05A55A290F231400CB57F1 /* ItemVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemVM.swift; sourceTree = "<group>"; };
 		7D067D96291DA8A000942890 /* Campus-Closet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Campus-Closet.entitlements"; sourceTree = "<group>"; };
 		7D067D97291DA8C600942890 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		7D4F4B2D291AF93C005B95D5 /* GeneralMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralMessages.swift; sourceTree = "<group>"; };
+		7D067DA2291DD03E00942890 /* MainMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessagesView.swift; sourceTree = "<group>"; };
+		7D0978EB291DF23C00BD15DB /* CreateNewMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewMessageView.swift; sourceTree = "<group>"; };
 		7D74BD84291870BD00133FA5 /* BidFavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidFavView.swift; sourceTree = "<group>"; };
 		7D74BD862918923200133FA5 /* BidItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidItem.swift; sourceTree = "<group>"; };
 		7D92287128EF71CA00ECAD95 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
@@ -144,6 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D067D9B291DB97300942890 /* FirebaseMessaging in Frameworks */,
 				C532138F28F341C9004F2267 /* SlidingTabView in Frameworks */,
 				C527284C28E8C1B9008C1D60 /* FirebaseFirestoreSwift in Frameworks */,
 				C527284628E8C1B9008C1D60 /* FirebaseAnalyticsSwift in Frameworks */,
@@ -309,7 +313,8 @@
 				C598DC7C2908879A0040A0F7 /* MessageBubble.swift */,
 				C598DC7E290887A70040A0F7 /* MessageField.swift */,
 				C598DC842908883C0040A0F7 /* ChatMessage.swift */,
-				7D4F4B2D291AF93C005B95D5 /* GeneralMessages.swift */,
+				7D067DA2291DD03E00942890 /* MainMessagesView.swift */,
+				7D0978EB291DF23C00BD15DB /* CreateNewMessageView.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -390,6 +395,7 @@
 				C527284B28E8C1B9008C1D60 /* FirebaseFirestoreSwift */,
 				C532138E28F341C9004F2267 /* SlidingTabView */,
 				2E9BFE9F290C941F0074B704 /* FirebaseStorage */,
+				7D067D9A291DB97300942890 /* FirebaseMessaging */,
 			);
 			productName = "Campus-Closet";
 			productReference = C55ED99728DD01E1001BD218 /* Campus-Closet.app */;
@@ -521,10 +527,12 @@
 				C5D69BAF29032E64004FD7C7 /* ItemModel.swift in Sources */,
 				C527282028E644D6008C1D60 /* HomeView.swift in Sources */,
 				2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */,
+				7D0978EC291DF23C00BD15DB /* CreateNewMessageView.swift in Sources */,
 				2E4E153E290C6D0A00C8A2F9 /* PictureVM.swift in Sources */,
 				C59CAD472910172000F32FF3 /* EditItem.swift in Sources */,
 				7D74BD85291870BD00133FA5 /* BidFavView.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
+				7D067DA3291DD03E00942890 /* MainMessagesView.swift in Sources */,
 				C5EAA209290492EC00775499 /* TagsList.swift in Sources */,
 				C54556BB2904E3CC007CC071 /* SearchView.swift in Sources */,
 				2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */,
@@ -538,7 +546,6 @@
 				C5262B8129044DEA0012E780 /* CustomInput.swift in Sources */,
 				C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */,
 				C527282428E64698008C1D60 /* ProfileView.swift in Sources */,
-				7D4F4B2E291AF93C005B95D5 /* GeneralMessages.swift in Sources */,
 				C598DC852908883C0040A0F7 /* ChatMessage.swift in Sources */,
 				2E0101EC28F4EC920074F404 /* ErrorView.swift in Sources */,
 				C527282928E7480B008C1D60 /* Masonry.swift in Sources */,
@@ -715,7 +722,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Campus-Closet/Preview Content\"";
-				DEVELOPMENT_TEAM = HG434AAP92;
+				DEVELOPMENT_TEAM = AL3977Y2B7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Campus-Closet/Info.plist";
@@ -729,7 +736,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vandycs.Campus-Closet";
+				PRODUCT_BUNDLE_IDENTIFIER = hellohello;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -746,7 +753,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Campus-Closet/Preview Content\"";
-				DEVELOPMENT_TEAM = HG434AAP92;
+				DEVELOPMENT_TEAM = AL3977Y2B7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Campus-Closet/Info.plist";
@@ -760,7 +767,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.vandycs.Campus-Closet";
+				PRODUCT_BUNDLE_IDENTIFIER = hellohello;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -909,6 +916,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C527284228E8C1B9008C1D60 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		7D067D9A291DB97300942890 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C527284228E8C1B9008C1D60 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		C527284328E8C1B9008C1D60 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
