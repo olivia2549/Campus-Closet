@@ -29,10 +29,7 @@ struct ResetPasswordView: View {
                 .disableAutocorrection(true)
                 .textInputAutocapitalization(.never)
             
-            Button(action: {
-                resetPasswordVM.isResetPassword = true
-                resetPasswordVM.verifyAndResetPassword()
-            }){
+            Button(action: { resetPasswordVM.verifyAndResetPassword() }){
                 HStack{
                     Text("Submit")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -40,6 +37,28 @@ struct ResetPasswordView: View {
                 }
             }
             .buttonStyle(Styles.PinkButton())
+            
+            Button(action: {
+                if let window = UIApplication.shared.windows.first {
+                    window.rootViewController = UIHostingController(rootView: LogInView())
+                    window.makeKeyAndVisible()
+                }
+            }){
+                HStack{
+                    Text("Return to Login")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
+                }
+            }
+            .buttonStyle(Styles.PinkButton())
+            
+            if resetPasswordVM.isEmailSent {
+                Text("We sent you a link to reset your password!")
+                    .multilineTextAlignment(.center)
+                    .padding(EdgeInsets(top: 20, leading: 8, bottom: 15, trailing: 8))
+                    .font(Font.system(size: 16, weight: .semibold))
+                    .foregroundColor(Styles().themePink)
+            }
         }
         .frame(maxWidth: 340)
         .border(.white, width: 3)
