@@ -57,10 +57,18 @@ struct LogInFormBox: View {
                 .autocapitalization(.none)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .textInputAutocapitalization(.never)
-            Text("Forgot password?")
-                .font(Font.system(size: 15, weight: .semibold))
-                .foregroundColor(Styles().themePink)
-                .frame(maxWidth: .infinity, alignment: .trailing)
+            
+            Button(action: {
+                if let window = UIApplication.shared.windows.first {
+                    window.rootViewController = UIHostingController(rootView: ResetPasswordView())
+                    window.makeKeyAndVisible()
+                }
+            }){
+                Text("Forgot password?")
+                    .font(Font.system(size: 15, weight: .semibold))
+                    .foregroundColor(Styles().themePink)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
             
             Button(action: {viewModel.verifyAndLogin()}){
                 HStack{

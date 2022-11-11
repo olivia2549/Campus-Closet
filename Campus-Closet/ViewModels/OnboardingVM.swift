@@ -15,19 +15,22 @@ import FirebaseStorage
 
 @MainActor class OnboardingVM: ObservableObject {
     @Published var isError: Bool = false
+    @Published var isEmailSent: Bool = false
     @Published var message: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var user: User = User()
     
-    func verifyAndLogin() { if verify() {logIn()} }
+    func verifyAndLogin() { if verify(withPassword: true) {logIn()} }
     
-    func verifyAndSignup() { if verify() {signUp()} }
+    func verifyAndSignup() { if verify(withPassword: true) {signUp()} }
     
-    func verify() -> Bool {
-        if email.isEmpty || password.isEmpty {
+    func verifyAndResetPassword() { if verify(withPassword: false) {resetPassword()} }
+    
+    func verify(withPassword: Bool) -> Bool {
+        if email.isEmpty || (withPassword && password.isEmpty) {
             isError.toggle()
-            message = "Please enter your email and password."
+            message = "Please submit your credentials."
             return false
         }
         else if !email.lowercased().hasSuffix("@vanderbilt.edu") {
@@ -84,6 +87,18 @@ import FirebaseStorage
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    func resetPassword() {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                print("Error in sending password reset email \(error)")
+                return
+            } else {
+                self.isEmailSent = true
+                print("Password reset email successfully sent.")
             }
         }
     }
