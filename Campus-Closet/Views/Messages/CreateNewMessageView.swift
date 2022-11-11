@@ -33,7 +33,7 @@ class CreateNewMessageViewModel : ObservableObject{
 
                 
             })
-            self.errorMessage = "Fetched successfully"
+            //self.errorMessage = "Fetched successfully"
         }
     }
 }
@@ -52,7 +52,22 @@ struct CreateNewMessageView: View {
             ScrollView{
                 Text(vm.errorMessage)
                 ForEach(0..<10){ num in
-                    Text("new user")
+                    HStack (spacing: 16){
+                        Image(systemName: "person.crop.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width:50, height:50)
+                            .clipped()
+                            .cornerRadius(50)
+                            .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
+                        Text("FirstName LastName")
+                            .foregroundColor(.black)//insert usernam
+                        Spacer()
+                        
+                    }.padding (.horizontal)
+                    Divider()
+                        .padding (.vertical, 8)
+                    //Text("new user")
                 }
             }.navigationTitle("New Message")
                 .toolbar{
