@@ -6,7 +6,16 @@
 //
 
 import SwiftUI
+import Firebase
 
+class MainMessagesViewModel: ObservableObject{
+    init(){
+        fetchCurrentUser()
+    }
+    private func fetchCurrentUser(){
+        
+    }
+}
 
 
 
@@ -96,8 +105,14 @@ struct MainMessagesView: View {
             }.padding(.horizontal)
         }.padding(.bottom, 50)
     }
+    
+    
+    @State var shouldShowNewMessageScreen = false
+    
     private var newMessageButton: some View{
-        NavigationLink(destination: Chat_Message()) {
+        Button {
+            shouldShowNewMessageScreen.toggle()
+        } label: {
             HStack{
                 Spacer()
                 Text("+ New Message")
@@ -112,9 +127,15 @@ struct MainMessagesView: View {
             .padding(.horizontal)
             .shadow(radius: 15)
         }
-        
+        .fullScreenCover(isPresented: $shouldShowNewMessageScreen){
+            CreateNewMessageView()
+        }
     }
 }
+
+
+
+
 
 struct MainMessagesView_Previews: PreviewProvider {
     static var previews: some View {
