@@ -47,6 +47,7 @@ class CreateNewMessageViewModel : ObservableObject{
 struct CreateNewMessageView: View {
     @Environment (\.presentationMode) var presentationMode
     @ObservedObject var vm = CreateNewMessageViewModel()
+    
     var body: some View {
         NavigationView{
             ScrollView{
