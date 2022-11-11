@@ -6,25 +6,42 @@
 //
 
 import SwiftUI
+import Firebase
 
+class MainMessagesViewModel: ObservableObject{
+    init(){
+        fetchCurrentUser()
+    }
+    private func fetchCurrentUser(){
+        
+    }
+}
 
 
 
 struct MainMessagesView: View {
     @State var shouldShowLogOutOptions = false
+    @StateObject private var viewModel = ProfileVM()
+    //@Binding var offset = CGFloat
+
     private var customNavBar: some View{
+       
             HStack(spacing: 16){
                 Image (systemName: "person.fill")
                     .font(.system(size:34, weight: .heavy))
                 VStack(alignment: .leading, spacing: 4){
-                    Text("USERNAME")
+                    
+                    Text("Hilly Yehoshua")
                         .font (.system(size: 24, weight: .bold) )
-                    Circle()
-                        .foregroundColor(.green)
-                        .frame (width: 14, height: 14)
-                    Text("online")
-                        .font (.system(size: 12))
-                        .foregroundColor(Color(.lightGray))
+                        //.opacity(getNameOpacity())
+                    HStack{
+                        Circle()
+                            .foregroundColor(.green)
+                            .frame (width: 14, height: 14)
+                        Text("online")
+                            .font (.system(size: 12))
+                            .foregroundColor(Color(.lightGray))
+                    }
                 }
                 
                 Spacer()
@@ -43,6 +60,7 @@ struct MainMessagesView: View {
                                                                                                   ])
         }
         
+       
     }
     var body: some View {
         NavigationView{
@@ -50,6 +68,9 @@ struct MainMessagesView: View {
             VStack{
                 //custom nav bar
                 customNavBar
+                
+                
+                
                 messagesView
                
 
@@ -96,8 +117,14 @@ struct MainMessagesView: View {
             }.padding(.horizontal)
         }.padding(.bottom, 50)
     }
+    
+    
+    @State var shouldShowNewMessageScreen = false
+    
     private var newMessageButton: some View{
-        NavigationLink(destination: Chat_Message()) {
+        Button {
+            shouldShowNewMessageScreen.toggle()
+        } label: {
             HStack{
                 Spacer()
                 Text("+ New Message")
@@ -112,9 +139,15 @@ struct MainMessagesView: View {
             .padding(.horizontal)
             .shadow(radius: 15)
         }
-        
+        .fullScreenCover(isPresented: $shouldShowNewMessageScreen){
+            CreateNewMessageView()
+        }
     }
 }
+
+
+
+
 
 struct MainMessagesView_Previews: PreviewProvider {
     static var previews: some View {
