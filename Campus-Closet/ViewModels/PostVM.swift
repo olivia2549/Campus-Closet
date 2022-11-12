@@ -112,4 +112,7 @@ import FirebaseStorage
         tagsLeft[tag] = 1
     }
     
+    func deleteItem() {
+    }
+    
 }

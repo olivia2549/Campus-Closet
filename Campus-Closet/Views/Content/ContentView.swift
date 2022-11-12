@@ -34,15 +34,15 @@ struct ContentView: View {
                 .tag(0)
             MainMessagesView()
                 .tabItem {
-                    if (selection == 3) {
+                    if (selection == 1) {
                         Image(systemName: "message.fill")
                     }
                     else {
                         Image(systemName: "message")
                             .environment(\.symbolVariants, .none)
+                        }
                     }
-                }
-                .tag(3)
+                    .tag(1)
             Text("")
                 .fullScreenCover(
                     isPresented: $addPostPresented,
@@ -64,31 +64,20 @@ struct ContentView: View {
                     }
                 }
                 .tag(2)
-
-            BidFavView()
-                .tabItem {
-                    if (selection == 1) {
-                        let imageConfig = UIImage(systemName: "cart.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .black))!
-                        Image(uiImage: imageConfig)
+                ProfileView()
+                    .tabItem {
+                        if (selection == 4) {
+                            Image(systemName: "person.fill")
+                        }
+                        else {
+                            Image(systemName: "person")
+                                .environment(\.symbolVariants, .none)
+                        }
                     }
-                    else {
-                        Image(systemName: "cart")
-                        .environment(\.symbolVariants, .none)
-                    }
-                }
-                .tag(1)
-            ProfileView()
-                .tabItem {
-                    if (selection == 4) {
-                        Image(systemName: "person.fill")
-                    }
-                    else {
-                        Image(systemName: "person")
-                            .environment(\.symbolVariants, .none)
-                    }
-                }
-                .tag(4)
+                    .tag(4)
+            }
+            .accentColor(.black)
+            .navigationBarHidden(true)
         }
-        .accentColor(.black)
     }
 }

@@ -23,7 +23,7 @@
 		7D74BD85291870BD00133FA5 /* BidFavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D74BD84291870BD00133FA5 /* BidFavView.swift */; };
 		7D74BD872918923200133FA5 /* BidItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D74BD862918923200133FA5 /* BidItem.swift */; };
 		7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92287128EF71CA00ECAD95 /* LogInView.swift */; };
-		7D94FAA22908E08F00FF1761 /* DetailItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA12908E08F00FF1761 /* DetailItemView.swift */; };
+		7D94FAA22908E08F00FF1761 /* StickyFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA12908E08F00FF1761 /* StickyFooter.swift */; };
 		7D94FAA42908F22900FF1761 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA32908F22900FF1761 /* DetailView.swift */; };
 		8257D66A290FD99E006A706B /* ProfileVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8257D669290FD99E006A706B /* ProfileVMTests.swift */; };
 		8257D66C290FE43D006A706B /* ItemVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8257D66B290FE43D006A706B /* ItemVMTests.swift */; };
@@ -44,7 +44,7 @@
 		C527284828E8C1B9008C1D60 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C527284728E8C1B9008C1D60 /* FirebaseAuth */; };
 		C527284A28E8C1B9008C1D60 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C527284928E8C1B9008C1D60 /* FirebaseFirestore */; };
 		C527284C28E8C1B9008C1D60 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C527284B28E8C1B9008C1D60 /* FirebaseFirestoreSwift */; };
-		C532138F28F341C9004F2267 /* SlidingTabView in Frameworks */ = {isa = PBXBuildFile; productRef = C532138E28F341C9004F2267 /* SlidingTabView */; };
+		C5367318291EA41D0051D08F /* SegmentedPicker in Frameworks */ = {isa = PBXBuildFile; productRef = C5367317291EA41D0051D08F /* SegmentedPicker */; };
 		C53E8CE22905A1500027D538 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53E8CE12905A1500027D538 /* Styles.swift */; };
 		C53E8CE42905B31C0027D538 /* ContentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53E8CE32905B31C0027D538 /* ContentVM.swift */; };
 		C53E8CE72905C4D50027D538 /* TagPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53E8CE62905C4D50027D538 /* TagPicker.swift */; };
@@ -103,7 +103,7 @@
 		7D74BD84291870BD00133FA5 /* BidFavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidFavView.swift; sourceTree = "<group>"; };
 		7D74BD862918923200133FA5 /* BidItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidItem.swift; sourceTree = "<group>"; };
 		7D92287128EF71CA00ECAD95 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
-		7D94FAA12908E08F00FF1761 /* DetailItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemView.swift; sourceTree = "<group>"; };
+		7D94FAA12908E08F00FF1761 /* StickyFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyFooter.swift; sourceTree = "<group>"; };
 		7D94FAA32908F22900FF1761 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		8257D669290FD99E006A706B /* ProfileVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVMTests.swift; sourceTree = "<group>"; };
 		8257D66B290FE43D006A706B /* ItemVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemVMTests.swift; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D067D9B291DB97300942890 /* FirebaseMessaging in Frameworks */,
-				C532138F28F341C9004F2267 /* SlidingTabView in Frameworks */,
+				C5367318291EA41D0051D08F /* SegmentedPicker in Frameworks */,
 				C527284C28E8C1B9008C1D60 /* FirebaseFirestoreSwift in Frameworks */,
 				C527284628E8C1B9008C1D60 /* FirebaseAnalyticsSwift in Frameworks */,
 				C527284A28E8C1B9008C1D60 /* FirebaseFirestore in Frameworks */,
@@ -198,7 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				7D94FAA32908F22900FF1761 /* DetailView.swift */,
-				7D94FAA12908E08F00FF1761 /* DetailItemView.swift */,
+				7D94FAA12908E08F00FF1761 /* StickyFooter.swift */,
 				C59CAD462910172000F32FF3 /* EditItem.swift */,
 			);
 			path = DetailView;
@@ -396,9 +396,9 @@
 				C527284728E8C1B9008C1D60 /* FirebaseAuth */,
 				C527284928E8C1B9008C1D60 /* FirebaseFirestore */,
 				C527284B28E8C1B9008C1D60 /* FirebaseFirestoreSwift */,
-				C532138E28F341C9004F2267 /* SlidingTabView */,
 				2E9BFE9F290C941F0074B704 /* FirebaseStorage */,
 				7D067D9A291DB97300942890 /* FirebaseMessaging */,
+				C5367317291EA41D0051D08F /* SegmentedPicker */,
 			);
 			productName = "Campus-Closet";
 			productReference = C55ED99728DD01E1001BD218 /* Campus-Closet.app */;
@@ -474,7 +474,7 @@
 			mainGroup = C55ED98E28DD01E1001BD218;
 			packageReferences = (
 				C527284228E8C1B9008C1D60 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				C532138D28F341C8004F2267 /* XCRemoteSwiftPackageReference "SlidingTabView" */,
+				C5367316291EA41D0051D08F /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */,
 			);
 			productRefGroup = C55ED99828DD01E1001BD218 /* Products */;
 			projectDirPath = "";
@@ -540,7 +540,7 @@
 				C54556BB2904E3CC007CC071 /* SearchView.swift in Sources */,
 				2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
-				7D94FAA22908E08F00FF1761 /* DetailItemView.swift in Sources */,
+				7D94FAA22908E08F00FF1761 /* StickyFooter.swift in Sources */,
 				C59CAD4C291091E200F32FF3 /* OffsetModifier.swift in Sources */,
 				C598DC7F290887A70040A0F7 /* MessageField.swift in Sources */,
 				2E817DF5290368EB001F1A75 /* PostVM.swift in Sources */,
@@ -652,7 +652,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -707,7 +707,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -788,7 +788,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HG434AAP92;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vandycs.Campus-ClosetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -808,7 +808,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HG434AAP92;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vandycs.Campus-ClosetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -905,12 +905,12 @@
 				minimumVersion = 9.0.0;
 			};
 		};
-		C532138D28F341C8004F2267 /* XCRemoteSwiftPackageReference "SlidingTabView" */ = {
+		C5367316291EA41D0051D08F /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/QuynhNguyen/SlidingTabView";
+			repositoryURL = "https://github.com/KazaiMazai/SwiftySegmentedPicker";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 0.0.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -951,10 +951,10 @@
 			package = C527284228E8C1B9008C1D60 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
 		};
-		C532138E28F341C9004F2267 /* SlidingTabView */ = {
+		C5367317291EA41D0051D08F /* SegmentedPicker */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C532138D28F341C8004F2267 /* XCRemoteSwiftPackageReference "SlidingTabView" */;
-			productName = SlidingTabView;
+			package = C5367316291EA41D0051D08F /* XCRemoteSwiftPackageReference "SwiftySegmentedPicker" */;
+			productName = SegmentedPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

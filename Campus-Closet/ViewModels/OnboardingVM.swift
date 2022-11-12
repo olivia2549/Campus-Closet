@@ -52,7 +52,9 @@ import FirebaseStorage
             }
             else { // User logged in successfully. Direct them to home screen.
                 if let window = UIApplication.shared.windows.first {
-                    window.rootViewController = UIHostingController(rootView: ContentView())
+                    window.rootViewController = UIHostingController(
+                        rootView: ContentView()
+                    )
                     window.makeKeyAndVisible()
                 }
             }

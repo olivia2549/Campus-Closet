@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SlidingTabView
+import SegmentedPicker
 
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
@@ -15,47 +15,41 @@ struct ProfileView: View {
     let maxHeight = UIScreen.main.bounds.height / 2.5
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(alignment: .center, spacing: 10) {
-                    GeometryReader{ proxy in
-                        ProfileInfo(offset: $offset)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: getHeaderHeight(), alignment: .bottom)
-                            .overlay(
-                                ProfileHeader(
-                                    offset: $offset,
-                                    maxHeight: maxHeight
-                                )
-                                ,alignment: .top
+        ScrollView {
+            VStack(alignment: .center, spacing: 10) {
+                GeometryReader{ proxy in
+                    ProfileInfo(offset: $offset)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: getHeaderHeight(), alignment: .bottom)
+                        .overlay(
+                            ProfileHeader(
+                                offset: $offset,
+                                maxHeight: maxHeight
                             )
-                    }
-                    .frame(height: maxHeight)
-                    .offset(y: -offset)
-                    .zIndex(1)
-                    
-                    if viewModel.viewingMode == ViewingMode.buyer {
-                        ToggleView(maxHeight: maxHeight, tabs: ["Bids", "Saved"])
-                            .padding(.top)
-                            .zIndex(0)
-                    }
-                    else {
-                        ToggleView(maxHeight: maxHeight, tabs: ["Listings", "Sold"])
-                            .padding(.top)
-                            .zIndex(0)
-                    }
+                            ,alignment: .top
+                        )
                 }
-                .modifier(OffsetModifier(offset: $offset))
+                .frame(height: maxHeight)
+                .offset(y: -offset)
+                .zIndex(1)
+                
+                if viewModel.viewingMode == ViewingMode.buyer {
+                    ToggleView(maxHeight: maxHeight, tabs: ["Bids", "Saved"])
+                        .zIndex(0)
+                }
+                else {
+                    ToggleView(maxHeight: maxHeight, tabs: ["Listings", "Sold"])
+                        .zIndex(0)
+                }
             }
-            .coordinateSpace(name: "SCROLL")
-            .onAppear(perform: {
-                viewModel.getProfileData()
-            })
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
+            .modifier(OffsetModifier(offset: $offset))
         }
-        .statusBar(hidden: true)
         .environmentObject(viewModel)
+        .coordinateSpace(name: "SCROLL")
+        .onAppear(perform: {
+            viewModel.getProfileData()
+        })
+        .navigationBarHidden(true)
     }
     
     func getHeaderHeight() -> CGFloat {
@@ -85,7 +79,7 @@ struct ProfileHeader: View {
             .opacity(getOpacity())
             .frame(maxWidth: .infinity)
             VStack(alignment: .trailing) {
-                NavigationLink(destination: EditProfile()) {
+                NavigationLink(destination: EditProfile().environmentObject(viewModel)) {
                     Image(systemName: "pencil.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -180,33 +174,46 @@ struct ToggleView: View {
     @State var offset: CGFloat = 0
     var maxHeight: CGFloat
     var tabs: [String]
-    var selection: Binding<Int> {
-        Binding<Int>(
-            get: {
-                viewModel.position.rawValue
-            },
+    var selection: Binding<Data.Index?> {
+        Binding(
+            get: { viewModel.position.rawValue },
             set: {
                 viewModel.getProfileData()
-                viewModel.position = Position(rawValue: $0) ?? Position.first
+                viewModel.position = Position(rawValue: $0!) ?? Position.first
             }
         )
     }
-    
+        
     var body: some View {
         VStack {
-            SlidingTabView(
-                selection: selection,
-                tabs: tabs,
-                font: .system(size: 20, weight: .medium),
-                animation: .easeInOut,
-                activeAccentColor: Styles().themePink,
-                inactiveAccentColor: .gray,
-                selectionBarHeight: 0
-            )
-            .background(.white)
-            .offset(y: getPosition())
-            .modifier(OffsetModifier(offset: $offset))
-            .zIndex(1)
+            SegmentedPicker(
+                tabs,
+                selectedIndex: selection,
+                selectionAlignment: .bottom,
+                content: { item, isSelected in
+                    HStack {
+                        VStack(spacing: 0) {
+                            Text(item)
+                                .foregroundColor(isSelected ? Styles().themePink : Color.gray )
+                                .font(.system(size: 20, weight: .semibold))
+                                .padding(.vertical, 8)
+                            if !isSelected {
+                                Color("Search Bar").frame(height: 1)
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                },
+                selection: {
+                    HStack {
+                        VStack(spacing: 0) {
+                            Spacer()
+                            Styles().themePink.frame(height: 1)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                })
+                .animation(.easeInOut(duration: 0.3))
             Masonry<ProfileVM>()
                 .zIndex(0)
         }

@@ -9,13 +9,20 @@ import SwiftUI
 
 struct EditItem: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject private var viewModel: ItemVM
+    @EnvironmentObject private var itemViewModel: ItemVM
 
     var body: some View {
         NavigationView {
             BasicInfo<ItemVM>(presentationMode: presentationMode)
-                .environmentObject(viewModel)
+                .environmentObject(itemViewModel)
                 .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Styles.BackButton(presentationMode: self.presentationMode)
+                            .foregroundColor(.black)
+                    }
+                }
         }
     }
 }

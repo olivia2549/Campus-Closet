@@ -18,12 +18,12 @@ struct PostView: View {
             }
             .onTapGesture { hideKeyboard() }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Styles.CancelButton(presentationMode: self.presentationMode)
-                }
                 ToolbarItem(placement: .principal) {
                     Text("Post An Item")
                         .font(.system(size: 24, weight: .semibold))
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Styles.CancelButton(presentationMode: self.presentationMode)
                 }
             }
             .gesture(
@@ -93,6 +93,7 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
     @EnvironmentObject private var viewModel: ViewModel
     @State private var isMissingRequiredInfo: Bool = false
     var presentationMode: Binding<PresentationMode>
+    @State var showAlert = false
     
     init(presentationMode: Binding<PresentationMode>) {
         self.presentationMode = presentationMode
@@ -159,6 +160,14 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .buttonStyle(Styles.PinkButton())
+                
+                Button(action: {
+                    showAlert = true
+                }) {
+                    Text("Delete Item")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .buttonStyle(Styles.PinkButton())
             }
             else {
                 NavigationLink(destination: OptionalInfo(prevPresentationMode: presentationMode)) {
@@ -188,6 +197,14 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
             ToolbarItem(placement: .navigationBarLeading) {
                 Styles.BackButton(presentationMode: self.presentationMode)
             }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Confirm Deletion"),
+                  message: Text("Are you sure you want to remove this item? This action cannot be undone"),
+                  primaryButton: .destructive(Text("Delete"), action: {
+                    viewModel.deleteItem()
+                  }),
+                  secondaryButton: .cancel())
         }
     }
     
