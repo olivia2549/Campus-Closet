@@ -17,8 +17,6 @@ import FirebaseStorage
     @Published var chosenPicture: UIImage?
     @Published var item = Item()
     @Published var isEditing = false
-    @Published var isMissingRequiredInfo = false
-    @Published var errorMessage = ""
     @Published var sellerIsAnonymous = false
     @Published var tags: [String] = []
     @Published var tagsLeft = [
@@ -32,7 +30,7 @@ import FirebaseStorage
     ]
     
     func verifyInfo() -> Bool {
-        return false
+        return item.title.isEmpty || item.price.isEmpty || item.size.isEmpty || item.condition.isEmpty
     }
     
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {

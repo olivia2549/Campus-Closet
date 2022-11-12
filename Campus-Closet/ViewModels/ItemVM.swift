@@ -17,12 +17,10 @@ import FirebaseStorage
     @Published var isEditing = true
     @Published var itemImage: UIImage?
     @Published var isSeller = false
-    @Published var isMissingRequiredInfo = false
-    @Published var errorMessage = ""
     private var db = Firestore.firestore()
     
     func verifyInfo() -> Bool {
-        return true
+        return item.title.isEmpty || item.price.isEmpty || item.size.isEmpty || item.condition.isEmpty
     }
     
     // Find an item in the database with a particular id

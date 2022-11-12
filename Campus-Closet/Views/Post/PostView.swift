@@ -91,6 +91,7 @@ struct ChoosePicture: View {
 
 struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
     @EnvironmentObject private var viewModel: ViewModel
+    @State private var isMissingRequiredInfo: Bool = false
     var presentationMode: Binding<PresentationMode>
     
     init(presentationMode: Binding<PresentationMode>) {
@@ -160,12 +161,16 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .disabled(viewModel.verifyInfo())
+                .onTapGesture {
+                    isMissingRequiredInfo = true
+                }
                 .buttonStyle(Styles.PinkButton())
                 
-                if viewModel.isMissingRequiredInfo {
-                    Text(viewModel.errorMessage)
+                if isMissingRequiredInfo {
+                    Text("Please enter valid information for all required fields.")
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10))
+                        .multilineTextAlignment(.center)
+                        .padding(EdgeInsets(top: 10, leading: 5, bottom: 20, trailing: 5))
                         .font(Font.system(size: 16, weight: .semibold))
                         .foregroundColor(Styles().themePink)
                 }
