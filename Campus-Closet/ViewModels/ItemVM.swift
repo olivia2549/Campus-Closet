@@ -90,17 +90,25 @@ import FirebaseStorage
     }
     
     func sendNotification() {
-        let user = ProfileVM().fetchUser(userID: item.sellerId)
-        
+        db.collection("users").document(item.sellerId).getDocument(as: User.self) { result in
+            switch result {
+            case .success(let user):
+                self.makeRequest(to: user.token)
+            case .failure(let error):
+                print("Error decoding user: \(error)")
+            }
+        }
+    }
+    
+    func makeRequest(to token: String) {
         let messageBody = ["title": "hello", "body": "you have successfully made a bid"]
         let body: [String: Any] = [
-            "to": user.token,
+            "to": token,
             "notification": messageBody,
             "data": []
         ]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: body)
-        
         let url = URL(string: "https://fcm.googleapis.com/fcm/send")!
         let serverKey = "AAAA_IxReKc:APA91bEq-CiQa_N6FrcdR5N0BnYXK5TLGzQ9WKcPCY8YDgOgFVNoS7viBitcoHahfdMXPlb17ryx1t4P2vPtFXfocTauxYjRsTaE-Tpre6-mcXvxn60BQD66v1Vk5oIwWyBBVqA_YKtU"
         var request = URLRequest(url: url)
@@ -115,7 +123,7 @@ import FirebaseStorage
                 return
             }
             if let data = data {
-                print("successfully sent")
+                print("successfully sent to \(token)")
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
                 if let responseJSON = responseJSON as? [String: Any] {
                     print("response: \(responseJSON)")
