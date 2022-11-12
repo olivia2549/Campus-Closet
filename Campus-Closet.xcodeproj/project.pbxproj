@@ -312,11 +312,11 @@
 			isa = PBXGroup;
 			children = (
 				C527282128E64660008C1D60 /* ChatView.swift */,
+				7D0978EB291DF23C00BD15DB /* CreateNewMessageView.swift */,
 				C598DC7C2908879A0040A0F7 /* MessageBubble.swift */,
 				C598DC7E290887A70040A0F7 /* MessageField.swift */,
 				C598DC842908883C0040A0F7 /* ChatMessage.swift */,
 				7D067DA2291DD03E00942890 /* MainMessagesView.swift */,
-				7D0978EB291DF23C00BD15DB /* CreateNewMessageView.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
