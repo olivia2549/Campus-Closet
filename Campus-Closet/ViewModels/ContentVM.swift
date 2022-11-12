@@ -34,28 +34,31 @@ import Foundation
                 var itemIdsCol1: [String] = []
                 var itemIdsCol2: [String] = []
                 var col1 = true
-                var shouldShow = true
                 
                 for document in querySnapshot!.documents {
-                    let itemTags = document.get("tags") as! [String]
-                    for tag in self.tagsLeft {
-                        if tag.value == 0 {
-                            if !itemTags.contains(where: {$0 == tag.key}) {
-                                print("don't show, key: \(tag.key)")
-                                shouldShow = false
-                                break
-                            }
-                            else {
-                                col1 ? itemIdsCol1.append(document.documentID) :
+                    if (document.get("sellerId") as! String) != Auth.auth().currentUser?.uid { // Do not show sellers their own items.
+                        let itemTags = document.get("tags") as! [String]
+                        var shouldShow = true
+                        
+                        for tag in self.tagsLeft {
+                            if tag.value == 0 {
+                                if !itemTags.contains(where: {$0 == tag.key}) {
+                                    print("don't show, key: \(tag.key)")
+                                    shouldShow = false
+                                    break
+                                }
+                                else {
+                                    col1 ? itemIdsCol1.append(document.documentID) :
                                     itemIdsCol2.append(document.documentID)
-                                col1.toggle()
+                                    col1.toggle()
+                                }
                             }
                         }
-                    }
-                    if shouldShow {
-                        col1 ? itemIdsCol1.append(document.documentID) :
+                        if shouldShow {
+                            col1 ? itemIdsCol1.append(document.documentID) :
                             itemIdsCol2.append(document.documentID)
-                        col1.toggle()
+                            col1.toggle()
+                        }
                     }
                 }
                 self.sortedColumns.append(itemIdsCol1)
