@@ -24,7 +24,7 @@ struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
             }
             ForEach(viewModel.sortedColumns, id: \.self) { colIds in
                 LazyVStack(spacing: vertSpacing) {
-                    ForEach(colIds, id: \.self) { id in
+                    ForEach(colIds.reversed(), id: \.self) { id in
                         ItemCardView(for: id)
                     }
                 }
