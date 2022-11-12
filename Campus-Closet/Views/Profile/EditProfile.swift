@@ -21,6 +21,9 @@ struct EditProfile: View {
                 CameraIcon(pickerShowing: $pickerShowing)
             }
             .onTapGesture { hideKeyboard() }
+            .onAppear {
+                profileVM.getProfileData()
+            }
             
             CustomInput(  // name input field
                 for: "Name",
@@ -78,6 +81,13 @@ struct NewProfileImage: View {
     var body: some View {
         if chosenPicture != nil {
             Image(uiImage: chosenPicture!)
+                .resizable()
+                .frame(width: 175, height: 175, alignment: .center)
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+        }
+        else if viewModel.profilePicture != nil {
+            Image(uiImage: viewModel.profilePicture!)
                 .resizable()
                 .frame(width: 175, height: 175, alignment: .center)
                 .aspectRatio(contentMode: .fit)
