@@ -20,7 +20,6 @@ struct LogInView: View {
                 .padding(20)
                 ErrorView()
             }
-            .navigationTitle("")
             .navigationBarHidden(true)
             .onTapGesture { hideKeyboard() }
         }

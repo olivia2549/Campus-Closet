@@ -26,7 +26,6 @@ struct Styles {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 20, height: 20)
-                        .padding(20)
                         .foregroundColor(.black)
                 }
             }
@@ -44,9 +43,12 @@ struct Styles {
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 ZStack(alignment: .center) {
-                    Image(systemName: "xmark")
-                        .frame(width: 40, height: 40)
+                    Image(systemName: "chevron.down")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20, height: 20)
                         .foregroundColor(.black)
+                        .padding(.trailing, 10)
                 }
             }
         }

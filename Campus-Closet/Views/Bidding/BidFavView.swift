@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SlidingTabView
+//import SlidingTabView
 
 struct BidFavView: View {
 //    @StateObject private var viewModel = ProfileVM()
@@ -16,23 +16,22 @@ struct BidFavView: View {
     var body: some View {
         VStack (alignment: .center, spacing: 10){
             HeaderDetailBid()
-                .zIndex(1)
+//                .zIndex(1)
                 .padding(.leading)
                 .padding(.trailing)
             
-                
-            SlidingTabView(
-                selection: $tabIndex,
-                tabs: ["Favorites", "Bids"],
-                font: .system(size: 20, weight: .medium),
-                animation: .easeInOut,
-                activeAccentColor: Styles().themePink,
-                inactiveAccentColor: .gray,
-                selectionBarHeight: 0
-            )
+//
+//            SlidingTabView(
+//                selection: $tabIndex,
+//                tabs: ["Favorites", "Bids"],
+//                font: .system(size: 20, weight: .medium),
+//                animation: .easeInOut,
+//                activeAccentColor: Styles().themePink,
+//                inactiveAccentColor: .gray,
+//                selectionBarHeight: 0
+//            )
             Spacer()
         }
-        .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
     }
 }
@@ -52,19 +51,19 @@ struct ToggleView2: View {
     
     var body: some View {
         VStack {
-            SlidingTabView(
-                selection: $tabIndex,
-                tabs: ["Listed", "Sold", "Purchased"],
-                font: .system(size: 20, weight: .medium),
-                animation: .easeInOut,
-                activeAccentColor: Styles().themePink,
-                inactiveAccentColor: .gray,
-                selectionBarHeight: 0
-            )
-            .background(.white)
-            .offset(y: getPosition())
-            .modifier(OffsetModifier(offset: $offset))
-            .zIndex(1)
+//            SlidingTabView(
+//                selection: $tabIndex,
+//                tabs: ["Listed", "Sold", "Purchased"],
+//                font: .system(size: 20, weight: .medium),
+//                animation: .easeInOut,
+//                activeAccentColor: Styles().themePink,
+//                inactiveAccentColor: .gray,
+//                selectionBarHeight: 0
+//            )
+//            .background(.white)
+//            .offset(y: getPosition())
+//            .modifier(OffsetModifier(offset: $offset))
+//            .zIndex(1)
             if (tabIndex == 0) {
                 
                 //Text("hello")
