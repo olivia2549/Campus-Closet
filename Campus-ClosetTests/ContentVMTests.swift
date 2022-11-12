@@ -27,7 +27,7 @@ class ContentVMTests : XCTestCase {
     
     @MainActor func testPreconditions(){
         let contentVM = ContentVM()
-        XCTAssertEqual(contentVM.sortedColumns.count, 0, "sortedColumns should be empty")
+        XCTAssertEqual(contentVM.content.count, 0, "sortedColumns should be empty")
         XCTAssertEqual(contentVM.tags.count, 0, "there should be no tags")
         for tag in contentVM.tagsLeft {
             XCTAssertEqual(tag.value, 1, "there should be no tags")

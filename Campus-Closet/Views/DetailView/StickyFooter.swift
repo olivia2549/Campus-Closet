@@ -74,7 +74,7 @@ struct StickyFooter: View {
             trailing: 15)
         )
         .if(offset >= scrollHeight - height + 1) { view in
-            view.background(Color.white.shadow(radius: 5).mask(Rectangle().padding(.top, -20)))
+            view.background(Color.white.shadow(radius: 10).mask(Rectangle().padding(.top, -20)))
         }
         .if(offset < height - scrollHeight + 1) { view in
             view.background(Color.white)

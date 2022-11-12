@@ -36,7 +36,7 @@ class ProfileVMTests : XCTestCase {
         XCTAssertNotNil(profileVM.user, "User should exist")
         XCTAssertEqual(profileVM.numRatings, 0, "numRatings should be 0")
         XCTAssertEqual(profileVM.averageRating, 0.0, "averageRating should be 0.0")
-        XCTAssertEqual(profileVM.sortedColumns.count, 0, "sortedColumns array should be empty")
+        XCTAssertEqual(profileVM.content.count, 0, "sortedColumns array should be empty")
     }
     
     @MainActor func testGetProfileData(){
