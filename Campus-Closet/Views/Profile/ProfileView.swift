@@ -12,19 +12,20 @@ struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
     @State var offset: CGFloat = 0
 
-    let maxHeight = UIScreen.main.bounds.height / 2.5
+    let maxHeight = UIScreen.main.bounds.height / 2.2
+    @State var headerHeight: CGFloat = 0
     
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 10) {
                 GeometryReader{ proxy in
-                    ProfileInfo(offset: $offset)
+                    ProfileInfo(offset: $offset, headerHeight: $headerHeight)
                         .frame(maxWidth: .infinity)
                         .frame(height: getHeaderHeight(), alignment: .bottom)
                         .overlay(
                             ProfileHeader(
                                 offset: $offset,
-                                maxHeight: maxHeight
+                                headerHeight: $headerHeight
                             )
                             ,alignment: .top
                         )
@@ -62,7 +63,8 @@ struct ProfileView: View {
 struct ProfileHeader: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
-    var maxHeight: CGFloat
+    @Binding var headerHeight: CGFloat
+//    var maxHeight: CGFloat
     
     var body: some View {
         HStack {
@@ -94,6 +96,7 @@ struct ProfileHeader: View {
         .frame(maxWidth: .infinity)
         .frame(height: 80)
         .background(.white)
+        .modifier(HeightModifier(height: $headerHeight))
     }
     
     func getOpacity() -> CGFloat {
@@ -103,7 +106,7 @@ struct ProfileHeader: View {
     }
     
     func getNameOpacity() -> CGFloat {
-        let progress = -(offset + 50) / (maxHeight - 80)
+        let progress = -(offset + 50) / (headerHeight - 80)
         return progress
     }
     
@@ -112,6 +115,8 @@ struct ProfileHeader: View {
 struct ProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
+    @Binding var headerHeight: CGFloat
+//    var maxHeight: CGFloat
     
     var body: some View {
         VStack {
@@ -130,7 +135,7 @@ struct ProfileInfo: View {
                     .clipShape(Circle())
             }
             Text(viewModel.user.name)
-                .font(.system(size: 32, weight: .medium))
+                .font(.system(size: 24, weight: .medium))
             HStack(alignment: .center) {
                 Image(systemName: "star.fill")
                     .resizable()
@@ -159,6 +164,7 @@ struct ProfileInfo: View {
         .opacity(getOpacity())
         .background(.white)
         .padding()
+        .padding(.top, headerHeight)
     }
     
     func getOpacity() -> CGFloat {
