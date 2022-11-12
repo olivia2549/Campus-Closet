@@ -20,50 +20,52 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView(selection: $selection) {
-            HomeView()
-                .tabItem {
-                    if (selection == 0) {
-                        Image(systemName: "house.fill")
+        NavigationView {
+            TabView(selection: $selection) {
+                HomeView()
+                    .tabItem {
+                        if (selection == 0) {
+                            Image(systemName: "house.fill")
+                        }
+                        else {
+                            Image(systemName: "house")
+                                .environment(\.symbolVariants, .none)
+                        }
                     }
-                    else {
-                        Image(systemName: "house")
-                        .environment(\.symbolVariants, .none)
-                    }
-                }
-                .tag(0)
-            MainMessagesView()
-                .tabItem {
-                    if (selection == 1) {
-                        Image(systemName: "message.fill")
-                    }
-                    else {
-                        Image(systemName: "message")
-                            .environment(\.symbolVariants, .none)
+                    .tag(0)
+                MainMessagesView()
+                    .tabItem {
+                        if (selection == 1) {
+                            Image(systemName: "message.fill")
+                        }
+                        else {
+                            Image(systemName: "message")
+                                .environment(\.symbolVariants, .none)
                         }
                     }
                     .tag(1)
-            Text("")
-                .fullScreenCover(
-                    isPresented: $addPostPresented,
-                    onDismiss: {
-                        selection = 0
-                    },
-                    content: { PostView() }
-                )
-                .onAppear {
-                    addPostPresented.toggle()
-                }
-                .tabItem {
-                    if (selection == 2) {
-                        Image(systemName: "plus.app.fill")
+                Text("")
+                    .fullScreenCover(
+                        isPresented: $addPostPresented,
+                        onDismiss: {
+                            selection = 0
+                        },
+                        content: { PostView() }
+                    )
+                    .onAppear {
+                        addPostPresented.toggle()
                     }
-                    else {
-                        Image(systemName: "plus.app")
-                            .environment(\.symbolVariants, .none)
+                    .tabItem {
+                        if (selection == 2) {
+                            Image(systemName: "plus.app.fill")
+                        }
+                        else {
+                            Image(systemName: "plus.app")
+                                .environment(\.symbolVariants, .none)
+                        }
                     }
-                }
-                .tag(2)
+                    .tag(2)
+                
                 ProfileView()
                     .tabItem {
                         if (selection == 4) {
