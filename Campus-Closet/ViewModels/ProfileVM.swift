@@ -32,7 +32,7 @@ enum Position: Int {
     @Published var numRatings = 0
     @Published var averageRating = 0.0
     @Published var profilePicture: UIImage?
-    @Published var sortedColumns: [[String]] = []
+    @Published var content: [String] = []
     @Published var viewingMode: ViewingMode = ViewingMode.buyer
     @Published var position: Position = Position.first
     
@@ -72,10 +72,6 @@ enum Position: Int {
     }
     
     func fetchItems() {
-        self.sortedColumns = []
-        var itemIdsCol1: [String] = []
-        var itemIdsCol2: [String] = []
-        var col1 = true
         var data: [String] = []
         // figure out which data to display (based on the selected toggle combination)
         if (self.viewingMode == ViewingMode.buyer) {
@@ -93,17 +89,10 @@ enum Position: Int {
                 data = user.sold
             }
         }
-        // sort data into 2 columns
         if data.count == 0 {
             return
         }
-        data.forEach({ item in
-            col1 ? itemIdsCol1.append(item) :
-                itemIdsCol2.append(item)
-            col1.toggle()
-        })
-        self.sortedColumns.append(itemIdsCol1)
-        self.sortedColumns.append(itemIdsCol2)
+        self.content = data
     }
     
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {

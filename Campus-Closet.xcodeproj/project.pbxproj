@@ -63,6 +63,9 @@
 		C598DC852908883C0040A0F7 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C598DC842908883C0040A0F7 /* ChatMessage.swift */; };
 		C59CAD472910172000F32FF3 /* EditItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CAD462910172000F32FF3 /* EditItem.swift */; };
 		C59CAD4C291091E200F32FF3 /* OffsetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CAD4B291091E200F32FF3 /* OffsetModifier.swift */; };
+		C5B081E92920148200E6AF49 /* HeightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B081E82920148200E6AF49 /* HeightModifier.swift */; };
+		C5B081EB292014BA00E6AF49 /* NavExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B081EA292014BA00E6AF49 /* NavExtension.swift */; };
+		C5B081ED292014DC00E6AF49 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B081EC292014DC00E6AF49 /* ViewExtension.swift */; };
 		C5B84AC128EF7678004D1146 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B84AC028EF7678004D1146 /* EditProfile.swift */; };
 		C5D69BA52902FC47004FD7C7 /* OnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */; };
 		C5D69BAF29032E64004FD7C7 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D69BAE29032E64004FD7C7 /* ItemModel.swift */; };
@@ -138,6 +141,9 @@
 		C598DC842908883C0040A0F7 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		C59CAD462910172000F32FF3 /* EditItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItem.swift; sourceTree = "<group>"; };
 		C59CAD4B291091E200F32FF3 /* OffsetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetModifier.swift; sourceTree = "<group>"; };
+		C5B081E82920148200E6AF49 /* HeightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightModifier.swift; sourceTree = "<group>"; };
+		C5B081EA292014BA00E6AF49 /* NavExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavExtension.swift; sourceTree = "<group>"; };
+		C5B081EC292014DC00E6AF49 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		C5B84AC028EF7678004D1146 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
 		C5D69BA42902FC47004FD7C7 /* OnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVM.swift; sourceTree = "<group>"; };
 		C5D69BAE29032E64004FD7C7 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
@@ -225,7 +231,7 @@
 				C5D69BAB290314D7004FD7C7 /* Profile */,
 				C53E8CEA2905C5B30027D538 /* Shared */,
 				2E0101EB28F4EC910074F404 /* ErrorView.swift */,
-				C59CAD4B291091E200F32FF3 /* OffsetModifier.swift */,
+				C5B081E72920147300E6AF49 /* Modifiers */,
 				C54556BA2904E3CC007CC071 /* SearchView.swift */,
 			);
 			path = Views;
@@ -319,6 +325,17 @@
 				7D0978EB291DF23C00BD15DB /* CreateNewMessageView.swift */,
 			);
 			path = Messages;
+			sourceTree = "<group>";
+		};
+		C5B081E72920147300E6AF49 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				C59CAD4B291091E200F32FF3 /* OffsetModifier.swift */,
+				C5B081E82920148200E6AF49 /* HeightModifier.swift */,
+				C5B081EA292014BA00E6AF49 /* NavExtension.swift */,
+				C5B081EC292014DC00E6AF49 /* ViewExtension.swift */,
+			);
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		C5BF285E28F5418D00258D3D /* ViewModels */ = {
@@ -540,7 +557,9 @@
 				C54556BB2904E3CC007CC071 /* SearchView.swift in Sources */,
 				2EF0007528EB972E00F2FAAE /* UserModel.swift in Sources */,
 				C527281E28E64419008C1D60 /* PostView.swift in Sources */,
+				C5B081ED292014DC00E6AF49 /* ViewExtension.swift in Sources */,
 				7D94FAA22908E08F00FF1761 /* StickyFooter.swift in Sources */,
+				C5B081E92920148200E6AF49 /* HeightModifier.swift in Sources */,
 				C59CAD4C291091E200F32FF3 /* OffsetModifier.swift in Sources */,
 				C598DC7F290887A70040A0F7 /* MessageField.swift in Sources */,
 				2E817DF5290368EB001F1A75 /* PostVM.swift in Sources */,
@@ -551,6 +570,7 @@
 				C527282428E64698008C1D60 /* ProfileView.swift in Sources */,
 				C598DC852908883C0040A0F7 /* ChatMessage.swift in Sources */,
 				2E0101EC28F4EC920074F404 /* ErrorView.swift in Sources */,
+				C5B081EB292014BA00E6AF49 /* NavExtension.swift in Sources */,
 				C527282928E7480B008C1D60 /* Masonry.swift in Sources */,
 				7D94FAA42908F22900FF1761 /* DetailView.swift in Sources */,
 				C55ED99B28DD01E1001BD218 /* Campus_ClosetApp.swift in Sources */,

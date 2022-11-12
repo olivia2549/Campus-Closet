@@ -19,6 +19,10 @@ import FirebaseAuth
 struct DetailView: View {
     @StateObject private var itemViewModel = ItemVM()
     @StateObject private var profileViewModel = ProfileVM()
+    @State var scrollOffset: CGFloat = 0
+    @State var innerHeight: CGFloat = 0
+    @State var offset: CGFloat = 0
+    @State var scrollHeight: CGFloat = 0
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var id: String
@@ -29,15 +33,22 @@ struct DetailView: View {
     var body: some View {
         ZStack {
             ScrollView {
-                ItemImage()
-                DetailDescription()
+                VStack {
+                    ItemImage()
+                    DetailDescription()
+                }
+                .modifier(OffsetModifier(offset: $scrollOffset))
+                .modifier(HeightModifier(height: $innerHeight))
             }
+            .modifier(HeightModifier(height: $scrollHeight))
+            .coordinateSpace(name: "SCROLL")
             .scrollIndicators(.hidden)
             .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 15)
-            .padding(.bottom, itemViewModel.isSeller ? 100 : 175)
+            .padding(.bottom, itemViewModel.isSeller ? 100 : 160)
+            
             VStack(spacing: 0) {
                 Spacer()
-                StickyFooter()
+                StickyFooter(offset: $scrollOffset, height: $innerHeight, scrollHeight: $scrollHeight)
             }
         }
         .ignoresSafeArea(.all, edges: .bottom)
@@ -80,6 +91,12 @@ struct ItemImage: View {
                         }.offset(x: -18, y: 20)
                     }
                 }
+        }
+        else {
+            Rectangle()
+                .frame(height: 500)
+                .cornerRadius(20, corners: [.topLeft, .topRight])
+                .foregroundColor(Color("LightGrey"))
         }
     }
     
