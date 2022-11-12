@@ -13,7 +13,7 @@ import Foundation
 
 @MainActor class ContentVM: ObservableObject, HandlesTagsVM, RenderContentVM {
     private var db = Firestore.firestore()
-    @Published var sortedColumns: [[String]] = []
+    @Published var content: [String] = []
     @Published var tags: [String] = []
     @Published var tagsLeft = [
         "womens": 1,
@@ -30,13 +30,10 @@ import Foundation
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                self.sortedColumns = []
-                var itemIdsCol1: [String] = []
-                var itemIdsCol2: [String] = []
-                var col1 = true
-                
+                self.content = []
                 for document in querySnapshot!.documents {
-                    if (document.get("sellerId") as! String) != Auth.auth().currentUser?.uid { // Do not show sellers their own items.
+                    // Do not show sellers their own items.
+                    if (document.get("sellerId") as! String) != Auth.auth().currentUser?.uid {
                         let itemTags = document.get("tags") as! [String]
                         var shouldShow = true
                         
@@ -48,21 +45,15 @@ import Foundation
                                     break
                                 }
                                 else {
-                                    col1 ? itemIdsCol1.append(document.documentID) :
-                                    itemIdsCol2.append(document.documentID)
-                                    col1.toggle()
+                                    self.content.append(document.documentID)
                                 }
                             }
                         }
                         if shouldShow {
-                            col1 ? itemIdsCol1.append(document.documentID) :
-                            itemIdsCol2.append(document.documentID)
-                            col1.toggle()
+                            self.content.append(document.documentID)
                         }
                     }
                 }
-                self.sortedColumns.append(itemIdsCol1)
-                self.sortedColumns.append(itemIdsCol2)
             }
         }
     }
