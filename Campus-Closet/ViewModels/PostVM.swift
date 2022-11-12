@@ -14,11 +14,11 @@ import FirebaseFirestore
 import FirebaseStorage
 
 @MainActor class PostVM: ObservableObject, HandlesTagsVM, ItemInfoVM {
-    @Published var tags: [String] = []
-    @Published var isEditing = false
-    @Published var item = Item()
     @Published var chosenPicture: UIImage?
+    @Published var item = Item()
+    @Published var isEditing = false
     @Published var sellerIsAnonymous = false
+    @Published var tags: [String] = []
     @Published var tagsLeft = [
         "womens": 1,
         "mens": 1,
@@ -28,7 +28,16 @@ import FirebaseStorage
         "shoes": 1,
         "accessories": 1
     ]
-
+    
+    func verifyInfo() -> Bool {
+        return !item.title.isEmpty && !item.price.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && hasValidPrice()
+    }
+    
+    private func hasValidPrice() -> Bool {
+        let price = Float(item.price)
+        return price != nil && price! < 1000
+    }
+    
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
         return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
     }
@@ -53,7 +62,7 @@ import FirebaseStorage
         else {
             return ""
         }
-        
+
     }
     
     func postItem() {

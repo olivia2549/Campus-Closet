@@ -11,6 +11,7 @@ import FirebaseAuth
 @MainActor protocol ItemInfoVM: ObservableObject {
     var item: Item { get set }
     var isEditing: Bool { get set }
+    func verifyInfo() -> Bool
     func postItem()
 }
 

@@ -91,6 +91,7 @@ struct ChoosePicture: View {
 
 struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
     @EnvironmentObject private var viewModel: ViewModel
+    @State private var isMissingRequiredInfo: Bool = false
     var presentationMode: Binding<PresentationMode>
     
     init(presentationMode: Binding<PresentationMode>) {
@@ -146,8 +147,13 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
             
             if viewModel.isEditing {
                 Button(action: {
-                    viewModel.postItem()
-                    self.presentationMode.wrappedValue.dismiss()
+                    if viewModel.verifyInfo() {
+                        viewModel.postItem()
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                    else {
+                        isMissingRequiredInfo = true
+                    }
                 }) {
                     Text("Done")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -159,9 +165,21 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
+                .disabled(!viewModel.verifyInfo())
+                .onTapGesture {
+                    isMissingRequiredInfo = true
+                }
                 .buttonStyle(Styles.PinkButton())
             }
             
+            if isMissingRequiredInfo {
+                Text("Please enter valid information for all required fields.")
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .multilineTextAlignment(.center)
+                    .padding(EdgeInsets(top: 10, leading: 5, bottom: 20, trailing: 5))
+                    .font(Font.system(size: 16, weight: .semibold))
+                    .foregroundColor(Styles().themePink)
+            }
             Spacer()
         }
         .navigationBarBackButtonHidden(true)
