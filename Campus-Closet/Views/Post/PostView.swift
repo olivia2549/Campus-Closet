@@ -159,9 +159,17 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
+                .disabled(viewModel.verifyInfo())
                 .buttonStyle(Styles.PinkButton())
+                
+                if viewModel.isMissingRequiredInfo {
+                    Text(viewModel.errorMessage)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10))
+                        .font(Font.system(size: 16, weight: .semibold))
+                        .foregroundColor(Styles().themePink)
+                }
             }
-            
             Spacer()
         }
         .navigationBarBackButtonHidden(true)
