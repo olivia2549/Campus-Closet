@@ -33,11 +33,11 @@ enum Position: Int {
     let db = Firestore.firestore()
     let maxHeight = UIScreen.main.bounds.height / 2.5
     
-    func getProfileData() {
-        fetchUser(userID: Auth.auth().currentUser!.uid)
+    func getProfileData() -> User {
+        return fetchUser(userID: Auth.auth().currentUser!.uid)
     }
     
-    func fetchUser(userID: String) {
+    func fetchUser(userID: String) -> User {
         let profileRef = db.collection("users").document(userID)
         
         profileRef.getDocument(as: User.self) { result in
@@ -63,6 +63,7 @@ enum Position: Int {
                 print("Error decoding user: \(error)")
             }
         }
+        return self.user
     }
     
     func fetchItems() {

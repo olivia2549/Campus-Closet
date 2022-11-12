@@ -17,6 +17,5 @@ struct User: Codable {
     var sold: [String] = []        // IDs of items sold by user (seller)
     var ratings: [Int] = []
     var isSeller: Bool = false
-    
-    
+    var token: String = ""
 }

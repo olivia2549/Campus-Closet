@@ -61,9 +61,3 @@ struct UserListView: View, Identifiable {
             .onAppear(perform: { viewModel.fetchUser(userID: id) })
     }
 }
-
-//struct CreateNewMessageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreateNewMessageView()
-//    }
-//}

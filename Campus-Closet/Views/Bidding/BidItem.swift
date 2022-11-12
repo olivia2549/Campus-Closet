@@ -12,11 +12,6 @@ struct BidItem: View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         VStack(alignment: .center){
-//            HeaderDetail()
-//                .zIndex(1)
-//                .padding(.leading)
-//                .padding(.trailing)
-
             Text("Make an offer")
                 .fontWeight(.semibold)
                 .font(.system(size: 45))
@@ -63,9 +58,6 @@ struct BidItem: View {
                 .cornerRadius(25)
                 Spacer()
             }
-            
-
-
             
             Spacer()
         }

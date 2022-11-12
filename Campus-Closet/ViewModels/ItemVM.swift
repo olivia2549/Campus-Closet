@@ -89,4 +89,42 @@ import FirebaseStorage
         }
     }
     
+    func sendNotification() {
+        let user = ProfileVM().fetchUser(userID: item.sellerId)
+        
+        let messageBody = ["title": "hello", "body": "you have successfully made a bid"]
+        let body: [String: Any] = [
+            "to": user.token,
+            "notification": messageBody,
+            "data": []
+        ]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: body)
+        
+        let url = URL(string: "https://fcm.googleapis.com/fcm/send")!
+        let serverKey = "AAAA_IxReKc:APA91bEq-CiQa_N6FrcdR5N0BnYXK5TLGzQ9WKcPCY8YDgOgFVNoS7viBitcoHahfdMXPlb17ryx1t4P2vPtFXfocTauxYjRsTaE-Tpre6-mcXvxn60BQD66v1Vk5oIwWyBBVqA_YKtU"
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("key=\(serverKey)", forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if error != nil {
+                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            if let data = data {
+                print("successfully sent")
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let responseJSON = responseJSON as? [String: Any] {
+                    print("response: \(responseJSON)")
+                }
+            }
+        }
+        
+        task.resume()
+        
+    }
+    
 }

@@ -40,7 +40,7 @@ struct StickyFooter: View {
                 // Button at right
                 if !viewModel.isSeller {
                     Button(action: {
-                        print("Place Bid")
+                        viewModel.sendNotification()
                     }){
                         Text("Place Bid $\(viewModel.item.price)")
                             .frame(maxWidth: 120, alignment: .center)
