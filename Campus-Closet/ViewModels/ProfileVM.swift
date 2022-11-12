@@ -20,12 +20,6 @@ enum ViewingMode {
 enum Position: Int {
     case first = 0, second
 }
-//enum Buyer: Int {
-//    case bids = 0, saved
-//}
-//enum Seller: Int {
-//    case listings = 0, sold
-//}
 
 @MainActor class ProfileVM: ObservableObject, RenderContentVM {
     @Published var user = User()
@@ -73,6 +67,7 @@ enum Position: Int {
     
     func fetchItems() {
         var data: [String] = []
+        self.content = []
         // figure out which data to display (based on the selected toggle combination)
         if (self.viewingMode == ViewingMode.buyer) {
             switch (self.position) {

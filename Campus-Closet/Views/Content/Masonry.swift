@@ -9,7 +9,6 @@ import SwiftUI
 import UIKit
 
 @MainActor protocol RenderContentVM: ObservableObject {
-//    var sortedColumns: [[String]] { get set }
     var content: [String] { get set }
 }
 
@@ -25,7 +24,7 @@ struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
                 Text("Nothing to show")
             }
             LazyVGrid(columns: gridColLayout) {
-                ForEach(viewModel.content.reversed(), id: \.self) { id in
+                ForEach(viewModel.content, id: \.self) { id in
                     ItemCardView(for: id)
                 }
             }

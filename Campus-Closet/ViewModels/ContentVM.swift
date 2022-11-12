@@ -54,6 +54,7 @@ import Foundation
                         }
                     }
                 }
+                self.content = self.content.reversed()
             }
         }
     }
