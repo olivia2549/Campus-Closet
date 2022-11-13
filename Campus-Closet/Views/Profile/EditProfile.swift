@@ -21,9 +21,6 @@ struct EditProfile: View {
                 CameraIcon(pickerShowing: $pickerShowing)
             }
             .onTapGesture { hideKeyboard() }
-            .onAppear {
-                profileVM.getProfileData()
-            }
             
             CustomInput(  // name input field
                 for: "Name",
@@ -48,7 +45,7 @@ struct EditProfile: View {
                 profileVM.updateUser(chosenPicture: chosenPicture)
                 self.presentationMode.wrappedValue.dismiss()
             })
-                .buttonStyle(Styles.PinkButton())
+            .buttonStyle(Styles.PinkButton())
             
             Button("Delete account", action: { onboardingVM.deleteAccount() })
                 .buttonStyle(Styles.PinkTextButton())

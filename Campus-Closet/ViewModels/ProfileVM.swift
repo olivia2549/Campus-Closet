@@ -101,13 +101,12 @@ enum Position: Int {
         }
         
         let storageRef = Storage.storage().reference()
-        let pictureData = chosenPicture!.pngData()
-        var picturePath: String = "user-pictures/\(UUID().uuidString).png"
+        let pictureData = chosenPicture!.jpegData(compressionQuality: 0)
+        var picturePath: String = "user-pictures/\(UUID().uuidString).jpeg"
         
         if pictureData != nil {
             let pictureRef = storageRef.child(picturePath)
-            
-            let upload = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
+            let _ = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
                 if error != nil || metadata == nil {
                     picturePath = ""
                 }
@@ -118,22 +117,63 @@ enum Position: Int {
     }
     
     func updateUser(chosenPicture: UIImage?) {
-        let newPicturePath = uploadPicture(chosenPicture: chosenPicture)
+        getPictureReference()
+
+        func getPictureReference() {
+            updateUser(){
+                Storage.storage().reference(withPath: self.user.picture).getData(maxSize: 60 * 1024 * 1024) { (data, error) in
+                    if let err = error {
+                        print(err)
+                    } else if data != nil {
+                        if let picture = UIImage(data: data!) {
+                            self.profilePicture = picture
+                        }
+                    }
+                }
+            }
+        }
+
+        func updateUser(completion: @escaping () -> Void) {
+            uploadNewPicture() {
+                let db = Firestore.firestore()
+                if let userId = Auth.auth().currentUser?.uid {
+                    db.collection("users").document(userId).setData([
+                        "name": self.user.name,
+                        "picture": self.user.picture,
+                        "venmo": self.user.venmo
+                    ], merge: true) { err in
+                        if let error = err {
+                            print("There was an issue saving data to Firestore, \(error).")
+                        } else {
+                            print("Successfully saved data.")
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
         
-        let db = Firestore.firestore()
-        if let userId = Auth.auth().currentUser?.uid {
-            db.collection("users").document(userId).setData([
-                "name": user.name,
-                "picture": newPicturePath,
-                "venmo": user.venmo
-            ], merge: true) { err in
-                if let error = err {
-                    print("There was an issue saving data to Firestore, \(error).")
-                } else {
-                    print("Successfully saved data.")
+        func uploadNewPicture(completion: @escaping () -> Void) {
+            if chosenPicture == nil {
+                return
+            }
+            
+            let storageRef = Storage.storage().reference()
+            let pictureData = chosenPicture!.jpegData(compressionQuality: 0)
+            var picturePath: String = "user-pictures/\(UUID().uuidString).jpeg"
+
+            if pictureData != nil {
+                let pictureRef = storageRef.child(picturePath)
+                let _ = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
+                    if error != nil || metadata == nil {
+                        picturePath = ""
+                    }
+                    else {
+                        self.user.picture = picturePath
+                        completion()
+                    }
                 }
             }
         }
     }
-    
 }
