@@ -12,7 +12,12 @@ struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
     @State var offset: CGFloat = 0
 
+<<<<<<< Updated upstream
     let maxHeight = UIScreen.main.bounds.height / 2.5
+=======
+    let maxHeight = UIScreen.main.bounds.height / 2.1
+    @State var headerHeight: CGFloat = 0
+>>>>>>> Stashed changes
     
     var body: some View {
         NavigationView {
@@ -68,7 +73,12 @@ struct ProfileView: View {
 struct ProfileHeader: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
+<<<<<<< Updated upstream
     var maxHeight: CGFloat
+=======
+    @Binding var headerHeight: CGFloat
+//    var maxHeig ht: CGFloat
+>>>>>>> Stashed changes
     
     var body: some View {
         HStack {

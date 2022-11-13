@@ -11,9 +11,35 @@ struct HomeView: View {
     @StateObject private var contentVM = ContentVM()
     
     var body: some View {
+<<<<<<< Updated upstream
         NavigationView {
             VStack(spacing: 0) {
                 // Header
+=======
+        VStack(spacing: 0) {
+            // Header
+            HStack {
+                Image("logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100, height: 50, alignment: .leading)
+                Spacer()
+                Image(systemName: "bookmark")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 15)
+                    .padding(7)
+                Image(systemName: "bell")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25)
+            }
+            .padding(.leading)
+            .padding(.trailing)
+            
+            // Filter items
+            VStack(alignment: .leading) {
+>>>>>>> Stashed changes
                 HStack {
                     Image("logo")
                         .resizable()

@@ -114,6 +114,7 @@ struct DetailView: View {
     }
 }
 
+<<<<<<< Updated upstream
 struct HeaderDetail: View{
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -140,6 +141,42 @@ struct HeaderDetail: View{
             }
             .padding(.leading)
             .padding(.trailing)
+=======
+struct ItemImage: View {
+    @EnvironmentObject private var itemViewModel: ItemVM
+    @EnvironmentObject private var profileViewModel: ProfileVM
+    
+    var body: some View {
+        if (itemViewModel.itemImage != nil) {
+            Image(uiImage: itemViewModel.itemImage!)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .cornerRadius(20, corners: [.topLeft, .topRight])
+                .overlay(alignment: .topTrailing){
+                    if !itemViewModel.isSeller {
+                        Button(action: {
+                            print("Add to favorites")
+                            //profileViewModel.fetchUser(userID: self.id)
+                            
+                            profileViewModel.self.user.saved.append(itemViewModel.item._id)
+                        }){
+                            Image(systemName: "bookmark")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 22)
+                                .shadow(color: .white, radius: 10)
+                                .foregroundStyle(Color("Dark Pink"))
+                            
+                        }.offset(x: -18, y: 20)
+                    }
+                }
+        }
+        else {
+            Rectangle()
+                .frame(height: 500)
+                .cornerRadius(20, corners: [.topLeft, .topRight])
+                .foregroundColor(Color("LightGrey"))
+>>>>>>> Stashed changes
         }
     }
 }
