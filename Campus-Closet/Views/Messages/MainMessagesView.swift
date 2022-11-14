@@ -17,75 +17,62 @@ class MainMessagesViewModel: ObservableObject{
     }
 }
 
-
-
 struct MainMessagesView: View {
     @State var shouldShowLogOutOptions = false
-    @StateObject private var viewModel = ProfileVM()
-    //@Binding var offset = CGFloat
+    @State var shouldShowNewMessageScreen = false
+    @StateObject private var profileVM = ProfileVM()
+    @StateObject private var messagesVM = MessagesVM()
 
-    private var customNavBar: some View{
-       
-            HStack(spacing: 16){
-                Image (systemName: "person.fill")
-                    .font(.system(size:34, weight: .heavy))
-                VStack(alignment: .leading, spacing: 4){
-                    
-                    Text("Hilly Yehoshua")
-                        .font (.system(size: 24, weight: .bold) )
-                        //.opacity(getNameOpacity())
-                    HStack{
-                        Circle()
-                            .foregroundColor(.green)
-                            .frame (width: 14, height: 14)
-                        Text("online")
-                            .font (.system(size: 12))
-                            .foregroundColor(Color(.lightGray))
-                    }
-                }
-                
-                Spacer()
-                Button{
-                    shouldShowLogOutOptions.toggle()
-                }label:{
-                    Image(systemName: "gear")
-                        .font(.system(size: 24, weight: .bold))
-                }
-                
-            }
-            .padding()
-            .actionSheet(isPresented: $shouldShowLogOutOptions){
-                .init(title: Text("Settings"), message: Text("What do you want to do?"), buttons: [.default(Text("DEFAULT BUTTON")),
-                    .cancel()
-                                                                                                  ])
-        }
-        
-       
-    }
     var body: some View {
         NavigationView{
-            
             VStack{
-                //custom nav bar
+                // Custom navigation bar
                 customNavBar
-                
-                
-                
+                // Message history
                 messagesView
-               
-
-                
-                
             }
-            .overlay(
-                newMessageButton, alignment: .bottom
-                
-            )
+            .overlay(newMessageButton, alignment: .bottom)
             .navigationBarHidden(true)
-            
         }
     }
-    private var messagesView: some View{
+    
+    private var customNavBar: some View{
+        HStack(spacing: 16) {
+            Image (systemName: "person.fill")
+                .font(.system(size:34, weight: .heavy))
+            VStack(alignment: .leading, spacing: 4){
+                Text(profileVM.user.name)
+                    .font (.system(size: 24, weight: .bold) )
+                    //.opacity(getNameOpacity())
+                HStack{
+                    Circle()
+                        .foregroundColor(.green)
+                        .frame (width: 14, height: 14)
+                    Text("online")
+                        .font (.system(size: 12))
+                        .foregroundColor(Color(.lightGray))
+                }
+            }
+            Spacer()
+            
+            Button{
+                shouldShowLogOutOptions.toggle()
+            } label:{
+                Image(systemName: "gear")
+                    .font(.system(size: 24, weight: .bold))
+            }
+        }
+        .padding()
+        .actionSheet(isPresented: $shouldShowLogOutOptions) {
+            .init(
+                title: Text("Settings"),
+                message: Text("What do you want to do?"),
+                buttons: [.default(Text("DEFAULT BUTTON")), .cancel()]
+            )
+        }
+    }
+    
+    private var messagesView: some View {
         ScrollView{
             ForEach(0..<10, id: \.self){ num in
                 VStack{
@@ -94,8 +81,7 @@ struct MainMessagesView: View {
                             .font(.system(size: 32))
                             .padding(8)
                             .overlay(RoundedRectangle(cornerRadius: 44)
-                                .stroke(Color.black, lineWidth: 1))
-                        
+                            .stroke(Color.black, lineWidth: 1))
                         
                         VStack (alignment: .leading){
                             Text("Username")
@@ -110,16 +96,14 @@ struct MainMessagesView: View {
                             .font(.system(size: 14, weight: .semibold))
                     }
                 }
-                
                 Divider()
                     .padding(.vertical, 8)
                 
-            }.padding(.horizontal)
-        }.padding(.bottom, 50)
+            }
+            .padding(.horizontal)
+        }
+        .padding(.bottom, 50)
     }
-    
-    
-    @State var shouldShowNewMessageScreen = false
     
     private var newMessageButton: some View{
         Button {
@@ -129,7 +113,6 @@ struct MainMessagesView: View {
                 Spacer()
                 Text("+ New Message")
                     .font (.system(size: 16, weight: .bold))
-                    
                 Spacer()
             }
             .foregroundColor(.white)
@@ -144,10 +127,6 @@ struct MainMessagesView: View {
         }
     }
 }
-
-
-
-
 
 struct MainMessagesView_Previews: PreviewProvider {
     static var previews: some View {
