@@ -4,10 +4,10 @@
 //
 //  Created by Hilly Yehoshua on 10/23/22.
 //
+
 import SwiftUI
 
 struct MessageField: View {
-
     @State private var message = ""
     @EnvironmentObject var messagesVM: MessagesVM
 
