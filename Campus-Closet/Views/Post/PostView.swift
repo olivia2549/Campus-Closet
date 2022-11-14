@@ -76,7 +76,6 @@ struct ChoosePicture: View {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
                         .onTapGesture {
-                            viewModel.chosenPicture = chosenPicture
                             self.presentInfoScreen = true
                         }
                 }
@@ -86,6 +85,10 @@ struct ChoosePicture: View {
         .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
             viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
         })
+        .onChange(of: chosenPicture) { newPicture in
+            print("changing picture")
+            viewModel.chosenPicture = newPicture
+        }
     }
 }
 
