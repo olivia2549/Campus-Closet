@@ -64,7 +64,6 @@ struct ProfileHeader: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
     @Binding var headerHeight: CGFloat
-//    var maxHeight: CGFloat
     
     var body: some View {
         HStack {
@@ -93,8 +92,8 @@ struct ProfileHeader: View {
             .frame(maxWidth: .infinity)
         }
         .ignoresSafeArea()
-        .frame(maxWidth: .infinity)
         .frame(height: 80)
+        .frame(maxWidth: .infinity)
         .background(.white)
         .modifier(HeightModifier(height: $headerHeight))
     }
@@ -116,7 +115,6 @@ struct ProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
     @Binding var headerHeight: CGFloat
-//    var maxHeight: CGFloat
     
     var body: some View {
         VStack {
@@ -162,9 +160,9 @@ struct ProfileInfo: View {
         .ignoresSafeArea()
         .frame(maxWidth: .infinity)
         .opacity(getOpacity())
-        .background(.white)
         .padding()
         .padding(.top, headerHeight)
+        .background(.white)
     }
     
     func getOpacity() -> CGFloat {

@@ -13,7 +13,7 @@ import Foundation
 
 @MainActor class ContentVM: ObservableObject, HandlesTagsVM, RenderContentVM {
     private var db = Firestore.firestore()
-    @Published var content: [String] = []
+    @Published var sortedColumns: [[String]] = []
     @Published var tags: [String] = []
     @Published var tagsLeft = [
         "womens": 1,
@@ -30,7 +30,10 @@ import Foundation
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                self.content = []
+                self.sortedColumns = []
+                var itemIdsCol1: [String] = []
+                var itemIdsCol2: [String] = []
+                var col1 = true
                 for document in querySnapshot!.documents {
                     // Do not show sellers their own items.
                     if (document.get("sellerId") as! String) != Auth.auth().currentUser?.uid {
@@ -45,16 +48,21 @@ import Foundation
                                     break
                                 }
                                 else {
-                                    self.content.append(document.documentID)
+                                    col1 ? itemIdsCol1.append(document.documentID) :
+                                    itemIdsCol2.append(document.documentID)
+                                    col1.toggle()
                                 }
                             }
                         }
                         if shouldShow {
-                            self.content.append(document.documentID)
+                            col1 ? itemIdsCol1.append(document.documentID) :
+                            itemIdsCol2.append(document.documentID)
+                            col1.toggle()
                         }
                     }
                 }
-                self.content = self.content.reversed()
+                self.sortedColumns.append(itemIdsCol1)
+                self.sortedColumns.append(itemIdsCol2)
             }
         }
     }
