@@ -33,15 +33,15 @@ class PostVMTests : XCTestCase {
         
     }
     
-    @MainActor func testUploadPicture(){
-        let postVM = PostVM()
-        XCTAssertNoThrow(postVM.uploadPicture(), "This call should not throw an exception")
-        
-        //TO DO:
-        //test that picture successfully uploads
-        //test that when picture size > max size, the proper error is thrown
-        //test that when picture size < max size, program continues as normal
-    }
+//    @MainActor func testUploadPicture(){
+//        let postVM = PostVM()
+//        XCTAssertNoThrow(postVM.uploadPicture(), "This call should not throw an exception")
+//
+//        //TO DO:
+//        //test that picture successfully uploads
+//        //test that when picture size > max size, the proper error is thrown
+//        //test that when picture size < max size, program continues as normal
+//    }
     
     @MainActor func testPreconditions(){
         let postVM = PostVM()
