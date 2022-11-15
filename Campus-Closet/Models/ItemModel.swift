@@ -19,6 +19,7 @@ struct Item: Codable {
     var biddingEnabled: Bool = true
     var tags: [String]? = []
     var studentCreated: Bool = false
+    var bidders: [String] = []
 }
 
 extension Item: Identifiable {

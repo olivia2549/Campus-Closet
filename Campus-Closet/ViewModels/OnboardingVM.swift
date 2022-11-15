@@ -80,6 +80,7 @@ import FirebaseStorage
                 if let email = curUser.email {
                     let id = curUser.uid
                     db.collection("users").document(id).setData([
+                        "_id": id,
                         "email": email,
                     ]) { (error) in
                         if let e = error {
