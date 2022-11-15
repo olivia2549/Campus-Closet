@@ -125,7 +125,7 @@ enum Position: Int {
         
         return picturePath
     }
-    
+        
     func updateUser(chosenPicture: UIImage?) {
         getPictureReference()
 
@@ -165,6 +165,7 @@ enum Position: Int {
         
         func uploadNewPicture(completion: @escaping () -> Void) {
             if chosenPicture == nil {
+                completion()
                 return
             }
             

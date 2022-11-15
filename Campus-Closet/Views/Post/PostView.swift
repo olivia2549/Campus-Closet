@@ -86,7 +86,6 @@ struct ChoosePicture: View {
             viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
         })
         .onChange(of: chosenPicture) { newPicture in
-            print("changing picture")
             viewModel.chosenPicture = newPicture
         }
     }
