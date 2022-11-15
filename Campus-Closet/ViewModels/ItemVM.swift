@@ -108,9 +108,27 @@ import FirebaseStorage
     }
     
     func bidItem() {
-        guard let userId = Auth.auth().currentUser?.uid else {return}
-        db.collection("users").document(userId).updateData([
-            "bids": FieldValue.arrayUnion([item.id])
+        // add to the buyer's bids and removed from their saved
+        guard let userID = Auth.auth().currentUser?.uid else {return}
+        db.collection("users").document(userID).updateData([
+            "bids": FieldValue.arrayUnion([item.id]),
+            "saved": FieldValue.arrayRemove([item.id])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully bid item.")
+                self.updateItemBidders(with: userID)
+                // TODO: Send notification to seller
+            }
+        }
+        
+    }
+    
+    func updateItemBidders(with userID: String) {
+        // add to the item's bidder list
+        db.collection("items").document(item.id).updateData([
+            "bidders": FieldValue.arrayUnion([userID])
         ]) { (error) in
             if let e = error {
                 print("There was an issue saving data to Firestore, \(e).")

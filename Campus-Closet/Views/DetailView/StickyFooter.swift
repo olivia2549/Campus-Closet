@@ -64,7 +64,9 @@ struct StickyFooter: View {
             }
             .padding(.top, 10)
             
-            Seller()
+            if !viewModel.isSeller {
+                Seller()
+            }
             Spacer()
         }
         .frame(height: viewModel.isSeller ? maxHeight*0.1 : maxHeight*0.18)

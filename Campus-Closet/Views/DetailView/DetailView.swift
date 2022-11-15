@@ -21,16 +21,15 @@ let maxHeight = UIScreen.main.bounds.height
 
 struct DetailView: View {
     @StateObject private var itemViewModel = ItemVM()
-    @StateObject private var profileViewModel = ProfileVM()
     @State var scrollOffset: CGFloat = 0
     @State var innerHeight: CGFloat = 0
     @State var offset: CGFloat = 0
     @State var scrollHeight: CGFloat = 0
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    var id: String
-    init(for id: String) {
-        self.id = id
+    var itemID: String
+    init(for itemID: String) {
+        self.itemID = itemID
     }
     
     var body: some View {
@@ -39,6 +38,9 @@ struct DetailView: View {
                 VStack {
                     ItemImage()
                     DetailDescription()
+                    if itemViewModel.isSeller {
+                        Bidders()
+                    }
                 }
                 .modifier(OffsetModifier(offset: $scrollOffset))
                 .modifier(HeightModifier(height: $innerHeight))
@@ -56,10 +58,9 @@ struct DetailView: View {
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .environmentObject(itemViewModel)
-        .environmentObject(profileViewModel)
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            itemViewModel.fetchItem(with: id)
+            itemViewModel.fetchItem(with: itemID)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -113,18 +114,27 @@ struct ItemImage: View {
 
 struct Seller: View {
     @EnvironmentObject private var itemViewModel: ItemVM
-    @EnvironmentObject private var profileViewModel: ProfileVM
 
     var body: some View {
         VStack {
             // Show seller
-            if !itemViewModel.isSeller && itemViewModel.item.sellerId != "" {
-                SellerInfo()
-                    .onAppear {
-                        profileViewModel.fetchUser(userID: itemViewModel.item.sellerId)
-                    }
+            if itemViewModel.item.sellerId != "" {
+                UserTableInfo(for: itemViewModel.item.sellerId)
             }
         }
+    }
+}
+
+struct Bidders: View {
+    @EnvironmentObject private var itemViewModel: ItemVM
+
+    var body: some View {
+        LazyVStack {
+            ForEach(itemViewModel.item.bidders, id: \.self) { userID in
+                UserTableInfo(for: userID)
+            }
+        }
+        .padding()
     }
 }
 
@@ -144,8 +154,13 @@ struct DetailDescription: View {
     }
 }
 
-struct SellerInfo: View {
-    @EnvironmentObject private var viewModel: ProfileVM
+struct UserTableInfo: View {
+    @StateObject private var viewModel = ProfileVM()
+    
+    var userID: String
+    init(for userID: String) {
+        self.userID = userID
+    }
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
@@ -189,6 +204,9 @@ struct SellerInfo: View {
                         .foregroundColor(Color("Dark Pink"))
                 }
             }
+        }
+        .onAppear {
+            viewModel.fetchUser(userID: userID)
         }
     }
 }
