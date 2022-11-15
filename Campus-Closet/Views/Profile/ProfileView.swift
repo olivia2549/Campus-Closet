@@ -104,7 +104,6 @@ struct ProfileHeader: View {
     
     func getNameOpacity(proxy: GeometryProxy) -> CGFloat {
         let progress = (offset + 50) / (proxy.size.height * 0.15 - 80)
-        print("name opacity: \(progress)")
         return progress
     }
     

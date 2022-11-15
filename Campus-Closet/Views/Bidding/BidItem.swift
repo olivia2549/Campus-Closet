@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct BidItem: View {
-    @State private var name: String = ""
+    @State private var price: String = ""
+    @State private var showAlert = false
+    @Binding var showBidView: Bool
+    @EnvironmentObject private var viewModel: ItemVM
     @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         VStack(alignment: .center){
             Text("Make an offer")
                 .fontWeight(.semibold)
                 .font(.system(size: 45))
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            Text("Current Listing Price: $8")
+            Text("Current Bid Price: \(viewModel.item.price)")
                 .fontWeight(.semibold)
                 .font(.system(size: 20))
                 .foregroundColor(Color("Dark Gray"))
@@ -32,18 +36,22 @@ struct BidItem: View {
                 .font(.system(size: 25))
             VStack(alignment: .center) {
                 HStack(alignment: .center){
-                
                     Text("$")
                         .font(.system(size:80))
                         .padding (.leading)
-                    TextField("0", text: $name)
+                    TextField("0", text: $price)
                         .font(.system(size:100))
                         .padding (.leading)
                 }
             }
             HStack {
                 Spacer()
-                NavigationLink(destination: BidFavView()){
+                Button(action: {
+                    if (!viewModel.bidItem(price: price)) {
+                        showAlert = true
+                    }
+                    showBidView = false
+                }) {
                     Text("Send Bid Offer")
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.system(size: 18))
@@ -61,14 +69,15 @@ struct BidItem: View {
             
             Spacer()
         }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Oops! There's been a problem placing your bid"),
+                message: Text("Your bid price may be lower than the current listed price"),
+                dismissButton: .default(Text("Ok"))
+            )
+        }
         .navigationBarHidden(true)
         
     }
         
-}
-
-struct BidItem_Previews: PreviewProvider {
-    static var previews: some View {
-        BidItem()
-    }
 }

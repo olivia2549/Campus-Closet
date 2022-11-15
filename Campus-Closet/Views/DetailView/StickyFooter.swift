@@ -13,6 +13,7 @@ struct StickyFooter: View {
     @Binding var offset: CGFloat
     @Binding var height: CGFloat
     @Binding var scrollHeight: CGFloat
+    @State var showBidView = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
@@ -41,10 +42,10 @@ struct StickyFooter: View {
                 // Button at right
                 if !viewModel.isSeller {
                     Button(action: {
-                        viewModel.bidItem()
+                        showBidView = true
                     }){
-                        Text("Place Bid $\(viewModel.item.price)")
-                            .frame(maxWidth: maxWidth*0.4, alignment: .center)
+                        Text("Place Bid")
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
                     }
                     .padding(10)
                     .background(Styles().themePink)
@@ -81,6 +82,10 @@ struct StickyFooter: View {
         }
         .if(offset < height - scrollHeight + 1) { view in
             view.background(Color.white)
+        }
+        .sheet(isPresented: $showBidView) {
+            BidItem(showBidView: $showBidView)
+                .environmentObject(viewModel)
         }
     }
     

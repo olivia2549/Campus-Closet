@@ -40,10 +40,6 @@ struct HomeView: View {
                     .onTapGesture {
                         addPostPresented.toggle()
                     }
-                Image(systemName: "bell")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: maxWidth*0.06)
             }
             .padding(.leading)
             .padding(.trailing)

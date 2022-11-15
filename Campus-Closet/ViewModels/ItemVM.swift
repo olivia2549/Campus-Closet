@@ -107,9 +107,13 @@ import FirebaseStorage
         }
     }
     
-    func bidItem() {
+    func bidItem(price: String) -> Bool {
+        guard let bidPrice = Int(price) else {return false}
+        if (bidPrice < Int(item.price)!) {
+            return false
+        }
         // add to the buyer's bids and removed from their saved
-        guard let userID = Auth.auth().currentUser?.uid else {return}
+        guard let userID = Auth.auth().currentUser?.uid else {return false}
         db.collection("users").document(userID).updateData([
             "bids": FieldValue.arrayUnion([item.id]),
             "saved": FieldValue.arrayRemove([item.id])
@@ -118,17 +122,33 @@ import FirebaseStorage
                 print("There was an issue saving data to Firestore, \(e).")
             } else {
                 print("Successfully bid item.")
-                self.updateItemBidders(with: userID)
+                self.updateItemBidders(with: userID, price: price)
                 // TODO: Send notification to seller
             }
         }
-        
+        return true
     }
     
-    func updateItemBidders(with userID: String) {
-        // add to the item's bidder list
+    // go through each bidder and remove from their bids
+    func sellItem() {
+        item.bidders.forEach { userID in
+            db.collection("users").document(userID).updateData([
+                "bids": FieldValue.arrayRemove([item.id])
+            ]) { (error) in
+                if let e = error {
+                    print("There was an issue saving data to Firestore, \(e).")
+                } else {
+                    print("Successfully removed item from each bidder.")
+                }
+            }
+        }
+    }
+    
+    func updateItemBidders(with userID: String, price: String) {
+        // add to the item's bidder list and update its price
         db.collection("items").document(item.id).updateData([
-            "bidders": FieldValue.arrayUnion([userID])
+            "bidders": FieldValue.arrayUnion([userID]),
+            "price": price
         ]) { (error) in
             if let e = error {
                 print("There was an issue saving data to Firestore, \(e).")
