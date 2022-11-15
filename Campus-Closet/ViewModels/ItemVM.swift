@@ -36,9 +36,7 @@ import FirebaseStorage
         userRef.getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
-                if user.saved.contains(self.item.id) {
-                    self.isSaved = true
-                }
+                self.isSaved = user.saved.contains(itemID)
                 completion()
             case .failure(let error):
                 print("Error decoding user: \(error)")
@@ -109,6 +107,20 @@ import FirebaseStorage
         }
     }
     
+    func bidItem() {
+        guard let userId = Auth.auth().currentUser?.uid else {return}
+        db.collection("users").document(userId).updateData([
+            "bids": FieldValue.arrayUnion([item.id])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully bid item.")
+                // TODO: Send notification to seller
+            }
+        }
+    }
+    
     func saveItem() {
         guard let userId = Auth.auth().currentUser?.uid else {return}
         db.collection("users").document(userId).updateData([
@@ -137,6 +149,7 @@ import FirebaseStorage
         }
     }
     
+    // TODO: not yet fully implemented
     func sendNotification() {
         db.collection("users").document(item.sellerId).getDocument(as: User.self) { result in
             switch result {

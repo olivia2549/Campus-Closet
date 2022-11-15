@@ -86,12 +86,13 @@ struct ItemImage: View {
                             itemViewModel.isSaved ? itemViewModel.unsaveItem() : itemViewModel.saveItem()
                         }){
                             itemViewModel.isSaved ?
-                                Image(systemName: "heart")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 30)
-                                    .foregroundStyle(Color("Dark Pink"))
-                            : Image(systemName: "heart.fill")
+                            Image(systemName: "heart.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                                .foregroundStyle(Color("Dark Pink"))
+                            :
+                            Image(systemName: "heart")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30)
