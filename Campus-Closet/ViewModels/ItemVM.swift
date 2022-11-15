@@ -17,6 +17,7 @@ import FirebaseStorage
     @Published var isEditing = true
     @Published var itemImage: UIImage?
     @Published var isSeller = false
+    @Published var isSaved = false
     private var db = Firestore.firestore()
     
     func verifyInfo() -> Bool {
@@ -28,32 +29,49 @@ import FirebaseStorage
         return price != nil && price! < 1000
     }
     
+    func fetchUser(itemID: String, completion: @escaping () -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else {return}
+        let userRef = db.collection("users").document(userID)
+        
+        userRef.getDocument(as: User.self) { result in
+            switch result {
+            case .success(let user):
+                self.isSaved = user.saved.contains(itemID)
+                completion()
+            case .failure(let error):
+                print("Error decoding user: \(error)")
+            }
+        }
+    }
+    
     // Find an item in the database with a particular id
     func fetchItem(with id: String) {
-        db.collection("items")
-            .document(id)
-            .getDocument(as: Item.self) { result in
-                switch result {
-                case .success(let item):
-                    self.item = item
-                    self.isSeller = item.sellerId == Auth.auth().currentUser?.uid
-                    let pictureRef = Storage.storage().reference(withPath: self.item.picture)
-                    // Download profile picture with max size of 30MB.
-                    pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
-                        if let err = error {
-                            print(err)
-                        } else if data != nil {
-                            if let picture = UIImage(data: data!) {
-                                DispatchQueue.main.async {
-                                    self.itemImage = picture
+        fetchUser(itemID: id) {
+            self.db.collection("items")
+                .document(id)
+                .getDocument(as: Item.self) { result in
+                    switch result {
+                    case .success(let item):
+                        self.item = item
+                        self.isSeller = item.sellerId == Auth.auth().currentUser?.uid
+                        let pictureRef = Storage.storage().reference(withPath: self.item.picture)
+                        // Download profile picture with max size of 30MB.
+                        pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
+                            if let err = error {
+                                print(err)
+                            } else if data != nil {
+                                if let picture = UIImage(data: data!) {
+                                    DispatchQueue.main.async {
+                                        self.itemImage = picture
+                                    }
                                 }
                             }
                         }
+                    case .failure(let error):
+                        print("Error decoding item: \(error)")
                     }
-                case .failure(let error):
-                    print("Error decoding item: \(error)")
                 }
-            }
+        }
     }
     
     // Update an item (after editing)
@@ -89,6 +107,49 @@ import FirebaseStorage
         }
     }
     
+    func bidItem() {
+        guard let userId = Auth.auth().currentUser?.uid else {return}
+        db.collection("users").document(userId).updateData([
+            "bids": FieldValue.arrayUnion([item.id])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully bid item.")
+                // TODO: Send notification to seller
+            }
+        }
+    }
+    
+    func saveItem() {
+        guard let userId = Auth.auth().currentUser?.uid else {return}
+        db.collection("users").document(userId).updateData([
+            "saved": FieldValue.arrayUnion([item.id])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully saved item.")
+                self.isSaved = true
+            }
+        }
+    }
+    
+    func unsaveItem() {
+        guard let userId = Auth.auth().currentUser?.uid else {return}
+        db.collection("users").document(userId).updateData([
+            "saved": FieldValue.arrayRemove([item.id])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully unsaved item.")
+                self.isSaved = false
+            }
+        }
+    }
+    
+    // TODO: not yet fully implemented
     func sendNotification() {
         db.collection("users").document(item.sellerId).getDocument(as: User.self) { result in
             switch result {

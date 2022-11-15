@@ -16,6 +16,9 @@ import FirebaseAuth
     func postItem()
 }
 
+let maxWidth = UIScreen.main.bounds.width
+let maxHeight = UIScreen.main.bounds.height
+
 struct DetailView: View {
     @StateObject private var itemViewModel = ItemVM()
     @StateObject private var profileViewModel = ProfileVM()
@@ -44,7 +47,7 @@ struct DetailView: View {
             .coordinateSpace(name: "SCROLL")
             .scrollIndicators(.hidden)
             .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 15)
-            .padding(.bottom, itemViewModel.isSeller ? 100 : 160)
+            .padding(.bottom, itemViewModel.isSeller ? maxHeight*0.1 : maxHeight*0.18)
             
             VStack(spacing: 0) {
                 Spacer()
@@ -80,21 +83,27 @@ struct ItemImage: View {
                 .overlay(alignment: .topTrailing){
                     if !itemViewModel.isSeller {
                         Button(action: {
-                            print("Add to favorites")
+                            itemViewModel.isSaved ? itemViewModel.unsaveItem() : itemViewModel.saveItem()
                         }){
+                            itemViewModel.isSaved ?
+                            Image(systemName: "heart.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                                .foregroundStyle(Color("Dark Pink"))
+                            :
                             Image(systemName: "heart")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30)
                                 .foregroundStyle(Color("Dark Pink"))
-                            
-                        }.offset(x: -18, y: 20)
+                        }.offset(x: -maxWidth*0.03, y: maxWidth*0.02)
                     }
                 }
         }
         else {
             Rectangle()
-                .frame(height: 500)
+                .frame(height: maxHeight*0.3)
                 .cornerRadius(20, corners: [.topLeft, .topRight])
                 .foregroundColor(Color("LightGrey"))
         }

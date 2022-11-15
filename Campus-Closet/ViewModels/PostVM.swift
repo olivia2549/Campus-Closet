@@ -52,7 +52,13 @@ import FirebaseStorage
                 let db = Firestore.firestore()
                 db.collection("users").document(userId!).updateData([
                     "listings": FieldValue.arrayUnion([self.item.id])
-                ])
+                ]) { (error) in
+                    if let e = error {
+                        print("There was an issue saving data to Firestore, \(e).")
+                    } else {
+                        print("Successfully saved data.")
+                    }
+                }
             }
         }
         

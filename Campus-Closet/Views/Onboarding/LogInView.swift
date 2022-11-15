@@ -11,36 +11,40 @@ struct LogInView: View {
     @StateObject private var loginVM = OnboardingVM()
 
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .center) {
-                VStack(spacing: 0) {
-                    Logo()
-                    LogInFormBox()
+        GeometryReader { proxy in
+            NavigationView {
+                ZStack(alignment: .center) {
+                    VStack(spacing: 0) {
+                        LogoLogin(proxy: proxy)
+                        LogInFormBox(proxy: proxy)
+                    }
+                    .padding(proxy.size.width*0.02)
+                    ErrorView()
                 }
-                .padding(20)
-                ErrorView()
+                .navigationBarHidden(true)
+                .onTapGesture { hideKeyboard() }
             }
-            .navigationBarHidden(true)
-            .onTapGesture { hideKeyboard() }
+            .statusBar(hidden: true)
+            .environmentObject(loginVM)
         }
-        .statusBar(hidden: true)
-        .environmentObject(loginVM)
+        .background(Color("LightGrey"), ignoresSafeAreaEdges: .all)
     }
 }
 
-struct Logo: View {
+struct LogoLogin: View {
+    var proxy: GeometryProxy
+    
     var body: some View {
-        Color ("LightGrey")
-        Image("logo_grey")
+        Image("logo")
             .resizable()
-            .offset(y: -50)
-            .background(Color("LightGrey"))
-            .frame(width: 400, height:400)
+            .offset(y: -proxy.size.height*0.07)
+            .frame(width: proxy.size.width*0.6, height:proxy.size.height*0.2)
     }
 }
 
 struct LogInFormBox: View {
     @EnvironmentObject private var viewModel: OnboardingVM
+    var proxy: GeometryProxy
     
     var body: some View {
         VStack (alignment: .leading, spacing: 15) {
@@ -94,7 +98,7 @@ struct LogInFormBox: View {
         .padding (.all, 36)
         .background(Color(UIColor.systemGray6))
         .cornerRadius (20)
-        .offset(y: -140)
+        .offset(y: -proxy.size.height*0.07)
         .ignoresSafeArea()
     }
     
