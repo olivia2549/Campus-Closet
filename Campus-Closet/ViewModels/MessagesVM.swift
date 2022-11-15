@@ -19,9 +19,10 @@ class MessagesVM: ObservableObject {
     let db = Firestore.firestore()
 
     init() {
-        fetchAllUsers()
-        getMyMessages()
-        getMyMessageHistory()
+        fetchAllContacts()
+//        fetchAllUsers()
+//        getMyMessages()
+//        getMyMessageHistory()
     }
     
     func getMyMessages() {
@@ -91,10 +92,12 @@ class MessagesVM: ObservableObject {
     
     func sendMessage(text: String) {
         let myId = Auth.auth().currentUser!.uid
+        let otherId = "eyG6aeR5EpO0sY46wFIaNVg9qSw2"
+        let messageId = "\(UUID())"
         
         do {
             let newMessage = Message(
-                id: "\(UUID())",
+                id: messageId,
                 text: text,
                 sender: myId,
                 recipient: "",
@@ -104,8 +107,31 @@ class MessagesVM: ObservableObject {
         } catch {
             print ("Error adding message to Firestore: \(error)")
         }
+        
+        db.collection("users").document(myId).updateData([
+            "contacts": FieldValue.arrayUnion([messageId])
+        ])
+        db.collection("users").document(otherId).updateData([
+            "contacts": FieldValue.arrayUnion([messageId])
+        ])
     }
-
+    
+    func fetchAllContacts() {
+        let myId = Auth.auth().currentUser!.uid
+        let db = Firestore.firestore()
+        
+        db.collection("users").document(myId).getDocument(as: User.self) { result in
+            switch result {
+            case .success(let user):
+                for userId in user.contacts {
+                    print(userId)
+                }
+            case .failure(let error):
+                print("Error decoding user: \(error)")
+            }
+        }
+    }
+    
     func fetchAllUsers() {
         let db = Firestore.firestore()
         
