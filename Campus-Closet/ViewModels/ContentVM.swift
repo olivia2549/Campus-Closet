@@ -49,14 +49,14 @@ import Foundation
                                 }
                                 else {
                                     col1 ? itemIdsCol1.append(document.documentID) :
-                                    itemIdsCol2.append(document.documentID)
+                                        itemIdsCol2.append(document.documentID)
                                     col1.toggle()
                                 }
                             }
                         }
                         if shouldShow {
                             col1 ? itemIdsCol1.append(document.documentID) :
-                            itemIdsCol2.append(document.documentID)
+                                itemIdsCol2.append(document.documentID)
                             col1.toggle()
                         }
                     }

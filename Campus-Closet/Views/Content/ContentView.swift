@@ -15,7 +15,6 @@ struct ContentView: View {
     init() {
         UITabBar.appearance().backgroundColor = .white
         UITabBar.appearance().unselectedItemTintColor = .black
-        UITabBar.appearance().itemSpacing = 5
         UITabBar.appearance().itemPositioning = .centered
     }
     
@@ -44,31 +43,9 @@ struct ContentView: View {
                         }
                     }
                     .tag(1)
-                Text("")
-                    .fullScreenCover(
-                        isPresented: $addPostPresented,
-                        onDismiss: {
-                            selection = 0
-                        },
-                        content: { PostView() }
-                    )
-                    .onAppear {
-                        addPostPresented.toggle()
-                    }
-                    .tabItem {
-                        if (selection == 2) {
-                            Image(systemName: "plus.app.fill")
-                        }
-                        else {
-                            Image(systemName: "plus.app")
-                                .environment(\.symbolVariants, .none)
-                        }
-                    }
-                    .tag(2)
-                
                 ProfileView()
                     .tabItem {
-                        if (selection == 4) {
+                        if (selection == 2) {
                             Image(systemName: "person.fill")
                         }
                         else {
@@ -76,7 +53,7 @@ struct ContentView: View {
                                 .environment(\.symbolVariants, .none)
                         }
                     }
-                    .tag(4)
+                    .tag(2)
             }
             .accentColor(.black)
             .navigationBarHidden(true)

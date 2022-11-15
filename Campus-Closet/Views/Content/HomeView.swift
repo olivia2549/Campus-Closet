@@ -9,6 +9,11 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var contentVM = ContentVM()
+    @State private var addPostPresented = false
+    @State private var selection = 0
+
+    let maxWidth = UIScreen.main.bounds.width
+    let maxHeight = UIScreen.main.bounds.height
     
     var body: some View {
         VStack(spacing: 0) {
@@ -17,17 +22,28 @@ struct HomeView: View {
                 Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 50, alignment: .leading)
+                    .frame(width: maxWidth*0.2, height: maxHeight*0.07, alignment: .leading)
                 Spacer()
-                Image(systemName: "heart")
+                Image(systemName: "plus.app")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 25)
-                    .padding(7)
+                    .frame(width: maxWidth*0.06)
+                    .padding()
+                    .environment(\.symbolVariants, .none)
+                    .fullScreenCover(
+                        isPresented: $addPostPresented,
+                        onDismiss: {
+                            selection = 0
+                        },
+                        content: { PostView() }
+                    )
+                    .onTapGesture {
+                        addPostPresented.toggle()
+                    }
                 Image(systemName: "bell")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 25)
+                    .frame(width: maxWidth*0.06)
             }
             .padding(.leading)
             .padding(.trailing)

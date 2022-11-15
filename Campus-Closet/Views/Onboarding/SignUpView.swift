@@ -10,27 +10,45 @@ import Firebase
 
 struct SignUpView: View {
     @StateObject private var signupVM = OnboardingVM()
-    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     var body: some View {
-        NavigationView {
+        GeometryReader {proxy in
             ZStack(alignment: .center) {
                 VStack(spacing: 0) {
-                    Logo()
-                    Title()
-                    SignUpFormBox()
+                    LogoSignup(proxy: proxy)
+                    Title(proxy: proxy)
+                    SignUpFormBox(proxy: proxy)
                 }
                 .padding(20)
                 ErrorView()
             }
-            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Styles.BackButton(presentationMode: presentationMode)
+                }
+            })
             .onTapGesture { hideKeyboard() }
+            .environmentObject(signupVM)
         }
-        .statusBar(hidden: true)
-        .environmentObject(signupVM)
+    }
+}
+
+struct LogoSignup: View {
+    var proxy: GeometryProxy
+    
+    var body: some View {
+        Image("logo")
+            .resizable()
+            .offset(y: -proxy.size.height*0.03)
+            .frame(width: proxy.size.width*0.6, height:proxy.size.height*0.2)
     }
 }
 
 struct Title: View {
+    var proxy: GeometryProxy
+    
     var body: some View {
         VStack (alignment: .leading, spacing: 16){
             Text("Create Your Account")
@@ -38,12 +56,13 @@ struct Title: View {
         }
         .padding(.all, 6)
         .foregroundColor(Styles().themePink)
-        .offset(y: -160)
+        .offset(y: -proxy.size.height*0.03)
     }
 }
 
 struct SignUpFormBox: View {
     @EnvironmentObject private var viewModel: OnboardingVM
+    var proxy: GeometryProxy
     
     var body: some View{
         VStack (alignment: .leading, spacing: 16){
@@ -70,7 +89,6 @@ struct SignUpFormBox: View {
         .padding (.all, 36)
         .background(Color(UIColor.systemGray6))
         .cornerRadius (20)
-        .offset(y: -140)
     }
 
 }

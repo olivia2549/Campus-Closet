@@ -12,20 +12,19 @@ struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
     @State var offset: CGFloat = 0
 
-    let maxHeight = UIScreen.main.bounds.height / 2.2
-    @State var headerHeight: CGFloat = 0
+    let maxHeight = UIScreen.main.bounds.height / 2.6
     
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 10) {
                 GeometryReader{ proxy in
-                    ProfileInfo(offset: $offset, headerHeight: $headerHeight)
+                    ProfileInfo(offset: $offset, proxy: proxy)
                         .frame(maxWidth: .infinity)
-                        .frame(height: getHeaderHeight(), alignment: .bottom)
+                        .frame(height: getHeaderHeight(proxy: proxy), alignment: .bottom)
                         .overlay(
                             ProfileHeader(
                                 offset: $offset,
-                                headerHeight: $headerHeight
+                                proxy: proxy
                             )
                             ,alignment: .top
                         )
@@ -53,9 +52,9 @@ struct ProfileView: View {
         .navigationBarHidden(true)
     }
     
-    func getHeaderHeight() -> CGFloat {
+    func getHeaderHeight(proxy: GeometryProxy) -> CGFloat {
         let topHeight = maxHeight + offset
-        return topHeight > 80 ? topHeight : 80
+        return topHeight > proxy.size.height*0.15 ? topHeight : proxy.size.height*0.15
     }
     
 }
@@ -63,49 +62,49 @@ struct ProfileView: View {
 struct ProfileHeader: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
-    @Binding var headerHeight: CGFloat
+    var proxy: GeometryProxy
     
     var body: some View {
         HStack {
             Text(viewModel.user.name)
                 .font(.system(size: 20, weight: .semibold))
                 .frame(maxWidth: .infinity)
-                .opacity(getNameOpacity())
+                .opacity(getNameOpacity(proxy: proxy))
             VStack(alignment: .center) {
                 Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 150)
+                    .frame(width: proxy.size.width * 0.3)
             }
-            .opacity(getOpacity())
+            .opacity(getOpacity(proxy: proxy))
             .frame(maxWidth: .infinity)
             VStack(alignment: .trailing) {
                 NavigationLink(destination: EditProfile().environmentObject(viewModel)) {
                     Image(systemName: "pencil.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30, alignment: .trailing)
-                        .padding(.leading, 30)
+                        .frame(width: proxy.size.width * 0.06, alignment: .trailing)
+                        .padding(.leading, proxy.size.width * 0.06)
                         .foregroundColor(.black)
                 }
             }
             .frame(maxWidth: .infinity)
         }
         .ignoresSafeArea()
-        .frame(height: 80)
+        .frame(height: proxy.size.height * 0.15)
         .frame(maxWidth: .infinity)
         .background(.white)
-        .modifier(HeightModifier(height: $headerHeight))
     }
     
-    func getOpacity() -> CGFloat {
-        let progress = -offset/70
+    func getOpacity(proxy: GeometryProxy) -> CGFloat {
+        let progress = -offset/80
         let opacity = 1-progress
         return offset < 0 ? opacity : 1
     }
     
-    func getNameOpacity() -> CGFloat {
-        let progress = -(offset + 50) / (headerHeight - 80)
+    func getNameOpacity(proxy: GeometryProxy) -> CGFloat {
+        let progress = (offset + 50) / (proxy.size.height * 0.15 - 80)
+        print("name opacity: \(progress)")
         return progress
     }
     
@@ -114,21 +113,21 @@ struct ProfileHeader: View {
 struct ProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
-    @Binding var headerHeight: CGFloat
+    var proxy: GeometryProxy
     
     var body: some View {
         VStack {
             if (viewModel.profilePicture != nil) {
                 Image(uiImage: viewModel.profilePicture!)
                     .resizable()
-                    .frame(width: 175, height: 175, alignment: .center)
+                    .frame(width: proxy.size.width*0.4, height: proxy.size.width*0.4, alignment: .center)
                     .aspectRatio(contentMode: .fit)
                     .clipShape(Circle())
             }
             else {
                 Image("blank-profile")
                     .resizable()
-                    .frame(width: 175, height: 175, alignment: .center)
+                    .frame(width: proxy.size.width*0.4, height: proxy.size.width*0.4, alignment: .center)
                     .aspectRatio(contentMode: .fit)
                     .clipShape(Circle())
             }
@@ -138,7 +137,7 @@ struct ProfileInfo: View {
                 Image(systemName: "star.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 25, height: 25)
+                    .frame(width: proxy.size.width*0.06)
                     .foregroundColor(Styles().themePink)
                 Text(String(format: "%.2f", viewModel.averageRating))
                 Text("(\(viewModel.numRatings) Reviews)")
@@ -160,8 +159,6 @@ struct ProfileInfo: View {
         .ignoresSafeArea()
         .frame(maxWidth: .infinity)
         .opacity(getOpacity())
-        .padding()
-        .padding(.top, headerHeight)
         .background(.white)
     }
     
@@ -187,7 +184,7 @@ struct ToggleView: View {
             }
         )
     }
-        
+    
     var body: some View {
         VStack {
             SegmentedPicker(
