@@ -19,7 +19,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             TabView(selection: $selection) {
                 HomeView()
                     .tabItem {
@@ -32,13 +32,34 @@ struct ContentView: View {
                         }
                     }
                     .tag(0)
-                MainMessagesView()
+//                MainMessagesView()
+//                    .tabItem {
+//                        if (selection == 1) {
+//                            Image(systemName: "message.fill")
+//                        }
+//                        else {
+//                            Image(systemName: "message")
+//                                .environment(\.symbolVariants, .none)
+//                        }
+//                    }
+//                    .tag(1)
+                Text("")
+                    .fullScreenCover(
+                        isPresented: $addPostPresented,
+                        onDismiss: {
+                            selection = 0
+                        },
+                        content: { PostView() }
+                    )
+                    .onAppear {
+                        addPostPresented.toggle()
+                    }
                     .tabItem {
                         if (selection == 1) {
-                            Image(systemName: "message.fill")
+                            Image(systemName: "plus.app.fill")
                         }
                         else {
-                            Image(systemName: "message")
+                            Image(systemName: "plus.app")
                                 .environment(\.symbolVariants, .none)
                         }
                     }

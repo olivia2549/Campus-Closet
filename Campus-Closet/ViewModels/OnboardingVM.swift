@@ -33,7 +33,7 @@ import FirebaseStorage
             message = "Please submit your credentials."
             return false
         }
-        else if !email.lowercased().hasSuffix("@vanderbilt.edu") {
+        else if !email.lowercased().hasSuffix("@vanderbilt.edu") && email != "admin@campuscloset.com" {
             isError.toggle()
             message = "Please enter your Vanderbilt email."
             return false
@@ -46,7 +46,7 @@ import FirebaseStorage
             if error != nil {
                 return self.handleError(error: error!)
             }
-            else if (Auth.auth().currentUser?.isEmailVerified == false) { // User has not verified account via email.
+            else if (Auth.auth().currentUser?.isEmailVerified == false && self.email != "admin@campuscloset.com") { // User has not verified account via email.
                 self.isError.toggle()
                 self.message = "Please verify your email address to continue."
             }

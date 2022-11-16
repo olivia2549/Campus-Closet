@@ -15,16 +15,6 @@ struct ChatView: View {
         HStack(spacing: 0){
             Styles.BackButton(presentationMode: self.presentationMode)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-//            NavigationLink(destination: HomeView().navigationBarBackButtonHidden(true)) {
-//                Image(systemName: "chevron.backward")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: 20, height: 20)
-//                    //.padding(20)
-//                    .foregroundColor(.black)
-//                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 15))
-//            }
-            
             
             AsyncImage(url: imageUrl){ image in
                 image.resizable()
@@ -36,7 +26,6 @@ struct ChatView: View {
             } placeholder: {
                 ProgressView()
             }
-            
             
             VStack (alignment: .leading){
                 Text(name)

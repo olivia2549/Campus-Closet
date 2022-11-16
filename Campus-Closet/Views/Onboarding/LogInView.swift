@@ -12,7 +12,7 @@ struct LogInView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            NavigationView {
+            NavigationStack {
                 ZStack(alignment: .center) {
                     VStack(spacing: 0) {
                         LogoLogin(proxy: proxy)
@@ -47,7 +47,7 @@ struct LogInFormBox: View {
     var proxy: GeometryProxy
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 15) {
+        VStack (alignment: .leading, spacing: proxy.size.height*0.02) {
             Text("Email")
                 .font(.callout).bold()
             TextField("email", text: $viewModel.email)
@@ -95,17 +95,22 @@ struct LogInFormBox: View {
             }
             
         }
-        .padding (.all, 36)
+        .padding (.all, proxy.size.width*0.1)
         .background(Color(UIColor.systemGray6))
-        .cornerRadius (20)
+        .cornerRadius(20)
         .offset(y: -proxy.size.height*0.07)
         .ignoresSafeArea()
     }
     
 }
 
-struct LogInView_Previews: PreviewProvider {
-    static var previews: some View {
-        LogInView()
-    }
-}
+//struct LogInView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LogInView()
+//            .previewDevice(PreviewDevice(rawValue: "iPhone 14"))
+//            .previewDisplayName("iPhone 14")
+//        LogInView()
+//            .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
+//            .previewDisplayName("iPad")
+//    }
+//}

@@ -63,7 +63,7 @@ struct MainMessagesView: View {
        
     }
     var body: some View {
-        NavigationView{
+        NavigationStack{
             
             VStack{
                 //custom nav bar

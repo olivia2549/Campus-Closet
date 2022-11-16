@@ -12,7 +12,7 @@ struct PostView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 ChoosePicture(presentationMode: presentationMode)
             }

@@ -13,7 +13,7 @@ struct EditItem: View {
     @EnvironmentObject private var itemViewModel: ItemVM
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             BasicInfo<ItemVM>(presentationMode: presentationMode, prevPresentationMode: prevPresentationMode)
                 .environmentObject(itemViewModel)
                 .navigationBarHidden(true)

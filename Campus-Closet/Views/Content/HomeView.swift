@@ -24,22 +24,22 @@ struct HomeView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: maxWidth*0.2, height: maxHeight*0.07, alignment: .leading)
                 Spacer()
-                Image(systemName: "plus.app")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: maxWidth*0.06)
-                    .padding()
-                    .environment(\.symbolVariants, .none)
-                    .fullScreenCover(
-                        isPresented: $addPostPresented,
-                        onDismiss: {
-                            selection = 0
-                        },
-                        content: { PostView() }
-                    )
-                    .onTapGesture {
-                        addPostPresented.toggle()
-                    }
+//                Image(systemName: "plus.app")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: maxWidth*0.06)
+//                    .padding()
+//                    .environment(\.symbolVariants, .none)
+//                    .fullScreenCover(
+//                        isPresented: $addPostPresented,
+//                        onDismiss: {
+//                            selection = 0
+//                        },
+//                        content: { PostView() }
+//                    )
+//                    .onTapGesture {
+//                        addPostPresented.toggle()
+//                    }
             }
             .padding(.leading)
             .padding(.trailing)
