@@ -43,9 +43,16 @@ import Foundation
                         if self.user.saved.contains(itemID) || self.user.bids.contains(itemID) {
                             continue
                         }
+                        guard let sellerID = document.get("sellerId") else {return}
+                        guard let userID = Auth.auth().currentUser?.uid else {return}
+                        
+                        
                         
                         // Do not show sellers their own items.
-                        if (document.get("sellerId") as! String) == Auth.auth().currentUser?.uid {
+//                        if (document.get("sellerId") as! String) == userID {
+//                            continue
+//                        }
+                        if (sellerID as! String) == userID {
                             continue
                         }
                         

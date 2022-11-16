@@ -39,6 +39,7 @@ struct DetailView: View {
                     ItemImage()
                     DetailDescription()
                     if itemViewModel.isSeller {
+                        Text("Bidders").font(.system(size: 16, weight: .semibold))
                         Bidders()
                     }
                 }
@@ -132,6 +133,7 @@ struct Bidders: View {
         LazyVStack {
             ForEach(itemViewModel.item.bidders, id: \.self) { userID in
                 UserTableInfo(for: userID)
+                    .environmentObject(itemViewModel)
             }
         }
         .padding()
@@ -155,7 +157,8 @@ struct DetailDescription: View {
 }
 
 struct UserTableInfo: View {
-    @StateObject private var viewModel = ProfileVM()
+    @StateObject private var profileViewModel = ProfileVM()
+    @EnvironmentObject private var itemViewModel: ItemVM
     
     var userID: String
     init(for userID: String) {
@@ -165,8 +168,8 @@ struct UserTableInfo: View {
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
             HStack(alignment: .center) {
-                if (viewModel.profilePicture != nil) {
-                    Image (uiImage: viewModel.profilePicture!)
+                if (profileViewModel.profilePicture != nil) {
+                    Image (uiImage: profileViewModel.profilePicture!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 50, height: 50)
@@ -179,9 +182,9 @@ struct UserTableInfo: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(viewModel.user.name)
+                    Text(profileViewModel.user.name)
                         .font(.system(size: 18))
-                    Text("@\(viewModel.user.venmo)")
+                    Text("@\(profileViewModel.user.venmo)")
                         .foregroundColor(Color("Dark Gray"))
                         .font(.system(size: 14))
                     HStack (spacing: 2){
@@ -190,23 +193,35 @@ struct UserTableInfo: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 15, height: 15)
                             .foregroundColor(Color("Dark Pink"))
-                        Text ("\(String(format: "%.2f", viewModel.averageRating)) (\(viewModel.numRatings) Reviews)")
+                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) Reviews)")
                             .font(.system(size: 12))
                     }
                 }
                 Spacer()
                 
-                NavigationLink(destination: Chat_Message()) {
-                    Image(systemName: "ellipsis.message.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(Color("Dark Pink"))
+                if (itemViewModel.isSeller) {
+                    Button(action: {
+                        itemViewModel.sellItem()
+                        profileViewModel.sellItem(with: itemViewModel.item.id)
+                    }) {
+                        Text("Accept")
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
+                    }
+                    .buttonStyle(Styles.PinkButton())
+                }
+                else {
+                    NavigationLink(destination: Chat_Message()) {
+                        Image(systemName: "ellipsis.message.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color("Dark Pink"))
+                    }
                 }
             }
         }
         .onAppear {
-            viewModel.fetchUser(userID: userID)
+            profileViewModel.fetchUser(userID: userID)
         }
     }
 }

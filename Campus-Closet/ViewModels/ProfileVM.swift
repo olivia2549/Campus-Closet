@@ -101,6 +101,21 @@ enum Position: Int {
         self.sortedColumns.append(itemIdsCol2)
     }
     
+    // move item from listings to sold
+    func sellItem(with id: String) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(userID).updateData([
+            "listings": FieldValue.arrayRemove([id]),
+            "sold": FieldValue.arrayUnion([id])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully moved item from listings to sold.")
+            }
+        }
+    }
+    
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
         return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
     }
