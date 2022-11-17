@@ -33,7 +33,7 @@ struct Chat_Message: View {
             }
             .background(Color("Dark Pink"))
             
-            MessageField(recipient: $partnerId).environmentObject(messagesVM)
+            MessageField(recipient: partnerId).environmentObject(messagesVM)
         }
         .onTapGesture { hideKeyboard() }
         .onAppear {

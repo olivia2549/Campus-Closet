@@ -211,6 +211,7 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
 }
 
 struct OptionalInfo: View {
+    @State var navigateToDetail = false
     @EnvironmentObject private var viewModel: PostVM
     var prevPresentationMode: Binding<PresentationMode>
     init(prevPresentationMode: Binding<PresentationMode>) {
@@ -239,8 +240,14 @@ struct OptionalInfo: View {
             
             Toggle("Make Post Anonymous", isOn: $viewModel.sellerIsAnonymous)
             
-            NavigationLink(destination: DetailView(for: viewModel.item.id)) {
-                Button(action: { viewModel.postItem() }) {
+            NavigationLink(
+                destination: DetailView(for: viewModel.item.id),
+                isActive: $navigateToDetail
+            ) {
+                Button(action: {
+                    viewModel.postItem()
+                    navigateToDetail = true
+                }) {
                     Text("Post Item!")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }

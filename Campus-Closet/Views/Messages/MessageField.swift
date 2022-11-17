@@ -10,7 +10,7 @@ import SwiftUI
 struct MessageField: View {
     @EnvironmentObject var messagesVM: MessagesVM
     @State private var message = ""
-    @Binding var recipient: String
+    var recipient: String
 
     var body: some View {
         HStack {
