@@ -40,7 +40,7 @@ enum Position: Int {
     
     func fetchUser(userID: String) -> User {
         let profileRef = db.collection("users").document(userID)
-        
+        print(userID)
         profileRef.getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
@@ -65,6 +65,30 @@ enum Position: Int {
             }
         }
         return self.user
+    }
+    
+    func fetchMemberUser(userId: String) {
+        let profileRef = db.collection("Users").document(userId)
+        
+        profileRef.getDocument(as: User.self) { result in
+            switch result {
+            case .success(let user):
+                self.user = user
+                let pictureRef = Storage.storage().reference(withPath: self.user.picture)
+                // Download profile picture with max size of 30MB.
+                pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
+                    if let err = error {
+                        print(err)
+                    } else if data != nil {
+                        if let picture = UIImage(data: data!) {
+                            self.profilePicture = picture
+                        }
+                    }
+                }
+            case .failure(let error):
+                print("Error decoding message: \(error)")
+            }
+        }
     }
     
     func fetchLastMessage(messageId: String) {

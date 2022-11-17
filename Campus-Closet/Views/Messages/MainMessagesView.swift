@@ -38,8 +38,18 @@ struct MainMessagesView: View {
     
     private var customNavBar: some View{
         HStack(spacing: 16) {
-            Image (systemName: "person.fill") // fixme: profile picture
-                .font(.system(size:34, weight: .heavy))
+            if profileVM.profilePicture != nil {
+                Image (uiImage : profileVM.profilePicture!)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width:50, height:50)
+                    .clipped()
+                    .cornerRadius(50)
+                    .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
+            } else {
+                Image (systemName: "person.fill")
+                    .font(.system(size:34, weight: .heavy))
+            }
             VStack(alignment: .leading, spacing: 4){
                 Text(profileVM.user.name)
                     .font (.system(size: 24, weight: .bold) )
@@ -63,6 +73,9 @@ struct MainMessagesView: View {
             }
         }
         .padding()
+        .onAppear {
+            profileVM.getProfileData()
+        }
         .actionSheet(isPresented: $shouldShowLogOutOptions) {
             .init(
                 title: Text("Settings"),
@@ -82,34 +95,6 @@ struct MainMessagesView: View {
                 Divider()
                     .padding (.vertical, 8)
             }
-            
-            ForEach(0..<10, id: \.self){ num in
-                VStack{
-                    HStack (spacing: 16){
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 32))
-                            .padding(8)
-                            .overlay(RoundedRectangle(cornerRadius: 44)
-                            .stroke(Color.black, lineWidth: 1))
-                        
-                        VStack (alignment: .leading){
-                            Text("Username")
-                                .font(.system(size:16, weight: .bold))
-                            Text("Message sent to user")
-                                .font(.system(size:14))
-                                .foregroundColor(Color(.lightGray))
-                        }
-                        Spacer()
-
-                        Text("22d")
-                            .font(.system(size: 14, weight: .semibold))
-                    }
-                }
-                Divider()
-                    .padding(.vertical, 8)
-                
-            }
-            .padding(.horizontal)
         }
         .padding(.bottom, 50)
     }
@@ -140,62 +125,53 @@ struct MainMessagesView: View {
 struct MessageShortcutView: View, Identifiable {
     @StateObject private var profileVM = ProfileVM()
     var id: String
-    var message: String
-    @State var messageText: String = ""
+    var messageId: String
+    @State var myUser: User
     
-    init(for id: String, for message: String) {
+    init(for id: String, for messageId: String) {
         self.id = id
-        self.message = message
+        self.messageId = messageId
+        self.myUser = User()
     }
     
     var body: some View {
-        Image(systemName: "person.crop.circle.fill") // fixme: populate with profie picture
-            .resizable()
-            .scaledToFit()
-            .frame(width:50, height:50)
-            .clipped()
-            .cornerRadius(50)
-            .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
-        Text(profileVM.message) // fixme: populate with message
-            .foregroundColor(.black)
-        Spacer()
-            .onAppear(perform: {
-                profileVM.fetchUser(userID: id)
-                profileVM.fetchLastMessage(messageId: message)
-            })
+        VStack{
+            HStack (spacing: 16){
+                if (profileVM.profilePicture != nil) {
+                    Image(uiImage: profileVM.profilePicture!)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:50, height:50)
+                        .clipped()
+                        .cornerRadius(50)
+                        .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
+                }
+                else {
+                    Image(systemName: "person.fill")
+                        .font(.system(size: 32))
+                        .padding(8)
+                        .overlay(RoundedRectangle(cornerRadius: 44)
+                        .stroke(Color.black, lineWidth: 1))
+                }
+                
+                VStack (alignment: .leading){
+                    Text(profileVM.user.name)
+                        .font(.system(size:16, weight: .bold))
+                    Text(profileVM.message)
+                        .font(.system(size:14))
+                        .foregroundColor(Color(.lightGray))
+                }
+                Spacer()
+            }
+        }
+        .onAppear(perform: {
+            profileVM.fetchUser(userID: id)
+            profileVM.fetchLastMessage(messageId: messageId)
+        })
+        Divider()
+            .padding(.vertical, 8)
     }
 }
-
-//struct UserMessageView<ViewModel>: View, Identifiable where ViewModel: MessagesVM {
-//    @EnvironmentObject private var messagesVM: ViewModel
-//    @StateObject private var profileVM = ProfileVM()
-//    var id: String
-//    var message: String
-//    @State var messageText: String = ""
-//
-//    init(for id: String, for message: String) {
-//        self.id = id
-//        self.message = message
-//    }
-//
-//    var body: some View {
-//        Image(systemName: "person.crop.circle.fill") // fixme: populate with profie picture
-//            .resizable()
-//            .scaledToFit()
-//            .frame(width:50, height:50)
-//            .clipped()
-//            .cornerRadius(50)
-//            .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
-//        Text(message) // fixme: populate with message
-//            .foregroundColor(.black)
-//        Spacer()
-//            .onAppear(perform: {
-//                profileVM.fetchUser(userID: id)
-//                self.messageText = messagesVM.fetchLastMessage(messageId: message)
-//                // fixme: get message from id
-//            })
-//    }
-//}
 
 struct MainMessagesView_Previews: PreviewProvider {
     static var previews: some View {
