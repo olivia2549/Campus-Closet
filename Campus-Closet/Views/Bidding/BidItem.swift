@@ -25,11 +25,18 @@ struct BidItem: View {
                 .font(.system(size: 20))
                 .foregroundColor(Color("Dark Gray"))
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 25, trailing: 0))
-            Image("flower")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 300)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+            //viewmodel.item.picture - holds the name of the id that is in storage,
+            //Image("flower")
+            if (viewModel.itemImage != nil) {   // render item image
+                            Image(uiImage: viewModel.itemImage!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 25))
+                        }
+//                .resizable()
+//                .scaledToFit()
+//                .frame(width: 300)
+//                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
             Text("Your offer")
                 .fontWeight(.semibold)
                 .foregroundColor(Color("Dark Pink"))
@@ -46,24 +53,31 @@ struct BidItem: View {
             }
             HStack {
                 Spacer()
-                Button(action: {
-                    if (!viewModel.bidItem(price: price)) {
-                        showAlert = true
-                    }
-                    showBidView = false
-                }) {
-                    Text("Send Bid Offer")
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .font(.system(size: 18))
-                        .padding()
-                        .foregroundColor(.white)
-                        .overlay (
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke(Color.white, lineWidth:15)
-                        )
-                }
-                .background(Color("Dark Pink"))
-                .cornerRadius(25)
+                                Button(action: {
+                                    if (!viewModel.bidItem(price: price)) {
+                                        showAlert = true
+                                    }
+                                    showBidView = false
+                                }) {
+                
+                                    Text("Send Bid Offer")
+                                        .frame(minWidth: 0, maxWidth: .infinity)
+                                        .font(.system(size: 18))
+                                        .padding()
+                                        .foregroundColor(.white)
+                                        .overlay (
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .stroke(Color.white, lineWidth:15)
+                                        )
+                
+                                }
+                
+                                .background(Color("Dark Pink"))
+                                .cornerRadius(25)
+                
+                
+                
+                
                 Spacer()
             }
             
@@ -79,5 +93,5 @@ struct BidItem: View {
         .navigationBarHidden(true)
         
     }
-        
+    
 }
