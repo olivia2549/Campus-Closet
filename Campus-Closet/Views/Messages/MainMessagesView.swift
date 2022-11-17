@@ -24,7 +24,7 @@ struct MainMessagesView: View {
     @StateObject private var messagesVM = MessagesVM()
 
     var body: some View {
-        NavigationView{
+        NavigationStack{
             VStack{
                 // Custom navigation bar
                 customNavBar

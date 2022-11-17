@@ -44,11 +44,11 @@ import FirebaseStorage
     
     func postItem() {
         let userId = Auth.auth().currentUser?.uid
-        var newPicturePath = ""
         updateUserListings()
         
         func updateUserListings() {
             addItem() {
+                print("completion called")
                 let db = Firestore.firestore()
                 db.collection("users").document(userId!).updateData([
                     "listings": FieldValue.arrayUnion([self.item.id])
@@ -56,7 +56,7 @@ import FirebaseStorage
                     if let e = error {
                         print("There was an issue saving data to Firestore, \(e).")
                     } else {
-                        print("Successfully saved data.")
+                        print("Successfully saved data: \(self.item.id).")
                     }
                 }
             }
@@ -65,26 +65,13 @@ import FirebaseStorage
         func addItem(completion: @escaping () -> Void) {
             uploadNewPicture() {
                 let db = Firestore.firestore()
-                db.collection("items").document(self.item.id).setData([
-                    "_id": self.item.id,
-                    "title": self.item.title,
-                    "picture": newPicturePath,
-                    "description": self.item.description,
-                    "sellerId": userId!,
-                    "price": self.item.price,
-                    "size": self.item.size,
-                    "biddingEnabled": self.item.biddingEnabled,
-                    "tags": self.tags,
-                    "condition": self.item.condition,
-                    "studentCreated": self.item.studentCreated,
-                    "timestamp": Date.now
-                ]) { (error) in
-                    if let e = error {
-                        print("There was an issue saving data to Firestore, \(e).")
-                    } else {
-                        print("Successfully saved data.")
-                        completion()
-                    }
+                do {
+                    try db.collection("items").document(self.item.id).setData(from: self.item)
+                    print("Successfully saved data.")
+                    completion()
+                }
+                catch let error {
+                    print("There was an issue saving data to Firestore, \(error).")
                 }
             }
         }
@@ -105,7 +92,7 @@ import FirebaseStorage
                         picturePath = ""
                     }
                     else {
-                        newPicturePath = picturePath
+                        self.item.picture = picturePath
                         completion()
                     }
                 }

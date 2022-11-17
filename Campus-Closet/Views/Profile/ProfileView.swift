@@ -11,8 +11,8 @@ import SegmentedPicker
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
     @State var offset: CGFloat = 0
-
-    let maxHeight = UIScreen.main.bounds.height / 2.6
+    var maxHeight: CGFloat = (UIDevice.current.userInterfaceIdiom == .phone) ?
+    UIScreen.main.bounds.height / 2.6 : UIScreen.main.bounds.height / 2.0
     
     var body: some View {
         ScrollView {
@@ -97,13 +97,13 @@ struct ProfileHeader: View {
     }
     
     func getOpacity(proxy: GeometryProxy) -> CGFloat {
-        let progress = -offset/80
+        let progress = -offset/(maxHeight*0.1)
         let opacity = 1-progress
         return offset < 0 ? opacity : 1
     }
     
     func getNameOpacity(proxy: GeometryProxy) -> CGFloat {
-        let progress = (offset + 50) / (proxy.size.height * 0.15 - 80)
+        let progress = -offset/(maxHeight*0.6)
         return progress
     }
     

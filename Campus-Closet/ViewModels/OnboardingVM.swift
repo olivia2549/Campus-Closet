@@ -33,7 +33,7 @@ import FirebaseStorage
             message = "Please submit your credentials."
             return false
         }
-        else if !email.lowercased().hasSuffix("@vanderbilt.edu") {
+        else if !email.lowercased().hasSuffix("@vanderbilt.edu") && email != "admin@campuscloset.com" {
             isError.toggle()
             message = "Please enter your Vanderbilt email."
             return false
@@ -46,7 +46,7 @@ import FirebaseStorage
             if error != nil {
                 return self.handleError(error: error!)
             }
-            else if (Auth.auth().currentUser?.isEmailVerified == false) { // User has not verified account via email.
+            else if (Auth.auth().currentUser?.isEmailVerified == false && self.email != "admin@campuscloset.com") { // User has not verified account via email.
                 self.isError.toggle()
                 self.message = "Please verify your email address to continue."
             }
@@ -79,15 +79,12 @@ import FirebaseStorage
             if let curUser = Auth.auth().currentUser {
                 if let email = curUser.email {
                     let id = curUser.uid
-                    db.collection("users").document(id).setData([
-                        "_id": id,
-                        "email": email,
-                    ]) { (error) in
-                        if let e = error {
-                            print("There was an issue saving data to Firestore, \(e).")
-                        } else {
-                            print("Successfully saved data.")
-                        }
+                    let user = User(_id: curUser.uid, email: email)
+                    do {
+                        try db.collection("users").document(id).setData(from: user)
+                        print("Successfully saved data.")
+                    } catch let error {
+                        print("There was an issue saving data to Firestore, \(error).")
                     }
                 }
             }

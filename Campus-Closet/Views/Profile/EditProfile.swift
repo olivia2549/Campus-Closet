@@ -129,7 +129,7 @@ struct CameraIcon: View {
 
 struct EditProfile_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             EditProfile()
         }
     }

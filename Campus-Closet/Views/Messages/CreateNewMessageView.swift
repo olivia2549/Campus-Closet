@@ -13,7 +13,7 @@ struct CreateNewMessageView: View {
     @ObservedObject var viewModel = MessagesVM()
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             ScrollView{
                 Text(viewModel.errorMessage)
                 
