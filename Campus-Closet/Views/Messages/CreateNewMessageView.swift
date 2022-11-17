@@ -30,7 +30,7 @@ struct CreateNewMessageView: View {
                     ToolbarItemGroup (placement: .navigationBarLeading){
                         Button{
                             presentationMode.wrappedValue.dismiss()
-                        }label: {
+                        } label: {
                             Text("Cancel")
                         }
                     }
