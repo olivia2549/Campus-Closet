@@ -72,7 +72,7 @@ struct ChoosePicture: View {
             .buttonStyle(Styles.PinkTextButton())
             
             if chosenPicture != nil {
-                NavigationLink(destination: BasicInfo<PostVM>(presentationMode: presentationMode, prevPresentationMode: presentationMode), isActive: $presentInfoScreen) {
+                NavigationLink(destination: BasicInfo(viewModel: viewModel, presentationMode: presentationMode, prevPresentationMode: presentationMode), isActive: $presentInfoScreen) {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
                         .onTapGesture {
@@ -91,13 +91,13 @@ struct ChoosePicture: View {
     }
 }
 
-struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
-    @EnvironmentObject private var viewModel: ViewModel
+struct BasicInfo: View {
+    @ObservedObject var viewModel: PostVM
     @State private var isMissingRequiredInfo: Bool = false
     @State var showAlert = false
     var presentationMode: Binding<PresentationMode>
     var prevPresentationMode: Binding<PresentationMode>
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             CustomInput(
@@ -115,40 +115,40 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
                 autocapitalization: .never,
                 input: $viewModel.item.price
             ) {
-                
+
             }
-            
+
             CustomInput(
                 for: "Size*",
                 imageName: "ruler",
                 autocapitalization: .never,
                 input: $viewModel.item.size
             ) {
-                
+
             }
-            
+
             CustomInput(
                 for: "Condition*",
                 imageName: "clock",
                 autocapitalization: .never,
                 input: $viewModel.item.condition
             ) {
-                
+
             }
-            
+
             CustomInput(
                 for: "Description",
                 imageName: "pencil",
                 autocapitalization: .sentences,
                 input: $viewModel.item.description
             ) {
-                
+
             }
             
             if viewModel.isEditing {
                 Button(action: {
                     if viewModel.verifyInfo() {
-                        viewModel.postItem()
+                        viewModel.postItem() { _ in return }
                         self.presentationMode.wrappedValue.dismiss()
                     }
                     else {
@@ -212,7 +212,8 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
 
 struct OptionalInfo: View {
     @State var navigateToDetail = false
-    @EnvironmentObject private var viewModel: PostVM
+    @EnvironmentObject private var postVM: PostVM
+    @StateObject var itemVM = ItemVM()
     var prevPresentationMode: Binding<PresentationMode>
     init(prevPresentationMode: Binding<PresentationMode>) {
         self.prevPresentationMode = prevPresentationMode
@@ -230,23 +231,26 @@ struct OptionalInfo: View {
             
             Text("Promote Vanderbilt creators")
                 .font(.system(size: 20, weight: .semibold))
-            Toggle("Was this item created by a student?", isOn: $viewModel.item.studentCreated)
+            Toggle("Was this item created by a student?", isOn: $postVM.item.studentCreated)
             
             Text("Options")
                 .font(.system(size: 20, weight: .semibold))
                 .padding(.top)
             
-            Toggle("Allow Bidding", isOn: $viewModel.item.biddingEnabled)
+            Toggle("Allow Bidding", isOn: $postVM.item.biddingEnabled)
             
-            Toggle("Make Post Anonymous", isOn: $viewModel.sellerIsAnonymous)
+            Toggle("Make Post Anonymous", isOn: $postVM.sellerIsAnonymous)
             
             NavigationLink(
-                destination: DetailView(for: viewModel.item.id),
+                destination: DetailView<ItemVM>(itemInfoVM: itemVM),
                 isActive: $navigateToDetail
             ) {
                 Button(action: {
-                    viewModel.postItem()
-                    navigateToDetail = true
+                    postVM.postItem() { itemId in
+                        itemVM.fetchItem(with: itemId) {
+                            navigateToDetail = true
+                        }
+                    }
                 }) {
                     Text("Post Item!")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -258,7 +262,7 @@ struct OptionalInfo: View {
         }
         .padding()
         .navigationBarBackButtonHidden(true)
-        .environmentObject(viewModel)
+        .environmentObject(postVM)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Styles.BackButton(presentationMode: self.presentationMode)
