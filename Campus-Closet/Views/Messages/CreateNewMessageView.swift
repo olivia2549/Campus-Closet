@@ -10,14 +10,14 @@ import Firebase
 
 struct CreateNewMessageView: View {
     @Environment (\.presentationMode) var presentationMode
-    @ObservedObject var vm = MessagesVM()
+    @ObservedObject var viewModel = MessagesVM()
     
     var body: some View {
         NavigationStack{
             ScrollView{
-                Text(vm.errorMessage)
+                Text(viewModel.errorMessage)
                 
-                ForEach(vm.users, id: \.self) { id in
+                ForEach(viewModel.users, id: \.self) { id in
                     HStack(spacing: 16) {
                         UserListView(for: id)
                     }
@@ -30,17 +30,21 @@ struct CreateNewMessageView: View {
                     ToolbarItemGroup (placement: .navigationBarLeading){
                         Button{
                             presentationMode.wrappedValue.dismiss()
-                        }label: {
+                        } label: {
                             Text("Cancel")
                         }
                     }
                 }
+        }
+        .onAppear {
+            viewModel.fetchAllUsers()
         }
     }
 }
 
 struct UserListView: View, Identifiable {
     @StateObject private var viewModel = ProfileVM()
+    @State private var partnerId = ""
     var id: String
     
     init(for id: String) {
@@ -48,16 +52,33 @@ struct UserListView: View, Identifiable {
     }
     
     var body: some View {
-        Image(systemName: "person.crop.circle.fill")
-            .resizable()
-            .scaledToFit()
-            .frame(width:50, height:50)
-            .clipped()
-            .cornerRadius(50)
-            .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
-        Text(viewModel.user.name)
-            .foregroundColor(.black)
-        Spacer()
-            .onAppear(perform: { viewModel.fetchUser(userID: id) })
+        if viewModel.profilePicture != nil {
+            Image(uiImage: viewModel.profilePicture!)
+                .resizable()
+                .scaledToFit()
+                .frame(width:50, height:50)
+                .clipped()
+                .cornerRadius(50)
+                .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
+        }
+        else {
+            Image(systemName: "person.crop.circle.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width:50, height:50)
+                .clipped()
+                .cornerRadius(50)
+                .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
+        }
+        
+        NavigationLink(destination: Chat_Message(partnerId: $partnerId)) {
+            Text(viewModel.user.name)
+                .foregroundColor(.black)
+            Spacer()
+                .onAppear(perform: {
+                    viewModel.fetchUser(userID: id)
+                    partnerId = viewModel.user.id
+                })
+        }
     }
 }

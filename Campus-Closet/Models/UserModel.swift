@@ -20,6 +20,7 @@ struct User: Codable {
     var ratings: [Int] = []
     var isSeller: Bool = false
     var token: String = ""
+    var messageHistory: [String: String] = [:]
 }
 
 extension User: Identifiable {

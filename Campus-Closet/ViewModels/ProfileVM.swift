@@ -26,6 +26,8 @@ enum Position: Int {
     @Published var numRatings = 0
     @Published var averageRating = 0.0
     @Published var profilePicture: UIImage?
+    @Published var message = ""
+    @Published var content: [String] = []
     @Published var sortedColumns: [[String]] = []
     @Published var viewingMode: ViewingMode = ViewingMode.buyer
     @Published var position: Position = Position.first
@@ -39,7 +41,7 @@ enum Position: Int {
     
     func fetchUser(userID: String) -> User {
         let profileRef = db.collection("users").document(userID)
-        
+        print(userID)
         profileRef.getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
@@ -64,6 +66,19 @@ enum Position: Int {
             }
         }
         return self.user
+    }
+    
+    func fetchLastMessage(messageId: String) {
+        let profileRef = db.collection("Messages").document(messageId)
+        
+        profileRef.getDocument(as: Message.self) { result in
+            switch result {
+            case .success(let message):
+                self.message =  message.text
+            case .failure(let error):
+                print("Error decoding message: \(error)")
+            }
+        }
     }
     
     func fetchItems() {

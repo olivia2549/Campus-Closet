@@ -24,6 +24,9 @@
 		7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D92287128EF71CA00ECAD95 /* LogInView.swift */; };
 		7D94FAA22908E08F00FF1761 /* StickyFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA12908E08F00FF1761 /* StickyFooter.swift */; };
 		7D94FAA42908F22900FF1761 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA32908F22900FF1761 /* DetailView.swift */; };
+		82555E8E29243B0000D9A70F /* MessagesVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E8D29243B0000D9A70F /* MessagesVMTests.swift */; };
+		82555E9029243B3300D9A70F /* OnboardingVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E8F29243B3300D9A70F /* OnboardingVMTests.swift */; };
+		82555E9229243B5900D9A70F /* PictureVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E9129243B5900D9A70F /* PictureVMTests.swift */; };
 		82555E942925899B00D9A70F /* ProfileViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E932925899B00D9A70F /* ProfileViewUITests.swift */; };
 		82555E9629258AA700D9A70F /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E9529258AA700D9A70F /* OnboardingUITests.swift */; };
 		82555E982925A2C400D9A70F /* ContentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E972925A2C400D9A70F /* ContentUITests.swift */; };
@@ -31,6 +34,7 @@
 		8257D66C290FE43D006A706B /* ItemVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8257D66B290FE43D006A706B /* ItemVMTests.swift */; };
 		8257D66E291020CC006A706B /* PostVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8257D66D291020CC006A706B /* PostVMTests.swift */; };
 		8257D6722911279A006A706B /* ContentVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8257D6712911279A006A706B /* ContentVMTests.swift */; };
+		82FD75892925C859001EFC12 /* PostUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD75882925C859001EFC12 /* PostUITests.swift */; };
 		C5262B8129044DEA0012E780 /* CustomInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5262B8029044DEA0012E780 /* CustomInput.swift */; };
 		C527281E28E64419008C1D60 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281D28E64419008C1D60 /* PostView.swift */; };
 		C527282028E644D6008C1D60 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281F28E644D6008C1D60 /* HomeView.swift */; };
@@ -119,6 +123,7 @@
 		8257D66B290FE43D006A706B /* ItemVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemVMTests.swift; sourceTree = "<group>"; };
 		8257D66D291020CC006A706B /* PostVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVMTests.swift; sourceTree = "<group>"; };
 		8257D6712911279A006A706B /* ContentVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVMTests.swift; sourceTree = "<group>"; };
+		82FD75882925C859001EFC12 /* PostUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUITests.swift; sourceTree = "<group>"; };
 		C5262B8029044DEA0012E780 /* CustomInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInput.swift; sourceTree = "<group>"; };
 		C527281D28E64419008C1D60 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		C527281F28E644D6008C1D60 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -322,6 +327,7 @@
 				82555E932925899B00D9A70F /* ProfileViewUITests.swift */,
 				82555E9529258AA700D9A70F /* OnboardingUITests.swift */,
 				82555E972925A2C400D9A70F /* ContentUITests.swift */,
+				82FD75882925C859001EFC12 /* PostUITests.swift */,
 			);
 			path = "Campus-ClosetUITests";
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C55ED9B628DD01E3001BD218 /* Campus_ClosetUITests.swift in Sources */,
+				82FD75892925C859001EFC12 /* PostUITests.swift in Sources */,
 				C55ED9B828DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift in Sources */,
 				82555E9629258AA700D9A70F /* OnboardingUITests.swift in Sources */,
 				82555E942925899B00D9A70F /* ProfileViewUITests.swift in Sources */,

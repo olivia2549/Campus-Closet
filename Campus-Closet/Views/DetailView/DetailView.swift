@@ -159,8 +159,9 @@ struct DetailDescription: View {
 struct UserTableInfo: View {
     @StateObject private var profileViewModel = ProfileVM()
     @EnvironmentObject private var itemViewModel: ItemVM
-    
+    @State var sellerId: String = ""
     var userID: String
+    
     init(for userID: String) {
         self.userID = userID
     }
@@ -210,7 +211,7 @@ struct UserTableInfo: View {
                     .buttonStyle(Styles.PinkButton())
                 }
                 else {
-                    NavigationLink(destination: Chat_Message()) {
+                    NavigationLink(destination: Chat_Message(partnerId: $sellerId)) {
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -222,6 +223,7 @@ struct UserTableInfo: View {
         }
         .onAppear {
             profileViewModel.fetchUser(userID: userID)
+            sellerId = itemViewModel.item.sellerId
         }
     }
 }

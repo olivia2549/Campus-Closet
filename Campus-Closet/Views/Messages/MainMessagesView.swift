@@ -17,109 +17,87 @@ class MainMessagesViewModel: ObservableObject{
     }
 }
 
-
-
 struct MainMessagesView: View {
     @State var shouldShowLogOutOptions = false
-    @StateObject private var viewModel = ProfileVM()
-    //@Binding var offset = CGFloat
+    @State var shouldShowNewMessageScreen = false
+    @StateObject private var profileVM = ProfileVM()
+    @StateObject private var messagesVM = MessagesVM()
 
-    private var customNavBar: some View{
-       
-            HStack(spacing: 16){
-                Image (systemName: "person.fill")
-                    .font(.system(size:34, weight: .heavy))
-                VStack(alignment: .leading, spacing: 4){
-                    
-                    Text("Hilly Yehoshua")
-                        .font (.system(size: 24, weight: .bold) )
-                        //.opacity(getNameOpacity())
-                    HStack{
-                        Circle()
-                            .foregroundColor(.green)
-                            .frame (width: 14, height: 14)
-                        Text("online")
-                            .font (.system(size: 12))
-                            .foregroundColor(Color(.lightGray))
-                    }
-                }
-                
-                Spacer()
-                Button{
-                    shouldShowLogOutOptions.toggle()
-                }label:{
-                    Image(systemName: "gear")
-                        .font(.system(size: 24, weight: .bold))
-                }
-                
-            }
-            .padding()
-            .actionSheet(isPresented: $shouldShowLogOutOptions){
-                .init(title: Text("Settings"), message: Text("What do you want to do?"), buttons: [.default(Text("DEFAULT BUTTON")),
-                    .cancel()
-                                                                                                  ])
-        }
-        
-       
-    }
     var body: some View {
         NavigationStack{
-            
             VStack{
-                //custom nav bar
+                // Custom navigation bar
                 customNavBar
-                
-                
-                
+                // Message history
                 messagesView
-               
-
-                
-                
             }
-            .overlay(
-                newMessageButton, alignment: .bottom
-                
-            )
+            .overlay(newMessageButton, alignment: .bottom)
             .navigationBarHidden(true)
-            
         }
     }
-    private var messagesView: some View{
-        ScrollView{
-            ForEach(0..<10, id: \.self){ num in
-                VStack{
-                    HStack (spacing: 16){
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 32))
-                            .padding(8)
-                            .overlay(RoundedRectangle(cornerRadius: 44)
-                                .stroke(Color.black, lineWidth: 1))
-                        
-                        
-                        VStack (alignment: .leading){
-                            Text("Username")
-                                .font(.system(size:16, weight: .bold))
-                            Text("Message sent to user")
-                                .font(.system(size:14))
-                                .foregroundColor(Color(.lightGray))
-                        }
-                        Spacer()
-
-                        Text("22d")
-                            .font(.system(size: 14, weight: .semibold))
-                    }
+    
+    private var customNavBar: some View{
+        HStack(spacing: 16) {
+            if profileVM.profilePicture != nil {
+                Image (uiImage : profileVM.profilePicture!)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width:50, height:50)
+                    .clipped()
+                    .cornerRadius(50)
+                    .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
+            } else {
+                Image (systemName: "person.fill")
+                    .font(.system(size:34, weight: .heavy))
+            }
+            VStack(alignment: .leading, spacing: 4){
+                Text(profileVM.user.name)
+                    .font (.system(size: 24, weight: .bold) )
+                    //.opacity(getNameOpacity())
+                HStack{
+                    Circle()
+                        .foregroundColor(.green)
+                        .frame (width: 14, height: 14)
+                    Text("online")
+                        .font (.system(size: 12))
+                        .foregroundColor(Color(.lightGray))
                 }
-                
-                Divider()
-                    .padding(.vertical, 8)
-                
-            }.padding(.horizontal)
-        }.padding(.bottom, 50)
+            }
+            Spacer()
+            
+            Button{
+                shouldShowLogOutOptions.toggle()
+            } label:{
+                Image(systemName: "gear")
+                    .font(.system(size: 24, weight: .bold))
+            }
+        }
+        .padding()
+        .onAppear {
+            profileVM.getProfileData()
+        }
+        .actionSheet(isPresented: $shouldShowLogOutOptions) {
+            .init(
+                title: Text("Settings"),
+                message: Text("What do you want to do?"),
+                buttons: [.default(Text("DEFAULT BUTTON")), .cancel()]
+            )
+        }
     }
     
-    
-    @State var shouldShowNewMessageScreen = false
+    private var messagesView: some View {
+        ScrollView{
+            ForEach(messagesVM.recentMessages.sorted(by: >), id: \.key) { key, value in // fixme: sort in vm
+                HStack(spacing: 16) {
+                    MessageShortcutView(for: key, for: value)
+                }
+                .padding (.horizontal)
+                Divider()
+                    .padding (.vertical, 8)
+            }
+        }
+        .padding(.bottom, 50)
+    }
     
     private var newMessageButton: some View{
         Button {
@@ -129,7 +107,6 @@ struct MainMessagesView: View {
                 Spacer()
                 Text("+ New Message")
                     .font (.system(size: 16, weight: .bold))
-                    
                 Spacer()
             }
             .foregroundColor(.white)
@@ -145,9 +122,56 @@ struct MainMessagesView: View {
     }
 }
 
-
-
-
+struct MessageShortcutView: View, Identifiable {
+    @StateObject private var profileVM = ProfileVM()
+    var id: String
+    var messageId: String
+    @State var myUser: User
+    
+    init(for id: String, for messageId: String) {
+        self.id = id
+        self.messageId = messageId
+        self.myUser = User()
+    }
+    
+    var body: some View {
+        VStack{
+            HStack (spacing: 16){
+                if (profileVM.profilePicture != nil) {
+                    Image(uiImage: profileVM.profilePicture!)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:50, height:50)
+                        .clipped()
+                        .cornerRadius(50)
+                        .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
+                }
+                else {
+                    Image(systemName: "person.fill")
+                        .font(.system(size: 32))
+                        .padding(8)
+                        .overlay(RoundedRectangle(cornerRadius: 44)
+                        .stroke(Color.black, lineWidth: 1))
+                }
+                
+                VStack (alignment: .leading){
+                    Text(profileVM.user.name)
+                        .font(.system(size:16, weight: .bold))
+                    Text(profileVM.message)
+                        .font(.system(size:14))
+                        .foregroundColor(Color(.lightGray))
+                }
+                Spacer()
+            }
+        }
+        .onAppear(perform: {
+            profileVM.fetchUser(userID: id)
+            profileVM.fetchLastMessage(messageId: messageId)
+        })
+        Divider()
+            .padding(.vertical, 8)
+    }
+}
 
 struct MainMessagesView_Previews: PreviewProvider {
     static var previews: some View {

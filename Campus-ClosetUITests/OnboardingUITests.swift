@@ -11,17 +11,22 @@ import XCTest
 
 class OnboardingUITests: XCTestCase {
 
+    private var app: XCUIApplication!
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
+        continueAfterFailure = false
+        app = XCUIApplication()
+        app.launch()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        app = nil
     }
 
     func testSignupTextEntry() throws {
@@ -44,9 +49,6 @@ class OnboardingUITests: XCTestCase {
     }
     
     func testLogin() throws {
-        let app = XCUIApplication()
-        app.launchArguments = ["testing"]
-        app.launch()
         
         let email = app.textFields["email"]
         XCTAssertTrue(email.exists)
@@ -62,20 +64,34 @@ class OnboardingUITests: XCTestCase {
         let logInButton = app.buttons["Log In"]
         XCTAssertTrue(logInButton.exists)
         logInButton.tap()
-        let okButton = app.buttons["OK"]
-        XCTAssertTrue(okButton.exists)
-        okButton.tap()
-        //passwordSecureTextField.tap()
-        //logInButton.tap()
     
+        let homeButton = app.tabBars["Tab Bar"].buttons["Home"]
+        XCTAssertTrue(homeButton.waitForExistence(timeout: 5))
         
-        //let message = app.staticTexts["Test!"]
-        //XCTAssertTrue(message.waitForExistence(timeout: 5))
-                        
+                                        
     }
     
-    func testLogin2(){
+    
+
+    func testLoginNoVerification() throws{
+        let app = XCUIApplication()
+        app.launchArguments = ["testing"]
+        app.launch()
         
+        //abcde@vanderbilt.edu is an account in the database that has not been verified
+        //trying to log into this account should produce an error message
+        let email = app.textFields["email"]
+        XCTAssertTrue(email.exists)
+        email.tap()
+        email.typeText("abcde@vanderbilt.edu")
+
+        let passwordSecureTextField = app.secureTextFields["password"]
+        XCTAssertTrue(passwordSecureTextField.exists)
+        passwordSecureTextField.tap()
+        passwordSecureTextField.typeText("password")
+        
+        //not sure what this does next
+        //either will test that app is still on the login page or test if error message is displayed
     }
     
 

@@ -28,7 +28,7 @@ class ProfileViewUITests: XCTestCase {
     
     func testNavigateToProfile() throws{
         
-        let tabBar = XCUIApplication().tabBars["Tab Bar"]
+        let tabBar = app.tabBars["Tab Bar"]
         XCTAssertTrue(tabBar.exists)
         let homeButton = tabBar.buttons["Home"]
         XCTAssertTrue(homeButton.exists)
@@ -36,27 +36,98 @@ class ProfileViewUITests: XCTestCase {
         let profileButton = tabBar.buttons["person"]
         XCTAssertTrue(profileButton.exists)
         profileButton.tap()
-        //test buttons/text found in "Profile View" exist
+        
+        //Bids and Saved tabs are unique to the profile
+        //Testing if they exist will assert that the app
+        //Has sufficiently navigated back to the profile with no edits made
+        let elementsQuery = app.scrollViews.otherElements
+        let savedButton = elementsQuery.buttons["Saved"]
+        XCTAssertTrue(savedButton.exists)
+        savedButton.tap()
+        let bidsButton = elementsQuery.buttons["Bids"]
+        XCTAssertTrue(bidsButton.exists)
+        bidsButton.tap()
         
     }
 
     func testEditProfile() throws {
         // UI tests must launch the application that they test.
         
+        let tabBar = app.tabBars["Tab Bar"]
+        XCTAssertTrue(tabBar.exists)
+        let profileButton = tabBar.buttons["person"]
+        XCTAssertTrue(profileButton.exists)
+        profileButton.tap()
+        let editButton = app.scrollViews.otherElements.buttons["Edit"]
+        XCTAssertTrue(editButton.exists)
+        editButton.tap()
+        let namebox = app.staticTexts["Name"]
+        XCTAssertTrue(namebox.exists)
+        namebox.tap()
+        //namebox.typeText("Amanda Test 1")
+        let window = app.children(matching: .window).element(boundBy: 0)
+        let textField = window.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .textField).element(boundBy: 0)
+        textField.typeText("Amanda Test 1")
+        let doneButton = window.buttons["Done"]
+        XCTAssertTrue(doneButton.exists)
+        doneButton.tap()
+        let newName = app.scrollViews.otherElements.staticTexts["Amanda Test 1"]
+        XCTAssertTrue(newName.exists)
+    
+    }
+    
+    func testEditProfileNoEdits() throws {
+        let tabBar = app.tabBars["Tab Bar"]
+        XCTAssertTrue(tabBar.exists)
+        let profileButton = tabBar.buttons["person"]
+        XCTAssertTrue(profileButton.exists)
+        profileButton.tap()
+        let editButton = app.scrollViews.otherElements.buttons["Edit"]
+        XCTAssertTrue(editButton.exists)
+        editButton.tap()
+        let doneButton = app.buttons["Done"]
+        XCTAssertTrue(doneButton.exists)
+        doneButton.tap()
+        
+        //Bids and Saved tabs are unique to the profile
+        //Testing if they exist will assert that the app
+        //Has sufficiently navigated back to the profile with no edits made
+        let elementsQuery = app.scrollViews.otherElements
+        let savedButton = elementsQuery.buttons["Saved"]
+        XCTAssertTrue(savedButton.exists)
+        savedButton.tap()
+        let bidsButton = elementsQuery.buttons["Bids"]
+        XCTAssertTrue(bidsButton.exists)
+        bidsButton.tap()
+        
+        let app = XCUIApplication()
+        let emailTextField = app.textFields["email"]
+        emailTextField.tap()
+        emailTextField/*@START_MENU_TOKEN@*/.press(forDuration: 1.3);/*[[".tap()",".press(forDuration: 1.3);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        emailTextField/*@START_MENU_TOKEN@*/.press(forDuration: 0.9);/*[[".tap()",".press(forDuration: 0.9);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        emailTextField.tap()
+        emailTextField.tap()
+        app.collectionViews/*@START_MENU_TOKEN@*/.staticTexts["Paste"]/*[[".menuItems[\"Paste\"].staticTexts[\"Paste\"]",".staticTexts[\"Paste\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        
+    }
+    
+    func messAroundHere() throws {
+        
+        let app = XCUIApplication()
         app.tabBars["Tab Bar"].buttons["person"].tap()
-        app.scrollViews.otherElements.buttons["Edit"].tap()
-        let namebox = app.textFields["Name"]
-        namebox.typeText("Amanda Test")
-        app.buttons["Done"].tap()
-        //XCTAssertEqual()
         
+        let elementsQuery = app.scrollViews.otherElements
+        elementsQuery.buttons["Saved"].tap()
+        elementsQuery.buttons["Bids"].tap()
         
+        let elementsQuery2 = elementsQuery
+        elementsQuery2/*@START_MENU_TOKEN@*/.buttons["Seller"]/*[[".segmentedControls.buttons[\"Seller\"]",".buttons[\"Seller\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        elementsQuery2/*@START_MENU_TOKEN@*/.buttons["Buyer"]/*[[".segmentedControls.buttons[\"Buyer\"]",".buttons[\"Buyer\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         
-                        
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
+    
+ 
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
