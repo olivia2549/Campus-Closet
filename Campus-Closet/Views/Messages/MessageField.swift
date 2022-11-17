@@ -19,7 +19,6 @@ struct MessageField: View {
                 .frame(height: 52)
                 .disableAutocorrection(true)
             Button {
-                print("recipient is \(recipient)")
                 messagesVM.sendMessage(recipient: recipient, text: message)
                 message = ""
                 hideKeyboard()

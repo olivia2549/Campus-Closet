@@ -89,6 +89,7 @@ class MessagesVM: ObservableObject {
                 received: false,
                 timestamp: Date())
             try db.collection("Messages").document(newMessage.id).setData(from: newMessage)
+            self.messages.append(newMessage)
         } catch {
             print ("Error adding message to Firestore: \(error)")
         }
