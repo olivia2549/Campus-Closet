@@ -87,10 +87,17 @@ struct StickyFooter: View {
             }
             .padding(.top, 10)
             
-            Text("$\(itemVM.item.price)")
-                .font(.system(size: 30, weight: .bold))
-                .foregroundColor(Styles().themePink)
-                .frame(alignment: .leading)
+            if (itemVM.item.bidPrice != 0) {
+                Text("Current Bid: $\(itemVM.item.bidPrice)")
+                    .font(.system(size: 30, weight: .bold))
+                    .foregroundColor(Styles().themePink)
+                    .frame(alignment: .leading)
+            } else {
+                Text("Listed Price (0 bids): $\(itemVM.item.price)")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Styles().themePink)
+                    .frame(alignment: .leading)
+            }
             
             if !itemVM.isSeller {
                 SellerInfo()

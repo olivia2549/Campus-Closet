@@ -115,7 +115,7 @@ import FirebaseStorage
                 print("There was an issue saving data to Firestore, \(e).")
             } else {
                 print("Successfully bid item.")
-                self.updateItemBidders(with: userID, price: price)
+                self.updateItemBidders(with: userID, price: bidPrice)
                 // TODO: Send notification to seller
             }
         }
@@ -138,11 +138,11 @@ import FirebaseStorage
         }
     }
     
-    func updateItemBidders(with userID: String, price: String) {
+    func updateItemBidders(with userID: String, price: Int) {
         // add to the item's bidder list and update its price
         db.collection("items").document(item.id).updateData([
             "bidders": FieldValue.arrayUnion([userID]),
-            "price": price
+            "bidPrice": price
         ]) { (error) in
             if let e = error {
                 print("There was an issue saving data to Firestore, \(e).")
