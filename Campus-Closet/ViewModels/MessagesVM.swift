@@ -37,22 +37,6 @@ class MessagesVM: ObservableObject {
         return text
     }
     
-    func getMyMessages() {
-        let currentId = Auth.auth().currentUser!.uid
-        
-        // Fetch all messages I have sent.
-        let sentMessages = db.collection("Messages").whereField("sender", isEqualTo: currentId)
-        getMessages(query: sentMessages)
-        
-        // Fetch all messages I have received.
-        let receivedMessages = db.collection("Messages").whereField("recipient", isEqualTo: currentId)
-        getMessages(query: receivedMessages)
-        
-        self.messages.sort {
-            $0.timestamp < $1.timestamp
-        }
-    }
-    
     func getConversation(partnerId: String) {
         let myId = Auth.auth().currentUser!.uid
         
@@ -91,30 +75,45 @@ class MessagesVM: ObservableObject {
         }
     }
     
-    func sendMessage(text: String) {
+    func sendMessage(recipient: String, text: String) {
         let myId = Auth.auth().currentUser!.uid
-        let otherId = "eyG6aeR5EpO0sY46wFIaNVg9qSw2"
         let messageId = "\(UUID())"
         
+        // Store new message document in Firestore database.
         do {
             let newMessage = Message(
                 id: messageId,
                 text: text,
                 sender: myId,
-                recipient: "",
+                recipient: recipient,
                 received: false,
                 timestamp: Date())
             try db.collection("Messages").document(newMessage.id).setData(from: newMessage)
         } catch {
             print ("Error adding message to Firestore: \(error)")
         }
-//
-//        db.collection("users").document(myId).updateData([
-//            "contacts": FieldValue.arrayUnion([messageId])
-//        ])
-//        db.collection("users").document(otherId).updateData([
-//            "contacts": FieldValue.arrayUnion([messageId])
-//        ])
+        
+        // Add message to sender's recent message history.
+        db.collection("users").document(myId).updateData([
+            "messageHistory.\(recipient)": messageId
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+        
+        // Add message to recipient's recent message history.
+        db.collection("users").document(recipient).updateData([
+            "messageHistory.\(myId)": messageId
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
     }
     
     func fetchAllRecentMessages() {
@@ -125,11 +124,7 @@ class MessagesVM: ObservableObject {
             switch result {
             case .success(let user):
                 for userId in user.messageHistory {
-                    
                     self.recentMessages[userId.key] = userId.value
-                    print(userId.value)
-//                    print(userId.key)
-//                    self.recentMessages[userId.key] = userId.value
                 }
             case .failure(let error):
                 print("Error decoding user: \(error)")

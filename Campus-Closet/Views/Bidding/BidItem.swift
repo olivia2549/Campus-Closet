@@ -47,24 +47,31 @@ struct BidItem: View {
             }
             HStack {
                 Spacer()
-                Button(action: {
-                    if (!viewModel.bidItem(price: price)) {
-                        showAlert = true
-                    }
-                    showBidView = false
-                }) {
-                    Text("Send Bid Offer")
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .font(.system(size: 18))
-                        .padding()
-                        .foregroundColor(.white)
-                        .overlay (
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke(Color.white, lineWidth:15)
-                        )
-                }
-                .background(Color("Dark Pink"))
-                .cornerRadius(25)
+                                Button(action: {
+                                    if (!viewModel.bidItem(price: price)) {
+                                        showAlert = true
+                                    }
+                                    showBidView = false
+                                }) {
+                
+                                    Text("Send Bid Offer")
+                                        .frame(minWidth: 0, maxWidth: .infinity)
+                                        .font(.system(size: 18))
+                                        .padding()
+                                        .foregroundColor(.white)
+                                        .overlay (
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .stroke(Color.white, lineWidth:15)
+                                        )
+                
+                                }
+                
+                                .background(Color("Dark Pink"))
+                                .cornerRadius(25)
+                
+                
+                
+                
                 Spacer()
             }
             
@@ -80,5 +87,5 @@ struct BidItem: View {
         .navigationBarHidden(true)
         
     }
-        
+    
 }
