@@ -41,11 +41,9 @@ struct MainMessagesView: View {
             if profileVM.profilePicture != nil {
                 Image (uiImage : profileVM.profilePicture!)
                     .resizable()
-                    .scaledToFit()
-                    .frame(width:50, height:50)
-                    .clipped()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 50, height: 50)
                     .cornerRadius(50)
-                    .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
             } else {
                 Image (systemName: "person.fill")
                     .font(.system(size:34, weight: .heavy))
@@ -140,11 +138,9 @@ struct MessageShortcutView: View, Identifiable {
                 if (profileVM.profilePicture != nil) {
                     Image(uiImage: profileVM.profilePicture!)
                         .resizable()
-                        .scaledToFit()
-                        .frame(width:50, height:50)
-                        .clipped()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
                         .cornerRadius(50)
-                        .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
                 }
                 else {
                     Image(systemName: "person.fill")

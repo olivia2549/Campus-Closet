@@ -55,10 +55,9 @@ struct UserListView: View, Identifiable {
             Image(uiImage: viewModel.profilePicture!)
                 .resizable()
                 .scaledToFit()
-                .frame(width:50, height:50)
-                .clipped()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 50, height: 50)
                 .cornerRadius(50)
-                .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
         }
         else {
             Image(systemName: "person.crop.circle.fill")
