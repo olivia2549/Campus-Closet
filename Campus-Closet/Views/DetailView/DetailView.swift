@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseAuth
 
 @MainActor protocol ItemInfoVM: ObservableObject {
-    var item: Item { get set }
+    var itemPublisher: Published<Item>.Publisher { get }
     var isEditing: Bool { get set }
     func verifyInfo() -> Bool
     func deleteItem()
@@ -19,19 +19,15 @@ import FirebaseAuth
 let maxWidth = UIScreen.main.bounds.width
 let maxHeight = UIScreen.main.bounds.height
 
-struct DetailView: View {
+struct DetailView<ItemInfo:ItemInfoVM>: View {
     @StateObject private var itemViewModel = ItemVM()
+    @ObservedObject var itemInfoVM: ItemInfo
     @State var scrollOffset: CGFloat = 0
     @State var innerHeight: CGFloat = 0
     @State var offset: CGFloat = 0
     @State var scrollHeight: CGFloat = 0
     @State var sellerId = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    var itemID: String
-    init(for itemID: String) {
-        self.itemID = itemID
-    }
     
     var body: some View {
         ZStack {
@@ -63,9 +59,9 @@ struct DetailView: View {
                 )
             }
         }
-        .onAppear {
-            itemViewModel.fetchItem(with: itemID)
-        }
+        .onReceive(itemInfoVM.itemPublisher, perform: { item in
+            itemViewModel.fetchItem(with: item.id) {}
+        })
         .environmentObject(itemViewModel)
         .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarBackButtonHidden(true)
@@ -152,7 +148,7 @@ struct DetailDescription: View {
 struct SellerInfo: View {
     @StateObject private var profileViewModel = ProfileVM()
     @EnvironmentObject private var itemViewModel: ItemVM
-    @State var sellerId: String
+    @State var sellerId = ""
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {

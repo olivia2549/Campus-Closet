@@ -9,10 +9,13 @@ import SwiftUI
 import FirebaseAuth
 
 struct StickyFooter: View {
-    @EnvironmentObject private var viewModel: ItemVM
+    @EnvironmentObject private var itemVM: ItemVM
+    @StateObject private var postVM = PostVM()
     @Binding var offset: CGFloat
     @Binding var height: CGFloat
     @Binding var scrollHeight: CGFloat
+    @State var presentEditScreen = false
+    @State var isLoaded = false
     @State var showBidView = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -22,11 +25,11 @@ struct StickyFooter: View {
                 // Item title and Vandy creator tag
                 GeometryReader { proxy in
                     HStack(alignment: .center) {
-                        Text(viewModel.item.title)
+                        Text(itemVM.item.title)
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.black)
                             .padding(.top, 20)
-                        if viewModel.item.studentCreated {
+                        if itemVM.item.studentCreated {
                             Image(systemName: "v.circle.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -40,7 +43,7 @@ struct StickyFooter: View {
                 Spacer()
                 
                 // Button at right
-                if !viewModel.isSeller {
+                if !itemVM.isSeller {
                     Button(action: {
                         showBidView = true
                     }){
@@ -53,24 +56,53 @@ struct StickyFooter: View {
                     .foregroundColor(.white)
                 }
                 else {
-                    NavigationLink(destination: EditItem(prevPresentationMode: presentationMode).environmentObject(viewModel)) {
-                        Text("Edit Item")
-                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
-                    }
-                    .padding(10)
-                    .background(Styles().themePink)
-                    .cornerRadius(10)
-                    .foregroundColor(.white)
+                    Text("Edit Item")
+                        .frame(maxWidth: maxWidth*0.3, alignment: .center)
+                        .onTapGesture {
+                            if (isLoaded) {
+                                self.presentEditScreen = true
+                                isLoaded = false
+                            }
+                        }
+                        .sheet(isPresented: $presentEditScreen, onDismiss: {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }) {
+                            EditItem(
+                                viewModel: postVM,
+                                presentEditScreen: $presentEditScreen
+                            )
+                            .navigationBarHidden(true)
+                            .navigationBarBackButtonHidden(true)
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    Styles.BackButton(presentationMode: self.presentationMode)
+                                        .foregroundColor(.black)
+                                }
+                            }
+                        }
+                        .padding(10)
+                        .background(Styles().themePink)
+                        .cornerRadius(10)
+                        .foregroundColor(.white)
                 }
             }
             .padding(.top, 10)
             
-            if !viewModel.isSeller {
-                SellerInfo(sellerId: viewModel.item.sellerId)
+            if !itemVM.isSeller {
+                SellerInfo()
             }
             Spacer()
         }
-        .frame(height: viewModel.isSeller ? maxHeight*0.1 : maxHeight*0.18)
+        .onReceive(itemVM.itemPublisher, perform: { item in
+            // create a post object for editing once the item is loaded
+            postVM.item = item
+            postVM.isEditing = true
+            isLoaded = true
+        })
+//        .onReceive(postVM.$item, perform: { item in
+//            itemVM.item = item
+//        })
+        .frame(height: itemVM.isSeller ? maxHeight*0.1 : maxHeight*0.18)
         .padding(EdgeInsets(
             top: 0,
             leading: 15,
@@ -85,7 +117,7 @@ struct StickyFooter: View {
         }
         .sheet(isPresented: $showBidView) {
             BidItem(showBidView: $showBidView)
-                .environmentObject(viewModel)
+                .environmentObject(itemVM)
         }
     }
     

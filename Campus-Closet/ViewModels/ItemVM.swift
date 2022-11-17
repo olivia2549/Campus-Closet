@@ -14,6 +14,8 @@ import FirebaseStorage
 
 @MainActor class ItemVM: ObservableObject, ItemInfoVM {
     @Published var item = Item()
+    var itemPublisher: Published<Item>.Publisher { $item }
+    
     @Published var isEditing = true
     @Published var itemImage: UIImage?
     @Published var isSeller = false
@@ -45,7 +47,7 @@ import FirebaseStorage
     }
     
     // Find an item in the database with a particular id
-    func fetchItem(with id: String) {
+    func fetchItem(with id: String, completion: @escaping () -> Void) {
         fetchUser(itemID: id) {
             self.db.collection("items")
                 .document(id)
@@ -67,6 +69,7 @@ import FirebaseStorage
                                 }
                             }
                         }
+                        completion()
                     case .failure(let error):
                         print("Error decoding item: \(error)")
                     }
@@ -92,25 +95,7 @@ import FirebaseStorage
     }
     
     func deleteItem() {
-        let db = Firestore.firestore()
-        db.collection("items").document(item.id).delete() { error in
-            if let e = error {
-                print("There was an issue deleting the item, \(e)")
-            } else {
-                print("Successfully deleted from items.")
-                if let user = Auth.auth().currentUser?.uid {
-                    db.collection("users").document(user).updateData([
-                        "listings": FieldValue.arrayRemove([self.item.id])
-                    ]) { error in
-                        if let e = error {
-                            print("There was an issue deleting the item, \(e)")
-                        } else {
-                            print("Successfully deleted from listings.")
-                        }
-                    }
-                }
-            }
-        }
+        
     }
     
     func bidItem(price: String) -> Bool {

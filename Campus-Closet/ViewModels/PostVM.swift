@@ -13,9 +13,9 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-@MainActor class PostVM: ObservableObject, HandlesTagsVM, ItemInfoVM {
+@MainActor class PostVM: ObservableObject, HandlesTagsVM {
+    @Published var item = Item()    
     @Published var chosenPicture: UIImage?
-    @Published var item = Item()
     @Published var isEditing = false
     @Published var sellerIsAnonymous = false
     @Published var tags: [String] = []
@@ -42,7 +42,24 @@ import FirebaseStorage
         return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
     }
     
-    func postItem() {
+    func updateItem(completion: @escaping () -> Void) {
+        let db = Firestore.firestore()
+        db.collection("items").document(item.id).updateData([
+            "title": item.title,
+            "description": item.description,
+            "price": item.price,
+            "size": item.size,
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully saved data.")
+                completion()
+            }
+        }
+    }
+    
+    func postItem(completion: @escaping (String) -> Void) {
         let userId = Auth.auth().currentUser?.uid
         updateUserListings()
         
@@ -57,6 +74,7 @@ import FirebaseStorage
                         print("There was an issue saving data to Firestore, \(e).")
                     } else {
                         print("Successfully saved data: \(self.item.id).")
+                        completion(self.item.id)
                     }
                 }
             }
@@ -111,5 +129,25 @@ import FirebaseStorage
     }
     
     func deleteItem() {
+        let db = Firestore.firestore()
+        db.collection("items").document(item.id).delete() { error in
+            if let e = error {
+                print("There was an issue deleting the item, \(e)")
+            } else {
+                print("Successfully deleted from items.")
+                if let user = Auth.auth().currentUser?.uid {
+                    db.collection("users").document(user).updateData([
+                        "listings": FieldValue.arrayRemove([self.item.id])
+                    ]) { error in
+                        if let e = error {
+                            print("There was an issue deleting the item, \(e)")
+                        } else {
+                            print("Successfully deleted from listings.")
+                        }
+                    }
+                }
+            }
+        }
+        self.item = Item()
     }
 }

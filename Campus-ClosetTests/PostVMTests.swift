@@ -64,7 +64,7 @@ class PostVMTests : XCTestCase {
         for tag in postVM.tagsLeft {
             XCTAssertEqual(tag.value, 1, "No tags should be added")
         }
-        postVM.postItem()
+        postVM.postItem() { _ in return }
         XCTAssertEqual(postVM.tags.count, 0, "There should be no tags")
         XCTAssertFalse(postVM.isEditing, "isEditing flag should be false")
         XCTAssertFalse(postVM.sellerIsAnonymous, "sellerIsAnonymous flag should be false")
@@ -77,7 +77,7 @@ class PostVMTests : XCTestCase {
     //test in the process of being resolved
     @MainActor func testPostItem(){
         let postVM = PostVM()
-        postVM.postItem()
+        postVM.postItem() {_ in return }
         //let user = User()
         //let profileRef = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
         //need some sort of call to Auth.auth().currentUser?.uid to get user and test if
