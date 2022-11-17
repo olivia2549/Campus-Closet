@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct MessageField: View {
-    @State private var message = ""
     @EnvironmentObject var messagesVM: MessagesVM
+    @State private var message = ""
+    @Binding var recipient: String
 
     var body: some View {
         HStack {
@@ -18,7 +19,8 @@ struct MessageField: View {
                 .frame(height: 52)
                 .disableAutocorrection(true)
             Button {
-                messagesVM.sendMessage(text: message)
+                print("recipient is \(recipient)")
+                messagesVM.sendMessage(recipient: recipient, text: message)
                 message = ""
                 hideKeyboard()
                 } label: {
@@ -37,12 +39,12 @@ struct MessageField: View {
         }
 }
 
-struct MessageField_Previews: PreviewProvider {
-    static var previews: some View {
-        MessageField()
-            .environmentObject(MessagesVM())
-    }
-}
+//struct MessageField_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MessageField()
+//            .environmentObject(MessagesVM())
+//    }
+//}
 
 struct CustomTextField : View {
     var placeholder: Text
