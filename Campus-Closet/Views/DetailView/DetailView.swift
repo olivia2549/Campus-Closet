@@ -209,15 +209,15 @@ struct UserTableInfo: View {
                     }
                     .buttonStyle(Styles.PinkButton())
                 }
-//                else {
-//                    NavigationLink(destination: Chat_Message()) {
-//                        Image(systemName: "ellipsis.message.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 40, height: 40)
-//                            .foregroundColor(Color("Dark Pink"))
-//                    }
-//                }
+                else {
+                    NavigationLink(destination: Chat_Message()) {
+                        Image(systemName: "ellipsis.message.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color("Dark Pink"))
+                    }
+                }
             }
         }
         .onAppear {

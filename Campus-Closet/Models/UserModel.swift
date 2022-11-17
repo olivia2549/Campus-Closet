@@ -9,6 +9,7 @@ import Foundation
 
 struct User: Codable {
     var _id: String = UUID().uuidString
+    var email: String = ""
     var name: String = ""
     var picture: String = ""
     var venmo: String = ""

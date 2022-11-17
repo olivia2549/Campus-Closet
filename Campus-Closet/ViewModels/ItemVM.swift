@@ -93,15 +93,21 @@ import FirebaseStorage
     
     func deleteItem() {
         let db = Firestore.firestore()
-        db.collection("items").document(item.id).delete()
-        if let user = Auth.auth().currentUser?.uid {
-            db.collection("users").document(user).updateData([
-                "listings": FieldValue.arrayRemove([item.id])
-            ]) { error in
-                if let e = error {
-                    print("There was an issue deleting the item, \(e)")
-                } else {
-                    print("Successfully deleted.")
+        db.collection("items").document(item.id).delete() { error in
+            if let e = error {
+                print("There was an issue deleting the item, \(e)")
+            } else {
+                print("Successfully deleted from items.")
+                if let user = Auth.auth().currentUser?.uid {
+                    db.collection("users").document(user).updateData([
+                        "listings": FieldValue.arrayRemove([self.item.id])
+                    ]) { error in
+                        if let e = error {
+                            print("There was an issue deleting the item, \(e)")
+                        } else {
+                            print("Successfully deleted from listings.")
+                        }
+                    }
                 }
             }
         }

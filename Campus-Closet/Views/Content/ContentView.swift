@@ -32,34 +32,13 @@ struct ContentView: View {
                         }
                     }
                     .tag(0)
-//                MainMessagesView()
-//                    .tabItem {
-//                        if (selection == 1) {
-//                            Image(systemName: "message.fill")
-//                        }
-//                        else {
-//                            Image(systemName: "message")
-//                                .environment(\.symbolVariants, .none)
-//                        }
-//                    }
-//                    .tag(1)
-                Text("")
-                    .fullScreenCover(
-                        isPresented: $addPostPresented,
-                        onDismiss: {
-                            selection = 0
-                        },
-                        content: { PostView() }
-                    )
-                    .onAppear {
-                        addPostPresented.toggle()
-                    }
+                MainMessagesView()
                     .tabItem {
                         if (selection == 1) {
-                            Image(systemName: "plus.app.fill")
+                            Image(systemName: "message.fill")
                         }
                         else {
-                            Image(systemName: "plus.app")
+                            Image(systemName: "message")
                                 .environment(\.symbolVariants, .none)
                         }
                     }

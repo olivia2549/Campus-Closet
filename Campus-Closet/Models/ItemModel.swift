@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 struct Item: Codable {
     var _id: String = UUID().uuidString
     var title: String = ""
     var picture: String = ""
     var description: String = ""
-    var sellerId: String = ""
+    var sellerId: String = Auth.auth().currentUser!.uid
     var price: String = ""
     var size: String = ""
     var condition: String = ""
@@ -20,6 +21,7 @@ struct Item: Codable {
     var tags: [String]? = []
     var studentCreated: Bool = false
     var bidders: [String] = []
+    var timestamp = Date.now
 }
 
 extension Item: Identifiable {
