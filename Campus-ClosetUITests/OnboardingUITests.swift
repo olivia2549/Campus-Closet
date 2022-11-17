@@ -53,12 +53,12 @@ class OnboardingUITests: XCTestCase {
         let email = app.textFields["email"]
         XCTAssertTrue(email.exists)
         email.tap()
-        email.typeText("amanda.r.peppard@vanderbilt.edu")
+        email.typeText("ammanda.r.peppard@vanderbilt.edu")
 
         let passwordSecureTextField = app.secureTextFields["password"]
         XCTAssertTrue(passwordSecureTextField.exists)
         passwordSecureTextField.tap()
-        passwordSecureTextField.typeText("pianorocks1")
+        passwordSecureTextField.typeText("piianorocks1")
 
         
         let logInButton = app.buttons["Log In"]
@@ -83,15 +83,14 @@ class OnboardingUITests: XCTestCase {
         let email = app.textFields["email"]
         XCTAssertTrue(email.exists)
         email.tap()
-        email.typeText("abcde@vanderbilt.edu")
+        email.typeText("abbcde@vanderbilt.edu")
 
         let passwordSecureTextField = app.secureTextFields["password"]
         XCTAssertTrue(passwordSecureTextField.exists)
         passwordSecureTextField.tap()
-        passwordSecureTextField.typeText("password")
+        passwordSecureTextField.typeText("paassword")
         
-        //not sure what this does next
-        //either will test that app is still on the login page or test if error message is displayed
+        //test error message is displayed
     }
     
 

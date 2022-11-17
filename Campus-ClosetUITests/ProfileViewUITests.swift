@@ -100,32 +100,8 @@ class ProfileViewUITests: XCTestCase {
         XCTAssertTrue(bidsButton.exists)
         bidsButton.tap()
         
-        let app = XCUIApplication()
-        let emailTextField = app.textFields["email"]
-        emailTextField.tap()
-        emailTextField/*@START_MENU_TOKEN@*/.press(forDuration: 1.3);/*[[".tap()",".press(forDuration: 1.3);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        emailTextField/*@START_MENU_TOKEN@*/.press(forDuration: 0.9);/*[[".tap()",".press(forDuration: 0.9);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        emailTextField.tap()
-        emailTextField.tap()
-        app.collectionViews/*@START_MENU_TOKEN@*/.staticTexts["Paste"]/*[[".menuItems[\"Paste\"].staticTexts[\"Paste\"]",".staticTexts[\"Paste\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         
     }
-    
-    func messAroundHere() throws {
-        
-        let app = XCUIApplication()
-        app.tabBars["Tab Bar"].buttons["person"].tap()
-        
-        let elementsQuery = app.scrollViews.otherElements
-        elementsQuery.buttons["Saved"].tap()
-        elementsQuery.buttons["Bids"].tap()
-        
-        let elementsQuery2 = elementsQuery
-        elementsQuery2/*@START_MENU_TOKEN@*/.buttons["Seller"]/*[[".segmentedControls.buttons[\"Seller\"]",".buttons[\"Seller\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        elementsQuery2/*@START_MENU_TOKEN@*/.buttons["Buyer"]/*[[".segmentedControls.buttons[\"Buyer\"]",".buttons[\"Buyer\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        
-    }
-
     
  
     func testLaunchPerformance() throws {
