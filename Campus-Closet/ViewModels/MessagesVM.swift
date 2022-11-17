@@ -19,12 +19,7 @@ class MessagesVM: ObservableObject {
     let db = Firestore.firestore()
 
     init() {
-//        fetchAllUsers()
         fetchAllRecentMessages()
-//        fetchAllContacts()
-//        fetchAllUsers()
-//        getMyMessages()
-//        getMyMessageHistory()
     }
     
     func fetchLastMessage(messageId: String) -> String {
