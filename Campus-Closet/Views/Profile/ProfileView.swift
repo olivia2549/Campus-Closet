@@ -170,7 +170,7 @@ struct ProfileInfo: View {
 }
 
 struct ToggleView: View {
-    @EnvironmentObject private var viewModel: ProfileVM
+    @EnvironmentObject var viewModel: ProfileVM
     @State var offset: CGFloat = 0
     var maxHeight: CGFloat
     var tabs: [String]

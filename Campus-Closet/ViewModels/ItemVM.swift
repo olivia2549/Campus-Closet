@@ -20,6 +20,7 @@ import FirebaseStorage
     @Published var itemImage: UIImage?
     @Published var isSeller = false
     @Published var isSaved = false
+    @Published var isSold = false
     private var db = Firestore.firestore()
     
     func verifyInfo() -> Bool {
@@ -39,6 +40,7 @@ import FirebaseStorage
             switch result {
             case .success(let user):
                 self.isSaved = user.saved.contains(itemID)
+                self.isSold = user.sold.contains(itemID)
                 completion()
             case .failure(let error):
                 print("Error decoding user: \(error)")
@@ -130,6 +132,7 @@ import FirebaseStorage
                     print("There was an issue saving data to Firestore, \(e).")
                 } else {
                     print("Successfully removed item from each bidder.")
+                    self.isSold = true
                 }
             }
         }

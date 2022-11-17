@@ -20,11 +20,11 @@ struct StickyFooter: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
-        VStack(spacing: 10) {
-            HStack(alignment: .center) {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .top) {
                 // Item title and Vandy creator tag
                 GeometryReader { proxy in
-                    HStack(alignment: .center) {
+                    HStack(alignment: .top) {
                         Text(itemVM.item.title)
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.black)
@@ -37,7 +37,6 @@ struct StickyFooter: View {
                                 .foregroundStyle(Color("Dark Pink"))
                         }
                     }
-                    .frame(maxWidth: proxy.size.width*0.7, alignment: .leading)
                 }
                 
                 Spacer()
@@ -87,6 +86,11 @@ struct StickyFooter: View {
                 }
             }
             .padding(.top, 10)
+            
+            Text("$\(itemVM.item.price)")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(Styles().themePink)
+                .frame(alignment: .leading)
             
             if !itemVM.isSeller {
                 SellerInfo()

@@ -35,8 +35,8 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                 VStack {
                     ItemImage()
                     DetailDescription()
-                    if itemViewModel.isSeller {
-                        Text("Bidders").font(.system(size: 16, weight: .semibold))
+                    if itemViewModel.isSeller && !itemViewModel.isSold {
+                        Text("Bidders").font(.system(size: 24, weight: .bold))
                         Bidders()
                     }
                 }

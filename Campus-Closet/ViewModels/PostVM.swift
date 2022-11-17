@@ -49,11 +49,12 @@ import FirebaseStorage
             "description": item.description,
             "price": item.price,
             "size": item.size,
+            "condition": item.condition
         ]) { (error) in
             if let e = error {
                 print("There was an issue saving data to Firestore, \(e).")
             } else {
-                print("Successfully saved data.")
+                print("Successfully updated the item.")
                 completion()
             }
         }
@@ -148,6 +149,5 @@ import FirebaseStorage
                 }
             }
         }
-        self.item = Item()
     }
 }

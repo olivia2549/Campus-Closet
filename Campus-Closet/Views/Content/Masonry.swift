@@ -13,7 +13,7 @@ import UIKit
 }
 
 struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
-    @EnvironmentObject private var viewModel: ViewModel
+    @EnvironmentObject var viewModel: ViewModel
     let vertSpacing: CGFloat = 25
     let horizSpacing: CGFloat = 10
     
