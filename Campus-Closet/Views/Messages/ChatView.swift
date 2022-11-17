@@ -9,27 +9,32 @@ import SwiftUI
 
 struct ChatView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @StateObject var viewModel = ProfileVM()
+    @Binding var userId: String
     
-    var imageUrl = URL(string: "https://cdn.pixabay.com/photo/2017/09/25/13/12/cocker-spaniel-2785074_1280.jpg")
-    var name = "Lauren Scott"
     var body: some View {
         HStack(spacing: 0){
             Styles.BackButton(presentationMode: self.presentationMode)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             
-            AsyncImage(url: imageUrl){ image in
-                image.resizable()
+            if viewModel.profilePicture != nil {
+                Image(uiImage: viewModel.profilePicture!)
+                    .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 50, height: 50)
                     .cornerRadius(50)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
-                
-            } placeholder: {
-                ProgressView()
+            } else {
+                Image(systemName: "person.crop.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 50, height: 50)
+                    .cornerRadius(50)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
             }
             
             VStack (alignment: .leading){
-                Text(name)
+                Text(viewModel.user.name)
                     .font(.title).bold()
                     .foregroundColor(.white)
                 Text ("online")
@@ -39,17 +44,18 @@ struct ChatView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .onAppear {
+            viewModel.fetchUser(userID: userId)
+        }
         .navigationBarHidden(true)
         .padding()
     }
     
 }
 
-
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        ChatView()
-            .background(Color("Dark Pink"))
-    }
-}
+//struct ChatView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatView()
+//            .background(Color("Dark Pink"))
+//    }
+//}

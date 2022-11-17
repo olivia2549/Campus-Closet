@@ -9,12 +9,12 @@ import SwiftUI
 
 struct Chat_Message: View {
     @StateObject var messagesVM = MessagesVM()
-    var partnerId: String
+    @State var partnerId: String
     
     var body: some View {
         VStack {
             VStack{
-                ChatView()
+                ChatView(userId: $partnerId)
                 ScrollViewReader { proxy in
                     ScrollView{
                         ForEach(messagesVM.messages, id: \.id) { message in
