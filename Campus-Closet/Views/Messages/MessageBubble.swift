@@ -6,20 +6,22 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct MessageBubble: View {
     var message: Message
     @State private var showTime = false
+    @State var received: Bool = true
 
     var body: some View {
-        VStack (alignment: message.received ? .leading: .trailing){
+        VStack (alignment: received ? .leading: .trailing){
             HStack{
                 Text(message.text)
                     .padding()
-                    .background(message.received ? Color("LightGrey") : Color ("Dark Pink"))
+                    .background(received ? Color("LightGrey") : Color ("Dark Pink"))
                     .cornerRadius(30)
             }
-            .frame(maxWidth: 300, alignment: message.received ? .leading : .trailing)
+            .frame(maxWidth: 300, alignment: received ? .leading : .trailing)
             .onTapGesture {
                 showTime.toggle()
             }
@@ -27,12 +29,15 @@ struct MessageBubble: View {
                 Text("\(message.timestamp.formatted(.dateTime.hour().minute()))")
                     .font(.caption)
                     .foregroundColor(.gray)
-                    .padding(message.received ? .leading : .trailing, 25)
+                    .padding(received ? .leading : .trailing, 25)
             }
         }
-        .frame(maxWidth: .infinity, alignment: message.received ? .leading : .trailing)
-        .padding(message.received ? .leading : .trailing)
+        .frame(maxWidth: .infinity, alignment: received ? .leading : .trailing)
+        .padding(received ? .leading : .trailing)
         .padding(.horizontal, 10)
+        .onAppear {
+            received = message.recipient == Auth.auth().currentUser!.uid
+        }
     }
 }
 

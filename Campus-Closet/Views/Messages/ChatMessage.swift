@@ -17,7 +17,7 @@ struct Chat_Message: View {
                 ChatView(userId: $partnerId)
                 ScrollViewReader { proxy in
                     ScrollView{
-                        ForEach(messagesVM.messages, id: \.id) { message in
+                        ForEach(messagesVM.messages.sorted(by: { $0.timestamp.compare($1.timestamp) == .orderedAscending }), id: \.id) { message in
                             MessageBubble(message: message)
                         }
                     }
