@@ -66,7 +66,7 @@ struct StickyFooter: View {
             .padding(.top, 10)
             
             if !viewModel.isSeller {
-                Seller()
+                SellerInfo(sellerId: viewModel.item.sellerId)
             }
             Spacer()
         }

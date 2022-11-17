@@ -53,7 +53,7 @@ import FirebaseStorage
                     switch result {
                     case .success(let item):
                         self.item = item
-                        self.isSeller = item.sellerId == Auth.auth().currentUser?.uid
+                        self.isSeller = (item.sellerId == Auth.auth().currentUser?.uid)
                         let pictureRef = Storage.storage().reference(withPath: self.item.picture)
                         // Download profile picture with max size of 30MB.
                         pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in

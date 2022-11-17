@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Chat_Message: View {
     @StateObject var messagesVM = MessagesVM()
-    @Binding var partnerId: String
+    var partnerId: String
     
     var body: some View {
         VStack {

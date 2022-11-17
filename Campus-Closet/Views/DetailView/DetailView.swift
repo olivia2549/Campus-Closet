@@ -25,6 +25,7 @@ struct DetailView: View {
     @State var innerHeight: CGFloat = 0
     @State var offset: CGFloat = 0
     @State var scrollHeight: CGFloat = 0
+    @State var sellerId = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var itemID: String
@@ -45,6 +46,7 @@ struct DetailView: View {
                 }
                 .modifier(OffsetModifier(offset: $scrollOffset))
                 .modifier(HeightModifier(height: $innerHeight))
+                .environmentObject(itemViewModel)
             }
             .modifier(HeightModifier(height: $scrollHeight))
             .coordinateSpace(name: "SCROLL")
@@ -54,15 +56,19 @@ struct DetailView: View {
             
             VStack(spacing: 0) {
                 Spacer()
-                StickyFooter(offset: $scrollOffset, height: $innerHeight, scrollHeight: $scrollHeight)
+                StickyFooter(
+                    offset: $scrollOffset,
+                    height: $innerHeight,
+                    scrollHeight: $scrollHeight
+                )
             }
         }
-        .ignoresSafeArea(.all, edges: .bottom)
-        .environmentObject(itemViewModel)
-        .navigationBarBackButtonHidden(true)
         .onAppear {
             itemViewModel.fetchItem(with: itemID)
         }
+        .environmentObject(itemViewModel)
+        .ignoresSafeArea(.all, edges: .bottom)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Styles.BackButton(presentationMode: self.presentationMode)
@@ -113,26 +119,13 @@ struct ItemImage: View {
     
 }
 
-struct Seller: View {
-    @EnvironmentObject private var itemViewModel: ItemVM
-
-    var body: some View {
-        VStack {
-            // Show seller
-            if itemViewModel.item.sellerId != "" {
-                UserTableInfo(for: itemViewModel.item.sellerId)
-            }
-        }
-    }
-}
-
 struct Bidders: View {
     @EnvironmentObject private var itemViewModel: ItemVM
 
     var body: some View {
         LazyVStack {
             ForEach(itemViewModel.item.bidders, id: \.self) { userID in
-                UserTableInfo(for: userID)
+                BiddersInfo(userId: userID)
                     .environmentObject(itemViewModel)
             }
         }
@@ -156,15 +149,10 @@ struct DetailDescription: View {
     }
 }
 
-struct UserTableInfo: View {
+struct SellerInfo: View {
     @StateObject private var profileViewModel = ProfileVM()
     @EnvironmentObject private var itemViewModel: ItemVM
-    @State var sellerId: String = ""
-    var userID: String
-    
-    init(for userID: String) {
-        self.userID = userID
-    }
+    @State var sellerId: String
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
@@ -211,7 +199,74 @@ struct UserTableInfo: View {
                     .buttonStyle(Styles.PinkButton())
                 }
                 else {
-                    NavigationLink(destination: Chat_Message(partnerId: $sellerId)) {
+                    NavigationLink(destination: Chat_Message(partnerId: sellerId)) {
+                        Image(systemName: "ellipsis.message.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color("Dark Pink"))
+                    }
+                }
+            }
+        }
+        .onReceive(itemViewModel.$item, perform: { item in
+            sellerId = item.sellerId
+            profileViewModel.fetchUser(userID: item.sellerId)
+        })
+    }
+}
+
+struct BiddersInfo: View {
+    @StateObject private var profileViewModel = ProfileVM()
+    @EnvironmentObject private var itemViewModel: ItemVM
+    var userId: String
+    
+    var body: some View {
+        VStack (alignment: .leading, spacing: 0) {
+            HStack(alignment: .center) {
+                if (profileViewModel.profilePicture != nil) {
+                    Image (uiImage: profileViewModel.profilePicture!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(50)
+                }
+                else {
+                    Circle()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(Color("LightGrey"))
+                }
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(profileViewModel.user.name)
+                        .font(.system(size: 18))
+                    Text("@\(profileViewModel.user.venmo)")
+                        .foregroundColor(Color("Dark Gray"))
+                        .font(.system(size: 14))
+                    HStack (spacing: 2){
+                        Image(systemName: "star.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(Color("Dark Pink"))
+                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) Reviews)")
+                            .font(.system(size: 12))
+                    }
+                }
+                Spacer()
+                
+                if (itemViewModel.isSeller) {
+                    Button(action: {
+                        itemViewModel.sellItem()
+                        profileViewModel.sellItem(with: itemViewModel.item.id)
+                    }) {
+                        Text("Accept")
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
+                    }
+                    .buttonStyle(Styles.PinkButton())
+                }
+                else {
+                    NavigationLink(destination: Chat_Message(partnerId: userId)) {
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -222,8 +277,7 @@ struct UserTableInfo: View {
             }
         }
         .onAppear {
-            profileViewModel.fetchUser(userID: userID)
-            sellerId = itemViewModel.item.sellerId
+            profileViewModel.fetchUser(userID: userId)
         }
     }
 }
