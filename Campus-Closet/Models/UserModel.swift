@@ -8,6 +8,7 @@
 import Foundation
 
 struct User: Codable {
+    var _id: String = UUID().uuidString
     var name: String = ""
     var picture: String = ""
     var venmo: String = ""
@@ -19,4 +20,8 @@ struct User: Codable {
     var isSeller: Bool = false
     var token: String = ""
     var messageHistory: [String: String] = [:]
+}
+
+extension User: Identifiable {
+    var id: String { _id }
 }

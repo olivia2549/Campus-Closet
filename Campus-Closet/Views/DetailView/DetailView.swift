@@ -16,18 +16,20 @@ import FirebaseAuth
     func postItem()
 }
 
+let maxWidth = UIScreen.main.bounds.width
+let maxHeight = UIScreen.main.bounds.height
+
 struct DetailView: View {
     @StateObject private var itemViewModel = ItemVM()
-    @StateObject private var profileViewModel = ProfileVM()
     @State var scrollOffset: CGFloat = 0
     @State var innerHeight: CGFloat = 0
     @State var offset: CGFloat = 0
     @State var scrollHeight: CGFloat = 0
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    var id: String
-    init(for id: String) {
-        self.id = id
+    var itemID: String
+    init(for itemID: String) {
+        self.itemID = itemID
     }
     
     var body: some View {
@@ -36,6 +38,10 @@ struct DetailView: View {
                 VStack {
                     ItemImage()
                     DetailDescription()
+                    if itemViewModel.isSeller {
+                        Text("Bidders").font(.system(size: 16, weight: .semibold))
+                        Bidders()
+                    }
                 }
                 .modifier(OffsetModifier(offset: $scrollOffset))
                 .modifier(HeightModifier(height: $innerHeight))
@@ -44,7 +50,7 @@ struct DetailView: View {
             .coordinateSpace(name: "SCROLL")
             .scrollIndicators(.hidden)
             .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 15)
-            .padding(.bottom, itemViewModel.isSeller ? 100 : 160)
+            .padding(.bottom, itemViewModel.isSeller ? maxHeight*0.1 : maxHeight*0.18)
             
             VStack(spacing: 0) {
                 Spacer()
@@ -53,10 +59,9 @@ struct DetailView: View {
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .environmentObject(itemViewModel)
-        .environmentObject(profileViewModel)
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            itemViewModel.fetchItem(with: id)
+            itemViewModel.fetchItem(with: itemID)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -80,21 +85,27 @@ struct ItemImage: View {
                 .overlay(alignment: .topTrailing){
                     if !itemViewModel.isSeller {
                         Button(action: {
-                            print("Add to favorites")
+                            itemViewModel.isSaved ? itemViewModel.unsaveItem() : itemViewModel.saveItem()
                         }){
+                            itemViewModel.isSaved ?
+                            Image(systemName: "heart.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                                .foregroundStyle(Color("Dark Pink"))
+                            :
                             Image(systemName: "heart")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30)
                                 .foregroundStyle(Color("Dark Pink"))
-                            
-                        }.offset(x: -18, y: 20)
+                        }.offset(x: -maxWidth*0.03, y: maxWidth*0.02)
                     }
                 }
         }
         else {
             Rectangle()
-                .frame(height: 500)
+                .frame(height: maxHeight*0.3)
                 .cornerRadius(20, corners: [.topLeft, .topRight])
                 .foregroundColor(Color("LightGrey"))
         }
@@ -104,18 +115,28 @@ struct ItemImage: View {
 
 struct Seller: View {
     @EnvironmentObject private var itemViewModel: ItemVM
-    @EnvironmentObject private var profileViewModel: ProfileVM
 
     var body: some View {
         VStack {
             // Show seller
-            if !itemViewModel.isSeller && itemViewModel.item.sellerId != "" {
-                SellerInfo()
-                    .onAppear {
-                        profileViewModel.fetchUser(userID: itemViewModel.item.sellerId)
-                    }
+            if itemViewModel.item.sellerId != "" {
+                UserTableInfo(for: itemViewModel.item.sellerId)
             }
         }
+    }
+}
+
+struct Bidders: View {
+    @EnvironmentObject private var itemViewModel: ItemVM
+
+    var body: some View {
+        LazyVStack {
+            ForEach(itemViewModel.item.bidders, id: \.self) { userID in
+                UserTableInfo(for: userID)
+                    .environmentObject(itemViewModel)
+            }
+        }
+        .padding()
     }
 }
 
@@ -135,14 +156,20 @@ struct DetailDescription: View {
     }
 }
 
-struct SellerInfo: View {
-    @EnvironmentObject private var viewModel: ProfileVM
+struct UserTableInfo: View {
+    @StateObject private var profileViewModel = ProfileVM()
+    @EnvironmentObject private var itemViewModel: ItemVM
+    
+    var userID: String
+    init(for userID: String) {
+        self.userID = userID
+    }
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
             HStack(alignment: .center) {
-                if (viewModel.profilePicture != nil) {
-                    Image (uiImage: viewModel.profilePicture!)
+                if (profileViewModel.profilePicture != nil) {
+                    Image (uiImage: profileViewModel.profilePicture!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 50, height: 50)
@@ -155,9 +182,9 @@ struct SellerInfo: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(viewModel.user.name)
+                    Text(profileViewModel.user.name)
                         .font(.system(size: 18))
-                    Text("@\(viewModel.user.venmo)")
+                    Text("@\(profileViewModel.user.venmo)")
                         .foregroundColor(Color("Dark Gray"))
                         .font(.system(size: 14))
                     HStack (spacing: 2){
@@ -166,20 +193,35 @@ struct SellerInfo: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 15, height: 15)
                             .foregroundColor(Color("Dark Pink"))
-                        Text ("\(String(format: "%.2f", viewModel.averageRating)) (\(viewModel.numRatings) Reviews)")
+                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) Reviews)")
                             .font(.system(size: 12))
                     }
                 }
                 Spacer()
                 
-                NavigationLink(destination: Chat_Message()) {
-                    Image(systemName: "ellipsis.message.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(Color("Dark Pink"))
+                if (itemViewModel.isSeller) {
+                    Button(action: {
+                        itemViewModel.sellItem()
+                        profileViewModel.sellItem(with: itemViewModel.item.id)
+                    }) {
+                        Text("Accept")
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
+                    }
+                    .buttonStyle(Styles.PinkButton())
+                }
+                else {
+                    NavigationLink(destination: Chat_Message()) {
+                        Image(systemName: "ellipsis.message.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color("Dark Pink"))
+                    }
                 }
             }
+        }
+        .onAppear {
+            profileViewModel.fetchUser(userID: userID)
         }
     }
 }

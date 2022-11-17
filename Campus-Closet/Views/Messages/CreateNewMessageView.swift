@@ -55,9 +55,13 @@ struct UserListView: View, Identifiable {
             .clipped()
             .cornerRadius(50)
             .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
-        Text(viewModel.user.name)
-            .foregroundColor(.black)
+        NavigationLink(destination: Chat_Message()) {
+            Text(viewModel.user.name)
+                .foregroundColor(.black)
+        
         Spacer()
             .onAppear(perform: { viewModel.fetchUser(userID: id) })
+        }
+            
     }
 }

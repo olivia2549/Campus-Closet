@@ -28,6 +28,7 @@ enum Position: Int {
     @Published var profilePicture: UIImage?
     @Published var message = ""
     @Published var content: [String] = []
+    @Published var sortedColumns: [[String]] = []
     @Published var viewingMode: ViewingMode = ViewingMode.buyer
     @Published var position: Position = Position.first
     
@@ -106,7 +107,10 @@ enum Position: Int {
     
     func fetchItems() {
         var data: [String] = []
-        self.content = []
+        self.sortedColumns = []
+        var itemIdsCol1: [String] = []
+        var itemIdsCol2: [String] = []
+        var col1 = true
         // figure out which data to display (based on the selected toggle combination)
         if (self.viewingMode == ViewingMode.buyer) {
             switch (self.position) {
@@ -123,10 +127,32 @@ enum Position: Int {
                 data = user.sold
             }
         }
+        // sort data into 2 columns
         if data.count == 0 {
             return
         }
-        self.content = data
+        data.forEach({ item in
+            col1 ? itemIdsCol1.append(item) :
+                itemIdsCol2.append(item)
+            col1.toggle()
+        })
+        self.sortedColumns.append(itemIdsCol1)
+        self.sortedColumns.append(itemIdsCol2)
+    }
+    
+    // move item from listings to sold
+    func sellItem(with id: String) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(userID).updateData([
+            "listings": FieldValue.arrayRemove([id]),
+            "sold": FieldValue.arrayUnion([id])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully moved item from listings to sold.")
+            }
+        }
     }
     
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
@@ -153,7 +179,7 @@ enum Position: Int {
         
         return picturePath
     }
-    
+        
     func updateUser(chosenPicture: UIImage?) {
         getPictureReference()
 
@@ -193,6 +219,7 @@ enum Position: Int {
         
         func uploadNewPicture(completion: @escaping () -> Void) {
             if chosenPicture == nil {
+                completion()
                 return
             }
             

@@ -67,6 +67,9 @@ struct EditProfile: View {
         .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
             profileVM.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
         })
+        .onChange(of: chosenPicture, perform: { newValue in
+            profileVM.profilePicture = chosenPicture
+        })
         .environmentObject(profileVM)
     }
 }

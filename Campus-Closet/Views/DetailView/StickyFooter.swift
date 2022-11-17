@@ -13,12 +13,14 @@ struct StickyFooter: View {
     @Binding var offset: CGFloat
     @Binding var height: CGFloat
     @Binding var scrollHeight: CGFloat
+    @State var showBidView = false
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         VStack(spacing: 10) {
             HStack(alignment: .center) {
                 // Item title and Vandy creator tag
-                GeometryReader { geo in
+                GeometryReader { proxy in
                     HStack(alignment: .center) {
                         Text(viewModel.item.title)
                             .font(.system(size: 20, weight: .semibold))
@@ -32,7 +34,7 @@ struct StickyFooter: View {
                                 .foregroundStyle(Color("Dark Pink"))
                         }
                     }
-                    .frame(maxWidth: geo.size.width*0.7, alignment: .leading)
+                    .frame(maxWidth: proxy.size.width*0.7, alignment: .leading)
                 }
                 
                 Spacer()
@@ -40,10 +42,10 @@ struct StickyFooter: View {
                 // Button at right
                 if !viewModel.isSeller {
                     Button(action: {
-                        viewModel.sendNotification()
+                        showBidView = true
                     }){
-                        Text("Place Bid $\(viewModel.item.price)")
-                            .frame(maxWidth: 120, alignment: .center)
+                        Text("Place Bid")
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
                     }
                     .padding(10)
                     .background(Styles().themePink)
@@ -51,9 +53,9 @@ struct StickyFooter: View {
                     .foregroundColor(.white)
                 }
                 else {
-                    NavigationLink(destination: EditItem().environmentObject(viewModel)) {
+                    NavigationLink(destination: EditItem(prevPresentationMode: presentationMode).environmentObject(viewModel)) {
                         Text("Edit Item")
-                            .frame(maxWidth: 120, alignment: .center)
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
                     }
                     .padding(10)
                     .background(Styles().themePink)
@@ -63,10 +65,12 @@ struct StickyFooter: View {
             }
             .padding(.top, 10)
             
-            Seller()
+            if !viewModel.isSeller {
+                Seller()
+            }
             Spacer()
         }
-        .frame(height: viewModel.isSeller ? 100 : 160)
+        .frame(height: viewModel.isSeller ? maxHeight*0.1 : maxHeight*0.18)
         .padding(EdgeInsets(
             top: 0,
             leading: 15,
@@ -78,6 +82,10 @@ struct StickyFooter: View {
         }
         .if(offset < height - scrollHeight + 1) { view in
             view.background(Color.white)
+        }
+        .sheet(isPresented: $showBidView) {
+            BidItem(showBidView: $showBidView)
+                .environmentObject(viewModel)
         }
     }
     

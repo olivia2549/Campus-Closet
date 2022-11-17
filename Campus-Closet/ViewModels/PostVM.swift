@@ -42,64 +42,75 @@ import FirebaseStorage
         return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
     }
     
-    func uploadPicture() -> String {
-        let storageRef = Storage.storage().reference()
-        if let chosenPicture = self.chosenPicture {
-            let pictureData = chosenPicture.jpegData(compressionQuality: 0)
-            var picturePath: String = "item-pictures/\(UUID().uuidString).jpeg"
-            
-            if pictureData != nil {
-                let pictureRef = storageRef.child(picturePath)
-                
-                let upload = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
-                    if error != nil || metadata == nil {
-                        picturePath = ""
+    func postItem() {
+        let userId = Auth.auth().currentUser?.uid
+        var newPicturePath = ""
+        updateUserListings()
+        
+        func updateUserListings() {
+            addItem() {
+                let db = Firestore.firestore()
+                db.collection("users").document(userId!).updateData([
+                    "listings": FieldValue.arrayUnion([self.item.id])
+                ]) { (error) in
+                    if let e = error {
+                        print("There was an issue saving data to Firestore, \(e).")
+                    } else {
+                        print("Successfully saved data.")
                     }
                 }
             }
-            return picturePath
         }
-        else {
-            return ""
-        }
-
-    }
-    
-    func postItem() {
-        let newPicturePath = uploadPicture()
-        let userId = Auth.auth().currentUser?.uid
         
-        // eventually want to use this and make price a float
-//        guard let price = Float(item.price) else {
-//            print("invalid price")
-//            return
-//        }
-        
-        let db = Firestore.firestore()
-        db.collection("items").document(item.id).setData([
-            "_id": item.id,
-            "title": item.title,
-            "picture": newPicturePath,
-            "description": item.description,
-            "sellerId": userId!,
-            "price": item.price,
-            "size": item.size,
-            "biddingEnabled": item.biddingEnabled,
-            "tags": tags,
-            "condition": item.condition,
-            "studentCreated": item.studentCreated,
-            "timestamp": Date.now
-        ]) { (error) in
-            if let e = error {
-                print("There was an issue saving data to Firestore, \(e).")
-            } else {
-                print("Successfully saved data.")
+        func addItem(completion: @escaping () -> Void) {
+            uploadNewPicture() {
+                let db = Firestore.firestore()
+                db.collection("items").document(self.item.id).setData([
+                    "_id": self.item.id,
+                    "title": self.item.title,
+                    "picture": newPicturePath,
+                    "description": self.item.description,
+                    "sellerId": userId!,
+                    "price": self.item.price,
+                    "size": self.item.size,
+                    "biddingEnabled": self.item.biddingEnabled,
+                    "tags": self.tags,
+                    "condition": self.item.condition,
+                    "studentCreated": self.item.studentCreated,
+                    "timestamp": Date.now
+                ]) { (error) in
+                    if let e = error {
+                        print("There was an issue saving data to Firestore, \(e).")
+                    } else {
+                        print("Successfully saved data.")
+                        completion()
+                    }
+                }
             }
         }
         
-        db.collection("users").document(userId!).updateData([
-            "listings": FieldValue.arrayUnion([item.id])
-        ])
+        func uploadNewPicture(completion: @escaping () -> Void) {
+            if chosenPicture == nil {
+                return
+            }
+            
+            let storageRef = Storage.storage().reference()
+            let pictureData = chosenPicture!.jpegData(compressionQuality: 0)
+            var picturePath: String = "item-pictures/\(UUID().uuidString).jpeg"
+
+            if pictureData != nil {
+                let pictureRef = storageRef.child(picturePath)
+                let _ = pictureRef.putData(pictureData!, metadata: nil) { metadata, error in
+                    if error != nil || metadata == nil {
+                        picturePath = ""
+                    }
+                    else {
+                        newPicturePath = picturePath
+                        completion()
+                    }
+                }
+            }
+        }
     }
     
     func addTag(for tag: String) {
@@ -114,5 +125,4 @@ import FirebaseStorage
     
     func deleteItem() {
     }
-    
 }

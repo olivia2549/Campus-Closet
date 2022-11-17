@@ -72,11 +72,10 @@ struct ChoosePicture: View {
             .buttonStyle(Styles.PinkTextButton())
             
             if chosenPicture != nil {
-                NavigationLink(destination: BasicInfo<PostVM>(presentationMode: presentationMode), isActive: $presentInfoScreen) {
+                NavigationLink(destination: BasicInfo<PostVM>(presentationMode: presentationMode, prevPresentationMode: presentationMode), isActive: $presentInfoScreen) {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
                         .onTapGesture {
-                            viewModel.chosenPicture = chosenPicture
                             self.presentInfoScreen = true
                         }
                 }
@@ -86,18 +85,18 @@ struct ChoosePicture: View {
         .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
             viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
         })
+        .onChange(of: chosenPicture) { newPicture in
+            viewModel.chosenPicture = newPicture
+        }
     }
 }
 
 struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
     @EnvironmentObject private var viewModel: ViewModel
     @State private var isMissingRequiredInfo: Bool = false
-    var presentationMode: Binding<PresentationMode>
     @State var showAlert = false
-    
-    init(presentationMode: Binding<PresentationMode>) {
-        self.presentationMode = presentationMode
-    }
+    var presentationMode: Binding<PresentationMode>
+    var prevPresentationMode: Binding<PresentationMode>
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -203,6 +202,7 @@ struct BasicInfo<ViewModel>: View where ViewModel: ItemInfoVM {
                   message: Text("Are you sure you want to remove this item? This action cannot be undone"),
                   primaryButton: .destructive(Text("Delete"), action: {
                     viewModel.deleteItem()
+                    self.prevPresentationMode.wrappedValue.dismiss()
                   }),
                   secondaryButton: .cancel())
         }

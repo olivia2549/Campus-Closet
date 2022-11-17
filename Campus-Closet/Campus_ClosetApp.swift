@@ -90,6 +90,13 @@ extension AppDelegate: MessagingDelegate {
         
         if let user = Auth.auth().currentUser {
             db.collection("users").document(user.uid).updateData(deviceToken)
+            { (error) in
+                if let e = error {
+                    print("There was an issue saving device token to Firestore, \(e).")
+                } else {
+                    print("Successfully saved data.")
+                }
+            }
         }
     }
 
