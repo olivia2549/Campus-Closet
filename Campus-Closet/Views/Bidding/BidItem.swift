@@ -25,18 +25,12 @@ struct BidItem: View {
                 .font(.system(size: 20))
                 .foregroundColor(Color("Dark Gray"))
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 25, trailing: 0))
-            //viewmodel.item.picture - holds the name of the id that is in storage,
-            //Image("flower")
             if (viewModel.itemImage != nil) {   // render item image
-                            Image(uiImage: viewModel.itemImage!)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 25))
-                        }
-//                .resizable()
-//                .scaledToFit()
-//                .frame(width: 300)
-//                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                Image(uiImage: viewModel.itemImage!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
+            }
             Text("Your offer")
                 .fontWeight(.semibold)
                 .foregroundColor(Color("Dark Pink"))

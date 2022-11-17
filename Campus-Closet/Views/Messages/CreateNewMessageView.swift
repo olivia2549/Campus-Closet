@@ -44,7 +44,6 @@ struct CreateNewMessageView: View {
 
 struct UserListView: View, Identifiable {
     @StateObject private var viewModel = ProfileVM()
-    @State private var partnerId = ""
     var id: String
     
     init(for id: String) {
@@ -71,13 +70,12 @@ struct UserListView: View, Identifiable {
                 .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
         }
         
-        NavigationLink(destination: Chat_Message(partnerId: $partnerId)) {
+        NavigationLink(destination: Chat_Message(partnerId: viewModel.user.id)) {
             Text(viewModel.user.name)
                 .foregroundColor(.black)
             Spacer()
                 .onAppear(perform: {
                     viewModel.fetchUser(userID: id)
-                    partnerId = viewModel.user.id
                 })
         }
     }
