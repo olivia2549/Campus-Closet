@@ -13,16 +13,33 @@ import FirebaseAuth
 class MessagesVM: ObservableObject {
     @Published var users: [String] = []
     @Published private(set) var messages: [Message] = []
-    @Published var recentMessages: [String: Message] = [:]
+    @Published var recentMessages: [String: String] = [:]
     @Published private(set) var lastMessageID = ""
     @Published var errorMessage: String = ""
     let db = Firestore.firestore()
 
     init() {
-        fetchAllContacts()
+//        fetchAllUsers()
+        fetchAllRecentMessages()
+//        fetchAllContacts()
 //        fetchAllUsers()
 //        getMyMessages()
 //        getMyMessageHistory()
+    }
+    
+    func fetchLastMessage(messageId: String) -> String {
+        let profileRef = db.collection("Messages").document(messageId)
+        var text = ""
+        
+        profileRef.getDocument(as: Message.self) { result in
+            switch result {
+            case .success(let message):
+                text = message.text
+            case .failure(let error):
+                print("Error decoding message: \(error)")
+            }
+        }
+        return text
     }
     
     func getMyMessages() {
@@ -38,17 +55,6 @@ class MessagesVM: ObservableObject {
         
         self.messages.sort {
             $0.timestamp < $1.timestamp
-        }
-    }
-    
-    func getMyMessageHistory() {
-        let currentId = Auth.auth().currentUser!.uid
-        
-        for message in self.messages.reversed() {
-            let otherUser = message.sender == currentId ? message.recipient : message.sender
-            if !self.recentMessages.keys.contains(otherUser) {
-                self.recentMessages[otherUser] = message
-            }
         }
     }
     
@@ -107,24 +113,28 @@ class MessagesVM: ObservableObject {
         } catch {
             print ("Error adding message to Firestore: \(error)")
         }
-        
-        db.collection("users").document(myId).updateData([
-            "contacts": FieldValue.arrayUnion([messageId])
-        ])
-        db.collection("users").document(otherId).updateData([
-            "contacts": FieldValue.arrayUnion([messageId])
-        ])
+//
+//        db.collection("users").document(myId).updateData([
+//            "contacts": FieldValue.arrayUnion([messageId])
+//        ])
+//        db.collection("users").document(otherId).updateData([
+//            "contacts": FieldValue.arrayUnion([messageId])
+//        ])
     }
     
-    func fetchAllContacts() {
+    func fetchAllRecentMessages() {
         let myId = Auth.auth().currentUser!.uid
         let db = Firestore.firestore()
         
         db.collection("users").document(myId).getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
-                for userId in user.contacts {
-                    print(userId)
+                for userId in user.messageHistory {
+                    
+                    self.recentMessages[userId.key] = userId.value
+                    print(userId.value)
+//                    print(userId.key)
+//                    self.recentMessages[userId.key] = userId.value
                 }
             case .failure(let error):
                 print("Error decoding user: \(error)")
