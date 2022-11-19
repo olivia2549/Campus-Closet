@@ -127,13 +127,60 @@ struct BasicInfo: View {
 
             }
 
-            CustomInput(
-                for: "Condition*",
-                imageName: "clock",
-                autocapitalization: .never,
-                input: $viewModel.item.condition
-            ) {
-
+            VStack (alignment: .leading, spacing: 0){
+                Menu {
+                    Button {
+                        viewModel.item.condition = "New"
+                        // do something
+                    } label: {
+                        Text("New")
+                        //Image(systemName: "arrow.down.right.circle")
+                    }
+                    Button {
+                        viewModel.item.condition = "Lightly Used"
+                        // do something
+                    } label: {
+                        Text("Lightly Used")
+                        //Image(systemName: "arrow.up.and.down.circle")
+                    }
+                    Button {
+                        viewModel.item.condition = "Used"
+                        // do something
+                    } label: {
+                        Text("Used")
+                        //Image(systemName: "arrow.up.and.down.circle")
+                    }
+                } label: {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color("#d7d7d8"), lineWidth: 1)
+                                .frame(width: 395, height: 55)
+                            HStack{
+                                Image(systemName: "clock")
+                                    .foregroundColor(.black)
+                                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
+                                Divider()
+                                    .frame(height: 25)
+                                Text("Condition*")
+                                    .foregroundColor(.gray)
+                                    .font(.system(size: 20))
+                                Spacer()
+                            }
+                             
+                            
+                        }
+   
+                    
+                     //Image(systemName: "tag.circle")
+                }.padding(.bottom)
+    //            CustomInput(
+    //                for: "Condition*",
+    //                imageName: "clock",
+    //                autocapitalization: .never,
+    //                input: $viewModel.item.condition
+    //            ) {
+    //
+    //            }
             }
 
             CustomInput(
