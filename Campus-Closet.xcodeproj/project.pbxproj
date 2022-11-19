@@ -25,6 +25,7 @@
 		7D94FAA22908E08F00FF1761 /* StickyFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA12908E08F00FF1761 /* StickyFooter.swift */; };
 		7D94FAA42908F22900FF1761 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94FAA32908F22900FF1761 /* DetailView.swift */; };
 		7DAE4BCB2926B97800EAA5EF /* DropDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAE4BCA2926B97800EAA5EF /* DropDownMenu.swift */; };
+		7DD56F96292980B3005D592C /* SustainabilityImpact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56F95292980B3005D592C /* SustainabilityImpact.swift */; };
 		82555E8E29243B0000D9A70F /* MessagesVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E8D29243B0000D9A70F /* MessagesVMTests.swift */; };
 		82555E9029243B3300D9A70F /* OnboardingVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E8F29243B3300D9A70F /* OnboardingVMTests.swift */; };
 		82555E9229243B5900D9A70F /* PictureVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555E9129243B5900D9A70F /* PictureVMTests.swift */; };
@@ -115,6 +116,7 @@
 		7D94FAA12908E08F00FF1761 /* StickyFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyFooter.swift; sourceTree = "<group>"; };
 		7D94FAA32908F22900FF1761 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		7DAE4BCA2926B97800EAA5EF /* DropDownMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownMenu.swift; sourceTree = "<group>"; };
+		7DD56F95292980B3005D592C /* SustainabilityImpact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SustainabilityImpact.swift; sourceTree = "<group>"; };
 		82555E8D29243B0000D9A70F /* MessagesVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVMTests.swift; sourceTree = "<group>"; };
 		82555E8F29243B3300D9A70F /* OnboardingVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVMTests.swift; sourceTree = "<group>"; };
 		82555E9129243B5900D9A70F /* PictureVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureVMTests.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				7D74BD862918923200133FA5 /* BidItem.swift */,
+				7DD56F95292980B3005D592C /* SustainabilityImpact.swift */,
 			);
 			path = Bidding;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				C59CAD4C291091E200F32FF3 /* OffsetModifier.swift in Sources */,
 				C598DC7F290887A70040A0F7 /* MessageField.swift in Sources */,
 				2E817DF5290368EB001F1A75 /* PostVM.swift in Sources */,
+				7DD56F96292980B3005D592C /* SustainabilityImpact.swift in Sources */,
 				C598DC81290887D70040A0F7 /* MessageModel.swift in Sources */,
 				7D05A55B290F231400CB57F1 /* ItemVM.swift in Sources */,
 				C5262B8129044DEA0012E780 /* CustomInput.swift in Sources */,

@@ -45,6 +45,8 @@ struct StickyFooter: View {
                 if !itemVM.isSeller {
                     Button(action: {
                         showBidView = true
+                        
+                        
                     }){
                         Text("Place Bid")
                             .frame(maxWidth: maxWidth*0.3, alignment: .center)
