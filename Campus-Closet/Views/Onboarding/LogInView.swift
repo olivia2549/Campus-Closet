@@ -17,6 +17,7 @@ struct LogInView: View {
                     VStack(spacing: 0) {
                         LogoLogin(proxy: proxy)
                         LogInFormBox(proxy: proxy)
+                        GuestLogin(proxy: proxy)
                     }
                     .padding(proxy.size.width*0.02)
                     ErrorView()
@@ -93,7 +94,6 @@ struct LogInFormBox: View {
                     Spacer()
                 }
             }
-            
         }
         .padding (.all, proxy.size.width*0.1)
         .background(Color(UIColor.systemGray6))
@@ -101,7 +101,28 @@ struct LogInFormBox: View {
         .offset(y: -proxy.size.height*0.07)
         .ignoresSafeArea()
     }
+}
+
+struct GuestLogin: View {
+    var proxy: GeometryProxy
     
+    var body: some View {
+        VStack(alignment: .leading, spacing: proxy.size.height*0.01) {
+            NavigationLink(destination: ContentView()) {
+                HStack{
+                    Text("Browse as Guest")
+                        .font(Font.system(size: 16, weight: .semibold))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Styles().themePink)
+                    Spacer()
+                }
+            }
+        }
+        .padding (.all, proxy.size.width*0.1)
+        .cornerRadius(20)
+        .offset(y: -proxy.size.height*0.1)
+        .ignoresSafeArea()
+    }
 }
 
 //struct LogInView_Previews: PreviewProvider {
