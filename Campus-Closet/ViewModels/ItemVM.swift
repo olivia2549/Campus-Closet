@@ -100,9 +100,12 @@ import FirebaseStorage
         
     }
     
-    func bidItem(price: String) -> Bool {
-        guard let bidPrice = Int(price) else {return false}
-        if (bidPrice < Int(item.price)!) {
+    func bidItem() -> Bool {
+        print("bid price: \(item.bidPrice)")
+        print("current price: \(item.price)")
+        guard let bidPrice = Int(item.bidPrice) else {return false}
+        guard let currentPrice = Int(item.price) else {return false}
+        if (bidPrice < currentPrice) {
             return false
         }
         // add to the buyer's bids and removed from their saved
@@ -115,7 +118,7 @@ import FirebaseStorage
                 print("There was an issue saving data to Firestore, \(e).")
             } else {
                 print("Successfully bid item.")
-                self.updateItemBidders(with: userID, price: bidPrice)
+                self.updateItemBidders(with: userID, price: self.item.bidPrice)
                 // TODO: Send notification to seller
             }
         }
@@ -138,7 +141,7 @@ import FirebaseStorage
         }
     }
     
-    func updateItemBidders(with userID: String, price: Int) {
+    func updateItemBidders(with userID: String, price: String) {
         // add to the item's bidder list and update its price
         db.collection("items").document(item.id).updateData([
             "bidders": FieldValue.arrayUnion([userID]),

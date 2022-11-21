@@ -20,19 +20,11 @@ struct BidItem: View {
                 .fontWeight(.semibold)
                 .font(.system(size: 45))
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            if (viewModel.item.bidPrice != 0) {
-                Text("Current bid: $\(viewModel.item.bidPrice)")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(Styles().themePink)
-                    .frame(alignment: .leading)
-            }
-            else {
-                Text("Listed price (0 bids): \(viewModel.item.price)")
-                    .fontWeight(.semibold)
-                    .font(.system(size: 20))
-                    .foregroundColor(Color("Dark Gray"))
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 25, trailing: 0))
-            }
+            Text("Listed price: \(viewModel.item.price)")
+                .fontWeight(.semibold)
+                .font(.system(size: 20))
+                .foregroundColor(Color("Dark Gray"))
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 25, trailing: 0))
             if (viewModel.itemImage != nil) {   // render item image
                 Image(uiImage: viewModel.itemImage!)
                     .resizable()
@@ -48,7 +40,7 @@ struct BidItem: View {
                     Text("$")
                         .font(.system(size:80))
                         .padding (.leading)
-                    TextField("0", text: $price)
+                    TextField("0", text: $viewModel.item.bidPrice)
                         .font(.system(size:100))
                         .padding (.leading)
                 }
@@ -56,7 +48,7 @@ struct BidItem: View {
             HStack {
                 Spacer()
                     Button(action: {
-                        if (!viewModel.bidItem(price: price)) {
+                        if (!viewModel.bidItem()) {
                             showAlert = true
                         }
                         showBidView = false
