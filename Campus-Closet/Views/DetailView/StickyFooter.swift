@@ -89,7 +89,7 @@ struct StickyFooter: View {
             }
             .padding(.top, 10)
             
-            if (itemVM.item.bidPrice != 0) {
+            if (itemVM.item.bidPrice != "") {
                 Text("Current Bid: $\(itemVM.item.bidPrice)")
                     .font(.system(size: 30, weight: .bold))
                     .foregroundColor(Styles().themePink)

@@ -15,7 +15,7 @@ struct Item: Codable {
     var description: String = ""
     var sellerId: String = Auth.auth().currentUser!.uid
     var price: String = ""
-    var bidPrice: Int = 0
+    var bidPrice: String = ""
     var size: String = ""
     var condition: String = ""
     var biddingEnabled: Bool = true
