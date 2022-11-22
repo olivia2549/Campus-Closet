@@ -108,14 +108,16 @@ struct GuestLogin: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: proxy.size.height*0.01) {
-            NavigationLink(destination: ContentView()) {
-                HStack{
-                    Text("Browse as Guest")
-                        .font(Font.system(size: 16, weight: .semibold))
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Styles().themePink)
-                    Spacer()
+            Button(action: {
+                if let window = UIApplication.shared.windows.first {
+                    window.rootViewController = UIHostingController(rootView: ContentGuestView())
+                    window.makeKeyAndVisible()
                 }
+            }){
+                Text("Browse as Guest")
+                    .font(Font.system(size: 16, weight: .semibold))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .foregroundColor(Styles().themePink)
             }
         }
         .padding (.all, proxy.size.width*0.1)
