@@ -37,6 +37,9 @@
 		8257D66E291020CC006A706B /* PostVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8257D66D291020CC006A706B /* PostVMTests.swift */; };
 		8257D6722911279A006A706B /* ContentVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8257D6712911279A006A706B /* ContentVMTests.swift */; };
 		82FD75892925C859001EFC12 /* PostUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD75882925C859001EFC12 /* PostUITests.swift */; };
+		C513DD6B292D2FB200A468AA /* BidModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C513DD6A292D2FB200A468AA /* BidModel.swift */; };
+		C513DD6D292D308F00A468AA /* BidsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C513DD6C292D308F00A468AA /* BidsVM.swift */; };
+		C513DD6F292D3EBC00A468AA /* Bids.swift in Sources */ = {isa = PBXBuildFile; fileRef = C513DD6E292D3EBC00A468AA /* Bids.swift */; };
 		C5262B8129044DEA0012E780 /* CustomInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5262B8029044DEA0012E780 /* CustomInput.swift */; };
 		C527281E28E64419008C1D60 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281D28E64419008C1D60 /* PostView.swift */; };
 		C527282028E644D6008C1D60 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527281F28E644D6008C1D60 /* HomeView.swift */; };
@@ -128,6 +131,9 @@
 		8257D66D291020CC006A706B /* PostVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVMTests.swift; sourceTree = "<group>"; };
 		8257D6712911279A006A706B /* ContentVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVMTests.swift; sourceTree = "<group>"; };
 		82FD75882925C859001EFC12 /* PostUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUITests.swift; sourceTree = "<group>"; };
+		C513DD6A292D2FB200A468AA /* BidModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidModel.swift; sourceTree = "<group>"; };
+		C513DD6C292D308F00A468AA /* BidsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidsVM.swift; sourceTree = "<group>"; };
+		C513DD6E292D3EBC00A468AA /* Bids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bids.swift; sourceTree = "<group>"; };
 		C5262B8029044DEA0012E780 /* CustomInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInput.swift; sourceTree = "<group>"; };
 		C527281D28E64419008C1D60 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		C527281F28E644D6008C1D60 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -212,6 +218,7 @@
 				2EF0007428EB972E00F2FAAE /* UserModel.swift */,
 				C5D69BAE29032E64004FD7C7 /* ItemModel.swift */,
 				C598DC80290887D70040A0F7 /* MessageModel.swift */,
+				C513DD6A292D2FB200A468AA /* BidModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -231,6 +238,7 @@
 			children = (
 				7D74BD862918923200133FA5 /* BidItem.swift */,
 				7DD56F95292980B3005D592C /* SustainabilityImpact.swift */,
+				C513DD6E292D3EBC00A468AA /* Bids.swift */,
 			);
 			path = Bidding;
 			sourceTree = "<group>";
@@ -371,6 +379,7 @@
 				2E16B65429044CFD008F4B2A /* ProfileVM.swift */,
 				C53E8CE32905B31C0027D538 /* ContentVM.swift */,
 				C598DC82290887EB0040A0F7 /* MessagesVM.swift */,
+				C513DD6C292D308F00A468AA /* BidsVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -566,11 +575,13 @@
 				7D92287228EF71CA00ECAD95 /* LogInView.swift in Sources */,
 				C598DC7D2908879A0040A0F7 /* MessageBubble.swift in Sources */,
 				C55ED99D28DD01E1001BD218 /* ContentView.swift in Sources */,
+				C513DD6D292D308F00A468AA /* BidsVM.swift in Sources */,
 				C527282B28E788FD008C1D60 /* ItemCardView.swift in Sources */,
 				2E16B65529044CFD008F4B2A /* ProfileVM.swift in Sources */,
 				C5D69BAF29032E64004FD7C7 /* ItemModel.swift in Sources */,
 				C527282028E644D6008C1D60 /* HomeView.swift in Sources */,
 				2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */,
+				C513DD6B292D2FB200A468AA /* BidModel.swift in Sources */,
 				7D0978EC291DF23C00BD15DB /* CreateNewMessageView.swift in Sources */,
 				2E4E153E290C6D0A00C8A2F9 /* PictureVM.swift in Sources */,
 				C59CAD472910172000F32FF3 /* EditItem.swift in Sources */,
@@ -594,6 +605,7 @@
 				C527282428E64698008C1D60 /* ProfileView.swift in Sources */,
 				C598DC852908883C0040A0F7 /* ChatMessage.swift in Sources */,
 				2E0101EC28F4EC920074F404 /* ErrorView.swift in Sources */,
+				C513DD6F292D3EBC00A468AA /* Bids.swift in Sources */,
 				C5B081EB292014BA00E6AF49 /* NavExtension.swift in Sources */,
 				C527282928E7480B008C1D60 /* Masonry.swift in Sources */,
 				7DAE4BCB2926B97800EAA5EF /* DropDownMenu.swift in Sources */,

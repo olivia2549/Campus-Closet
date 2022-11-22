@@ -15,13 +15,12 @@ struct Item: Codable {
     var description: String = ""
     var sellerId: String = Auth.auth().currentUser!.uid
     var price: String = ""
-    var bidPrice: String = ""
     var size: String = ""
     var condition: String = ""
     var biddingEnabled: Bool = true
     var tags: [String]? = []
     var studentCreated: Bool = false
-    var bidders: [String] = []
+    var bidHistory: [String: String] = [:]
     var timestamp = Date.now
 }
 

@@ -24,18 +24,25 @@ struct StickyFooter: View {
             HStack(alignment: .top) {
                 // Item title and Vandy creator tag
                 GeometryReader { proxy in
-                    HStack(alignment: .top) {
-                        Text(itemVM.item.title)
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(.black)
-                            .padding(.top, 20)
-                        if itemVM.item.studentCreated {
-                            Image(systemName: "v.circle.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20)
-                                .foregroundStyle(Color("Dark Pink"))
+                    VStack(alignment: .leading) {
+                        // Name of item
+                        HStack(alignment: .top) {
+                            Text(itemVM.item.title)
+                                .font(.system(size: 24, weight: .semibold))
+                                .foregroundColor(.black)
+                            if itemVM.item.studentCreated {  // student created logo
+                                Image(systemName: "v.circle.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20)
+                                    .foregroundStyle(Color("Dark Pink"))
+                            }
                         }
+                        // Listed price
+                        Text("Listed Price: $\(itemVM.item.price)")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(Styles().darkGray)
+                            .frame(alignment: .leading)
                     }
                 }
                 
@@ -45,8 +52,6 @@ struct StickyFooter: View {
                 if !itemVM.isSeller {
                     Button(action: {
                         showBidView = true
-                        
-                        
                     }){
                         Text("Place Bid")
                             .frame(maxWidth: maxWidth*0.3, alignment: .center)
@@ -88,19 +93,7 @@ struct StickyFooter: View {
                 }
             }
             .padding(.top, 10)
-            
-            if (itemVM.item.bidPrice != "") {
-                Text("Current Bid: $\(itemVM.item.bidPrice)")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundColor(Styles().themePink)
-                    .frame(alignment: .leading)
-            } else {
-                Text("Listed Price (0 bids): $\(itemVM.item.price)")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Styles().themePink)
-                    .frame(alignment: .leading)
-            }
-            
+                        
             if !itemVM.isSeller {
                 SellerInfo()
             }
@@ -112,9 +105,6 @@ struct StickyFooter: View {
             postVM.isEditing = true
             isLoaded = true
         })
-//        .onReceive(postVM.$item, perform: { item in
-//            itemVM.item = item
-//        })
         .frame(height: itemVM.isSeller ? maxHeight*0.1 : maxHeight*0.18)
         .padding(EdgeInsets(
             top: 0,
