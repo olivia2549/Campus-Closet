@@ -41,7 +41,6 @@ enum Position: Int {
     
     func fetchUser(userID: String) -> User {
         let profileRef = db.collection("users").document(userID)
-        print(userID)
         profileRef.getDocument(as: User.self) { result in
             switch result {
             case .success(let user):

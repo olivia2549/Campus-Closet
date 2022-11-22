@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct BidItem: View {
-    @State private var price: String = ""
+    @StateObject private var bidsVM = BidsVM()
+    @State private var offer: String = ""
     @State private var showAlert = false
     @Binding var showBidView: Bool
-    @EnvironmentObject private var viewModel: ItemVM
+    @EnvironmentObject private var itemVM: ItemVM
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -20,13 +21,13 @@ struct BidItem: View {
                 .fontWeight(.semibold)
                 .font(.system(size: 45))
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            Text("Listed price: \(viewModel.item.price)")
+            Text("Listed price: \(itemVM.item.price)")
                 .fontWeight(.semibold)
                 .font(.system(size: 20))
                 .foregroundColor(Color("Dark Gray"))
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 25, trailing: 0))
-            if (viewModel.itemImage != nil) {   // render item image
-                Image(uiImage: viewModel.itemImage!)
+            if (itemVM.itemImage != nil) {   // render item image
+                Image(uiImage: itemVM.itemImage!)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 25))
@@ -40,7 +41,7 @@ struct BidItem: View {
                     Text("$")
                         .font(.system(size:80))
                         .padding (.leading)
-                    TextField("0", text: $viewModel.item.bidPrice)
+                    TextField("0", text: $offer)
                         .font(.system(size:100))
                         .padding (.leading)
                 }
@@ -48,9 +49,7 @@ struct BidItem: View {
             HStack {
                 Spacer()
                     Button(action: {
-                        if (!viewModel.bidItem()) {
-                            showAlert = true
-                        }
+                        bidsVM.placeBid(itemId: itemVM.item.id, offer: offer)
                         showBidView = false
                     }) {
                         Text("Send Bid Offer")

@@ -100,58 +100,18 @@ import FirebaseStorage
         
     }
     
-    func bidItem() -> Bool {
-        print("bid price: \(item.bidPrice)")
-        print("current price: \(item.price)")
-        guard let bidPrice = Int(item.bidPrice) else {return false}
-        guard let currentPrice = Int(item.price) else {return false}
-        if (bidPrice < currentPrice) {
-            return false
-        }
-        // add to the buyer's bids and removed from their saved
-        guard let userID = Auth.auth().currentUser?.uid else {return false}
-        db.collection("users").document(userID).updateData([
-            "bids": FieldValue.arrayUnion([item.id]),
-            "saved": FieldValue.arrayRemove([item.id])
-        ]) { (error) in
-            if let e = error {
-                print("There was an issue saving data to Firestore, \(e).")
-            } else {
-                print("Successfully bid item.")
-                self.updateItemBidders(with: userID, price: self.item.bidPrice)
-                // TODO: Send notification to seller
-            }
-        }
-        return true
-    }
-    
     // go through each bidder and remove from their bids
     func sellItem() {
-        item.bidders.forEach { userID in
-            db.collection("users").document(userID).updateData([
+        for bid in item.bidHistory {
+            db.collection("users").document(bid.key).updateData([
                 "bids": FieldValue.arrayRemove([item.id])
-            ]) { (error) in
+            ]) { error in
                 if let e = error {
                     print("There was an issue saving data to Firestore, \(e).")
                 } else {
                     print("Successfully removed item from each bidder.")
                     self.isSold = true
                 }
-            }
-        }
-    }
-    
-    func updateItemBidders(with userID: String, price: String) {
-        // add to the item's bidder list and update its price
-        db.collection("items").document(item.id).updateData([
-            "bidders": FieldValue.arrayUnion([userID]),
-            "bidPrice": price
-        ]) { (error) in
-            if let e = error {
-                print("There was an issue saving data to Firestore, \(e).")
-            } else {
-                print("Successfully bid item.")
-                // TODO: Send notification to seller
             }
         }
     }

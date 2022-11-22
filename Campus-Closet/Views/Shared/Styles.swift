@@ -10,6 +10,9 @@ import SwiftUI
 
 struct Styles {
     let themePink = Color("Dark Pink")
+    let gray = Color("Gray")
+    let darkGray = Color("Dark Gray")
+    let lightGray = Color("LightGrey")
     
     struct BackButton: View {
         var presentationMode: Binding<PresentationMode>

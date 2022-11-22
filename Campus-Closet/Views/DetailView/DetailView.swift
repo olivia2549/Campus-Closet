@@ -22,11 +22,12 @@ let maxHeight = UIScreen.main.bounds.height
 struct DetailView<ItemInfo:ItemInfoVM>: View {
     @StateObject private var itemViewModel = ItemVM()
     @ObservedObject var itemInfoVM: ItemInfo
+    @State var itemId = ""
+    
     @State var scrollOffset: CGFloat = 0
     @State var innerHeight: CGFloat = 0
     @State var offset: CGFloat = 0
     @State var scrollHeight: CGFloat = 0
-    @State var sellerId = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
@@ -35,10 +36,21 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                 VStack {
                     ItemImage()
                     DetailDescription()
-                    if itemViewModel.isSeller && !itemViewModel.isSold {
-                        Text("Bidders").font(.system(size: 24, weight: .bold))
-                        Bidders()
+                    VStack(alignment: .leading) {
+                        if itemViewModel.isSeller && !itemViewModel.isSold {
+                            Text("Bidders").font(.system(size: 16, weight: .semibold))
+                            if itemId != "" {   // wait until loaded
+                                Bids(itemId: itemId, isAnonymous: false)
+                            }
+                        }
+                        else {
+                            Text("Recent Activity").font(.system(size: 16, weight: .semibold))
+                            if itemId != "" {   // wait until loaded
+                                Bids(itemId: itemId, isAnonymous: true)
+                            }
+                        }
                     }
+                    .padding()
                 }
                 .modifier(OffsetModifier(offset: $scrollOffset))
                 .modifier(HeightModifier(height: $innerHeight))
@@ -61,6 +73,7 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
         }
         .onReceive(itemInfoVM.itemPublisher, perform: { item in
             itemViewModel.fetchItem(with: item.id) {}
+            self.itemId = item.id
         })
         .environmentObject(itemViewModel)
         .ignoresSafeArea(.all, edges: .bottom)
@@ -113,20 +126,6 @@ struct ItemImage: View {
         }
     }
     
-}
-
-struct Bidders: View {
-    @EnvironmentObject private var itemViewModel: ItemVM
-
-    var body: some View {
-        LazyVStack {
-            ForEach(itemViewModel.item.bidders, id: \.self) { userID in
-                BiddersInfo(userId: userID)
-                    .environmentObject(itemViewModel)
-            }
-        }
-        .padding()
-    }
 }
 
 struct DetailDescription: View {
@@ -209,72 +208,6 @@ struct SellerInfo: View {
             sellerId = item.sellerId
             profileViewModel.fetchUser(userID: item.sellerId)
         })
-    }
-}
-
-struct BiddersInfo: View {
-    @StateObject private var profileViewModel = ProfileVM()
-    @EnvironmentObject private var itemViewModel: ItemVM
-    var userId: String
-    
-    var body: some View {
-        VStack (alignment: .leading, spacing: 0) {
-            HStack(alignment: .center) {
-                if (profileViewModel.profilePicture != nil) {
-                    Image (uiImage: profileViewModel.profilePicture!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(50)
-                }
-                else {
-                    Circle()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(Color("LightGrey"))
-                }
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(profileViewModel.user.name)
-                        .font(.system(size: 18))
-                    Text("@\(profileViewModel.user.venmo)")
-                        .foregroundColor(Color("Dark Gray"))
-                        .font(.system(size: 14))
-                    HStack (spacing: 2){
-                        Image(systemName: "star.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(Color("Dark Pink"))
-                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) Reviews)")
-                            .font(.system(size: 12))
-                    }
-                }
-                Spacer()
-                
-                if (itemViewModel.isSeller) {
-                    Button(action: {
-                        itemViewModel.sellItem()
-                        profileViewModel.sellItem(with: itemViewModel.item.id)
-                    }) {
-                        Text("Accept")
-                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
-                    }
-                    .buttonStyle(Styles.PinkButton())
-                }
-                else {
-                    NavigationLink(destination: Chat_Message(partnerId: userId)) {
-                        Image(systemName: "ellipsis.message.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(Color("Dark Pink"))
-                    }
-                }
-            }
-        }
-        .onAppear {
-            profileViewModel.fetchUser(userID: userId)
-        }
     }
 }
 
