@@ -36,21 +36,23 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                 VStack {
                     ItemImage()
                     DetailDescription()
-                    VStack(alignment: .leading) {
-                        if itemViewModel.isSeller && !itemViewModel.isSold {
-                            Text("Bidders").font(.system(size: 16, weight: .semibold))
-                            if itemId != "" {   // wait until loaded
-                                Bids(itemId: itemId, isAnonymous: false)
+                    if !itemViewModel.isGuest {
+                        VStack(alignment: .leading) {
+                            if itemViewModel.isSeller && !itemViewModel.isSold {
+                                Text("Bidders").font(.system(size: 16, weight: .semibold))
+                                if itemId != "" {   // wait until loaded
+                                    Bids(itemId: itemId, isAnonymous: false)
+                                }
+                            }
+                            else {
+                                Text("Recent Activity").font(.system(size: 16, weight: .semibold))
+                                if itemId != "" {   // wait until loaded
+                                    Bids(itemId: itemId, isAnonymous: true)
+                                }
                             }
                         }
-                        else {
-                            Text("Recent Activity").font(.system(size: 16, weight: .semibold))
-                            if itemId != "" {   // wait until loaded
-                                Bids(itemId: itemId, isAnonymous: true)
-                            }
-                        }
+                        .padding()
                     }
-                    .padding()
                 }
                 .modifier(OffsetModifier(offset: $scrollOffset))
                 .modifier(HeightModifier(height: $innerHeight))
@@ -98,7 +100,7 @@ struct ItemImage: View {
                 .aspectRatio(contentMode: .fill)
                 .cornerRadius(20, corners: [.topLeft, .topRight])
                 .overlay(alignment: .topTrailing){
-                    if !itemViewModel.isSeller {
+                    if !itemViewModel.isGuest && !itemViewModel.isSeller {
                         Button(action: {
                             itemViewModel.isSaved ? itemViewModel.unsaveItem() : itemViewModel.saveItem()
                         }){
@@ -193,7 +195,7 @@ struct SellerInfo: View {
                     }
                     .buttonStyle(Styles.PinkButton())
                 }
-                else {
+                else if !itemViewModel.isGuest {
                     NavigationLink(destination: Chat_Message(partnerId: sellerId)) {
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()

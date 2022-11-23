@@ -49,7 +49,7 @@ struct StickyFooter: View {
                 Spacer()
                 
                 // Button at right
-                if !itemVM.isSeller {
+                if !itemVM.isGuest && !itemVM.isSeller {
                     Button(action: {
                         showBidView = true
                     }){
@@ -61,7 +61,7 @@ struct StickyFooter: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
                 }
-                else {
+                else if !itemVM.isGuest {
                     Text("Edit Item")
                         .frame(maxWidth: maxWidth*0.3, alignment: .center)
                         .onTapGesture {

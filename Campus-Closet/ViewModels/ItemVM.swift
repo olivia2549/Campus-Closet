@@ -21,6 +21,7 @@ import FirebaseStorage
     @Published var isSeller = false
     @Published var isSaved = false
     @Published var isSold = false
+    @Published var isGuest = false
     private var db = Firestore.firestore()
     
     func verifyInfo() -> Bool {
@@ -41,6 +42,7 @@ import FirebaseStorage
             case .success(let user):
                 self.isSaved = user.saved.contains(itemID)
                 self.isSold = user.sold.contains(itemID)
+                self.isGuest = user.id == "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
                 completion()
             case .failure(let error):
                 print("Error decoding user: \(error)")
@@ -58,6 +60,7 @@ import FirebaseStorage
                     case .success(let item):
                         self.item = item
                         self.isSeller = (item.sellerId == Auth.auth().currentUser?.uid)
+                        self.isGuest = Auth.auth().currentUser?.uid == "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
                         let pictureRef = Storage.storage().reference(withPath: self.item.picture)
                         // Download profile picture with max size of 30MB.
                         pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
@@ -190,5 +193,4 @@ import FirebaseStorage
         task.resume()
         
     }
-    
 }

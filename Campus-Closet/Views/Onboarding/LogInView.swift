@@ -104,15 +104,13 @@ struct LogInFormBox: View {
 }
 
 struct GuestLogin: View {
+    @EnvironmentObject private var viewModel: OnboardingVM
     var proxy: GeometryProxy
     
     var body: some View {
         VStack(alignment: .leading, spacing: proxy.size.height*0.01) {
             Button(action: {
-                if let window = UIApplication.shared.windows.first {
-                    window.rootViewController = UIHostingController(rootView: ContentGuestView())
-                    window.makeKeyAndVisible()
-                }
+                viewModel.guestLogIn()
             }){
                 Text("Browse as Guest")
                     .font(Font.system(size: 16, weight: .semibold))

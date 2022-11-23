@@ -61,6 +61,22 @@ import FirebaseStorage
         }
     }
     
+    func guestLogIn() {
+        Auth.auth().signIn(withEmail: "guest@campuscloset.com", password: "GuestAccount123!") { (result, error) in
+            if error != nil {
+                return self.handleError(error: error!)
+            }
+            else { // User logged in successfully. Direct them to home screen.
+                if let window = UIApplication.shared.windows.first {
+                    window.rootViewController = UIHostingController(
+                        rootView: ContentGuestView()
+                    )
+                    window.makeKeyAndVisible()
+                }
+            }
+        }
+    }
+    
     func signUp() {
         let db = Firestore.firestore()
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
