@@ -153,14 +153,16 @@ struct MessageShortcutView: View, Identifiable {
                         .cornerRadius(50)
                 }
                 
-                VStack (alignment: .leading){
-                    Text(profileVM.user.name.isEmpty ? profileVM.user.email : profileVM.user.name)
-                        .font(.system(size:16, weight: .bold))
-                    Text(profileVM.message)
-                        .font(.system(size:14))
-                        .foregroundColor(Color(.lightGray))
+                NavigationLink(destination: Chat_Message(partnerId: profileVM.user.id)) {
+                    VStack (alignment: .leading){
+                        Text(profileVM.user.name.isEmpty ? profileVM.user.email : profileVM.user.name)
+                            .font(.system(size:16, weight: .bold))
+                        Text(profileVM.message)
+                            .font(.system(size:14))
+                            .foregroundColor(Color(.lightGray))
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
         }
         .onAppear(perform: {

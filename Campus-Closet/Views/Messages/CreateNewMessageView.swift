@@ -69,7 +69,7 @@ struct UserListView: View, Identifiable {
         }
         
         NavigationLink(destination: Chat_Message(partnerId: viewModel.user.id)) {
-            Text(viewModel.user.name)
+            Text(viewModel.user.name.isEmpty ? viewModel.user.email : viewModel.user.name)
                 .foregroundColor(.black)
             Spacer()
                 .onAppear(perform: {
