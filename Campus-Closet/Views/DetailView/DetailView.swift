@@ -162,9 +162,11 @@ struct SellerInfo: View {
                         .cornerRadius(50)
                 }
                 else {
-                    Circle()
+                    Image("blank-profile")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 50, height: 50)
-                        .foregroundColor(Color("LightGrey"))
+                        .cornerRadius(50)
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
