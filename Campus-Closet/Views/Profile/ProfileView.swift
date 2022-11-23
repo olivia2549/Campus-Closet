@@ -34,11 +34,11 @@ struct ProfileView: View {
                 .zIndex(1)
                 
                 if viewModel.viewingMode == ViewingMode.buyer {
-                    ToggleView(maxHeight: maxHeight, tabs: ["Bids", "Saved"])
+                    ToggleView(maxHeight: maxHeight, tabs: ["Bids (\(viewModel.user.bids.count))", "Saved (\(viewModel.user.saved.count))"])
                         .zIndex(0)
                 }
                 else {
-                    ToggleView(maxHeight: maxHeight, tabs: ["Listings", "Sold"])
+                    ToggleView(maxHeight: maxHeight, tabs: ["Listings (\(viewModel.user.listings.count))", "Sold (\(viewModel.user.sold.count))"])
                         .zIndex(0)
                 }
             }
