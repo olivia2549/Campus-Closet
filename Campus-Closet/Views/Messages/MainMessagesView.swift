@@ -39,17 +39,20 @@ struct MainMessagesView: View {
     private var customNavBar: some View{
         HStack(spacing: 16) {
             if profileVM.profilePicture != nil {
-                Image (uiImage : profileVM.profilePicture!)
+                Image(uiImage : profileVM.profilePicture!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 50, height: 50)
                     .cornerRadius(50)
             } else {
-                Image (systemName: "person.fill")
-                    .font(.system(size:34, weight: .heavy))
+                Image("blank-profile")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 50, height: 50)
+                    .cornerRadius(50)
             }
             VStack(alignment: .leading, spacing: 4){
-                Text(profileVM.user.name)
+                Text(profileVM.user.name.isEmpty ? profileVM.user.email : profileVM.user.name)
                     .font (.system(size: 24, weight: .bold) )
                     //.opacity(getNameOpacity())
                 HStack{
@@ -143,15 +146,15 @@ struct MessageShortcutView: View, Identifiable {
                         .cornerRadius(50)
                 }
                 else {
-                    Image(systemName: "person.fill")
-                        .font(.system(size: 32))
-                        .padding(8)
-                        .overlay(RoundedRectangle(cornerRadius: 44)
-                        .stroke(Color.black, lineWidth: 1))
+                    Image("blank-profile")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(50)
                 }
                 
                 VStack (alignment: .leading){
-                    Text(profileVM.user.name)
+                    Text(profileVM.user.name.isEmpty ? profileVM.user.email : profileVM.user.name)
                         .font(.system(size:16, weight: .bold))
                     Text(profileVM.message)
                         .font(.system(size:14))

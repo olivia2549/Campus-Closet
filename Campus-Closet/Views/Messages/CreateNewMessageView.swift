@@ -60,13 +60,12 @@ struct UserListView: View, Identifiable {
                 .cornerRadius(50)
         }
         else {
-            Image(systemName: "person.crop.circle.fill")
+            Image("blank-profile")
                 .resizable()
                 .scaledToFit()
                 .frame(width:50, height:50)
                 .clipped()
                 .cornerRadius(50)
-                .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color(.label), lineWidth: 2))
         }
         
         NavigationLink(destination: Chat_Message(partnerId: viewModel.user.id)) {

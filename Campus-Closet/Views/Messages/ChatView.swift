@@ -23,18 +23,18 @@ struct ChatView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 50, height: 50)
                     .cornerRadius(50)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 15))
             } else {
-                Image(systemName: "person.crop.circle.fill")
+                Image("blank-profile")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 50, height: 50)
                     .cornerRadius(50)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 15))
             }
             
             VStack (alignment: .leading){
-                Text(viewModel.user.name)
+                Text(viewModel.user.name.isEmpty ? viewModel.user.email : viewModel.user.name)
                     .font(.title).bold()
                     .foregroundColor(.white)
                 Text ("online")
