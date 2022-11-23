@@ -9,13 +9,15 @@ import SwiftUI
 import UIKit
 
 struct ContentGuestView: View {
+    @State var isGuest = true
+    
     init() {
         UIToolbar.appearance().barTintColor = UIColor(Styles().themePink)
     }
     
     var body: some View {
         NavigationView {
-            HomeView()
+            HomeView(isGuest: $isGuest)
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
                         Button(action: {

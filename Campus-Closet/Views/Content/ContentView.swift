@@ -11,6 +11,7 @@ import UIKit
 struct ContentView: View {
     @State private var selection = 0
     @State private var addPostPresented = false
+    @State var isGuest = false
     
     init() {
         UITabBar.appearance().backgroundColor = .white
@@ -21,7 +22,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             TabView(selection: $selection) {
-                HomeView()
+                HomeView(isGuest: $isGuest)
                     .tabItem {
                         if (selection == 0) {
                             Image(systemName: "house.fill")
