@@ -184,7 +184,7 @@ struct SellerInfo: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 15, height: 15)
                             .foregroundColor(Color("Dark Pink"))
-                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) Reviews)")
+                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) \(profileViewModel.numRatings == 1 ? "Rating" : "Ratings"))")
                             .font(.system(size: 12))
                     }
                 }
