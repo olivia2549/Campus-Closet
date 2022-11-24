@@ -25,6 +25,7 @@ enum Position: Int {
     @Published var user = User()
     @Published var numRatings = 0
     @Published var averageRating = 0.0
+    @Published var newRating = 0
     @Published var profilePicture: UIImage?
     @Published var message = ""
     @Published var content: [String] = []

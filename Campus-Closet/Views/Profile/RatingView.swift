@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct RatingView: View {
+    @EnvironmentObject private var viewModel: ProfileVM
     @State private var newRating = 0
+    @Binding var showRatingView: Bool
     
     var body: some View {
         VStack(alignment: .center){
@@ -19,9 +21,9 @@ struct RatingView: View {
             
             HStack {
                 Button(action: {
-                    newRating = 1
+                    viewModel.newRating = 1
                 }){
-                    newRating >= 1 ?
+                    viewModel.newRating >= 1 ?
                     Image(systemName: "star.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -36,9 +38,9 @@ struct RatingView: View {
                 }.offset(x: -maxWidth*0.03, y: maxWidth*0.02)
                 
                 Button(action: {
-                    newRating = 2
+                    viewModel.newRating = 2
                 }){
-                    newRating >= 2 ?
+                    viewModel.newRating >= 2 ?
                     Image(systemName: "star.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -53,9 +55,9 @@ struct RatingView: View {
                 }.offset(x: -maxWidth*0.03, y: maxWidth*0.02)
                 
                 Button(action: {
-                    newRating = 3
+                    viewModel.newRating = 3
                 }){
-                    newRating >= 3 ?
+                    viewModel.newRating >= 3 ?
                     Image(systemName: "star.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -70,9 +72,9 @@ struct RatingView: View {
                 }.offset(x: -maxWidth*0.03, y: maxWidth*0.02)
                 
                 Button(action: {
-                    newRating = 4
+                    viewModel.newRating = 4
                 }){
-                    newRating >= 4 ?
+                    viewModel.newRating >= 4 ?
                     Image(systemName: "star.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -87,9 +89,9 @@ struct RatingView: View {
                 }.offset(x: -maxWidth*0.03, y: maxWidth*0.02)
                 
                 Button(action: {
-                    newRating = 5
+                    viewModel.newRating = 5
                 }){
-                    newRating == 5 ?
+                    viewModel.newRating == 5 ?
                     Image(systemName: "star.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -107,7 +109,7 @@ struct RatingView: View {
             Spacer().frame(height: 35)
             
             Button(action: {
-                print("Hey")
+                showRatingView = false
             }) {
                 Text("Submit Rating")
                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -125,8 +127,8 @@ struct RatingView: View {
     }
 }
 
-struct RatingView_Previews: PreviewProvider {
-    static var previews: some View {
-        RatingView()
-    }
-}
+//struct RatingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RatingView()
+//    }
+//}

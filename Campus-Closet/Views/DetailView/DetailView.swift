@@ -21,6 +21,7 @@ let maxHeight = UIScreen.main.bounds.height
 
 struct DetailView<ItemInfo:ItemInfoVM>: View {
     @StateObject private var itemViewModel = ItemVM()
+    @StateObject private var profileViewModel = ProfileVM()
     @ObservedObject var itemInfoVM: ItemInfo
     @State var itemId = ""
     
@@ -57,6 +58,7 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                 .modifier(OffsetModifier(offset: $scrollOffset))
                 .modifier(HeightModifier(height: $innerHeight))
                 .environmentObject(itemViewModel)
+                .environmentObject(profileViewModel)
             }
             .modifier(HeightModifier(height: $scrollHeight))
             .coordinateSpace(name: "SCROLL")
@@ -74,10 +76,11 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
             }
         }
         .onReceive(itemInfoVM.itemPublisher, perform: { item in
-            itemViewModel.fetchItem(with: item.id) {}
+            itemViewModel.fetchTest(with: item.id) {}
             self.itemId = item.id
         })
         .environmentObject(itemViewModel)
+        .environmentObject(profileViewModel)
         .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -147,7 +150,7 @@ struct DetailDescription: View {
 }
 
 struct SellerInfo: View {
-    @StateObject private var profileViewModel = ProfileVM()
+    @EnvironmentObject private var profileViewModel: ProfileVM
     @EnvironmentObject private var itemViewModel: ItemVM
     @State var sellerId = ""
     

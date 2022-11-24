@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct StickyFooter: View {
     @EnvironmentObject private var itemVM: ItemVM
+    @EnvironmentObject private var profileVM: ProfileVM
     @StateObject private var postVM = PostVM()
     @Binding var offset: CGFloat
     @Binding var height: CGFloat
@@ -17,6 +18,7 @@ struct StickyFooter: View {
     @State var presentEditScreen = false
     @State var isLoaded = false
     @State var showBidView = false
+    @State var showRatingView = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
@@ -49,7 +51,19 @@ struct StickyFooter: View {
                 Spacer()
                 
                 // Button at right
-                if !itemVM.isGuest && !itemVM.isSeller {
+                if itemVM.isSold {
+                    Button(action: {
+                        showRatingView = true
+                    }){
+                        Text("Rate this seller")
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
+                    }
+                    .padding(10)
+                    .background(Styles().themePink)
+                    .cornerRadius(10)
+                    .foregroundColor(.white)
+                }
+                else if !itemVM.isGuest && !itemVM.isSeller {
                     Button(action: {
                         showBidView = true
                     }){
@@ -122,6 +136,9 @@ struct StickyFooter: View {
             BidItem(showBidView: $showBidView)
                 .environmentObject(itemVM)
         }
+        .sheet(isPresented: $showRatingView) {
+            RatingView(showRatingView: $showRatingView)
+                .environmentObject(profileVM)
+        }
     }
-    
 }
