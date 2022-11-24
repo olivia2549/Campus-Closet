@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RatingView: View {
     @EnvironmentObject private var viewModel: ProfileVM
-    @State private var newRating = 0
+    @Binding var sellerID: String
     @Binding var showRatingView: Bool
     
     var body: some View {
@@ -109,6 +109,7 @@ struct RatingView: View {
             Spacer().frame(height: 35)
             
             Button(action: {
+                viewModel.submitRating(sellerID: sellerID)
                 showRatingView = false
             }) {
                 Text("Submit Rating")

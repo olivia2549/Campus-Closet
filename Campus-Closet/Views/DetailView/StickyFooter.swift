@@ -51,7 +51,7 @@ struct StickyFooter: View {
                 Spacer()
                 
                 // Button at right
-                if itemVM.isSold {
+                if itemVM.isSold && !itemVM.isSeller {
                     Button(action: {
                         showRatingView = true
                     }){
@@ -137,7 +137,7 @@ struct StickyFooter: View {
                 .environmentObject(itemVM)
         }
         .sheet(isPresented: $showRatingView) {
-            RatingView(showRatingView: $showRatingView)
+            RatingView(sellerID: $itemVM.item.sellerId, showRatingView: $showRatingView)
                 .environmentObject(profileVM)
         }
     }

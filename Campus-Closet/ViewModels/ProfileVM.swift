@@ -131,6 +131,18 @@ enum Position: Int {
         }
     }
     
+    func submitRating(sellerID: String) {
+        db.collection("users").document(sellerID).updateData([
+            "ratings": FieldValue.arrayUnion([newRating])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully submitted rating.")
+            }
+        }
+    }
+    
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
         return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
     }
