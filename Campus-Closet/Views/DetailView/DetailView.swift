@@ -216,8 +216,10 @@ struct SellerInfo: View {
             }
         }
         .onReceive(itemViewModel.$item, perform: { item in
-            sellerId = item.sellerId
-            profileViewModel.fetchUser(userID: item.sellerId)
+            if (session.isLoggedIn) {
+                sellerId = item.sellerId
+                profileViewModel.fetchUser(userID: item.sellerId)
+            }
         })
     }
 }
