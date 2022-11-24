@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import SwiftUI
 import Firebase
 import FirebaseCore
@@ -19,7 +20,44 @@ import FirebaseStorage
     @Published var message: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
-    @Published var user: User = User()
+    @Published var currentUser: User = User()
+    @Published var isLoggedIn = false
+    @Published var isGuest = false
+
+    var handle: AuthStateDidChangeListenerHandle?
+    let db = Firestore.firestore()
+    
+    func listenAuthenticationState() {
+        handle = Auth.auth().addStateDidChangeListener({ [weak self] (auth, user) in
+            if let user = user {
+                let userRef = self!.db.collection("users").document(user.uid)
+                userRef.getDocument(as: User.self) { result in
+                    switch result {
+                    case .success(let currentUser):
+                        self!.currentUser = currentUser
+                    case .failure(let error):
+                        print("Error decoding user: \(error)")
+                    }
+                }
+                self!.isLoggedIn = true
+                self!.isGuest = user.uid == "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
+                print("logged in, isGuest: \(self?.isGuest)")
+            } else {
+                self!.isLoggedIn = false
+                self?.isGuest = false
+                print("not logged in, isGuest: \(self?.isGuest)")
+            }
+        })
+    }
+    
+    func logOut() {
+        do {
+            try Auth.auth().signOut()
+            self.isLoggedIn = false
+        } catch let error {
+            debugPrint(error.localizedDescription)
+        }
+    }
     
     func verifyAndLogin() { if verify(withPassword: true) {logIn()} }
     
@@ -50,14 +88,6 @@ import FirebaseStorage
                 self.isError.toggle()
                 self.message = "Please verify your email address to continue."
             }
-            else { // User logged in successfully. Direct them to home screen.
-                if let window = UIApplication.shared.windows.first {
-                    window.rootViewController = UIHostingController(
-                        rootView: ContentView()
-                    )
-                    window.makeKeyAndVisible()
-                }
-            }
         }
     }
     
@@ -65,14 +95,6 @@ import FirebaseStorage
         Auth.auth().signIn(withEmail: "guest@campuscloset.com", password: "GuestAccount123!") { (result, error) in
             if error != nil {
                 return self.handleError(error: error!)
-            }
-            else { // User logged in successfully. Direct them to home screen.
-                if let window = UIApplication.shared.windows.first {
-                    window.rootViewController = UIHostingController(
-                        rootView: ContentGuestView()
-                    )
-                    window.makeKeyAndVisible()
-                }
             }
         }
     }
@@ -136,10 +158,7 @@ import FirebaseStorage
         }
 
         // Return deleted user to login screen.
-        if let window = UIApplication.shared.windows.first {
-            window.rootViewController = UIHostingController(rootView: LogInView())
-            window.makeKeyAndVisible()
-        }
+        self.isLoggedIn = false
     }
     
     func deleteAccountData() {

@@ -14,6 +14,7 @@ import UIKit
 
 struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
     @EnvironmentObject var viewModel: ViewModel
+    @EnvironmentObject var session: OnboardingVM
     let vertSpacing: CGFloat = 25
     let horizSpacing: CGFloat = 10
     
@@ -30,6 +31,7 @@ struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
                 }
             }
         }
+        .environmentObject(session)
         .padding(horizSpacing)
     }
 }

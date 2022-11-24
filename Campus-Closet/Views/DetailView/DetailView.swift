@@ -21,6 +21,7 @@ let maxHeight = UIScreen.main.bounds.height
 
 struct DetailView<ItemInfo:ItemInfoVM>: View {
     @StateObject private var itemViewModel = ItemVM()
+    @EnvironmentObject var session: OnboardingVM
     @StateObject private var profileViewModel = ProfileVM()
     @ObservedObject var itemInfoVM: ItemInfo
     @State var itemId = ""
@@ -37,7 +38,7 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                 VStack {
                     ItemImage()
                     DetailDescription()
-                    if !itemViewModel.isGuest {
+                    if !session.isGuest {
                         VStack(alignment: .leading) {
                             if itemViewModel.isSeller && !itemViewModel.isSold {
                                 Text("Bidders").font(.system(size: 16, weight: .semibold))
@@ -80,6 +81,7 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
             self.itemId = item.id
         })
         .environmentObject(itemViewModel)
+        .environmentObject(session)
         .environmentObject(profileViewModel)
         .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarBackButtonHidden(true)
@@ -95,6 +97,7 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
 
 struct ItemImage: View {
     @EnvironmentObject private var itemViewModel: ItemVM
+    @EnvironmentObject var session: OnboardingVM
     
     var body: some View {
         if (itemViewModel.itemImage != nil) {
@@ -103,7 +106,7 @@ struct ItemImage: View {
                 .aspectRatio(contentMode: .fill)
                 .cornerRadius(20, corners: [.topLeft, .topRight])
                 .overlay(alignment: .topTrailing){
-                    if !itemViewModel.isGuest && !itemViewModel.isSeller {
+                    if !session.isGuest && !itemViewModel.isSeller {
                         Button(action: {
                             itemViewModel.isSaved ? itemViewModel.unsaveItem() : itemViewModel.saveItem()
                         }){
@@ -152,6 +155,7 @@ struct DetailDescription: View {
 struct SellerInfo: View {
     @EnvironmentObject private var profileViewModel: ProfileVM
     @EnvironmentObject private var itemViewModel: ItemVM
+    @EnvironmentObject var session: OnboardingVM
     @State var sellerId = ""
     
     var body: some View {
@@ -200,7 +204,7 @@ struct SellerInfo: View {
                     }
                     .buttonStyle(Styles.PinkButton())
                 }
-                else if !itemViewModel.isGuest {
+                else if !session.isGuest {
                     NavigationLink(destination: Chat_Message(partnerId: sellerId)) {
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()

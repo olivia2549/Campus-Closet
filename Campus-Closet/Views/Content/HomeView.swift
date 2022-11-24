@@ -9,9 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var contentVM = ContentVM()
+    @EnvironmentObject var session: OnboardingVM
     @State private var addPostPresented = false
     @State private var selection = 0
-    @Binding var isGuest: Bool
 
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height
@@ -25,7 +25,7 @@ struct HomeView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: maxWidth*0.2, height: maxHeight*0.07, alignment: .leading)
                 Spacer()
-                if !isGuest {
+                if !session.isGuest {
                     Image(systemName: "plus.app")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -67,14 +67,9 @@ struct HomeView: View {
             .scrollIndicators(.hidden)
         }
         .environmentObject(contentVM)
+        .environmentObject(session)
         .onAppear {
             contentVM.fetchData()
         }
     }
 }
-
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView()
-//    }
-//}

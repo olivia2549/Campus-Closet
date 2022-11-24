@@ -21,7 +21,6 @@ import FirebaseStorage
     @Published var isSeller = false
     @Published var isSaved = false
     @Published var isSold = false
-    @Published var isGuest = false
     private var db = Firestore.firestore()
     
     func verifyInfo() -> Bool {

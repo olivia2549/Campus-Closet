@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct StickyFooter: View {
     @EnvironmentObject private var itemVM: ItemVM
+    @EnvironmentObject var session: OnboardingVM
     @EnvironmentObject private var profileVM: ProfileVM
     @StateObject private var postVM = PostVM()
     @Binding var offset: CGFloat
@@ -63,7 +64,7 @@ struct StickyFooter: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
                 }
-                else if !itemVM.isGuest && !itemVM.isSeller {
+                else if !session.isGuest && !itemVM.isSeller {
                     Button(action: {
                         showBidView = true
                     }){
@@ -75,7 +76,7 @@ struct StickyFooter: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
                 }
-                else if !itemVM.isGuest {
+                else if !session.isGuest {
                     Text("Edit Item")
                         .frame(maxWidth: maxWidth*0.3, alignment: .center)
                         .onTapGesture {

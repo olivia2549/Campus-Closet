@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ItemCardView: View, Identifiable {
     @StateObject private var viewModel = ItemVM()
+    @EnvironmentObject var session: OnboardingVM
     
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height

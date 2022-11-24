@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditProfile: View {
-    @StateObject private var onboardingVM = OnboardingVM()
+    @EnvironmentObject private var session: OnboardingVM
     @EnvironmentObject private var profileVM: ProfileVM
     @State var chosenPicture: UIImage?
     @State var pickerShowing = false
@@ -47,7 +47,10 @@ struct EditProfile: View {
             })
             .buttonStyle(Styles.PinkButton())
             
-            Button("Delete account", action: { onboardingVM.deleteAccount() })
+            Button("Sign out", action: { session.logOut() })
+                .buttonStyle(Styles.PinkTextButton())
+            
+            Button("Delete account", action: { session.deleteAccount() })
                 .buttonStyle(Styles.PinkTextButton())
             
             Spacer()
