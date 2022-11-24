@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PostView: View {
     @StateObject private var postVM = PostVM()
+    @EnvironmentObject var session: OnboardingVM
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
@@ -35,11 +36,13 @@ struct PostView: View {
             )
         }
         .environmentObject(postVM)
+        .environmentObject(session)
     }
 }
 
 struct ChoosePicture: View {
     @EnvironmentObject private var viewModel: PostVM
+    @EnvironmentObject var session: OnboardingVM
     var presentationMode: Binding<PresentationMode>
     @State var pickerShowing = false
     @State var chosenPicture: UIImage?
@@ -88,11 +91,13 @@ struct ChoosePicture: View {
         .onChange(of: chosenPicture) { newPicture in
             viewModel.chosenPicture = newPicture
         }
+        .environmentObject(session)
     }
 }
 
 struct BasicInfo: View {
     @ObservedObject var viewModel: PostVM
+    @EnvironmentObject var session: OnboardingVM
     @State private var isMissingRequiredInfo: Bool = false
     @State var showAlert = false
     var presentationMode: Binding<PresentationMode>
@@ -134,53 +139,42 @@ struct BasicInfo: View {
                         // do something
                     } label: {
                         Text("New")
-                        //Image(systemName: "arrow.down.right.circle")
                     }
                     Button {
                         viewModel.item.condition = "Lightly Used"
                         // do something
                     } label: {
                         Text("Lightly Used")
-                        //Image(systemName: "arrow.up.and.down.circle")
                     }
                     Button {
                         viewModel.item.condition = "Used"
                         // do something
                     } label: {
                         Text("Used")
-                        //Image(systemName: "arrow.up.and.down.circle")
                     }
                 } label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color("#d7d7d8"), lineWidth: 1)
-                                .frame(width: 395, height: 55)
-                            HStack{
-                                Image(systemName: "clock")
-                                    .foregroundColor(.black)
-                                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
-                                Divider()
-                                    .frame(height: 25)
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("#d7d7d8"), lineWidth: 1)
+                            .frame(width: 395, height: 55)
+                        HStack{
+                            Image(systemName: "clock")
+                                .foregroundColor(.black)
+                                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
+                            Divider()
+                                .frame(height: 25)
+                            viewModel.item.condition == "" ?
                                 Text("Condition*")
                                     .foregroundColor(.gray)
                                     .font(.system(size: 20))
-                                Spacer()
-                            }
-                             
-                            
+                                :
+                                Text("\(viewModel.item.condition)")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 20))
+                            Spacer()
                         }
-   
-                    
-                     //Image(systemName: "tag.circle")
+                    }
                 }.padding(.bottom)
-    //            CustomInput(
-    //                for: "Condition*",
-    //                imageName: "clock",
-    //                autocapitalization: .never,
-    //                input: $viewModel.item.condition
-    //            ) {
-    //
-    //            }
             }
 
             CustomInput(
@@ -237,6 +231,7 @@ struct BasicInfo: View {
             }
             Spacer()
         }
+        .environmentObject(session)
         .navigationBarBackButtonHidden(true)
         .padding()
         .toolbar {
@@ -260,6 +255,7 @@ struct BasicInfo: View {
 struct OptionalInfo: View {
     @State var navigateToDetail = false
     @EnvironmentObject private var postVM: PostVM
+    @EnvironmentObject var session: OnboardingVM
     @StateObject var itemVM = ItemVM()
     var prevPresentationMode: Binding<PresentationMode>
     init(prevPresentationMode: Binding<PresentationMode>) {
@@ -307,6 +303,7 @@ struct OptionalInfo: View {
             
             Spacer()
         }
+        .environmentObject(session)
         .padding()
         .navigationBarBackButtonHidden(true)
         .environmentObject(postVM)

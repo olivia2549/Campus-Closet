@@ -124,14 +124,3 @@ struct GuestLogin: View {
         .ignoresSafeArea()
     }
 }
-
-//struct LogInView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LogInView()
-//            .previewDevice(PreviewDevice(rawValue: "iPhone 14"))
-//            .previewDisplayName("iPhone 14")
-//        LogInView()
-//            .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
-//            .previewDisplayName("iPad")
-//    }
-//}

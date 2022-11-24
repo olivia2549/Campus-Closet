@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
@@ -18,17 +19,8 @@ struct Campus_ClosetApp: App {
 
   var body: some Scene {
     WindowGroup {
-        if let user = Auth.auth().currentUser {
-            if user.isEmailVerified {
-                ContentView()
-            }
-            else {
-                LogInView()
-            }
-        }
-        else {
-            LogInView()
-        }
+        InitialView()
+          .environmentObject(OnboardingVM())
     }
   }
 }
@@ -69,7 +61,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
       completionHandler(UIBackgroundFetchResult.newData)
     }
-    
+
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
       Messaging.messaging().apnsToken = deviceToken
     }

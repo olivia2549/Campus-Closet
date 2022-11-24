@@ -10,6 +10,7 @@ import SegmentedPicker
 
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
+    @EnvironmentObject var session: OnboardingVM
     @State var offset: CGFloat = 0
     var maxHeight: CGFloat = (UIDevice.current.userInterfaceIdiom == .phone) ?
     UIScreen.main.bounds.height / 2.6 : UIScreen.main.bounds.height / 2.0
@@ -45,9 +46,12 @@ struct ProfileView: View {
             .modifier(OffsetModifier(offset: $offset))
         }
         .environmentObject(viewModel)
+        .environmentObject(session)
         .coordinateSpace(name: "SCROLL")
         .onAppear(perform: {
-            viewModel.getProfileData()
+            if session.isLoggedIn {
+                viewModel.getProfileData()
+            }
         })
         .navigationBarHidden(true)
     }
@@ -111,6 +115,7 @@ struct ProfileHeader: View {
 
 struct ProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
+    @EnvironmentObject var session: OnboardingVM
     @Binding var offset: CGFloat
     var proxy: GeometryProxy
     
@@ -151,7 +156,9 @@ struct ProfileInfo: View {
             }
             .onReceive(viewModel.$viewingMode, perform: { _ in
                 viewModel.position = Position.first
-                viewModel.getProfileData()
+                if session.isLoggedIn {
+                    viewModel.getProfileData()
+                }
             })
             .pickerStyle(.segmented)
         }
@@ -171,6 +178,7 @@ struct ProfileInfo: View {
 
 struct ToggleView: View {
     @EnvironmentObject var viewModel: ProfileVM
+    @EnvironmentObject var session: OnboardingVM
     @State var offset: CGFloat = 0
     var maxHeight: CGFloat
     var tabs: [String]
@@ -178,7 +186,9 @@ struct ToggleView: View {
         Binding(
             get: { viewModel.position.rawValue },
             set: {
-                viewModel.getProfileData()
+                if session.isLoggedIn {
+                    viewModel.getProfileData()
+                }
                 viewModel.position = Position(rawValue: $0!) ?? Position.first
             }
         )
@@ -218,8 +228,11 @@ struct ToggleView: View {
                 .zIndex(0)
         }
         .onAppear {
-            viewModel.getProfileData()
+            if session.isLoggedIn {
+                viewModel.getProfileData()
+            }
         }
+        .environmentObject(session)
         .environmentObject(viewModel)
     }
     
