@@ -76,7 +76,7 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
             }
         }
         .onReceive(itemInfoVM.itemPublisher, perform: { item in
-            itemViewModel.fetchTest(with: item.id) {}
+            itemViewModel.fetchSeller(with: item.id) {}
             self.itemId = item.id
         })
         .environmentObject(itemViewModel)

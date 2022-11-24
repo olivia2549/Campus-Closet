@@ -33,86 +33,13 @@ import FirebaseStorage
         return price != nil && price! < 1000
     }
     
-    func fetchUser(itemID: String, completion: @escaping () -> Void) {
-        guard let userID = Auth.auth().currentUser?.uid else {return}
-        let userRef = db.collection("users").document(userID)
-        
-        userRef.getDocument(as: User.self) { result in
-            switch result {
-            case .success(let user):
-                self.isSaved = user.saved.contains(itemID)
-                self.isSold = user.sold.contains(itemID)
-                self.isGuest = user.id == "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
-                completion()
-            case .failure(let error):
-                print("Error decoding user: \(error)")
-            }
-        }
-    }
-    
-//    func fetchSeller(itemID: String, completion: @escaping () -> Void) {
-//        var sellerId = ""
-//        db.collection("items").document(itemID).getDocument(as: Item.self) { result in
-//            switch result {
-//            case .success(let item):
-//                sellerId = item.sellerId
-//            case .failure(let error):
-//                print("Error decoding item: \(error)")
-//            }
-//        }
-//
-//        let userRef = db.collection("users").document(sellerId)
-//        userRef.getDocument(as: User.self) { result in
-//            switch result {
-//            case .success(let user):
-//                self.isSold = user.sold.contains(itemID)
-//                completion()
-//            case .failure(let error):
-//                print("Error decoding user: \(error)")
-//            }
-//        }
-//    }
-    
-    func fetchItem2(itemID: String, completion: @escaping () -> Void) {
-        self.db.collection("items")
-            .document(itemID)
-            .getDocument(as: Item.self) { result in
-                switch result {
-                case .success(let item):
-                    self.item = item
-                    self.isSeller = (item.sellerId == Auth.auth().currentUser?.uid)
-                    self.isGuest = Auth.auth().currentUser?.uid == "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
-                    let pictureRef = Storage.storage().reference(withPath: self.item.picture)
-                    // Download profile picture with max size of 30MB.
-                    pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
-                        if let err = error {
-                            print(err)
-                        } else if data != nil {
-                            if let picture = UIImage(data: data!) {
-                                DispatchQueue.main.async {
-                                    self.itemImage = picture
-                                }
-                            }
-                        }
-                    }
-                    completion()
-                case .failure(let error):
-                    print("Error decoding item: \(error)")
-                }
-            }
-    }
-    
-    func fetchTest(with id: String, completion: @escaping () -> Void) {
-        fetchItem2(itemID: id) {
-            var sellerId = self.item.sellerId
-            let userRef = self.db.collection("users").document(sellerId)
-            
-            userRef.getDocument(as: User.self) { result in
+    func fetchSeller(with id: String, completion: @escaping () -> Void) {
+        fetchItem(itemID: id) {
+            self.db.collection("users").document(self.item.sellerId).getDocument(as: User.self) { result in
                 switch result {
                 case .success(let user):
                     self.isSaved = user.saved.contains(id)
                     self.isSold = user.sold.contains(id)
-                    self.isGuest = user.id == "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
                     completion()
                 case .failure(let error):
                     print("Error decoding user: \(error)")
@@ -121,35 +48,31 @@ import FirebaseStorage
         }
     }
     
-    // Find an item in the database with a particular id
-    func fetchItem(with id: String, completion: @escaping () -> Void) {
-        fetchUser(itemID: id) {
-            self.db.collection("items")
-                .document(id)
-                .getDocument(as: Item.self) { result in
-                    switch result {
-                    case .success(let item):
-                        self.item = item
-                        self.isSeller = (item.sellerId == Auth.auth().currentUser?.uid)
-                        self.isGuest = Auth.auth().currentUser?.uid == "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
-                        let pictureRef = Storage.storage().reference(withPath: self.item.picture)
-                        // Download profile picture with max size of 30MB.
-                        pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
-                            if let err = error {
-                                print(err)
-                            } else if data != nil {
-                                if let picture = UIImage(data: data!) {
-                                    DispatchQueue.main.async {
-                                        self.itemImage = picture
-                                    }
-                                }
+    func fetchItem(itemID: String, completion: @escaping () -> Void) {
+        db.collection("items").document(itemID).getDocument(as: Item.self) { result in
+            switch result {
+            case .success(let item):
+                self.item = item
+                self.isSeller = (item.sellerId == Auth.auth().currentUser?.uid)
+                self.isGuest = (Auth.auth().currentUser?.uid == "iR0c0aZXPoRsw5DN3cpmf9mzUEK2")
+                let pictureRef = Storage.storage().reference(withPath: self.item.picture)
+                
+                // Download profile picture with max size of 30MB.
+                pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in
+                    if let err = error {
+                        print(err)
+                    } else if data != nil {
+                        if let picture = UIImage(data: data!) {
+                            DispatchQueue.main.async {
+                                self.itemImage = picture
                             }
                         }
-                        completion()
-                    case .failure(let error):
-                        print("Error decoding item: \(error)")
                     }
                 }
+                completion()
+            case .failure(let error):
+                print("Error decoding item: \(error)")
+            }
         }
     }
     
