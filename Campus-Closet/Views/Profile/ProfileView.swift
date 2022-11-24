@@ -144,7 +144,7 @@ struct ProfileInfo: View {
                     .frame(width: proxy.size.width*0.06)
                     .foregroundColor(Styles().themePink)
                 Text(String(format: "%.2f", viewModel.averageRating))
-                Text("(\(viewModel.numRatings) Reviews)")
+                Text("(\(viewModel.numRatings) \(viewModel.numRatings == 1 ? "Rating" : "Ratings"))")
                 Text("|")
                 Image(systemName: "dollarsign.circle")
                     .foregroundColor(Styles().themePink)

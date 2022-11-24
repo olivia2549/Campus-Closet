@@ -25,6 +25,7 @@ enum Position: Int {
     @Published var user = User()
     @Published var numRatings = 0
     @Published var averageRating = 0.0
+    @Published var newRating = 0
     @Published var profilePicture: UIImage?
     @Published var message = ""
     @Published var content: [String] = []
@@ -126,6 +127,18 @@ enum Position: Int {
                 print("There was an issue saving data to Firestore, \(e).")
             } else {
                 print("Successfully moved item from listings to sold.")
+            }
+        }
+    }
+    
+    func submitRating(sellerID: String) {
+        db.collection("users").document(sellerID).updateData([
+            "ratings": FieldValue.arrayUnion([newRating])
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully submitted rating.")
             }
         }
     }

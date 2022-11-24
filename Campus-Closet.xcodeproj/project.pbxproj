@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2E0101EC28F4EC920074F404 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0101EB28F4EC910074F404 /* ErrorView.swift */; };
+		2E0A30F4292EAFC1004E058D /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A30F3292EAFC1004E058D /* RatingView.swift */; };
 		2E15CEA328F3DEEC00AF5328 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */; };
 		2E16B65529044CFD008F4B2A /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E16B65429044CFD008F4B2A /* ProfileVM.swift */; };
 		2E4E153E290C6D0A00C8A2F9 /* PictureVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E153D290C6D0A00C8A2F9 /* PictureVM.swift */; };
@@ -104,6 +105,7 @@
 
 /* Begin PBXFileReference section */
 		2E0101EB28F4EC910074F404 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		2E0A30F3292EAFC1004E058D /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		2E15CEA228F3DEEC00AF5328 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		2E16B65429044CFD008F4B2A /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
 		2E4E153D290C6D0A00C8A2F9 /* PictureVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureVM.swift; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 			children = (
 				C527282328E64698008C1D60 /* ProfileView.swift */,
 				C5B84AC028EF7678004D1146 /* EditProfile.swift */,
+				2E0A30F3292EAFC1004E058D /* RatingView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -590,6 +593,7 @@
 				C513DD6B292D2FB200A468AA /* BidModel.swift in Sources */,
 				7D0978EC291DF23C00BD15DB /* CreateNewMessageView.swift in Sources */,
 				2E4E153E290C6D0A00C8A2F9 /* PictureVM.swift in Sources */,
+				2E0A30F4292EAFC1004E058D /* RatingView.swift in Sources */,
 				C59CAD472910172000F32FF3 /* EditItem.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
 				7D067DA3291DD03E00942890 /* MainMessagesView.swift in Sources */,

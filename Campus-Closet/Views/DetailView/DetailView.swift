@@ -22,6 +22,7 @@ let maxHeight = UIScreen.main.bounds.height
 struct DetailView<ItemInfo:ItemInfoVM>: View {
     @StateObject private var itemViewModel = ItemVM()
     @EnvironmentObject var session: OnboardingVM
+    @StateObject private var profileViewModel = ProfileVM()
     @ObservedObject var itemInfoVM: ItemInfo
     @State var itemId = ""
     
@@ -58,6 +59,7 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                 .modifier(OffsetModifier(offset: $scrollOffset))
                 .modifier(HeightModifier(height: $innerHeight))
                 .environmentObject(itemViewModel)
+                .environmentObject(profileViewModel)
             }
             .modifier(HeightModifier(height: $scrollHeight))
             .coordinateSpace(name: "SCROLL")
@@ -75,11 +77,12 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
             }
         }
         .onReceive(itemInfoVM.itemPublisher, perform: { item in
-            itemViewModel.fetchItem(with: item.id) {}
+            itemViewModel.fetchSeller(with: item.id) {}
             self.itemId = item.id
         })
         .environmentObject(itemViewModel)
         .environmentObject(session)
+        .environmentObject(profileViewModel)
         .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -150,7 +153,7 @@ struct DetailDescription: View {
 }
 
 struct SellerInfo: View {
-    @StateObject private var profileViewModel = ProfileVM()
+    @EnvironmentObject private var profileViewModel: ProfileVM
     @EnvironmentObject private var itemViewModel: ItemVM
     @EnvironmentObject var session: OnboardingVM
     @State var sellerId = ""
@@ -185,7 +188,7 @@ struct SellerInfo: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 15, height: 15)
                             .foregroundColor(Color("Dark Pink"))
-                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) Reviews)")
+                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) \(profileViewModel.numRatings == 1 ? "Rating" : "Ratings"))")
                             .font(.system(size: 12))
                     }
                 }

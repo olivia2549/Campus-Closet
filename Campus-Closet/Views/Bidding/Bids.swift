@@ -94,7 +94,7 @@ struct AcceptOffers: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 15, height: 15)
                             .foregroundColor(Color("Dark Pink"))
-                        Text ("\(String(format: "%.2f", profileVM.averageRating)) (\(profileVM.numRatings) Reviews)")
+                        Text ("\(String(format: "%.2f", profileVM.averageRating)) (\(profileVM.numRatings) \(profileVM.numRatings == 1 ? "Rating" : "Ratings"))")
                             .font(.system(size: 12))
                     }
                 }

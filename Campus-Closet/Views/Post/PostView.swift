@@ -290,7 +290,7 @@ struct OptionalInfo: View {
             ) {
                 Button(action: {
                     postVM.postItem() { itemId in
-                        itemVM.fetchItem(with: itemId) {
+                        itemVM.fetchSeller(with: itemId) {
                             navigateToDetail = true
                         }
                     }

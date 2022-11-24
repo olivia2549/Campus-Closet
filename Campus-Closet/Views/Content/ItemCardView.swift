@@ -69,7 +69,7 @@ struct PreviewItemInfo: View {
                     .frame(maxWidth: proxy.size.width*0.4, alignment: .trailing)
             }
             .onAppear {
-                viewModel.fetchItem(with: id) {}
+                viewModel.fetchSeller(with: id) {}
             }
             .padding(.leading)
             .padding(.trailing)
