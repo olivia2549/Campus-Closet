@@ -88,18 +88,8 @@ struct StickyFooter: View {
                         .sheet(isPresented: $presentEditScreen, onDismiss: {
                             self.presentationMode.wrappedValue.dismiss()
                         }) {
-                            EditItem(
-                                viewModel: postVM,
-                                presentEditScreen: $presentEditScreen
-                            )
-                            .navigationBarHidden(true)
-                            .navigationBarBackButtonHidden(true)
-                            .toolbar {
-                                ToolbarItem(placement: .navigationBarLeading) {
-                                    Styles.BackButton(presentationMode: self.presentationMode)
-                                        .foregroundColor(.black)
-                                }
-                            }
+                            BasicInfo(viewModel: postVM, showDeleteConfirmation: false, presentationMode: presentationMode, prevPresentationMode: presentationMode)
+                                .environmentObject(session)
                         }
                         .padding(10)
                         .background(Styles().themePink)

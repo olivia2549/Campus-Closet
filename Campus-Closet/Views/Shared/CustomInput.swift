@@ -53,6 +53,7 @@ struct CustomInput: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25, height: 25)
+                    .foregroundColor(.black)
                     .padding(.leading)
                 Divider()
                     .frame(height: 30)

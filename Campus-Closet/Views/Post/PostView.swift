@@ -99,7 +99,7 @@ struct BasicInfo: View {
     @ObservedObject var viewModel: PostVM
     @EnvironmentObject var session: OnboardingVM
     @State private var isMissingRequiredInfo: Bool = false
-    @State var showAlert = false
+    @State var showDeleteConfirmation = false
     var presentationMode: Binding<PresentationMode>
     var prevPresentationMode: Binding<PresentationMode>
     
@@ -189,8 +189,7 @@ struct BasicInfo: View {
             if viewModel.isEditing {
                 Button(action: {
                     if viewModel.verifyInfo() {
-                        viewModel.postItem() { _ in return }
-                        self.presentationMode.wrappedValue.dismiss()
+                        viewModel.updateItem { self.presentationMode.wrappedValue.dismiss() }
                     }
                     else {
                         isMissingRequiredInfo = true
@@ -202,7 +201,7 @@ struct BasicInfo: View {
                 .buttonStyle(Styles.PinkButton())
                 
                 Button(action: {
-                    showAlert = true
+                    showDeleteConfirmation = true
                 }) {
                     Text("Delete Item")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -239,7 +238,7 @@ struct BasicInfo: View {
                 Styles.BackButton(presentationMode: self.presentationMode)
             }
         }
-        .alert(isPresented: $showAlert) {
+        .alert(isPresented: $showDeleteConfirmation) {
             Alert(title: Text("Confirm Deletion"),
                   message: Text("Are you sure you want to remove this item? This action cannot be undone"),
                   primaryButton: .destructive(Text("Delete"), action: {
