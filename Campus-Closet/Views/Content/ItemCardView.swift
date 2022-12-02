@@ -22,7 +22,7 @@ struct ItemCardView: View, Identifiable {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             // Clickable image card
-            NavigationLink (destination: DetailView<ItemVM>(itemInfoVM: viewModel)){
+            NavigationLink (destination: DetailView<ItemVM>(itemInfoVM: viewModel)){ //look at 
                 if (viewModel.itemImage != nil) {   // render item image
                     Image(uiImage: viewModel.itemImage!)
                         .resizable()
@@ -69,7 +69,7 @@ struct PreviewItemInfo: View {
                     .frame(maxWidth: proxy.size.width*0.4, alignment: .trailing)
             }
             .onAppear {
-                viewModel.fetchSeller(with: id) {}
+                viewModel.fetchSeller(with: id) {} //look at
             }
             .padding(.leading)
             .padding(.trailing)
