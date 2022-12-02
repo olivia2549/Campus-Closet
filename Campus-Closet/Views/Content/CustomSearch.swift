@@ -9,7 +9,6 @@ import SwiftUI
 import Firebase
 
 struct CustomSearch: View {
-    @StateObject private var viewModel = ItemVM()
     @ObservedObject var data = getData()
     
     var body: some View {
@@ -22,7 +21,6 @@ struct CustomSearch: View {
                 CustomSearchBar(data: self.$data.datas).padding(.top)
             }
         }
-        .environmentObject(viewModel)
     }
 }
 
@@ -34,7 +32,6 @@ struct CustomSearch_Previews: PreviewProvider {
 
 
 struct CustomSearchBar: View {
-    @EnvironmentObject private var viewModel: ItemVM
     @State var txt = ""
     @Binding var data : [dataType]
     
@@ -59,16 +56,8 @@ struct CustomSearchBar: View {
                     Text ("No results found.").foregroundColor(Color.black.opacity(0.5)).padding()
                 }
                 else{
-                    List(self.data.filter{$0.name.lowercased().contains(self.txt.lowercased())}){i in
-                            
-                        NavigationLink (destination: DetailView<ItemVM>(itemInfoVM: viewModel)){
-                            Text(i.name)
-                            
-                        }.onAppear() {
-                            viewModel.fetchItem(itemID: i.id) {} //look at
-                        }
-                        
-                        
+                    List(self.data.filter{$0.name.lowercased().contains(self.txt.lowercased())}) { i in
+                        SearchResult(id: i.id, name: i.name)
                     }
                 }
             }
@@ -76,6 +65,21 @@ struct CustomSearchBar: View {
             .padding()
     }
     
+}
+
+struct SearchResult: View {
+    @StateObject var viewModel = ItemVM()
+    var id: String
+    var name: String
+    
+    var body: some View {
+        NavigationLink (destination: DetailView<ItemVM>(itemInfoVM: viewModel)) {
+            Text(name)
+        }
+        .onAppear() {
+            viewModel.fetchSeller(with: id) {}
+        }
+    }
 }
 
 class getData : ObservableObject{
