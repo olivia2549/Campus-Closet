@@ -48,7 +48,12 @@ enum Position: Int {
                 self.user = user
                 self.numRatings = user.ratings.count
                 self.averageRating = self.numRatings == 0 ? 0 : Double(user.ratings.reduce(0, +)) / Double(user.ratings.count)
-                
+                // viewing mode should be seller for other users
+                if let curUser = Auth.auth().currentUser?.uid {
+                    if userID != curUser {
+                        self.viewingMode = ViewingMode.seller
+                    }
+                }
                 let pictureRef = Storage.storage().reference(withPath: self.user.picture)
                 // Download profile picture with max size of 30MB.
                 pictureRef.getData(maxSize: 30 * 1024 * 1024) { (data, error) in

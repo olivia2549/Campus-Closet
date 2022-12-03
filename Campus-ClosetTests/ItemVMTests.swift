@@ -58,7 +58,7 @@ class ItemVMTests : XCTestCase {
     
     @MainActor func testFetchItem() {
         let itemVM = ItemVM()
-        XCTAssertNoThrow(itemVM.fetchItem(with: itemVM.item._id) {}, "This call should not throw an exception")
+        XCTAssertNoThrow(itemVM.fetchItem(itemID: itemVM.item._id) {}, "This call should not throw an exception")
         
         //asserting preconditions have been maintained after fetchItem
         itemVM.fetchItem(itemID: itemVM.item._id) {}
