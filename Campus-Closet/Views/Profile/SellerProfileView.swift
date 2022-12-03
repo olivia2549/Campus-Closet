@@ -90,7 +90,6 @@ struct SellerProfileHeader: View {
         let progress = -offset/(maxHeight*0.6)
         return progress
     }
-    
 }
 
 struct SellerProfileInfo: View {
@@ -155,7 +154,7 @@ struct SellerToggleView: View {
             get: { viewModel.position.rawValue },
             set: {
                 if session.isLoggedIn {
-                    viewModel.getProfileData()
+                    viewModel.fetchUser(userID: viewModel.user.id)
                 }
                 viewModel.position = Position(rawValue: $0!) ?? Position.first
             }
@@ -202,5 +201,4 @@ struct SellerToggleView: View {
     func getPosition() -> CGFloat {
         return offset < maxHeight ? (80 - offset) : (maxHeight - offset)
     }
-    
 }

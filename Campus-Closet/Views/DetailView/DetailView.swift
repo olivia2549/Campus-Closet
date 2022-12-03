@@ -171,11 +171,13 @@ struct SellerInfo: View {
                     }
                 }
                 else {
-                    Image("blank-profile")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(50)
+                    NavigationLink(destination: SellerProfileView().environmentObject(profileViewModel)) {
+                        Image("blank-profile")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(50)
+                    }
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
