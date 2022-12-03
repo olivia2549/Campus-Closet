@@ -11,9 +11,11 @@ import SegmentedPicker
 struct SellerProfileView: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     @State var offset: CGFloat = 0
     var maxHeight: CGFloat = (UIDevice.current.userInterfaceIdiom == .phone) ?
-    UIScreen.main.bounds.height / 2.6 : UIScreen.main.bounds.height / 2.0
+    UIScreen.main.bounds.height / 3 : UIScreen.main.bounds.height / 2.4
     
     var body: some View {
         ScrollView {
@@ -24,6 +26,7 @@ struct SellerProfileView: View {
                         .frame(height: getHeaderHeight(proxy: proxy), alignment: .bottom)
                         .overlay(
                             SellerProfileHeader(
+                                presentationMode: presentationMode,
                                 offset: $offset,
                                 proxy: proxy
                             )
@@ -54,40 +57,27 @@ struct SellerProfileView: View {
 
 struct SellerProfileHeader: View {
     @EnvironmentObject private var viewModel: ProfileVM
+    var presentationMode: Binding<PresentationMode>
+    
     @Binding var offset: CGFloat
     var proxy: GeometryProxy
     
     var body: some View {
         HStack {
+            Styles.BackButton(presentationMode: presentationMode).padding()
             Text(viewModel.user.name)
                 .font(.system(size: 20, weight: .semibold))
-                .frame(maxWidth: .infinity)
                 .opacity(getNameOpacity(proxy: proxy))
-            VStack(alignment: .center) {
-                Image("logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: proxy.size.width * 0.3)
-            }
-            .opacity(getOpacity(proxy: proxy))
-            .frame(maxWidth: .infinity)
-            VStack(alignment: .trailing) {}
-            .frame(maxWidth: .infinity)
+            Spacer()
         }
         .ignoresSafeArea()
         .frame(height: proxy.size.height * 0.15)
         .frame(maxWidth: .infinity)
         .background(.white)
     }
-    
-    func getOpacity(proxy: GeometryProxy) -> CGFloat {
-        let progress = -offset/(maxHeight*0.1)
-        let opacity = 1-progress
-        return offset < 0 ? opacity : 1
-    }
-    
+        
     func getNameOpacity(proxy: GeometryProxy) -> CGFloat {
-        let progress = -offset/(maxHeight*0.6)
+        let progress = -offset/(maxHeight*0.4)
         return progress
     }
 }
@@ -137,7 +127,7 @@ struct SellerProfileInfo: View {
     }
     
     func getOpacity() -> CGFloat {
-        let progress = -offset/90
+        let progress = -offset/60
         let opacity = 1-progress
         return offset < 0 ? opacity : 1
     }
