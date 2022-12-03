@@ -22,7 +22,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             TabView(selection: $selection) {
-                CustomSearch()
+                HomeView()
                     .tabItem {
                         if (selection == 0) {
                             Image(systemName: "house.fill")

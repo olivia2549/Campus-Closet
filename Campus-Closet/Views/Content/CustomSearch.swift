@@ -13,12 +13,12 @@ struct CustomSearch: View {
     
     var body: some View {
         NavigationView{
-            ZStack (alignment: .top){
-                GeometryReader{
-                    _ in
-                    Text ("Home")
-                }.background(Color ("Dark Pink").edgesIgnoringSafeArea(.all))
-                CustomSearchBar(data: self.$data.datas).padding(.top)
+            VStack (spacing: 0){
+                CustomSearchBar(data: self.$data.datas)//.padding(.top)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color ("#d7d7d8"), lineWidth: 2)
+                    )
             }
         }
     }
@@ -39,8 +39,6 @@ struct CustomSearchBar: View {
         VStack(spacing: 0){
             HStack{
                 TextField("Search", text: self.$txt)
-                
-                
                 if self.txt != "" {
                     Button (action: {
                         self.txt = ""
@@ -49,20 +47,22 @@ struct CustomSearchBar: View {
                     }
                     .foregroundColor(.black)
                 }
-            }.padding()
+            } .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 5))
+            
+            
             if self.txt != ""{
                 if self.data.filter({$0.name.lowercased().contains(self.txt.lowercased())}).count == 0{
-                    
-                    Text ("No results found.").foregroundColor(Color.black.opacity(0.5)).padding()
+                    Text ("No results found.").foregroundColor(Color.black.opacity(0.5)) //.padding
                 }
                 else{
                     List(self.data.filter{$0.name.lowercased().contains(self.txt.lowercased())}) { i in
                         SearchResult(id: i.id, name: i.name)
+                            .foregroundColor(Color("Dark Pink"))
                     }
                 }
             }
         }.background(Color.white)
-            .padding()
+            .padding(EdgeInsets(top: 7, leading: 4, bottom: 7, trailing: 0))
     }
     
 }

@@ -48,15 +48,17 @@ struct HomeView: View {
             .padding(.trailing)
             
             // Filter items
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Filter By")
-                        .font(.system(size: 20, weight: .semibold))
-                    TagPicker<ContentVM>(menuText: "All")
-                    Spacer()
-                }
+            VStack(alignment: .leading, spacing: 0) {
+                    CustomSearch()
+                    HStack {
+                        Text("Filter By")
+                            .font(.system(size: 20, weight: .semibold))
+                        TagPicker<ContentVM>(menuText: "All")
+                        Spacer()
+                    }
+                    
+                    TagsList<ContentVM>()
                 
-                TagsList<ContentVM>()
             }
             .padding()
             
