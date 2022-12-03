@@ -61,7 +61,7 @@ class ItemVMTests : XCTestCase {
         XCTAssertNoThrow(itemVM.fetchItem(with: itemVM.item._id) {}, "This call should not throw an exception")
         
         //asserting preconditions have been maintained after fetchItem
-        itemVM.fetchItem(with: itemVM.item._id) {}
+        itemVM.fetchItem(itemID: itemVM.item._id) {}
         XCTAssertTrue(itemVM.isEditing, "isEditing flag should be true")
         XCTAssertFalse(itemVM.isSeller, "isSeller flag should be false")
     }

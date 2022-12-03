@@ -15,7 +15,7 @@ struct HomeView: View {
 
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height
-    
+        
     var body: some View {
         VStack(spacing: 0) {
             // Header
@@ -48,17 +48,15 @@ struct HomeView: View {
             .padding(.trailing)
             
             // Filter items
-            VStack(alignment: .leading, spacing: 0) {
-                    CustomSearch()
-                    HStack {
-                        Text("Filter By")
-                            .font(.system(size: 20, weight: .semibold))
-                        TagPicker<ContentVM>(menuText: "All")
-                        Spacer()
-                    }
-                    
-                    TagsList<ContentVM>()
-                
+            VStack(alignment: .leading, spacing: maxHeight*0.02) {
+                CustomSearch().frame(height: maxHeight*0.05)
+                HStack {
+                    Text("Filter By")
+                        .font(.system(size: 20, weight: .semibold))
+                    TagPicker<ContentVM>(menuText: "All")
+                    Spacer()
+                }
+                TagsList<ContentVM>()
             }
             .padding()
             
@@ -67,11 +65,11 @@ struct HomeView: View {
                 Masonry<ContentVM>()
             }
             .scrollIndicators(.hidden)
+            .scrollDismissesKeyboard(.immediately)
         }
         .environmentObject(contentVM)
         .environmentObject(session)
-        .onAppear {
-            contentVM.fetchData()
-        }
+        .onAppear { contentVM.fetchData() }
+        .onTapGesture { hideKeyboard() }
     }
 }

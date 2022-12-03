@@ -10,11 +10,13 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 import Foundation
+import SwiftUI
 
 @MainActor class ContentVM: ObservableObject, HandlesTagsVM, RenderContentVM {
     private var db = Firestore.firestore()
     var user = User()
     @Published var sortedColumns: [[String]] = []
+    @Published var searchTxt: String = ""
     @Published var tags: [String] = []
     @Published var tagsLeft = [
         "womens": 1,
@@ -46,12 +48,7 @@ import Foundation
                         guard let sellerID = document.get("sellerId") else {return}
                         guard let userID = Auth.auth().currentUser?.uid else {return}
                         
-                        
-                        
                         // Do not show sellers their own items.
-//                        if (document.get("sellerId") as! String) == userID {
-//                            continue
-//                        }
                         if (sellerID as! String) == userID {
                             continue
                         }
@@ -68,6 +65,13 @@ import Foundation
                                 }
                             }
                         }
+                        
+                        // Filter by the search
+                        let title = document.get("title") as! String
+                        if (self.searchTxt != "" && !title.lowercased().contains(self.searchTxt.lowercased())) {
+                            shouldShow = false
+                        }
+                        
                         if shouldShow {
                             col1 ? itemIdsCol1.append(document.documentID) :
                                 itemIdsCol2.append(document.documentID)
