@@ -16,7 +16,7 @@ struct CustomSearch: View {
             VStack (spacing: 0){
                 CustomSearchBar(data: self.$data.datas)//.padding(.top)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 5)
+                        RoundedRectangle(cornerRadius: 10)
                             .stroke(Color ("#d7d7d8"), lineWidth: 2)
                     )
             }
@@ -38,7 +38,7 @@ struct CustomSearchBar: View {
     var body: some View {
         VStack(spacing: 0){
             HStack{
-                TextField("Search", text: self.$txt)
+                TextField("   Search", text: self.$txt)
                 if self.txt != "" {
                     Button (action: {
                         self.txt = ""
