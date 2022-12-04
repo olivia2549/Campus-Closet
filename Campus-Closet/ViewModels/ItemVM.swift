@@ -99,9 +99,10 @@ import FirebaseStorage
     }
     
     // go through each bidder and remove from their bids
-    func sellItem() {
-        for bid in item.bidHistory {
-            db.collection("users").document(bid.key).updateData([
+    func sellItem(bid: Bid) {
+        var sentToBidder = false
+        for bidData in item.bidHistory {
+            db.collection("users").document(bidData.key).updateData([
                 "bids": FieldValue.arrayRemove([item.id])
             ]) { error in
                 if let e = error {
@@ -109,9 +110,19 @@ import FirebaseStorage
                 } else {
                     print("Successfully removed item from each bidder.")
                     self.isSold = true
+                    if (bidData.key == bid.bidderId && !sentToBidder) {
+                        sentToBidder = true
+                        // Notify bidder that their offer was accepted
+                        NotificationsVM(itemName: self.item.title, price: bid.offer).sendNotification(to: bid.bidderId, type: "Offer Accepted")
+                    }
+                    else {
+                        // Notify buyer that the item is no longer up for sale
+                        NotificationsVM(itemName: self.item.title, price: bid.offer).sendNotification(to: bid.bidderId, type: "Item Sold")
+                    }
                 }
             }
         }
+        
     }
     
     func saveItem() {
@@ -181,6 +192,8 @@ import FirebaseStorage
             }
         }
         
+        // Notify seller that bid was removed
+        NotificationsVM(itemName: item.title, price: "").sendNotification(to: item.sellerId, type: "Offer Removed")
     }
-    
+        
 }

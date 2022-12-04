@@ -198,17 +198,7 @@ struct SellerInfo: View {
                 }
                 Spacer()
                 
-                if (itemViewModel.isSeller) {
-                    Button(action: {
-                        itemViewModel.sellItem()
-                        profileViewModel.sellItem(with: itemViewModel.item.id)
-                    }) {
-                        Text("Accept")
-                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
-                    }
-                    .buttonStyle(Styles.PinkButton())
-                }
-                else if !session.isGuest {
+                if !session.isGuest {
                     NavigationLink(destination: Chat_Message(partnerId: sellerId)) {
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()

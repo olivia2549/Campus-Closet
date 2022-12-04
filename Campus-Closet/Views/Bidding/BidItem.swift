@@ -49,7 +49,7 @@ struct BidItem: View {
             HStack {
                 Spacer()
                     Button(action: {
-                        bidsVM.placeBid(itemId: itemVM.item.id, offer: offer)
+                        bidsVM.placeBid(item: itemVM.item, offer: offer)
                         showBidView = false
                     }) {
                         Text("Send Bid Offer")

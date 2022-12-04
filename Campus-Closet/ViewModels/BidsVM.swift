@@ -14,7 +14,7 @@ class BidsVM: ObservableObject {
     let db = Firestore.firestore()
     @Published private(set) var bids: [Bid] = []
     
-    func placeBid(itemId: String, offer: String) {
+    func placeBid(item: Item, offer: String) {
         guard let myId = Auth.auth().currentUser?.uid else {return}
         let bidId = "\(UUID())"
 
@@ -22,45 +22,48 @@ class BidsVM: ObservableObject {
         // guard let bidPrice = Int(offer) else {return}
         
         // Store new bid in firebase
+        let newBid = Bid(
+            _id: bidId,
+            itemId: item.id,
+            bidderId: myId,
+            offer: offer,
+            timestamp: Date()
+        )
         do {
-            let newBid = Bid(
-                _id: bidId,
-                itemId: itemId,
-                bidderId: myId,
-                offer: offer,
-                timestamp: Date()
-            )
             try db.collection("bids").document(newBid.id).setData(from: newBid)
         } catch {
             print ("Error adding bid to Firestore: \(error)")
+            return
         }
 
         // Add to the buyer's bids and remove from their saved
         db.collection("users").document(myId).updateData([
-            "bids": FieldValue.arrayUnion([itemId]),
-            "saved": FieldValue.arrayRemove([itemId])
+            "bids": FieldValue.arrayUnion([item.id]),
+            "saved": FieldValue.arrayRemove([item.id])
         ]) { (error) in
             if let e = error {
                 print("There was an issue saving data to Firestore, \(e).")
             } else {
                 print("Successfully bid item.")
-                // TODO: Send notification to seller
-                self.sendNotification(userId: myId)
+                return
             }
         }
         
         // Add user to the item's bid history
-        db.collection("items").document(itemId).updateData([
+        db.collection("items").document(item.id).updateData([
             "bidHistory.\(myId)": bidId,
         ]) { (error) in
             if let e = error {
                 print("There was an issue saving data to Firestore, \(e).")
             } else {
                 print("Successfully bid item.")
-                // TODO: Send notification to seller
+                return
             }
         }
-                
+        
+        // Notify seller that bid was placed
+        NotificationsVM(itemName: item.title, price: newBid.offer).sendNotification(to: item.sellerId, type: "Bid Placed")
+
     }
     
     func getBids(for itemId: String) {
@@ -107,49 +110,4 @@ class BidsVM: ObservableObject {
         return offer
     }
     
-    // TODO: not yet fully implemented
-    func sendNotification(userId: String) {
-        db.collection("users").document(userId).getDocument(as: User.self) { result in
-            switch result {
-            case .success(let user):
-                self.makeRequest(to: user.token)
-            case .failure(let error):
-                print("Error decoding user: \(error)")
-            }
-        }
-    }
-    
-    func makeRequest(to token: String) {
-        let messageBody = ["title": "hello", "body": "you have successfully made a bid"]
-        let body: [String: Any] = [
-            "to": token,
-            "notification": messageBody,
-            "data": []
-        ]
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: body)
-        let url = URL(string: "https://fcm.googleapis.com/fcm/send")!
-        let serverKey = "AAAA_IxReKc:APA91bEq-CiQa_N6FrcdR5N0BnYXK5TLGzQ9WKcPCY8YDgOgFVNoS7viBitcoHahfdMXPlb17ryx1t4P2vPtFXfocTauxYjRsTaE-Tpre6-mcXvxn60BQD66v1Vk5oIwWyBBVqA_YKtU"
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("key=\(serverKey)", forHTTPHeaderField: "Authorization")
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if error != nil {
-                print(error?.localizedDescription ?? "No data")
-                return
-            }
-            if let data = data {
-                print("successfully sent to \(token)")
-                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-                if let responseJSON = responseJSON as? [String: Any] {
-                    print("response: \(responseJSON)")
-                }
-            }
-        }
-        task.resume()
-    }
-
 }

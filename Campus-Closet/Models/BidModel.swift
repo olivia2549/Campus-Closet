@@ -8,11 +8,11 @@
 import Foundation
 
 struct Bid: Codable {
-    var _id: String
-    var itemId: String
-    var bidderId: String
-    var offer: String
-    var timestamp: Date
+    var _id: String = ""
+    var itemId: String = ""
+    var bidderId: String = ""
+    var offer: String = ""
+    var timestamp: Date = Date.now
 }
 
 extension Bid: Identifiable {
