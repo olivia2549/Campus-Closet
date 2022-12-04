@@ -42,7 +42,7 @@ struct StickyFooter: View {
                             }
                         }
                         // Listed price
-                        Text("Listed Price: $\(itemVM.item.price)")
+                        Text(String(format: "Listed Price: $%.2f", itemVM.item.price))
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(Styles().darkGray)
                             .frame(alignment: .leading)

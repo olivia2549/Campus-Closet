@@ -21,7 +21,7 @@ struct BidItem: View {
                 .fontWeight(.semibold)
                 .font(.system(size: 45))
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            Text("Listed price: \(itemVM.item.price)")
+            Text(String(format: "Listed price: $%.2f", itemVM.item.price))
                 .fontWeight(.semibold)
                 .font(.system(size: 20))
                 .foregroundColor(Color("Dark Gray"))
