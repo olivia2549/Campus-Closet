@@ -64,11 +64,23 @@ struct StickyFooter: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
                 }
-                else if !session.isGuest && !itemVM.isSeller {
+                else if !session.isGuest && !itemVM.isSeller && !itemVM.isBidder {
                     Button(action: {
                         showBidView = true
                     }){
                         Text("Place Bid")
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
+                    }
+                    .padding(10)
+                    .background(Styles().themePink)
+                    .cornerRadius(10)
+                    .foregroundColor(.white)
+                }
+                else if !session.isGuest && itemVM.isBidder {
+                    Button(action: {
+                        itemVM.removeBid()
+                    }){
+                        Text("Remove Bid")
                             .frame(maxWidth: maxWidth*0.3, alignment: .center)
                     }
                     .padding(10)

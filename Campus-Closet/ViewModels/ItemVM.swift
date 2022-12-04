@@ -21,6 +21,7 @@ import FirebaseStorage
     @Published var isSeller = false
     @Published var isSaved = false
     @Published var isSold = false
+    @Published var isBidder = false
     private var db = Firestore.firestore()
     
     func verifyInfo() -> Bool {
@@ -48,11 +49,13 @@ import FirebaseStorage
     }
     
     func fetchItem(itemID: String, completion: @escaping () -> Void) {
+        guard let myId = Auth.auth().currentUser?.uid else {return}
         db.collection("items").document(itemID).getDocument(as: Item.self) { result in
             switch result {
             case .success(let item):
                 self.item = item
                 self.isSeller = (item.sellerId == Auth.auth().currentUser?.uid)
+                self.isBidder = (item.bidHistory[myId] != nil)
                 let pictureRef = Storage.storage().reference(withPath: self.item.picture)
                 
                 // Download profile picture with max size of 30MB.
@@ -139,50 +142,45 @@ import FirebaseStorage
         }
     }
     
-    // TODO: not yet fully implemented
-    func sendNotification() {
-        db.collection("users").document(item.sellerId).getDocument(as: User.self) { result in
-            switch result {
-            case .success(let user):
-                self.makeRequest(to: user.token)
-            case .failure(let error):
-                print("Error decoding user: \(error)")
+    func removeBid() {
+        guard let myId = Auth.auth().currentUser?.uid else {return}
+        // Remove from the buyer's bids and remove from their saved
+        db.collection("users").document(myId).updateData([
+            "bids": FieldValue.arrayRemove([item.id]),
+        ]) { (error) in
+            if let e = error {
+                print("There was an issue removing your bid, \(e).")
+            } else {
+                print("Successfully removed bid.")
             }
         }
+        
+        // Get the bid's id and remove from bids collection
+        let itemRef = db.collection("items").document(item.id)
+        itemRef.getDocument { document, error in
+            if let document = document, document.exists {
+                let bidHistory = document.get("bidHistory") as! [String:String]
+                if let bidId = bidHistory["\(myId)"] {
+                    self.db.collection("bids").document(bidId).delete()
+                    // Remove from the item's bid history
+                    itemRef.updateData([
+                        "bidHistory.\(myId)": FieldValue.delete(),
+                    ]) { (error) in
+                        if let e = error {
+                            print("There was an issue removing from the item's bid history, \(e).")
+                        } else {
+                            print("Successfully removed bid.")
+                            // TODO: Send notification to seller
+                        }
+                    }
+                } else {
+                    print("Couldn't find bid to delete.")
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
     }
     
-    func makeRequest(to token: String) {
-        let messageBody = ["title": "hello", "body": "you have successfully made a bid"]
-        let body: [String: Any] = [
-            "to": token,
-            "notification": messageBody,
-            "data": []
-        ]
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: body)
-        let url = URL(string: "https://fcm.googleapis.com/fcm/send")!
-        let serverKey = "AAAA_IxReKc:APA91bEq-CiQa_N6FrcdR5N0BnYXK5TLGzQ9WKcPCY8YDgOgFVNoS7viBitcoHahfdMXPlb17ryx1t4P2vPtFXfocTauxYjRsTaE-Tpre6-mcXvxn60BQD66v1Vk5oIwWyBBVqA_YKtU"
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("key=\(serverKey)", forHTTPHeaderField: "Authorization")
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if error != nil {
-                print(error?.localizedDescription ?? "No data")
-                return
-            }
-            if let data = data {
-                print("successfully sent to \(token)")
-                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-                if let responseJSON = responseJSON as? [String: Any] {
-                    print("response: \(responseJSON)")
-                }
-            }
-        }
-        
-        task.resume()
-        
-    }
 }
