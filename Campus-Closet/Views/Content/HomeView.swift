@@ -66,6 +66,29 @@ struct HomeView: View {
                         .font(.system(size: 20, weight: .semibold))
                     TagPicker<ContentVM>(menuText: "All")
                     Spacer()
+                    Menu {
+                        Button {
+                            // do something
+                        } label: {
+                            Text("Price: Low to High")
+                            //Image(systemName: "arrow.down.right.circle")
+                        }
+                        Button {
+                            // do something
+                        } label: {
+                            Text("Price: High to Low")
+                            //Image(systemName: "arrow.up.and.down.circle")
+                        }
+                        Button {
+                            // do something
+                        } label: {
+                            Text("New Arrivals")
+                            //Image(systemName: "arrow.up.and.down.circle")
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                         //Image(systemName: "tag.circle")
+                    }
                 }
                 TagsList<ContentVM>()
             }
@@ -84,3 +107,4 @@ struct HomeView: View {
         .onTapGesture { hideKeyboard() }
     }
 }
+
