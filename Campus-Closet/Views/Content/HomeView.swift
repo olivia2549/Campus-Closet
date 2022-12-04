@@ -12,6 +12,8 @@ struct HomeView: View {
     @EnvironmentObject var session: OnboardingVM
     @State private var addPostPresented = false
     @State private var selection = 0
+    @State var show = false
+    
 
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height
@@ -25,6 +27,15 @@ struct HomeView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: maxWidth*0.2, height: maxHeight*0.07, alignment: .leading)
                 Spacer()
+                Button(action: {
+                }){
+                    Image(systemName:"magnifyingglass")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: maxWidth*0.06)
+                        .foregroundColor(.black)
+                        .padding(10)
+                }
                 if !session.isGuest {
                     Image(systemName: "plus.app")
                         .resizable()
