@@ -102,7 +102,7 @@ struct AcceptOffers: View {
                 
                 if (itemVM.isSeller) {
                     Button(action: {
-                        itemVM.sellItem()
+                        itemVM.sellItem(bid: bid)
                         profileVM.sellItem(with: bid.itemId)
                     }) {
                         Text("Accept $\(bid.offer)")

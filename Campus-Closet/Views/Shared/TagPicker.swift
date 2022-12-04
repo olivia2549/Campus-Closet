@@ -21,7 +21,10 @@ struct TagPicker<ViewModel>: View where ViewModel: HandlesTagsVM {
             ForEach(viewModel.tagsLeft.sorted(by: >), id: \.key) { key, value in
                 if (value == 1) {
                     Button(
-                        action: { viewModel.addTag(for: key) },
+                        action: {
+                            viewModel.addTag(for: key)
+                            self.shouldShowDropdown.toggle()
+                        },
                         label: { Text(key) }
                     )
                 }

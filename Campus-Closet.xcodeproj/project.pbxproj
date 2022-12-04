@@ -71,6 +71,7 @@
 		C55ED9AC28DD01E3001BD218 /* Campus_ClosetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9AB28DD01E3001BD218 /* Campus_ClosetTests.swift */; };
 		C55ED9B628DD01E3001BD218 /* Campus_ClosetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B528DD01E3001BD218 /* Campus_ClosetUITests.swift */; };
 		C55ED9B828DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */; };
+		C59066E9293D30E900F1EFC8 /* NotificationsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59066E8293D30E900F1EFC8 /* NotificationsVM.swift */; };
 		C598DC7D2908879A0040A0F7 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = C598DC7C2908879A0040A0F7 /* MessageBubble.swift */; };
 		C598DC7F290887A70040A0F7 /* MessageField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C598DC7E290887A70040A0F7 /* MessageField.swift */; };
 		C598DC81290887D70040A0F7 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C598DC80290887D70040A0F7 /* MessageModel.swift */; };
@@ -165,6 +166,7 @@
 		C55ED9B128DD01E3001BD218 /* Campus-ClosetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Campus-ClosetUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C55ED9B528DD01E3001BD218 /* Campus_ClosetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITests.swift; sourceTree = "<group>"; };
 		C55ED9B728DD01E3001BD218 /* Campus_ClosetUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campus_ClosetUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C59066E8293D30E900F1EFC8 /* NotificationsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVM.swift; sourceTree = "<group>"; };
 		C598DC7C2908879A0040A0F7 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		C598DC7E290887A70040A0F7 /* MessageField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageField.swift; sourceTree = "<group>"; };
 		C598DC80290887D70040A0F7 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				C53E8CE32905B31C0027D538 /* ContentVM.swift */,
 				C598DC82290887EB0040A0F7 /* MessagesVM.swift */,
 				C513DD6C292D308F00A468AA /* BidsVM.swift */,
+				C59066E8293D30E900F1EFC8 /* NotificationsVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				C513DD6B292D2FB200A468AA /* BidModel.swift in Sources */,
 				7D0978EC291DF23C00BD15DB /* CreateNewMessageView.swift in Sources */,
 				2E4E153E290C6D0A00C8A2F9 /* PictureVM.swift in Sources */,
+				C59066E9293D30E900F1EFC8 /* NotificationsVM.swift in Sources */,
 				2E0A30F4292EAFC1004E058D /* RatingView.swift in Sources */,
 				C527282228E64660008C1D60 /* ChatView.swift in Sources */,
 				7D067DA3291DD03E00942890 /* MainMessagesView.swift in Sources */,
