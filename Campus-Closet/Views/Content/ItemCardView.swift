@@ -63,7 +63,7 @@ struct PreviewItemInfo: View {
                 }
                 .frame(maxWidth: proxy.size.width*0.6, alignment: .leading)
                 Spacer()
-                Text("$\(viewModel.item.price)")
+                Text(String(format: "$%.2f", viewModel.item.price))
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Styles().themePink)
                     .frame(maxWidth: proxy.size.width*0.4, alignment: .trailing)

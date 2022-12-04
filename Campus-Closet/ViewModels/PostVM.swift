@@ -14,7 +14,8 @@ import FirebaseFirestore
 import FirebaseStorage
 
 @MainActor class PostVM: ObservableObject, HandlesTagsVM {
-    @Published var item = Item()    
+    @Published var item = Item()
+    @Published var chosenPrice = ""
     @Published var chosenPicture: UIImage?
     @Published var isEditing = false
     @Published var sellerIsAnonymous = false
@@ -33,12 +34,7 @@ import FirebaseStorage
     ]
     
     func verifyInfo() -> Bool {
-        return !item.title.isEmpty && !item.price.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && hasValidPrice()
-    }
-    
-    private func hasValidPrice() -> Bool {
-        let price = Float(item.price)
-        return price != nil && price! < 1000
+        return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && item.price < 1000
     }
     
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
@@ -47,6 +43,7 @@ import FirebaseStorage
     
     func updateItem(completion: @escaping () -> Void) {
         let db = Firestore.firestore()
+        item.price = Float(chosenPrice)!
         db.collection("items").document(item.id).updateData([
             "title": item.title,
             "description": item.description,
@@ -88,6 +85,7 @@ import FirebaseStorage
             uploadNewPicture() {
                 let db = Firestore.firestore()
                 do {
+                    self.item.price = Float(self.chosenPrice)!
                     try db.collection("items").document(self.item.id).setData(from: self.item)
                     print("Successfully saved data.")
                     completion()

@@ -16,6 +16,7 @@ import FirebaseStorage
     @Published var item = Item()
     var itemPublisher: Published<Item>.Publisher { $item }
     
+    @Published var chosenPrice = ""
     @Published var isEditing = true
     @Published var itemImage: UIImage?
     @Published var isSeller = false
@@ -25,12 +26,7 @@ import FirebaseStorage
     private var db = Firestore.firestore()
     
     func verifyInfo() -> Bool {
-        return !item.title.isEmpty && !item.price.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && hasValidPrice()
-    }
-    
-    private func hasValidPrice() -> Bool {
-        let price = Float(item.price)
-        return price != nil && price! < 1000
+        return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && item.price < 1000
     }
     
     func fetchSeller(with id: String, completion: @escaping () -> Void) {
@@ -80,6 +76,7 @@ import FirebaseStorage
     // Update an item (after editing)
     func postItem() {
         let db = Firestore.firestore()
+        item.price = Float(chosenPrice)!
         db.collection("items").document(item.id).updateData([
             "title": item.title,
             "description": item.description,
