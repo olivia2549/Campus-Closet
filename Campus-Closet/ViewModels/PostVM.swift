@@ -26,7 +26,10 @@ import FirebaseStorage
         "bottoms": 1,
         "dresses": 1,
         "shoes": 1,
-        "accessories": 1
+        "accessories": 1,
+        "new": 1,
+        "lightly used": 1,
+        "used": 1
     ]
     
     func verifyInfo() -> Bool {
