@@ -44,7 +44,7 @@ import SwiftUI
                     for document in querySnapshot!.documents {
                         let itemID = document.get("_id") as! String
                         
-                        // Do not show buyers items they've bid on or saved
+                        // Do not show buyers items they've bid on or saved.
                         if self.user.saved.contains(itemID) || self.user.bids.contains(itemID) {
                             continue
                         }
@@ -56,20 +56,20 @@ import SwiftUI
                             continue
                         }
                         
-                        // Filter tags
+                        // Filter items by selected tag or condition.
                         let itemTags = document.get("tags") as! [String]
+                        let itemCondition = (document.get("condition") as! String).lowercased()
                         var shouldShow = true
                         for tag in self.tagsLeft {
-                            if tag.value == 0 {
-                                if !itemTags.contains(where: {$0 == tag.key}) {
-                                    print("don't show, key: \(tag.key)")
+                            if tag.value == 0 { // User has selected to filter by this tag.
+                                if !itemTags.contains(where: {$0 == tag.key}) && itemCondition != tag.key { // Item does not have selected tag or condition.
                                     shouldShow = false
                                     break
                                 }
                             }
                         }
                         
-                        // Filter by the search
+                        // Filter by the search.
                         let title = document.get("title") as! String
                         if (self.searchTxt != "" && !title.lowercased().contains(self.searchTxt.lowercased())) {
                             shouldShow = false
