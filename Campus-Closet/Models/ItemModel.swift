@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 
+// Structure representing an item listed in the marketplace.
 struct Item: Codable {
     var _id: String = UUID().uuidString
     var title: String = ""
