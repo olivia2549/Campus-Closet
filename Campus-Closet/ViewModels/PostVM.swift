@@ -43,6 +43,7 @@ import FirebaseStorage
     
     func updateItem(completion: @escaping () -> Void) {
         let db = Firestore.firestore()
+        item.price = Float(chosenPrice)!
         db.collection("items").document(item.id).updateData([
             "title": item.title,
             "description": item.description,

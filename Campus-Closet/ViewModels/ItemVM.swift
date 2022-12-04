@@ -16,6 +16,7 @@ import FirebaseStorage
     @Published var item = Item()
     var itemPublisher: Published<Item>.Publisher { $item }
     
+    @Published var chosenPrice = ""
     @Published var isEditing = true
     @Published var itemImage: UIImage?
     @Published var isSeller = false
@@ -75,6 +76,7 @@ import FirebaseStorage
     // Update an item (after editing)
     func postItem() {
         let db = Firestore.firestore()
+        item.price = Float(chosenPrice)!
         db.collection("items").document(item.id).updateData([
             "title": item.title,
             "description": item.description,
