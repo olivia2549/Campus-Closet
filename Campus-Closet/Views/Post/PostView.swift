@@ -118,7 +118,7 @@ struct BasicInfo: View {
                 for: "Price*",
                 imageName: "dollarsign.circle",
                 autocapitalization: .never,
-                input: $viewModel.item.price
+                input: $viewModel.chosenPrice
             ) {
 
             }
