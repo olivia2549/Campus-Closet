@@ -13,7 +13,6 @@ struct HomeView: View {
     @State private var addPostPresented = false
     @State private var selection = 0
     @State var show = false
-    
 
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height
@@ -68,22 +67,19 @@ struct HomeView: View {
                     Spacer()
                     Menu {
                         Button {
-                            // do something
+                            contentVM.fetchData(sortField: "price", sortDescending: true)
                         } label: {
                             Text("Price: Low to High")
-                            //Image(systemName: "arrow.down.right.circle")
                         }
                         Button {
-                            // do something
+                            contentVM.fetchData(sortField: "price")
                         } label: {
                             Text("Price: High to Low")
-                            //Image(systemName: "arrow.up.and.down.circle")
                         }
                         Button {
-                            // do something
+                            contentVM.fetchData()
                         } label: {
                             Text("New Arrivals")
-                            //Image(systemName: "arrow.up.and.down.circle")
                         }
                     } label: {
                         Image(systemName: "arrow.up.arrow.down")

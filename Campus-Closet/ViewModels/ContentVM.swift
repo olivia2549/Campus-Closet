@@ -31,9 +31,9 @@ import SwiftUI
         "used": 1
     ]
     
-    func fetchData() {
+    func fetchData(sortField: String = "timestamp", sortDescending: Bool = false) {
         fetchUser() {
-            self.db.collection("items").order(by: "timestamp").addSnapshotListener{ querySnapshot, err in
+            self.db.collection("items").order(by: sortField, descending: sortDescending).addSnapshotListener{ querySnapshot, err in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
