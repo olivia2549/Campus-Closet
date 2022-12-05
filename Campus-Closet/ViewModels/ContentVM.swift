@@ -18,6 +18,8 @@ import SwiftUI
     @Published var sortedColumns: [[String]] = []
     @Published var searchTxt: String = ""
     @Published var tags: [String] = []
+    @Published var sortField: String = "timestamp"
+    @Published var sortDescending: Bool = false
     @Published var tagsLeft = [
         "womens": 1,
         "mens": 1,
@@ -31,9 +33,9 @@ import SwiftUI
         "used": 1
     ]
     
-    func fetchData(sortField: String = "timestamp", sortDescending: Bool = false) {
+    func fetchData() {
         fetchUser() {
-            self.db.collection("items").order(by: sortField, descending: sortDescending).addSnapshotListener{ querySnapshot, err in
+            self.db.collection("items").order(by: self.sortField, descending: self.sortDescending).addSnapshotListener{ querySnapshot, err in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {

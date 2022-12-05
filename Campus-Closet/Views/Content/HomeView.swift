@@ -67,23 +67,28 @@ struct HomeView: View {
                     Spacer()
                     Menu {
                         Button {
-                            contentVM.fetchData(sortField: "price", sortDescending: true)
+                            contentVM.sortField = "price"
+                            contentVM.sortDescending = true
+                            contentVM.fetchData()
                         } label: {
                             Text("Price: Low to High")
                         }
                         Button {
-                            contentVM.fetchData(sortField: "price")
+                            contentVM.sortField = "price"
+                            contentVM.sortDescending = false
+                            contentVM.fetchData()
                         } label: {
                             Text("Price: High to Low")
                         }
                         Button {
+                            contentVM.sortField = "timestamp"
+                            contentVM.sortDescending = false
                             contentVM.fetchData()
                         } label: {
                             Text("New Arrivals")
                         }
                     } label: {
                         Image(systemName: "arrow.up.arrow.down")
-                         //Image(systemName: "tag.circle")
                     }
                 }
                 TagsList<ContentVM>()
