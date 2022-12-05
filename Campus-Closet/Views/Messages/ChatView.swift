@@ -33,16 +33,10 @@ struct ChatView: View {
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 15))
             }
             
-            VStack (alignment: .leading){
-                Text(viewModel.user.name.isEmpty ? viewModel.user.email : viewModel.user.name)
-                    .font(.title).bold()
-                    .foregroundColor(.white)
-                Text ("online")
-                    .font(.caption)
-                    .foregroundColor(.white)
-                
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            Text(viewModel.user.name.isEmpty ? viewModel.user.email : viewModel.user.name)
+                .font(.title).bold()
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .onAppear {
             viewModel.fetchUser(userID: userId)

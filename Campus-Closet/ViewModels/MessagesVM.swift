@@ -14,7 +14,7 @@ class MessagesVM: ObservableObject {
     @Published var users: [String] = []
     @Published private(set) var messages: [Message] = []
     @Published var recentMessages: [String: String] = [:]
-    @Published private(set) var lastMessageID = ""
+    @Published var lastMessageID = ""
     @Published var errorMessage: String = ""
     let db = Firestore.firestore()
 
@@ -59,6 +59,7 @@ class MessagesVM: ObservableObject {
     }
     
     func getMessages(query: Query) {
+        self.messages = []
         query.getDocuments() { querySnapshot, err in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -67,6 +68,7 @@ class MessagesVM: ObservableObject {
                     do {
                         // Convert each document into the Message model.
                         try self.messages.append(document.data(as: Message.self))
+                        self.lastMessageID = self.messages.last?.id ?? ""
                     } catch {
                         print("Error decoding document into Message: \(error)")
                     }
@@ -115,6 +117,11 @@ class MessagesVM: ObservableObject {
                 print("Document successfully updated")
             }
         }
+        
+        // Update recent messages to display on main screen
+        recentMessages[recipient] = messageId
+        // Update lastMessageID for automatic scroll
+        lastMessageID = messageId
         
         // send notification to recipient
         NotificationsVM()

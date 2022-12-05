@@ -40,9 +40,3 @@ struct MessageBubble: View {
         }
     }
 }
-
-//struct MessageBubble_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MessageBubble(message: Message(id: "12345", text: "this sucks!", received: false, timestamp: Date()))
-//    }
-//}

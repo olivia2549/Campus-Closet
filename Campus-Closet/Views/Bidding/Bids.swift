@@ -126,7 +126,7 @@ struct AcceptOffers: View {
                     .buttonStyle(Styles.PinkButton())
                 }
                 else {
-                    NavigationLink(destination: Chat_Message(partnerId: bid.bidderId).environmentObject(session)) {
+                    NavigationLink(destination: Chat_Message(partnerId: bid.bidderId).environmentObject(session).environmentObject(MessagesVM())) {
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)

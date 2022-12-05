@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Chat_Message: View {
-    @StateObject var messagesVM = MessagesVM()
+    @EnvironmentObject var messagesVM: MessagesVM
     @EnvironmentObject var session: OnboardingVM
     @State var partnerId: String
     
@@ -26,6 +26,7 @@ struct Chat_Message: View {
                     .background(.white)
                     .cornerRadius(30, corners: [.topLeft, .topRight])
                     .onChange(of: messagesVM.lastMessageID){ id in
+                        print("changed lastmessageid")
                         withAnimation{
                             proxy.scrollTo(id, anchor: .bottom)
                         }
