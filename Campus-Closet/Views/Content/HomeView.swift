@@ -100,6 +100,7 @@ struct HomeView: View {
                         }
                     } label: {
                         Image(systemName: "arrow.up.arrow.down")
+                            .foregroundColor(.black)
                     }
                 }
                 TagsList<ContentVM>()
