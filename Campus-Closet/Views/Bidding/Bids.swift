@@ -137,7 +137,7 @@ struct AcceptOffers: View {
             }
         }
         .onAppear {
-            let user = profileVM.fetchUser(userID: bid.bidderId)
+            profileVM.fetchUser(userID: bid.bidderId)
         }
     }
 }

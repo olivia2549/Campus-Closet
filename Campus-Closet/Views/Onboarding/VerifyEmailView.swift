@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 
+// Structure for a screen that notifies a user about their verification email.
 struct VerifyEmailView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -23,13 +24,14 @@ struct VerifyEmailView: View {
                 .font(Font.system(size: 22, weight: .semibold))
                 .foregroundColor(Styles().themePink)
             
+            // Button that returns a user to the login screen.
             Button(action: {
                 if let window = UIApplication.shared.windows.first {
                     window.rootViewController = UIHostingController(rootView: LogInView())
                     window.makeKeyAndVisible()
                 }
             }){
-                HStack{
+                HStack {
                     Text("Done")
                         .frame(maxWidth: .infinity, alignment: .center)
                     Spacer()

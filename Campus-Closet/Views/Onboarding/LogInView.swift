@@ -7,9 +7,10 @@
 
 import SwiftUI
 
+// Structure for the login screen.
 struct LogInView: View {
     @StateObject private var loginVM = OnboardingVM()
-
+    
     var body: some View {
         GeometryReader { proxy in
             NavigationStack {
@@ -32,6 +33,7 @@ struct LogInView: View {
     }
 }
 
+// Structure that contains the formatted VFW logo to display on the screen.
 struct LogoLogin: View {
     var proxy: GeometryProxy
     
@@ -43,18 +45,22 @@ struct LogoLogin: View {
     }
 }
 
+// Structure for the input box where a user inputs their account information.
 struct LogInFormBox: View {
     @EnvironmentObject private var viewModel: OnboardingVM
     var proxy: GeometryProxy
     
     var body: some View {
         VStack (alignment: .leading, spacing: proxy.size.height*0.02) {
+            // Email input field.
             Text("Email")
                 .font(.callout).bold()
             TextField("email", text: $viewModel.email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .disableAutocorrection(true)
                 .textInputAutocapitalization(.never)
+            
+            // Password input field.
             Text("Password")
                 .font(.callout).bold()
             SecureField("password", text: $viewModel.password)
@@ -62,6 +68,7 @@ struct LogInFormBox: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .textInputAutocapitalization(.never)
             
+            // Directs user to a screen to request a password reset email.
             Button(action: {
                 if let window = UIApplication.shared.windows.first {
                     window.rootViewController = UIHostingController(rootView: ResetPasswordView())
@@ -74,8 +81,9 @@ struct LogInFormBox: View {
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
             
+            // Verifies user input. If valid, logs a user into their account.
             Button(action: {viewModel.verifyAndLogin()}){
-                HStack{
+                HStack {
                     Text("Log In")
                         .font(Font.system(size: 16, weight: .bold))
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -84,8 +92,9 @@ struct LogInFormBox: View {
             }
             .buttonStyle(Styles.PinkButton())
             
+            // Directs user to the sign up screen.
             NavigationLink(destination: SignUpView()) {
-                HStack{
+                HStack {
                     Text("Sign Up")
                         .underline()
                         .font(Font.system(size: 16, weight: .bold))
@@ -103,12 +112,14 @@ struct LogInFormBox: View {
     }
 }
 
+// Structure for a button that lets a user access the marketplace as a guest.
 struct GuestLogin: View {
     @EnvironmentObject private var viewModel: OnboardingVM
     var proxy: GeometryProxy
     
     var body: some View {
         VStack(alignment: .leading, spacing: proxy.size.height*0.01) {
+            // Directs user to the marketplace with restricted guest permissions.
             Button(action: {
                 viewModel.guestLogIn()
             }){

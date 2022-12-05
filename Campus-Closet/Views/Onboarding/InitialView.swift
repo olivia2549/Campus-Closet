@@ -8,11 +8,15 @@
 import Foundation
 import SwiftUI
 
+// Structure that directs navigation between initial screens according to user permissions.
 struct InitialView: View {
     @EnvironmentObject var session: OnboardingVM
+    
     func listen() {
+        // Keep track of any changes in user permissions.
         session.listenAuthenticationState()
     }
+    
     var body: some View {
         Group {
             if !session.isLoggedIn {

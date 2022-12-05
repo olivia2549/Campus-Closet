@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for the screen where a user can request a password reset email.
 struct ResetPasswordView: View {
     @StateObject private var resetPasswordVM = OnboardingVM()
     
@@ -24,13 +25,15 @@ struct ResetPasswordView: View {
                 .font(Font.system(size: 22, weight: .semibold))
                 .foregroundColor(Styles().themePink)
             
+            // Input field for user email.
             TextField("email", text: $resetPasswordVM.email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .disableAutocorrection(true)
                 .textInputAutocapitalization(.never)
             
-            Button(action: { resetPasswordVM.verifyAndResetPassword() }){
-                HStack{
+            // Send reset password link if email corresponds with a valid account.
+            Button(action: { resetPasswordVM.verifyAndResetPassword() }) {
+                HStack {
                     Text("Submit")
                         .frame(maxWidth: .infinity, alignment: .center)
                     Spacer()
@@ -38,13 +41,14 @@ struct ResetPasswordView: View {
             }
             .buttonStyle(Styles.PinkButton())
             
+            // Return user to the login screen.
             Button(action: {
                 if let window = UIApplication.shared.windows.first {
                     window.rootViewController = UIHostingController(rootView: LogInView())
                     window.makeKeyAndVisible()
                 }
             }){
-                HStack{
+                HStack {
                     Text("Return to Login")
                         .frame(maxWidth: .infinity, alignment: .center)
                     Spacer()

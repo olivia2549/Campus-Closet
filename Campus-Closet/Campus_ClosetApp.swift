@@ -14,15 +14,15 @@ import FirebaseMessaging
 
 @main
 struct Campus_ClosetApp: App {
-  // register app delegate for Firebase setup
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    // Register app delegate for Firebase setup.
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-  var body: some Scene {
-    WindowGroup {
-        InitialView()
-          .environmentObject(OnboardingVM())
+    var body: some Scene {
+        WindowGroup {
+            InitialView()
+                .environmentObject(OnboardingVM())
+        }
     }
-  }
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -34,17 +34,16 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         Messaging.messaging().delegate = self
 
         if #available(iOS 10.0, *) {
-          // For iOS 10 display notification (sent via APNS)
-          UNUserNotificationCenter.current().delegate = self
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
 
-          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-          UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: {_, _ in })
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
         } else {
-          let settings: UIUserNotificationSettings =
-          UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-          application.registerUserNotificationSettings(settings)
+            let settings: UIUserNotificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
         }
 
         application.registerForRemoteNotifications()
@@ -52,19 +51,19 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
 
-      if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
-      }
+        print(userInfo)
 
-      print(userInfo)
-
-      completionHandler(UIBackgroundFetchResult.newData)
+        completionHandler(UIBackgroundFetchResult.newData)
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("Did register")
-      Messaging.messaging().apnsToken = deviceToken
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     func userNotificationCenter(
@@ -74,7 +73,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         @escaping (UNNotificationPresentationOptions) -> Void
       ) {
           print("will present")
-        completionHandler([.banner, .sound, .badge])
+          completionHandler([.banner, .sound, .badge])
       }
 
 }
@@ -92,8 +91,7 @@ extension AppDelegate: MessagingDelegate {
         )
         
         if let user = Auth.auth().currentUser {
-            db.collection("users").document(user.uid).updateData(deviceToken)
-            { (error) in
+            db.collection("users").document(user.uid).updateData(deviceToken) { error in
                 if let e = error {
                     print("There was an issue saving device token to Firestore, \(e).")
                 } else {
@@ -102,5 +100,4 @@ extension AppDelegate: MessagingDelegate {
             }
         }
     }
-
 }
