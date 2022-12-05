@@ -37,53 +37,50 @@ struct MainMessagesView: View {
     }
     
     private var customNavBar: some View{
-        HStack(spacing: 16) {
-            if profileVM.profilePicture != nil {
-                Image(uiImage : profileVM.profilePicture!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(50)
-            } else {
-                Image("blank-profile")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(50)
-            }
-            VStack(alignment: .leading, spacing: 4){
-                Text(profileVM.user.name.isEmpty ? profileVM.user.email : profileVM.user.name)
-                    .font (.system(size: 24, weight: .bold) )
-                    //.opacity(getNameOpacity())
-                HStack{
-                    Circle()
-                        .foregroundColor(.green)
-                        .frame (width: 14, height: 14)
-                    Text("online")
-                        .font (.system(size: 12))
-                        .foregroundColor(Color(.lightGray))
+        //VStack (spacing: 0){
+           
+        
+            HStack(spacing: 16) {
+                
+                
+                
+                
+                if profileVM.profilePicture != nil {
+                    Image(uiImage : profileVM.profilePicture!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(50)
+                } else {
+                    Image("blank-profile")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(50)
                 }
+                
+                
+                VStack(alignment: .leading, spacing: 4){
+                    Text(profileVM.user.name.isEmpty ? profileVM.user.email : profileVM.user.name)
+                        .font (.system(size: 24, weight: .bold) )
+                    
+                    
+                }
+                Spacer()
+                
+
+                
             }
-            Spacer()
-            
-            Button{
-                shouldShowLogOutOptions.toggle()
-            } label:{
-                Image(systemName: "gear")
-                    .font(.system(size: 24, weight: .bold))
+            .padding()
+            .onAppear {
+                profileVM.getProfileData()
             }
-        }
-        .padding()
-        .onAppear {
-            profileVM.getProfileData()
-        }
-        .actionSheet(isPresented: $shouldShowLogOutOptions) {
-            .init(
-                title: Text("Settings"),
-                message: Text("What do you want to do?"),
-                buttons: [.default(Text("DEFAULT BUTTON")), .cancel()]
-            )
-        }
+//            Divider()
+//                .frame(width: 400, height: 3)
+//                .overlay(Color("Dark Pink"))
+//                .padding(EdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0))
+//        }
+
     }
     
     private var messagesView: some View {
