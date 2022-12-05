@@ -61,7 +61,6 @@ struct BidItem: View {
                                 RoundedRectangle(cornerRadius: 25)
                                     .stroke(Color.white, lineWidth:15)
                             )
-    
                     }
                     .background(Color("Dark Pink"))
                     .cornerRadius(25)

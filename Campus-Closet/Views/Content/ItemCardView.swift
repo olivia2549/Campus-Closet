@@ -22,7 +22,7 @@ struct ItemCardView: View, Identifiable {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             // Clickable image card
-            NavigationLink (destination: DetailView<ItemVM>(itemInfoVM: viewModel)){ //look at 
+            NavigationLink (destination: DetailView().environmentObject(viewModel)){ //look at
                 if (viewModel.itemImage != nil) {   // render item image
                     Image(uiImage: viewModel.itemImage!)
                         .resizable()
@@ -38,11 +38,13 @@ struct ItemCardView: View, Identifiable {
             PreviewItemInfo(for: id)
         }
         .environmentObject(viewModel)
+        .environmentObject(session)
     }
 }
 
 struct PreviewItemInfo: View {
     @EnvironmentObject private var viewModel: ItemVM
+    @EnvironmentObject var session: OnboardingVM
     
     var id: String
     init(for id: String) {
@@ -69,7 +71,7 @@ struct PreviewItemInfo: View {
                     .frame(maxWidth: proxy.size.width*0.4, alignment: .trailing)
             }
             .onAppear {
-                viewModel.fetchSeller(with: id) {} //look at
+                viewModel.fetchSeller(for: id, curUser: session.currentUser) {} //look at
             }
             .padding(.leading)
             .padding(.trailing)

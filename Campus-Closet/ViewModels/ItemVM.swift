@@ -12,7 +12,7 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 
-@MainActor class ItemVM: ObservableObject, ItemInfoVM {
+@MainActor class ItemVM: ObservableObject {
     @Published var item = Item()
     var itemPublisher: Published<Item>.Publisher { $item }
     
@@ -29,13 +29,13 @@ import FirebaseStorage
         return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && item.price < 1000
     }
     
-    func fetchSeller(with id: String, completion: @escaping () -> Void) {
-        fetchItem(itemID: id) {
+    func fetchSeller(for itemId: String, curUser: User, completion: @escaping () -> Void) {
+        fetchItem(itemID: itemId) {
             self.db.collection("users").document(self.item.sellerId).getDocument(as: User.self) { result in
                 switch result {
                 case .success(let user):
-                    self.isSaved = user.saved.contains(id)
-                    self.isSold = user.sold.contains(id)
+                    self.isSaved = curUser.saved.contains(itemId)
+                    self.isSold = curUser.sold.contains(itemId)
                     completion()
                 case .failure(let error):
                     print("Error decoding user: \(error)")
@@ -72,29 +72,7 @@ import FirebaseStorage
             }
         }
     }
-    
-    // Update an item (after editing)
-    func postItem() {
-        let db = Firestore.firestore()
-        item.price = Float(chosenPrice)!
-        db.collection("items").document(item.id).updateData([
-            "title": item.title,
-            "description": item.description,
-            "price": item.price,
-            "size": item.size,
-        ]) { (error) in
-            if let e = error {
-                print("There was an issue saving data to Firestore, \(e).")
-            } else {
-                print("Successfully saved data.")
-            }
-        }
-    }
-    
-    func deleteItem() {
         
-    }
-    
     // go through each bidder and remove from their bids
     func sellItem(bid: Bid) {
         var sentToBidder = false
