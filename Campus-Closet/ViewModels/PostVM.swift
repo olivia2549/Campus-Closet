@@ -41,9 +41,12 @@ import FirebaseStorage
         return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
     }
     
-    func updateItem(completion: @escaping () -> Void) {
+    func updateItem(completion: @escaping () -> Void) -> Bool {
         let db = Firestore.firestore()
-        item.price = Float(chosenPrice)!
+        if let price = Float(chosenPrice) {
+            item.price = price
+        }
+        else {return false}
         db.collection("items").document(item.id).updateData([
             "title": item.title,
             "description": item.description,
@@ -58,6 +61,7 @@ import FirebaseStorage
                 completion()
             }
         }
+        return true
     }
     
     func postItem(completion: @escaping (String) -> Void) {
@@ -81,11 +85,14 @@ import FirebaseStorage
             }
         }
         
-        func addItem(completion: @escaping () -> Void) {
+        func addItem(completion: @escaping () -> Void) -> Bool {
+            if let price = Float(chosenPrice) {
+                item.price = price
+            }
+            else {return false}
             uploadNewPicture() {
                 let db = Firestore.firestore()
                 do {
-                    self.item.price = Float(self.chosenPrice)!
                     try db.collection("items").document(self.item.id).setData(from: self.item)
                     print("Successfully saved data.")
                     completion()
@@ -94,6 +101,7 @@ import FirebaseStorage
                     print("There was an issue saving data to Firestore, \(error).")
                 }
             }
+            return true
         }
         
         func uploadNewPicture(completion: @escaping () -> Void) {

@@ -8,24 +8,13 @@
 import SwiftUI
 import FirebaseAuth
 
-@MainActor protocol ItemInfoVM: ObservableObject {
-    var itemPublisher: Published<Item>.Publisher { get }
-    var isEditing: Bool { get set }
-    func verifyInfo() -> Bool
-    func deleteItem()
-    func postItem()
-}
-
 let maxWidth = UIScreen.main.bounds.width
 let maxHeight = UIScreen.main.bounds.height
 
-struct DetailView<ItemInfo:ItemInfoVM>: View {
-    @StateObject private var itemViewModel = ItemVM()
+struct DetailView: View {
+    @EnvironmentObject private var itemVM: ItemVM
     @EnvironmentObject var session: OnboardingVM
     @StateObject private var profileViewModel = ProfileVM()
-    @ObservedObject var itemInfoVM: ItemInfo
-    @State var itemId = ""
-    
     @State var scrollOffset: CGFloat = 0
     @State var innerHeight: CGFloat = 0
     @State var offset: CGFloat = 0
@@ -40,17 +29,13 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                     DetailDescription()
                     if !session.isGuest {
                         VStack(alignment: .leading) {
-                            if itemViewModel.isSeller && !itemViewModel.isSold {
+                            if itemVM.isSeller && !itemVM.isSold {
                                 Text("Bidders").font(.system(size: 16, weight: .semibold))
-                                if itemId != "" {   // wait until loaded
-                                    Bids(itemId: itemId, isAnonymous: false)
-                                }
+                                Bids(itemId: itemVM.item.id, isAnonymous: false)
                             }
                             else {
                                 Text("Recent Activity").font(.system(size: 16, weight: .semibold))
-                                if itemId != "" {   // wait until loaded
-                                    Bids(itemId: itemId, isAnonymous: true)
-                                }
+                                Bids(itemId: itemVM.item.id, isAnonymous: true)
                             }
                         }
                         .padding()
@@ -58,14 +43,12 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                 }
                 .modifier(OffsetModifier(offset: $scrollOffset))
                 .modifier(HeightModifier(height: $innerHeight))
-                .environmentObject(itemViewModel)
-                .environmentObject(profileViewModel)
             }
             .modifier(HeightModifier(height: $scrollHeight))
             .coordinateSpace(name: "SCROLL")
             .scrollIndicators(.hidden)
             .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 15)
-            .padding(.bottom, itemViewModel.isSeller ? maxHeight*0.1 : maxHeight*0.18)
+            .padding(.bottom, itemVM.isSeller ? maxHeight*0.1 : maxHeight*0.18)
             
             VStack(spacing: 0) {
                 Spacer()
@@ -76,11 +59,10 @@ struct DetailView<ItemInfo:ItemInfoVM>: View {
                 )
             }
         }
-        .onReceive(itemInfoVM.itemPublisher, perform: { item in
-            itemViewModel.fetchSeller(with: item.id) {}
-            self.itemId = item.id
-        })
-        .environmentObject(itemViewModel)
+        .onAppear {
+            itemVM.fetchSeller(for: itemVM.item.id, curUser: session.currentUser) {}
+        }
+        .environmentObject(itemVM)
         .environmentObject(session)
         .environmentObject(profileViewModel)
         .ignoresSafeArea(.all, edges: .bottom)

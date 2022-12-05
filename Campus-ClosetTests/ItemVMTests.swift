@@ -39,7 +39,7 @@ class ItemVMTests : XCTestCase {
         XCTAssertEqual(itemVM.item.picture, "", "picture should be initialized as an empty string")
         XCTAssertEqual(itemVM.item.description, "", "description should be initialized as an empty string")
         XCTAssertEqual(itemVM.item.sellerId, "", "sellerId should be initialized as an empty string")
-        XCTAssertEqual(itemVM.item.price, "", "price should be initialized as an empty string")
+        XCTAssertEqual(itemVM.item.price, 0.0, "price should be initialized as 0.0")
         XCTAssertEqual(itemVM.item.size, "", "size should be initialized as an empty string")
         XCTAssertEqual(itemVM.item.condition, "", "condition should be initialized as an empty string")
         XCTAssertTrue(itemVM.item.biddingEnabled, "biddingEnabled flag should be true")

@@ -284,12 +284,12 @@ struct OptionalInfo: View {
             Toggle("Make Post Anonymous", isOn: $postVM.sellerIsAnonymous)
             
             NavigationLink(
-                destination: DetailView<ItemVM>(itemInfoVM: itemVM),
+                destination: DetailView().environmentObject(itemVM),
                 isActive: $navigateToDetail
             ) {
                 Button(action: {
                     postVM.postItem() { itemId in
-                        itemVM.fetchSeller(with: itemId) {
+                        itemVM.fetchSeller(for: itemId, curUser: session.currentUser) {
                             navigateToDetail = true
                         }
                     }
