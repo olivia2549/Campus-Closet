@@ -67,14 +67,16 @@ class BidsVM: ObservableObject {
     }
     
     func getBids(for itemId: String) {
-        // Fetch all bids for the item.
-        let bids = db.collection("bids")
-            .whereField("itemId", isEqualTo: itemId)
-        getBids(with: bids)
-        
-        // Order bids in chronological order.
-        self.bids.sort {
-            $0.timestamp < $1.timestamp
+        if bids.isEmpty {
+            // Fetch all bids for the item.
+            let bids = db.collection("bids")
+                .whereField("itemId", isEqualTo: itemId)
+            getBids(with: bids)
+            
+            // Order bids in chronological order.
+            self.bids.sort {
+                $0.timestamp < $1.timestamp
+            }
         }
     }
     
@@ -85,7 +87,7 @@ class BidsVM: ObservableObject {
             } else {
                 for document in querySnapshot!.documents {
                     do {
-                        // Convert each document into the Message model.
+                        // Convert each document into the Bid model.
                         try self.bids.append(document.data(as: Bid.self))
                     } catch {
                         print("Error decoding document into Bid: \(error)")

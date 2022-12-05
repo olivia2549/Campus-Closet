@@ -70,16 +70,22 @@ struct AcceptOffers: View {
         VStack (alignment: .leading, spacing: 0) {
             HStack(alignment: .center) {
                 if (profileVM.profilePicture != nil) {
-                    Image (uiImage: profileVM.profilePicture!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(50)
+                    NavigationLink(destination: SellerProfileView().environmentObject(profileVM)) {
+                        Image (uiImage: profileVM.profilePicture!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(50)
+                    }
                 }
                 else {
-                    Circle()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(Color("LightGrey"))
+                    NavigationLink(destination: SellerProfileView().environmentObject(profileVM)) {
+                        Image("blank-profile")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(50)
+                    }
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
