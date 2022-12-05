@@ -67,24 +67,29 @@ import FirebaseStorage
     
     func verify(withPassword: Bool) -> Bool {
         if email.isEmpty || (withPassword && password.isEmpty) {
+            // User did not enter both email and password.
             isError.toggle()
             message = "Please submit your credentials."
             return false
         }
         else if !email.lowercased().hasSuffix("@vanderbilt.edu") && email != "admin@campuscloset.com" {
+            // User entered invalid email address.
             isError.toggle()
             message = "Please enter your Vanderbilt email."
             return false
         }
+        
+        // User entered valid credentials.
         return true
     }
     
     func logIn() {
-        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if error != nil {
+                // Error occurred in login request.
                 return self.handleError(error: error!)
-            }
-            else if (Auth.auth().currentUser?.isEmailVerified == false && self.email != "admin@campuscloset.com") { // User has not verified account via email.
+            } else if (Auth.auth().currentUser?.isEmailVerified == false && self.email != "admin@campuscloset.com") {
+                // User has not verified account via email.
                 self.isError.toggle()
                 self.message = "Please verify your email address to continue."
             }
@@ -92,17 +97,20 @@ import FirebaseStorage
     }
     
     func guestLogIn() {
-        Auth.auth().signIn(withEmail: "guest@campuscloset.com", password: "GuestAccount123!") { (result, error) in
+        Auth.auth().signIn(withEmail: "guest@campuscloset.com", password: "GuestAccount123!") { result, error in
             if error != nil {
+                // Error occurred in guest login request.
                 return self.handleError(error: error!)
             }
+            // Guest login was successful.
         }
     }
     
     func signUp() {
         let db = Firestore.firestore()
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if error != nil {
+                // Error occurred in creating new user.
                 return self.handleError(error: error!)
             }
             
@@ -122,6 +130,7 @@ import FirebaseStorage
                         try db.collection("users").document(id).setData(from: user)
                         print("Successfully saved data.")
                     } catch let error {
+                        // Error in creating new Firestore entry for the user.
                         print("There was an issue saving data to Firestore, \(error).")
                     }
                 }
@@ -132,9 +141,11 @@ import FirebaseStorage
     func resetPassword() {
         Auth.auth().sendPasswordReset(withEmail: email) { error in
             if let error = error {
+                // Error occurred in sending reset password email.
                 print("Error in sending password reset email \(error)")
                 return
             } else {
+                // Reset password email sent to user.
                 self.isEmailSent = true
                 print("Password reset email successfully sent.")
             }
@@ -142,7 +153,7 @@ import FirebaseStorage
     }
     
     func deleteAccount() {
-        // Delete user account, bid, message, and item data from database.
+        // Delete all data corresponding to the user.
         deleteAccountData() {
             // Delete the user account.
             if let user = Auth.auth().currentUser {
@@ -155,10 +166,10 @@ import FirebaseStorage
                     }
                 }
             }
-            
-            // Return deleted user to login screen.
-            self.isLoggedIn = false
         }
+        
+        // Return deleted user to login screen.
+        self.isLoggedIn = false
     }
     
     func deleteAccountData(completion: @escaping () -> Void) {
