@@ -10,7 +10,7 @@ import UIKit
 
 struct ContentView: View {
     @EnvironmentObject var session: OnboardingVM
-    @State private var selection = 0
+    @State private var selection: Int = 0
     @State private var addPostPresented = false
     
     init() {
@@ -22,7 +22,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             TabView(selection: $selection) {
-                HomeView()
+                HomeView(tabSelection: $selection)
                     .tabItem {
                         if (selection == 0) {
                             Image(systemName: "house.fill")
@@ -44,7 +44,7 @@ struct ContentView: View {
                         }
                     }
                     .tag(1)
-                ProfileView()
+                ProfileView(tabSelection: $selection)
                     .tabItem {
                         if (selection == 2) {
                             Image(systemName: "person.fill")

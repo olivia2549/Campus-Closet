@@ -16,6 +16,7 @@ struct StickyFooter: View {
     @Binding var offset: CGFloat
     @Binding var height: CGFloat
     @Binding var scrollHeight: CGFloat
+    @Binding var tabSelection: Int
     @State var presentEditScreen = false
     @State var isLoaded = false
     @State var showBidView = false
@@ -67,6 +68,8 @@ struct StickyFooter: View {
                 else if !session.isGuest && !itemVM.isSeller && !itemVM.isBidder {
                     Button(action: {
                         showBidView = true
+                        presentationMode.wrappedValue.dismiss()
+                        tabSelection = 2
                     }){
                         Text("Place Bid")
                             .frame(maxWidth: maxWidth*0.3, alignment: .center)
@@ -79,6 +82,7 @@ struct StickyFooter: View {
                 else if !session.isGuest && itemVM.isBidder {
                     Button(action: {
                         itemVM.removeBid()
+                        presentationMode.wrappedValue.dismiss()
                     }){
                         Text("Remove Bid")
                             .frame(maxWidth: maxWidth*0.3, alignment: .center)
@@ -88,7 +92,7 @@ struct StickyFooter: View {
                     .cornerRadius(10)
                     .foregroundColor(.white)
                 }
-                else if !session.isGuest {
+                else if !session.isGuest && !itemVM.isSold {
                     Text("Edit Item")
                         .frame(maxWidth: maxWidth*0.3, alignment: .center)
                         .onTapGesture {
@@ -100,7 +104,7 @@ struct StickyFooter: View {
                         .sheet(isPresented: $presentEditScreen, onDismiss: {
                             self.presentationMode.wrappedValue.dismiss()
                         }) {
-                            BasicInfo(viewModel: postVM, showDeleteConfirmation: false, presentationMode: presentationMode, prevPresentationMode: presentationMode)
+                            BasicInfo(viewModel: postVM, showDeleteConfirmation: false, tabSelection: $tabSelection, presentationMode: presentationMode, prevPresentationMode: presentationMode)
                                 .environmentObject(session)
                         }
                         .padding(10)
@@ -112,7 +116,7 @@ struct StickyFooter: View {
             .padding(.top, 10)
                         
             if !itemVM.isSeller {
-                SellerInfo()
+                SellerInfo(tabSelection: $tabSelection)
             }
             Spacer()
         }
@@ -120,6 +124,7 @@ struct StickyFooter: View {
             // create a post object for editing once the item is loaded
             postVM.item = item
             postVM.isEditing = true
+            postVM.chosenPrice = String(itemVM.item.price)
             isLoaded = true
         })
         .frame(height: itemVM.isSeller ? maxHeight*0.1 : maxHeight*0.18)

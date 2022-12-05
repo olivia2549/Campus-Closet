@@ -10,12 +10,13 @@ import SwiftUI
 struct PostView: View {
     @StateObject private var postVM = PostVM()
     @EnvironmentObject var session: OnboardingVM
+    @Binding var tabSelection: Int
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationStack {
             VStack {
-                ChoosePicture(presentationMode: presentationMode)
+                ChoosePicture(tabSelection: $tabSelection, presentationMode: presentationMode)
             }
             .onTapGesture { hideKeyboard() }
             .toolbar {
@@ -43,12 +44,14 @@ struct PostView: View {
 struct ChoosePicture: View {
     @EnvironmentObject private var viewModel: PostVM
     @EnvironmentObject var session: OnboardingVM
+    var tabSelection: Binding<Int>
     var presentationMode: Binding<PresentationMode>
     @State var pickerShowing = false
     @State var chosenPicture: UIImage?
     @State private var presentInfoScreen: Bool = false
     
-    init(presentationMode: Binding<PresentationMode>) {
+    init(tabSelection: Binding<Int>, presentationMode: Binding<PresentationMode>) {
+        self.tabSelection = tabSelection
         self.presentationMode = presentationMode
     }
     
@@ -75,7 +78,7 @@ struct ChoosePicture: View {
             .buttonStyle(Styles.PinkTextButton())
             
             if chosenPicture != nil {
-                NavigationLink(destination: BasicInfo(viewModel: viewModel, presentationMode: presentationMode, prevPresentationMode: presentationMode), isActive: $presentInfoScreen) {
+                NavigationLink(destination: BasicInfo(viewModel: viewModel, tabSelection: tabSelection, presentationMode: presentationMode, prevPresentationMode: presentationMode), isActive: $presentInfoScreen) {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
                         .onTapGesture {
@@ -100,6 +103,7 @@ struct BasicInfo: View {
     @EnvironmentObject var session: OnboardingVM
     @State private var isMissingRequiredInfo: Bool = false
     @State var showDeleteConfirmation = false
+    @Binding var tabSelection: Int
     var presentationMode: Binding<PresentationMode>
     var prevPresentationMode: Binding<PresentationMode>
     
@@ -209,7 +213,7 @@ struct BasicInfo: View {
                 .buttonStyle(Styles.PinkButton())
             }
             else {
-                NavigationLink(destination: OptionalInfo(prevPresentationMode: presentationMode)) {
+                NavigationLink(destination: OptionalInfo(tabSelection: $tabSelection, prevPresentationMode: prevPresentationMode)) {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
@@ -252,12 +256,14 @@ struct BasicInfo: View {
 }
 
 struct OptionalInfo: View {
-    @State var navigateToDetail = false
     @EnvironmentObject private var postVM: PostVM
     @EnvironmentObject var session: OnboardingVM
     @StateObject var itemVM = ItemVM()
+    var tabSelection: Binding<Int>
     var prevPresentationMode: Binding<PresentationMode>
-    init(prevPresentationMode: Binding<PresentationMode>) {
+    
+    init(tabSelection: Binding<Int>, prevPresentationMode: Binding<PresentationMode>) {
+        self.tabSelection = tabSelection
         self.prevPresentationMode = prevPresentationMode
     }
     @Environment(\.presentationMode) var presentationMode
@@ -283,22 +289,18 @@ struct OptionalInfo: View {
             
             Toggle("Make Post Anonymous", isOn: $postVM.sellerIsAnonymous)
             
-            NavigationLink(
-                destination: DetailView().environmentObject(itemVM),
-                isActive: $navigateToDetail
-            ) {
-                Button(action: {
-                    postVM.postItem() { itemId in
-                        itemVM.fetchSeller(for: itemId, curUser: session.currentUser) {
-                            navigateToDetail = true
-                        }
+            Button(action: {
+                postVM.postItem() { itemId in
+                    itemVM.fetchSeller(for: itemId, curUser: session.currentUser) {
+                        self.prevPresentationMode.wrappedValue.dismiss()
                     }
-                }) {
-                    Text("Post Item!")
-                        .frame(maxWidth: .infinity, alignment: .center)
                 }
-                .buttonStyle(Styles.PinkButton())
+                tabSelection.wrappedValue = 2
+            }) {
+                Text("Post Item!")
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
+            .buttonStyle(Styles.PinkButton())
             
             Spacer()
         }
@@ -325,11 +327,5 @@ struct OptionalInfo: View {
                 }
             }
         )
-    }
-}
-
-struct PostView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostView()
     }
 }

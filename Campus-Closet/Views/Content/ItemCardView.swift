@@ -10,19 +10,21 @@ import SwiftUI
 struct ItemCardView: View, Identifiable {
     @StateObject private var viewModel = ItemVM()
     @EnvironmentObject var session: OnboardingVM
+    var tabSelection: Binding<Int>
     
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height
 
     var id: String
-    init(for id: String) {
+    init(for id: String, tabSelection: Binding<Int>) {
         self.id = id
+        self.tabSelection = tabSelection
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             // Clickable image card
-            NavigationLink (destination: DetailView().environmentObject(viewModel)){ //look at
+            NavigationLink (destination: DetailView(tabSelection: tabSelection).environmentObject(viewModel)){ //look at
                 if (viewModel.itemImage != nil) {   // render item image
                     Image(uiImage: viewModel.itemImage!)
                         .resizable()

@@ -12,6 +12,7 @@ struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
     @EnvironmentObject var session: OnboardingVM
     @State var offset: CGFloat = 0
+    @Binding var tabSelection: Int
     var maxHeight: CGFloat = (UIDevice.current.userInterfaceIdiom == .phone) ?
     UIScreen.main.bounds.height / 2.6 : UIScreen.main.bounds.height / 2.0
     
@@ -35,11 +36,11 @@ struct ProfileView: View {
                 .zIndex(1)
                 
                 if viewModel.viewingMode == ViewingMode.buyer {
-                    ToggleView(maxHeight: maxHeight, tabs: ["Bids (\(viewModel.user.bids.count))", "Saved (\(viewModel.user.saved.count))"])
+                    ToggleView(tabSelection: $tabSelection, maxHeight: maxHeight, tabs: ["Bids (\(viewModel.user.bids.count))", "Saved (\(viewModel.user.saved.count))"])
                         .zIndex(0)
                 }
                 else {
-                    ToggleView(maxHeight: maxHeight, tabs: ["Listings (\(viewModel.user.listings.count))", "Sold (\(viewModel.user.sold.count))"])
+                    ToggleView(tabSelection: $tabSelection, maxHeight: maxHeight, tabs: ["Listings (\(viewModel.user.listings.count))", "Sold (\(viewModel.user.sold.count))"])
                         .zIndex(0)
                 }
             }
@@ -180,6 +181,7 @@ struct ToggleView: View {
     @EnvironmentObject var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM
     @State var offset: CGFloat = 0
+    @Binding var tabSelection: Int
     var maxHeight: CGFloat
     var tabs: [String]
     var selection: Binding<Data.Index?> {
@@ -224,7 +226,7 @@ struct ToggleView: View {
                     .frame(maxWidth: .infinity)
                 })
                 .animation(.easeInOut(duration: 0.3))
-            Masonry<ProfileVM>()
+            Masonry<ProfileVM>(tabSelection: $tabSelection)
                 .zIndex(0)
         }
         .onAppear {

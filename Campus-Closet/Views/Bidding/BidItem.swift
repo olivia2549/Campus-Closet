@@ -66,15 +66,14 @@ struct BidItem: View {
                     .cornerRadius(25)
                 Spacer()
             }
-            
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Oops! There's been a problem placing your bid"),
+                    message: Text("Your bid price may be lower than the current listed price"),
+                    dismissButton: .default(Text("Ok"))
+                )
+            }            
             Spacer()
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Oops! There's been a problem placing your bid"),
-                message: Text("Your bid price may be lower than the current listed price"),
-                dismissButton: .default(Text("Ok"))
-            )
         }
         .navigationBarHidden(true)
         

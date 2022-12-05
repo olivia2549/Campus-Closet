@@ -13,7 +13,9 @@ struct Bids: View {
     @EnvironmentObject private var itemVM: ItemVM
     @EnvironmentObject var session: OnboardingVM
     @State var itemId: String
+    @Binding var tabSelection: Int
     let isAnonymous: Bool
+    var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         ScrollView {
@@ -25,7 +27,7 @@ struct Bids: View {
                         AnonymousOffers(bid: bid)
                     } else {
                         Divider()
-                        AcceptOffers(bid: bid)
+                        AcceptOffers(tabSelection: $tabSelection, bid: bid, presentationMode: presentationMode)
                     }
                 }
             }
@@ -67,44 +69,46 @@ struct AcceptOffers: View {
     @StateObject private var profileVM = ProfileVM()
     @EnvironmentObject private var itemVM: ItemVM
     @EnvironmentObject var session: OnboardingVM
+    @Binding var tabSelection: Int
     var bid: Bid
+    var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
             HStack(alignment: .center) {
-                if (profileVM.profilePicture != nil) {
-                    NavigationLink(destination: SellerProfileView().environmentObject(profileVM)) {
+                NavigationLink(destination: SellerProfileView(tabSelection: $tabSelection).environmentObject(profileVM)) {
+                    if (profileVM.profilePicture != nil) {
                         Image (uiImage: profileVM.profilePicture!)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 50, height: 50)
                             .cornerRadius(50)
                     }
-                }
-                else {
-                    NavigationLink(destination: SellerProfileView().environmentObject(profileVM)) {
+                    else {
                         Image("blank-profile")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 50, height: 50)
                             .cornerRadius(50)
                     }
-                }
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(profileVM.user.name)
-                        .font(.system(size: 18))
-                    Text("@\(profileVM.user.venmo)")
-                        .foregroundColor(Color("Dark Gray"))
-                        .font(.system(size: 14))
-                    HStack (spacing: 2){
-                        Image(systemName: "star.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(Color("Dark Pink"))
-                        Text ("\(String(format: "%.2f", profileVM.averageRating)) (\(profileVM.numRatings) \(profileVM.numRatings == 1 ? "Rating" : "Ratings"))")
-                            .font(.system(size: 12))
+                    
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(profileVM.user.name)
+                            .foregroundColor(.black)
+                            .font(.system(size: 18))
+                        Text("@\(profileVM.user.venmo)")
+                            .foregroundColor(Color("Dark Gray"))
+                            .font(.system(size: 14))
+                        HStack (spacing: 2){
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 15, height: 15)
+                                .foregroundColor(Color("Dark Pink"))
+                            Text ("\(String(format: "%.2f", profileVM.averageRating)) (\(profileVM.numRatings) \(profileVM.numRatings == 1 ? "Rating" : "Ratings"))")
+                                .foregroundColor(.black)
+                                .font(.system(size: 12))
+                        }
                     }
                 }
                 Spacer()
@@ -113,6 +117,8 @@ struct AcceptOffers: View {
                     Button(action: {
                         itemVM.sellItem(bid: bid)
                         profileVM.sellItem(with: bid.itemId)
+                        presentationMode.wrappedValue.dismiss()
+                        tabSelection = 1
                     }) {
                         Text("Accept $\(bid.offer)")
                             .frame(maxWidth: maxWidth*0.3, alignment: .center)

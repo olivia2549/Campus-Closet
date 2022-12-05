@@ -11,6 +11,7 @@ import SegmentedPicker
 struct SellerProfileView: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM
+    @Binding var tabSelection: Int
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State var offset: CGFloat = 0
@@ -37,7 +38,7 @@ struct SellerProfileView: View {
                 .offset(y: -offset)
                 .zIndex(1)
                 
-                SellerToggleView(maxHeight: maxHeight, tabs: ["Listings (\(viewModel.user.listings.count))", "Sold (\(viewModel.user.sold.count))"])
+                SellerToggleView(tabSelection: $tabSelection, maxHeight: maxHeight, tabs: ["Listings (\(viewModel.user.listings.count))", "Sold (\(viewModel.user.sold.count))"])
                     .zIndex(0)
             }
             .modifier(OffsetModifier(offset: $offset))
@@ -137,6 +138,7 @@ struct SellerToggleView: View {
     @EnvironmentObject var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM
     @State var offset: CGFloat = 0
+    @Binding var tabSelection: Int
     var maxHeight: CGFloat
     var tabs: [String]
     var selection: Binding<Data.Index?> {
@@ -181,7 +183,7 @@ struct SellerToggleView: View {
                     .frame(maxWidth: .infinity)
                 })
                 .animation(.easeInOut(duration: 0.3))
-            Masonry<ProfileVM>()
+            Masonry<ProfileVM>(tabSelection: $tabSelection)
                 .zIndex(0)
         }
         .environmentObject(session)

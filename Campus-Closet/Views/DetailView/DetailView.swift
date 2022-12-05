@@ -19,6 +19,7 @@ struct DetailView: View {
     @State var innerHeight: CGFloat = 0
     @State var offset: CGFloat = 0
     @State var scrollHeight: CGFloat = 0
+    @Binding var tabSelection: Int
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
@@ -27,15 +28,15 @@ struct DetailView: View {
                 VStack {
                     ItemImage()
                     DetailDescription()
-                    if !session.isGuest {
+                    if !session.isGuest && !itemVM.isSold {
                         VStack(alignment: .leading) {
-                            if itemVM.isSeller && !itemVM.isSold {
+                            if itemVM.isSeller {
                                 Text("Bidders").font(.system(size: 16, weight: .semibold))
-                                Bids(itemId: itemVM.item.id, isAnonymous: false)
+                                Bids(itemId: itemVM.item.id, tabSelection: $tabSelection, isAnonymous: false, presentationMode: presentationMode)
                             }
                             else {
                                 Text("Recent Activity").font(.system(size: 16, weight: .semibold))
-                                Bids(itemId: itemVM.item.id, isAnonymous: true)
+                                Bids(itemId: itemVM.item.id, tabSelection: $tabSelection, isAnonymous: true, presentationMode: presentationMode)
                             }
                         }
                         .padding()
@@ -55,7 +56,8 @@ struct DetailView: View {
                 StickyFooter(
                     offset: $scrollOffset,
                     height: $innerHeight,
-                    scrollHeight: $scrollHeight
+                    scrollHeight: $scrollHeight,
+                    tabSelection: $tabSelection
                 )
             }
         }
@@ -73,7 +75,6 @@ struct DetailView: View {
                     .foregroundColor(.white)
             }
         }
-
     }
 }
 
@@ -88,7 +89,7 @@ struct ItemImage: View {
                 .aspectRatio(contentMode: .fill)
                 .cornerRadius(20, corners: [.topLeft, .topRight])
                 .overlay(alignment: .topTrailing){
-                    if !session.isGuest && !itemViewModel.isSeller {
+                    if !session.isGuest && !itemViewModel.isSeller && !itemViewModel.isBidder {
                         Button(action: {
                             itemViewModel.isSaved ? itemViewModel.unsaveItem() : itemViewModel.saveItem()
                         }){
@@ -138,44 +139,45 @@ struct SellerInfo: View {
     @EnvironmentObject private var profileViewModel: ProfileVM
     @EnvironmentObject private var itemViewModel: ItemVM
     @EnvironmentObject var session: OnboardingVM
+    @Binding var tabSelection: Int
     @State var sellerId = ""
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
             HStack(alignment: .center) {
-                if (profileViewModel.profilePicture != nil) {
-                    NavigationLink(destination: SellerProfileView().environmentObject(profileViewModel)) {
+                NavigationLink(destination: SellerProfileView(tabSelection: $tabSelection).environmentObject(profileViewModel)) {
+                    if (profileViewModel.profilePicture != nil) {
                         Image (uiImage: profileViewModel.profilePicture!)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 50, height: 50)
                             .cornerRadius(50)
                     }
-                }
-                else {
-                    NavigationLink(destination: SellerProfileView().environmentObject(profileViewModel)) {
+                    else {
                         Image("blank-profile")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 50, height: 50)
                             .cornerRadius(50)
                     }
-                }
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(profileViewModel.user.name)
-                        .font(.system(size: 18))
-                    Text("@\(profileViewModel.user.venmo)")
-                        .foregroundColor(Color("Dark Gray"))
-                        .font(.system(size: 14))
-                    HStack (spacing: 2){
-                        Image(systemName: "star.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 15, height: 15)
-                            .foregroundColor(Color("Dark Pink"))
-                        Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) \(profileViewModel.numRatings == 1 ? "Rating" : "Ratings"))")
-                            .font(.system(size: 12))
+                    
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(profileViewModel.user.name)
+                            .foregroundColor(.black)
+                            .font(.system(size: 18))
+                        Text("@\(profileViewModel.user.venmo)")
+                            .foregroundColor(Color("Dark Gray"))
+                            .font(.system(size: 14))
+                        HStack (spacing: 2){
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 15, height: 15)
+                                .foregroundColor(Color("Dark Pink"))
+                            Text ("\(String(format: "%.2f", profileViewModel.averageRating)) (\(profileViewModel.numRatings) \(profileViewModel.numRatings == 1 ? "Rating" : "Ratings"))")
+                                .foregroundColor(.black)
+                                .font(.system(size: 12))
+                        }
                     }
                 }
                 Spacer()

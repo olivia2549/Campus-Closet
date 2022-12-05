@@ -13,6 +13,7 @@ struct HomeView: View {
     @State private var addPostPresented = false
     @State private var selection = 0
     @State var show = false
+    @Binding var tabSelection: Int
 
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height
@@ -47,7 +48,7 @@ struct HomeView: View {
                             onDismiss: {
                                 selection = 0
                             },
-                            content: { PostView() }
+                            content: { PostView(tabSelection: $tabSelection) }
                         )
                         .onTapGesture {
                             addPostPresented.toggle()
@@ -97,7 +98,7 @@ struct HomeView: View {
             
             // View items for sale in 2 Masonry-style columns
             ScrollView {
-                Masonry<ContentVM>()
+                Masonry<ContentVM>(tabSelection: $tabSelection)
             }
             .scrollIndicators(.hidden)
             .scrollDismissesKeyboard(.immediately)

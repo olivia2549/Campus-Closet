@@ -10,6 +10,7 @@ import UIKit
 
 struct ContentGuestView: View {
     @EnvironmentObject var session: OnboardingVM
+    @State var selection: Int = 0
     
     init() {
         UIToolbar.appearance().barTintColor = UIColor(Styles().themePink)
@@ -17,7 +18,7 @@ struct ContentGuestView: View {
     
     var body: some View {
         NavigationView {
-            HomeView()
+            HomeView(tabSelection: $selection)
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
                         Button(action: {
