@@ -11,6 +11,7 @@ import Firebase
 struct CreateNewMessageView: View {
     @Environment (\.presentationMode) var presentationMode
     @ObservedObject var viewModel = MessagesVM()
+    @EnvironmentObject var session: OnboardingVM
     
     var body: some View {
         NavigationStack{
@@ -20,6 +21,7 @@ struct CreateNewMessageView: View {
                 ForEach(viewModel.users, id: \.self) { id in
                     HStack(spacing: 16) {
                         UserListView(for: id)
+                            .environmentObject(session)
                     }
                     .padding (.horizontal)
                     Divider()
@@ -44,6 +46,7 @@ struct CreateNewMessageView: View {
 
 struct UserListView: View, Identifiable {
     @StateObject private var viewModel = ProfileVM()
+    @EnvironmentObject var session: OnboardingVM
     var id: String
     
     init(for id: String) {
@@ -68,7 +71,7 @@ struct UserListView: View, Identifiable {
                 .cornerRadius(50)
         }
         
-        NavigationLink(destination: Chat_Message(partnerId: viewModel.user.id)) {
+        NavigationLink(destination: Chat_Message(partnerId: viewModel.user.id).environmentObject(session)) {
             Text(viewModel.user.name.isEmpty ? viewModel.user.email : viewModel.user.name)
                 .foregroundColor(.black)
             Spacer()

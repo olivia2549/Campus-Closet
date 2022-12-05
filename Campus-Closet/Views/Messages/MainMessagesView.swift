@@ -22,6 +22,7 @@ struct MainMessagesView: View {
     @State var shouldShowNewMessageScreen = false
     @StateObject private var profileVM = ProfileVM()
     @StateObject private var messagesVM = MessagesVM()
+    @EnvironmentObject var session: OnboardingVM
 
     var body: some View {
         NavigationStack{
@@ -38,13 +39,7 @@ struct MainMessagesView: View {
     
     private var customNavBar: some View{
         //VStack (spacing: 0){
-           
-        
             HStack(spacing: 16) {
-                
-                
-                
-                
                 if profileVM.profilePicture != nil {
                     Image(uiImage : profileVM.profilePicture!)
                         .resizable()
@@ -59,17 +54,11 @@ struct MainMessagesView: View {
                         .cornerRadius(50)
                 }
                 
-                
                 VStack(alignment: .leading, spacing: 4){
                     Text(profileVM.user.name.isEmpty ? profileVM.user.email : profileVM.user.name)
                         .font (.system(size: 24, weight: .bold) )
-                    
-                    
                 }
                 Spacer()
-                
-
-                
             }
             .padding()
             .onAppear {
@@ -88,6 +77,7 @@ struct MainMessagesView: View {
             ForEach(messagesVM.recentMessages.sorted(by: >), id: \.key) { key, value in // fixme: sort in vm
                 HStack(spacing: 16) {
                     MessageShortcutView(for: key, for: value)
+                        .environmentObject(session)
                 }
                 .padding (.horizontal)
                 Divider()
@@ -116,12 +106,14 @@ struct MainMessagesView: View {
         }
         .fullScreenCover(isPresented: $shouldShowNewMessageScreen){
             CreateNewMessageView()
+                .environmentObject(session)
         }
     }
 }
 
 struct MessageShortcutView: View, Identifiable {
     @StateObject private var profileVM = ProfileVM()
+    @EnvironmentObject var session: OnboardingVM
     var id: String
     var messageId: String
     @State var myUser: User
@@ -150,7 +142,7 @@ struct MessageShortcutView: View, Identifiable {
                         .cornerRadius(50)
                 }
                 
-                NavigationLink(destination: Chat_Message(partnerId: profileVM.user.id)) {
+                NavigationLink(destination: Chat_Message(partnerId: profileVM.user.id).environmentObject(session)) {
                     VStack (alignment: .leading){
                         Text(profileVM.user.name.isEmpty ? profileVM.user.email : profileVM.user.name)
                             .font(.system(size:16, weight: .bold))

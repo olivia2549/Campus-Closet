@@ -62,8 +62,13 @@ class BidsVM: ObservableObject {
         }
         
         // Notify seller that bid was placed
-        NotificationsVM(itemName: item.title, price: newBid.offer).sendNotification(to: item.sellerId, type: "Bid Placed")
-
+        NotificationsVM()
+            .sendItemNotification(
+                to: item.sellerId,
+                type: "Bid Placed",
+                itemName: item.title,
+                price: newBid.offer
+            )
     }
     
     func getBids(for itemId: String) {

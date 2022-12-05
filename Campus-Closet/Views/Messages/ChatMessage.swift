@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Chat_Message: View {
     @StateObject var messagesVM = MessagesVM()
+    @EnvironmentObject var session: OnboardingVM
     @State var partnerId: String
     
     var body: some View {
@@ -33,7 +34,9 @@ struct Chat_Message: View {
             }
             .background(Color("Dark Pink"))
             
-            MessageField(recipient: partnerId).environmentObject(messagesVM)
+            MessageField(recipient: partnerId)
+                .environmentObject(messagesVM)
+                .environmentObject(session)
         }
         .onTapGesture { hideKeyboard() }
         .onAppear {
@@ -41,9 +44,3 @@ struct Chat_Message: View {
         }
     }
 }
-
-//struct Chat_Message_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Chat_Message(partnerId: "Sample")
-//    }
-//}

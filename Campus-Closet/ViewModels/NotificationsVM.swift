@@ -12,17 +12,23 @@ import FirebaseAuth
 
 class NotificationsVM: ObservableObject {
     let db = Firestore.firestore()
-    var itemName: String
-    var price: String
-
-    init(itemName: String, price: String) {
-        self.itemName = itemName
-        self.price = price
+    
+    // Send push notification
+    func sendItemNotification(to userId: String, type: String, itemName: String, price: String) {
+        let messageBody = generateBody(type: type, itemName: itemName, price: price)
+        db.collection("users").document(userId).getDocument(as: User.self) { result in
+            switch result {
+            case .success(let user):
+                self.makeRequest(to: user.token, messageBody: messageBody)
+            case .failure(let error):
+                print("Error decoding user: \(error)")
+            }
+        }
     }
     
     // Send push notification
-    func sendNotification(to userId: String, type: String) {
-        let messageBody = generateBody(type: type)
+    func sendChatNotification(to userId: String, type: String, senderName: String, message: String) {
+        let messageBody = ["title":"Message from \(senderName)", "body":"\(message)"]
         db.collection("users").document(userId).getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
@@ -68,7 +74,7 @@ class NotificationsVM: ObservableObject {
         .resume()
     }
     
-    private func generateBody(type: String) -> [String:String] {
+    private func generateBody(type: String, itemName: String, price: String) -> [String:String] {
         var body: [String:String] = ["title": "\(type)", "body": ""]
         switch type {
         case "Bid Placed":

@@ -11,6 +11,7 @@ import SwiftUI
 struct Bids: View {
     @StateObject private var bidsVM = BidsVM()
     @EnvironmentObject private var itemVM: ItemVM
+    @EnvironmentObject var session: OnboardingVM
     @State var itemId: String
     let isAnonymous: Bool
     
@@ -29,6 +30,7 @@ struct Bids: View {
                 }
             }
         }
+        .environmentObject(session)
         .onAppear {
             bidsVM.getBids(for: itemId)
         }
@@ -64,6 +66,7 @@ struct AnonymousOffers: View {
 struct AcceptOffers: View {
     @StateObject private var profileVM = ProfileVM()
     @EnvironmentObject private var itemVM: ItemVM
+    @EnvironmentObject var session: OnboardingVM
     var bid: Bid
     
     var body: some View {
@@ -111,7 +114,7 @@ struct AcceptOffers: View {
                     .buttonStyle(Styles.PinkButton())
                 }
                 else {
-                    NavigationLink(destination: Chat_Message(partnerId: bid.bidderId)) {
+                    NavigationLink(destination: Chat_Message(partnerId: bid.bidderId).environmentObject(session)) {
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
