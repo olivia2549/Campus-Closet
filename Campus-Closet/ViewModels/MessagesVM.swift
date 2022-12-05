@@ -75,7 +75,7 @@ class MessagesVM: ObservableObject {
         }
     }
     
-    func sendMessage(recipient: String, text: String) {
+    func sendMessage(recipient: String, text: String, senderName: String) {
         let myId = Auth.auth().currentUser!.uid
         let messageId = "\(UUID())"
         
@@ -115,6 +115,15 @@ class MessagesVM: ObservableObject {
                 print("Document successfully updated")
             }
         }
+        
+        // send notification to recipient
+        NotificationsVM()
+            .sendChatNotification(
+                to: recipient,
+                type: "sentMessage",
+                senderName: senderName,
+                message: text
+            )
     }
     
     func fetchAllRecentMessages() {

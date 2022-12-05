@@ -88,11 +88,23 @@ import FirebaseStorage
                     if (bidData.key == bid.bidderId && !sentToBidder) {
                         sentToBidder = true
                         // Notify bidder that their offer was accepted
-                        NotificationsVM(itemName: self.item.title, price: bid.offer).sendNotification(to: bid.bidderId, type: "Offer Accepted")
+                        NotificationsVM()
+                            .sendItemNotification(
+                                to: bid.bidderId,
+                                type: "Offer Accepted",
+                                itemName: self.item.title,
+                                price: bid.offer
+                            )
                     }
                     else {
                         // Notify buyer that the item is no longer up for sale
-                        NotificationsVM(itemName: self.item.title, price: bid.offer).sendNotification(to: bid.bidderId, type: "Item Sold")
+                        NotificationsVM()
+                            .sendItemNotification(
+                                to: bid.bidderId,
+                                type: "Item Sold",
+                                itemName: self.item.title,
+                                price: bid.offer
+                            )
                     }
                 }
             }
@@ -168,7 +180,13 @@ import FirebaseStorage
         }
         
         // Notify seller that bid was removed
-        NotificationsVM(itemName: item.title, price: "").sendNotification(to: item.sellerId, type: "Offer Removed")
+        NotificationsVM()
+            .sendItemNotification(
+                to: item.sellerId,
+                type: "Offer Removed",
+                itemName: item.title,
+                price: ""
+            )
     }
         
 }

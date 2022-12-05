@@ -181,7 +181,7 @@ struct SellerInfo: View {
                 Spacer()
                 
                 if !session.isGuest {
-                    NavigationLink(destination: Chat_Message(partnerId: sellerId)) {
+                    NavigationLink(destination: Chat_Message(partnerId: sellerId).environmentObject(session)) {
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)

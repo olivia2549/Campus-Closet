@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MessageField: View {
     @EnvironmentObject var messagesVM: MessagesVM
+    @EnvironmentObject var session: OnboardingVM
+    
     @State private var message = ""
     var recipient: String
 
@@ -19,7 +21,7 @@ struct MessageField: View {
                 .frame(height: 52)
                 .disableAutocorrection(true)
             Button {
-                messagesVM.sendMessage(recipient: recipient, text: message)
+                messagesVM.sendMessage(recipient: recipient, text: message, senderName: session.currentUser.name)
                 message = ""
                 hideKeyboard()
                 } label: {
@@ -37,13 +39,6 @@ struct MessageField: View {
             .padding()
         }
 }
-
-//struct MessageField_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MessageField()
-//            .environmentObject(MessagesVM())
-//    }
-//}
 
 struct CustomTextField : View {
     var placeholder: Text
