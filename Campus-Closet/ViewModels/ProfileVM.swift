@@ -37,7 +37,8 @@ enum Position: Int {
     let maxHeight = UIScreen.main.bounds.height / 2.5
     
     func getProfileData() -> User {
-        return fetchUser(userID: Auth.auth().currentUser!.uid)
+        let userID = Auth.auth().currentUser != nil ? Auth.auth().currentUser!.uid : "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
+        return fetchUser(userID: userID)
     }
     
     func fetchUser(userID: String) -> User {

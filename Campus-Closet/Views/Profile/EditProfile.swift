@@ -51,9 +51,6 @@ struct EditProfile: View {
             Button("Sign out", action: { session.logOut() })
                 .buttonStyle(Styles.PinkTextButton())
             
-            Button("Delete account", action: { session.deleteAccount() })
-                .buttonStyle(Styles.PinkTextButton())
-            
             Spacer()
         }
         .navigationBarBackButtonHidden(true)
