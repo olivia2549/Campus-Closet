@@ -148,8 +148,8 @@ enum Position: Int {
         }
     }
     
-    func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
-        return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
+    func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>, isLoading: Binding<Bool>) -> some UIViewControllerRepresentable {
+        return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing, isLoading: isLoading)
     }
     
     func uploadPicture(chosenPicture: UIImage?) -> String {

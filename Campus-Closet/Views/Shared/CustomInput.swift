@@ -46,7 +46,7 @@ struct CustomInput: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(textFieldOutline)
                 .background(textFieldHighlight)
-                .frame(height: textFieldHeight)
+                .frame(height: maxHeight*0.07)
                 .cornerRadius(10)
             HStack {
                 Image(systemName: imageName)
@@ -71,6 +71,7 @@ struct CustomInput: View {
                     .accentColor(Color.secondary)
                     .animation(.linear)
                     .submitLabel(.done)
+                    .disableAutocorrection(true)
                     ///Floating Placeholder
                     Text(inputLabel)
                         .foregroundColor(textFieldOutline)

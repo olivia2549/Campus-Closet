@@ -12,6 +12,7 @@ struct EditProfile: View {
     @EnvironmentObject private var profileVM: ProfileVM
     @State var chosenPicture: UIImage?
     @State var pickerShowing = false
+    @State var loadingPicturePicker = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
@@ -68,7 +69,7 @@ struct EditProfile: View {
             }
         }
         .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
-            profileVM.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
+            profileVM.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing, isLoading: $loadingPicturePicker)
         })
         .onChange(of: chosenPicture, perform: { newValue in
             profileVM.profilePicture = chosenPicture

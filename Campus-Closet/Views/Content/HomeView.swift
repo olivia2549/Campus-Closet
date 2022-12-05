@@ -13,6 +13,7 @@ struct HomeView: View {
     @State private var addPostPresented = false
     @State private var selection = 0
     @State var show = false
+    @State var sortLabel = "New Arrivals"
     @Binding var tabSelection: Int
 
     let maxWidth = UIScreen.main.bounds.width
@@ -63,14 +64,21 @@ struct HomeView: View {
                 CustomSearch().frame(height: maxHeight*0.05)
                 HStack {
                     Text("Filter By")
+                        .foregroundColor(.black)
                         .font(.system(size: 20, weight: .semibold))
                     TagPicker<ContentVM>(menuText: "All")
+                        .frame(width: maxWidth*0.2)
                     Spacer()
+                    Text("\(sortLabel)")
+                        .foregroundColor(.black)
+                        .font(.system(size: 20, weight: .semibold))
+                        .frame(width: maxWidth*0.4, alignment: .trailing)
                     Menu {
                         Button {
                             contentVM.sortField = "price"
                             contentVM.sortDescending = true
                             contentVM.fetchData()
+                            sortLabel = "Price: Low to High"
                         } label: {
                             Text("Price: Low to High")
                         }
@@ -78,6 +86,7 @@ struct HomeView: View {
                             contentVM.sortField = "price"
                             contentVM.sortDescending = false
                             contentVM.fetchData()
+                            sortLabel = "Price: High to Low"
                         } label: {
                             Text("Price: High to Low")
                         }
@@ -85,6 +94,7 @@ struct HomeView: View {
                             contentVM.sortField = "timestamp"
                             contentVM.sortDescending = false
                             contentVM.fetchData()
+                            sortLabel = "New Arrivals"
                         } label: {
                             Text("New Arrivals")
                         }

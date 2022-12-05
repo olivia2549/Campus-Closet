@@ -12,12 +12,13 @@ import SwiftUI
 struct PicturePicker: UIViewControllerRepresentable {
     @Binding var chosenPicture: UIImage?
     @Binding var pickerShowing: Bool
+    @Binding var isLoading: Bool
     
     func makeUIViewController(context: Context) -> some UIViewController {
         let picturePicker = UIImagePickerController()
         picturePicker.sourceType = .photoLibrary
         picturePicker.delegate = context.coordinator
-        
+        isLoading = false
         return picturePicker
     }
     

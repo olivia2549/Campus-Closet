@@ -37,8 +37,8 @@ import FirebaseStorage
         return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && item.price < 1000
     }
     
-    func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>) -> some UIViewControllerRepresentable {
-        return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing)
+    func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>, isLoading: Binding<Bool>) -> some UIViewControllerRepresentable {
+        return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing, isLoading: isLoading)
     }
     
     func updateItem(completion: @escaping () -> Void) -> Bool {

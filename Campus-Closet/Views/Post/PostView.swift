@@ -15,26 +15,23 @@ struct PostView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
-                ChoosePicture(tabSelection: $tabSelection, presentationMode: presentationMode)
-            }
-            .onTapGesture { hideKeyboard() }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Post An Item")
-                        .font(.system(size: 24, weight: .semibold))
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Styles.CancelButton(presentationMode: self.presentationMode)
-                }
-            }
-            .gesture(
-                DragGesture().onEnded { value in
-                    if value.location.y - value.startLocation.y > 150 {
-                        self.presentationMode.wrappedValue.dismiss()
+            ChoosePicture(tabSelection: $tabSelection, presentationMode: presentationMode)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Post An Item")
+                            .font(.system(size: 24, weight: .semibold))
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Styles.CancelButton(presentationMode: self.presentationMode)
                     }
                 }
-            )
+                .gesture(
+                    DragGesture().onEnded { value in
+                        if value.location.y - value.startLocation.y > 150 {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                )
         }
         .environmentObject(postVM)
         .environmentObject(session)
@@ -48,6 +45,7 @@ struct ChoosePicture: View {
     var presentationMode: Binding<PresentationMode>
     @State var pickerShowing = false
     @State var chosenPicture: UIImage?
+    @State var loadingPicturePicker = false
     @State private var presentInfoScreen: Bool = false
     
     init(tabSelection: Binding<Int>, presentationMode: Binding<PresentationMode>) {
@@ -57,27 +55,34 @@ struct ChoosePicture: View {
     
     var body: some View {
         VStack {
-            if chosenPicture != nil {
-                Image(uiImage: chosenPicture!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 25))
-            }
-            
-            Button(action: {
-                pickerShowing = true
-            }){
-                Image(systemName: ("square.and.arrow.up"))
-                    .resizable()
-                    .frame(width: 80, height:100, alignment: .center)
-                
-                Text(chosenPicture == nil ? "Choose a Picture" : "Change Picture")
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .font(Font.system(size: chosenPicture == nil ? 20 : 16, weight: .semibold))
-            }
-            .buttonStyle(Styles.PinkTextButton())
-            
-            if chosenPicture != nil {
+            if (chosenPicture == nil) {
+                Button(action: {
+                    pickerShowing = true
+                    loadingPicturePicker = true
+                }){
+                    Image(systemName: ("square.and.arrow.up"))
+                        .resizable()
+                        .frame(width: maxWidth*0.18, height:maxWidth*0.22)
+                    
+                    Text("Choose a picture")
+                        .font(Font.system(size: 20, weight: .semibold))
+                }
+                .buttonStyle(Styles.PinkTextButton())
+            } else {
+                Button(action: {
+                    pickerShowing = true
+                    loadingPicturePicker = true
+                }){
+                    VStack {
+                        Image(uiImage: chosenPicture!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(RoundedRectangle(cornerRadius: 25))
+                        Text("Tap image to change")
+                            .font(Font.system(size: 20, weight: .semibold))
+                            .foregroundColor(Styles().themePink)
+                    }
+                }
                 NavigationLink(destination: BasicInfo(viewModel: viewModel, tabSelection: tabSelection, presentationMode: presentationMode, prevPresentationMode: presentationMode), isActive: $presentInfoScreen) {
                     Text("Next")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -86,10 +91,16 @@ struct ChoosePicture: View {
                         }
                 }
                 .buttonStyle(Styles.PinkButton())
+                .padding()
             }
+            
+            if loadingPicturePicker {
+                Text("Loading...")
+            }
+            Spacer().frame(height: maxHeight*0.2)
         }
         .sheet(isPresented: $pickerShowing, onDismiss: nil, content: {
-            viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing)
+            viewModel.choosePicture(chosenPicture: $chosenPicture, pickerShowing: $pickerShowing, isLoading: $loadingPicturePicker)
         })
         .onChange(of: chosenPicture) { newPicture in
             viewModel.chosenPicture = newPicture
@@ -114,26 +125,22 @@ struct BasicInfo: View {
                 imageName: "tshirt",
                 autocapitalization: .sentences,
                 input: $viewModel.item.title
-            ) {
-                
-            }
+            ) {}
             
-            CustomInput(
-                for: "Price*",
-                imageName: "dollarsign.circle",
-                autocapitalization: .never,
-                input: $viewModel.chosenPrice
-            ) {
-
-            }
-
-            CustomInput(
-                for: "Size*",
-                imageName: "ruler",
-                autocapitalization: .never,
-                input: $viewModel.item.size
-            ) {
-
+            HStack {
+                CustomInput(
+                    for: "Price*",
+                    imageName: "dollarsign.circle",
+                    autocapitalization: .never,
+                    input: $viewModel.chosenPrice
+                ) {}
+                
+                CustomInput(
+                    for: "Size*",
+                    imageName: "ruler",
+                    autocapitalization: .never,
+                    input: $viewModel.item.size
+                ) {}
             }
 
             VStack (alignment: .leading, spacing: 0){
@@ -160,7 +167,7 @@ struct BasicInfo: View {
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color("#d7d7d8"), lineWidth: 1)
-                            .frame(width: 395, height: 55)
+                            .frame(height: maxHeight*0.07)
                         HStack{
                             Image(systemName: "clock")
                                 .foregroundColor(.black)
@@ -186,9 +193,7 @@ struct BasicInfo: View {
                 imageName: "pencil",
                 autocapitalization: .sentences,
                 input: $viewModel.item.description
-            ) {
-
-            }
+            ) {}
             
             if viewModel.isEditing {
                 Button(action: {
@@ -236,6 +241,7 @@ struct BasicInfo: View {
         }
         .environmentObject(session)
         .navigationBarBackButtonHidden(true)
+        .onTapGesture { hideKeyboard() }
         .padding()
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
