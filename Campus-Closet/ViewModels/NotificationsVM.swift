@@ -10,10 +10,11 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
+// Class for a view model that manages push notifications.
 class NotificationsVM: ObservableObject {
     let db = Firestore.firestore()
     
-    // Send push notification
+    // Send push notification.
     func sendItemNotification(to userId: String, type: String, itemName: String, price: String) {
         let messageBody = generateBody(type: type, itemName: itemName, price: price)
         db.collection("users").document(userId).getDocument(as: User.self) { result in
@@ -26,7 +27,7 @@ class NotificationsVM: ObservableObject {
         }
     }
     
-    // Send push notification
+    // Send push notification.
     func sendChatNotification(to userId: String, type: String, senderName: String, message: String) {
         let messageBody = ["title":"Message from \(senderName)", "body":"\(message)"]
         db.collection("users").document(userId).getDocument(as: User.self) { result in
@@ -90,5 +91,4 @@ class NotificationsVM: ObservableObject {
         }
         return body
     }
-
 }

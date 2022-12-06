@@ -12,10 +12,10 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 
+// Class for a view model that manages item interactions with the database.
 @MainActor class ItemVM: ObservableObject {
     @Published var item = Item()
     var itemPublisher: Published<Item>.Publisher { $item }
-    
     @Published var chosenPrice = ""
     @Published var isEditing = true
     @Published var itemImage: UIImage?
@@ -25,14 +25,7 @@ import FirebaseStorage
     @Published var isBidder = false
     private var db = Firestore.firestore()
     
-    func verifyInfo() -> Bool {
-        if Float(chosenPrice) != nil {
-            let price: Float = Float(chosenPrice)!
-            return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && price > 0 && price < 1000
-        }
-        return false
-    }
-    
+    // Function that fetches item data, including the ID of its seller.
     func fetchSeller(for itemId: String, curUser: User, completion: @escaping () -> Void) {
         fetchItem(itemID: itemId) {
             self.db.collection("users").document(self.item.sellerId).getDocument(as: User.self) { result in
@@ -48,6 +41,7 @@ import FirebaseStorage
         }
     }
     
+    // Function that fetches item data from the database.
     func fetchItem(itemID: String, completion: @escaping () -> Void) {
         guard let myId = Auth.auth().currentUser?.uid else {return}
         db.collection("items").document(itemID).getDocument(as: Item.self) { result in
@@ -77,7 +71,7 @@ import FirebaseStorage
         }
     }
         
-    // go through each bidder and remove from their bids
+    // Go through each bidder and remove from their bids.
     func sellItem(bid: Bid) {
         var sentToBidder = false
         for bidData in item.bidHistory {
@@ -91,7 +85,7 @@ import FirebaseStorage
                     self.isSold = true
                     if (bidData.key == bid.bidderId && !sentToBidder) {
                         sentToBidder = true
-                        // Notify bidder that their offer was accepted
+                        // Notify bidder that their offer was accepted.
                         NotificationsVM()
                             .sendItemNotification(
                                 to: bid.bidderId,
@@ -101,7 +95,7 @@ import FirebaseStorage
                             )
                     }
                     else {
-                        // Notify buyer that the item is no longer up for sale
+                        // Notify buyer that the item is no longer up for sale.
                         NotificationsVM()
                             .sendItemNotification(
                                 to: bid.bidderId,
@@ -113,9 +107,9 @@ import FirebaseStorage
                 }
             }
         }
-        
     }
     
+    // Function that adds an item to the current user's saved items.
     func saveItem() {
         guard let userId = Auth.auth().currentUser?.uid else {return}
         db.collection("users").document(userId).updateData([
@@ -130,6 +124,7 @@ import FirebaseStorage
         }
     }
     
+    // Function that removes an item from the current user's saved items.
     func unsaveItem() {
         guard let userId = Auth.auth().currentUser?.uid else {return}
         db.collection("users").document(userId).updateData([
@@ -144,9 +139,10 @@ import FirebaseStorage
         }
     }
     
+    // Function that deletes a bid placed by the current user.
     func removeBid() {
         guard let myId = Auth.auth().currentUser?.uid else {return}
-        // Remove from the buyer's bids and remove from their saved
+        // Remove from the buyer's bids and remove from their saved.
         db.collection("users").document(myId).updateData([
             "bids": FieldValue.arrayRemove([item.id]),
         ]) { (error) in
@@ -157,14 +153,14 @@ import FirebaseStorage
             }
         }
         
-        // Get the bid's id and remove from bids collection
+        // Get the bid's ID and remove from bids collection.
         let itemRef = db.collection("items").document(item.id)
         itemRef.getDocument { document, error in
             if let document = document, document.exists {
                 let bidHistory = document.get("bidHistory") as! [String:String]
                 if let bidId = bidHistory["\(myId)"] {
                     self.db.collection("bids").document(bidId).delete()
-                    // Remove from the item's bid history
+                    // Remove from the item's bid history.
                     itemRef.updateData([
                         "bidHistory.\(myId)": FieldValue.delete(),
                     ]) { (error) in
@@ -183,7 +179,7 @@ import FirebaseStorage
             }
         }
         
-        // Notify seller that bid was removed
+        // Notify seller that the bid was removed.
         NotificationsVM()
             .sendItemNotification(
                 to: item.sellerId,
@@ -192,5 +188,4 @@ import FirebaseStorage
                 price: ""
             )
     }
-        
 }

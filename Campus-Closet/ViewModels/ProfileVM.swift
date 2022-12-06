@@ -21,6 +21,7 @@ enum Position: Int {
     case first = 0, second
 }
 
+// Class for a view model that manages user profile interactions with the database.
 @MainActor class ProfileVM: ObservableObject, RenderContentVM {
     @Published var user = User()
     @Published var numRatings = 0
@@ -32,24 +33,26 @@ enum Position: Int {
     @Published var sortedColumns: [[String]] = []
     @Published var viewingMode: ViewingMode = ViewingMode.buyer
     @Published var position: Position = Position.first
-    
     let db = Firestore.firestore()
     let maxHeight = UIScreen.main.bounds.height / 2.5
     
+    // Function that fetches all user data for the current user.
     func getProfileData() -> User {
         let userID = Auth.auth().currentUser != nil ? Auth.auth().currentUser!.uid : "iR0c0aZXPoRsw5DN3cpmf9mzUEK2"
         return fetchUser(userID: userID)
     }
     
+    // Function that fetches all user data for the user with the ID passed as userID.
     func fetchUser(userID: String) -> User {
         let profileRef = db.collection("users").document(userID)
+        
         profileRef.getDocument(as: User.self) { result in
             switch result {
             case .success(let user):
                 self.user = user
                 self.numRatings = user.ratings.count
                 self.averageRating = self.numRatings == 0 ? 0 : Double(user.ratings.reduce(0, +)) / Double(user.ratings.count)
-                // viewing mode should be seller for other users
+                // Viewing mode should be seller for other users.
                 if let curUser = Auth.auth().currentUser?.uid {
                     if userID != curUser {
                         self.viewingMode = ViewingMode.seller
@@ -74,6 +77,7 @@ enum Position: Int {
         return self.user
     }
     
+    // Function that fetches a message given its ID.
     func fetchLastMessage(messageId: String) {
         let profileRef = db.collection("Messages").document(messageId)
         
@@ -87,13 +91,14 @@ enum Position: Int {
         }
     }
     
+    // Function that fetches and organizes items on a user's profile screen.
     func fetchItems() {
         var data: [String] = []
         self.sortedColumns = []
         var itemIdsCol1: [String] = []
         var itemIdsCol2: [String] = []
         var col1 = true
-        // figure out which data to display (based on the selected toggle combination)
+        // Figure out which data to display (based on the selected toggle combination).
         if (self.viewingMode == ViewingMode.buyer) {
             switch (self.position) {
             case .first:
@@ -109,7 +114,7 @@ enum Position: Int {
                 data = user.sold
             }
         }
-        // sort data into 2 columns
+        // Sort data into 2 columns.
         if data.count == 0 {
             return
         }
@@ -122,7 +127,7 @@ enum Position: Int {
         self.sortedColumns.append(itemIdsCol2)
     }
     
-    // move item from listings to sold
+    // Move item from listings to sold.
     func sellItem(with id: String) {
         guard let userID = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(userID).updateData([
@@ -137,6 +142,7 @@ enum Position: Int {
         }
     }
     
+    // Function that adds a new rating to a seller's total ratings.
     func submitRating(sellerID: String) {
         db.collection("users").document(sellerID).updateData([
             "ratings": FieldValue.arrayUnion([newRating])
@@ -149,10 +155,12 @@ enum Position: Int {
         }
     }
     
+    // Function that manages the selection of a new profile picture from the camera roll.
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>, isLoading: Binding<Bool>) -> some UIViewControllerRepresentable {
         return PicturePicker(chosenPicture: chosenPicture, pickerShowing: pickerShowing, isLoading: isLoading)
     }
     
+    // Function that uploads a new profile picture to Firebase Storage.
     func uploadPicture(chosenPicture: UIImage?) -> String {
         if chosenPicture == nil {
             return user.picture
@@ -173,13 +181,15 @@ enum Position: Int {
         
         return picturePath
     }
-        
+    
+    // Update user data.
     func updateUser(chosenPicture: UIImage?) {
         getPictureReference()
 
+        // Function that fetches the user's profile picture from storage.
         func getPictureReference() {
             updateUser(){
-                Storage.storage().reference(withPath: self.user.picture).getData(maxSize: 60 * 1024 * 1024) { (data, error) in
+                Storage.storage().reference(withPath: self.user.picture).getData(maxSize: 60 * 1024 * 1024) { data, error in
                     if let err = error {
                         print(err)
                     } else if data != nil {
@@ -191,6 +201,7 @@ enum Position: Int {
             }
         }
 
+        // Function that adds a user to the database.
         func updateUser(completion: @escaping () -> Void) {
             uploadNewPicture() {
                 let db = Firestore.firestore()
@@ -211,6 +222,7 @@ enum Position: Int {
             }
         }
         
+        // Function that handles the upload of an image to Firebase Storage.
         func uploadNewPicture(completion: @escaping () -> Void) {
             if chosenPicture == nil {
                 completion()

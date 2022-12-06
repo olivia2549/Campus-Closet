@@ -14,6 +14,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
+// Class for a view model that manages user authentication and onboarding.
 @MainActor class OnboardingVM: ObservableObject, ErrorVM {
     @Published var isError: Bool = false
     @Published var isEmailSent: Bool = false
@@ -23,10 +24,10 @@ import FirebaseStorage
     @Published var currentUser: User = User()
     @Published var isLoggedIn = false
     @Published var isGuest = false
-
     var handle: AuthStateDidChangeListenerHandle?
     let db = Firestore.firestore()
     
+    // Function to track if the user is logged in or a guest.
     func listenAuthenticationState() {
         handle = Auth.auth().addStateDidChangeListener({ [weak self] (auth, user) in
             if let user = user {
@@ -50,6 +51,7 @@ import FirebaseStorage
         })
     }
     
+    // Function that logs a user out of their account.
     func logOut() {
         do {
             try Auth.auth().signOut()
@@ -59,12 +61,16 @@ import FirebaseStorage
         }
     }
     
+    // Function that verifies credentials. If valid, logs in the user.
     func verifyAndLogin() { if verify(withPassword: true) {logIn()} }
     
+    // Function that verifies credentials. If valid, signs up the user.
     func verifyAndSignup() { if verify(withPassword: true) {signUp()} }
     
+    // Function that verifies user email. If valid, sends a password reset email.
     func verifyAndResetPassword() { if verify(withPassword: false) {resetPassword()} }
     
+    // Validate input user vredentials.
     func verify(withPassword: Bool) -> Bool {
         if email.isEmpty || (withPassword && password.isEmpty) {
             // User did not enter both email and password.
@@ -83,6 +89,7 @@ import FirebaseStorage
         return true
     }
     
+    // Function that logs in a user.
     func logIn() {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if error != nil {
@@ -96,6 +103,7 @@ import FirebaseStorage
         }
     }
     
+    // Function that logs in a user as a guest with limited permissions.
     func guestLogIn() {
         Auth.auth().signIn(withEmail: "guest@campuscloset.com", password: "GuestAccount123!") { result, error in
             if error != nil {
@@ -106,6 +114,7 @@ import FirebaseStorage
         }
     }
     
+    // Function that signs up a new user.
     func signUp() {
         let db = Firestore.firestore()
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
@@ -138,6 +147,7 @@ import FirebaseStorage
         }
     }
     
+    // Function that sends a user a reset password email.
     func resetPassword() {
         Auth.auth().sendPasswordReset(withEmail: email) { error in
             if let error = error {
@@ -152,6 +162,7 @@ import FirebaseStorage
         }
     }
     
+    // Function that handles credential errors and selects a descriptive error message.
     func handleError(error: Error) {
         let authError = AuthErrorCode.Code.init(rawValue: error._code)
         isError.toggle()
@@ -169,5 +180,4 @@ import FirebaseStorage
             message = "Oops! An unexpected error occurred."
         }
     }
-
 }
