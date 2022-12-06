@@ -110,6 +110,127 @@ class PostUITests: XCTestCase {
         XCTAssertTrue(elementsQuery.staticTexts["New"].exists)
                     
     }
+    
+    func testEditItemFlow() throws {
+        let profileButton = app.tabBars["Tab Bar"].buttons["person"]
+        profileButton.tap()
+        
+        let elementsQuery = app.scrollViews.otherElements
+        let buyerButton = elementsQuery.segmentedControls.containing(.button, identifier:"Buyer").element
+        XCTAssertTrue(buyerButton.exists)
+        let sellerButton = elementsQuery.segmentedControls.containing(.button, identifier:"Seller").element
+        sellerButton.tap()
+        
+        //location in screen that represents first item in listings list
+        let itemIcon = app.scrollViews.otherElements.containing(.image, identifier:"logo").children(matching: .other).element(boundBy: 0).children(matching: .button).element(boundBy: 0)
+        itemIcon.tap()
+
+        
+        let editItemButton = app.staticTexts["Edit Item"]
+        XCTAssertTrue(editItemButton.exists)
+        editItemButton.tap()
+        
+        app.staticTexts["Item Name*"].tap()
+        
+      
+        app/*@START_MENU_TOKEN@*/.keys["delete"].press(forDuration: 1.6);/*[[".keyboards.keys[\"delete\"]",".tap()",".press(forDuration: 1.6);",".keys[\"delete\"]"],[[[-1,3,1],[-1,0,1]],[[-1,2],[-1,1]]],[0,0]]@END_MENU_TOKEN@*/
+        
+        //when deleting and replacing text keyboard taps had to be entered
+        //manually to work
+        app.keys["T"].tap()
+        app.keys["e"].tap()
+        app.keys["s"].tap()
+        app.keys["t"].tap()
+        app.keys["space"].tap()
+        app.buttons["shift"].tap()
+        app.keys["E"].tap()
+        app.keys["d"].tap()
+        app.keys["i"].tap()
+        app.keys["t"].tap()
+        
+        
+        app/*@START_MENU_TOKEN@*/.buttons["done"]/*[[".keyboards",".buttons[\"done\"]",".buttons[\"Done\"]"],[[[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["Done"].tap()
+        
+        itemIcon.tap()
+        //assert that the name of the top item has been changed to "Test Edit"
+        XCTAssertTrue(app.staticTexts["Test Edit"].exists)
+         
+    }
+    
+    func testRemoveRequiredField() throws{
+        let profileButton = app.tabBars["Tab Bar"].buttons["person"]
+        profileButton.tap()
+        
+        let elementsQuery = app.scrollViews.otherElements
+        let buyerButton = elementsQuery.segmentedControls.containing(.button, identifier:"Buyer").element
+        XCTAssertTrue(buyerButton.exists)
+        let sellerButton = elementsQuery.segmentedControls.containing(.button, identifier:"Seller").element
+        sellerButton.tap()
+        
+        //location in screen that represents first item in listings list
+        let itemIcon = app.scrollViews.otherElements.containing(.image, identifier:"logo").children(matching: .other).element(boundBy: 0).children(matching: .button).element(boundBy: 0)
+        itemIcon.tap()
+
+        
+        let editItemButton = app.staticTexts["Edit Item"]
+        XCTAssertTrue(editItemButton.exists)
+        editItemButton.tap()
+        
+        app.staticTexts["Item Name*"].tap()
+        
+      
+        app/*@START_MENU_TOKEN@*/.keys["delete"].press(forDuration: 1.6);/*[[".keyboards.keys[\"delete\"]",".tap()",".press(forDuration: 1.6);",".keys[\"delete\"]"],[[[-1,3,1],[-1,0,1]],[[-1,2],[-1,1]]],[0,0]]@END_MENU_TOKEN@*/
+        app/*@START_MENU_TOKEN@*/.buttons["done"]/*[[".keyboards",".buttons[\"done\"]",".buttons[\"Done\"]"],[[[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["Done"].tap()
+        
+        //assert error message shows
+        let errorM = app.staticTexts["Please enter valid information for all required fields."]
+        XCTAssertTrue(errorM.exists)
+        
+        //assert that interface remains on the edit item page
+        XCTAssertTrue(app.staticTexts["Item Name*"].exists)
+        XCTAssertTrue(app.staticTexts["Price*"].exists)
+    }
+    
+    func testDeletePost() throws {
+        //change numbers in "Listings" to reflect current number of listings
+        //in test profile
+        
+        let profileButton = app.tabBars["Tab Bar"].buttons["person"]
+        profileButton.tap()
+        
+        let elementsQuery = app.scrollViews.otherElements
+        let buyerButton = elementsQuery.segmentedControls.containing(.button, identifier:"Buyer").element
+        XCTAssertTrue(buyerButton.exists)
+        let sellerButton = elementsQuery.segmentedControls.containing(.button, identifier:"Seller").element
+        sellerButton.tap()
+        
+        //change value to reflect current number of listings
+        XCTAssertTrue(elementsQuery.buttons["Listings (3)"].exists)
+        
+        //location in screen that represents first item in listings list
+        app.scrollViews.otherElements.containing(.image, identifier:"logo").children(matching: .other).element(boundBy: 0).children(matching: .button).element(boundBy: 0).tap()
+
+        
+        let editItemButton = app.staticTexts["Edit Item"]
+        XCTAssertTrue(editItemButton.exists)
+        editItemButton.tap()
+        let deleteItemButton = app.buttons["Delete Item"]
+        XCTAssertTrue(deleteItemButton.exists)
+        deleteItemButton.tap()
+        app.alerts["Confirm Deletion"].scrollViews.otherElements.buttons["Delete"].tap()
+        
+        //assert that back in profile page
+        XCTAssertTrue(buyerButton.exists)
+        
+        let homeButton = app.tabBars["Tab Bar"].buttons["Home"]
+        homeButton.tap()
+        profileButton.tap()
+        sellerButton.tap()
+        XCTAssertTrue(elementsQuery.buttons["Listings (2)"].exists)
+        
+    }
 
     func testPriceError() throws {
         let homeButton = app.tabBars["Tab Bar"].buttons["Home"]
@@ -274,7 +395,7 @@ class PostUITests: XCTestCase {
         //asserts that item that has been canceled does not exist as most recent item
         XCTAssertFalse(app.staticTexts["Test Cancel Post"].exists)
       
-    
     }
+    
 }
 
