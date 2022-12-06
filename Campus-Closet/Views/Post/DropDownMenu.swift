@@ -36,9 +36,3 @@ struct DropDownMenu: View {
         }
     }
 }
-
-struct DropDownMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        DropDownMenu()
-    }
-}

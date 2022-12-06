@@ -43,9 +43,3 @@ struct VerifyEmailView: View {
         .border(.white, width: 3)
     }
 }
-
-struct VerifyEmailView_Previews: PreviewProvider {
-    static var previews: some View {
-        VerifyEmailView()
-    }
-}
