@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for the edit profile screen.
 struct EditProfile: View {
     @EnvironmentObject private var session: OnboardingVM
     @EnvironmentObject private var profileVM: ProfileVM
@@ -75,6 +76,7 @@ struct EditProfile: View {
     }
 }
 
+// Structure that displays a newly selected profile picture before it is confirmed.
 struct NewProfileImage: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var chosenPicture: UIImage?
@@ -104,6 +106,7 @@ struct NewProfileImage: View {
     }
 }
 
+// Structure for the camera icon that directs the user to upload a new profile picture.
 struct CameraIcon: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var pickerShowing: Bool

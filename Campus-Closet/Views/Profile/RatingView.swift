@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for the screen that lets a user rate other users.
 struct RatingView: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var sellerID: String

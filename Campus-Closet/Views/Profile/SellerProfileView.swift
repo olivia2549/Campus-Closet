@@ -8,6 +8,7 @@
 import SwiftUI
 import SegmentedPicker
 
+// Structure for the overarching view for the screen that shows a seller's profile.
 struct SellerProfileView: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM
@@ -56,6 +57,7 @@ struct SellerProfileView: View {
     
 }
 
+// Structure for the seller's profile header containing their name.
 struct SellerProfileHeader: View {
     @EnvironmentObject private var viewModel: ProfileVM
     var presentationMode: Binding<PresentationMode>
@@ -83,6 +85,7 @@ struct SellerProfileHeader: View {
     }
 }
 
+// Structure containing information about the seller.
 struct SellerProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM
@@ -134,6 +137,7 @@ struct SellerProfileInfo: View {
     }
 }
 
+// The seller can only be seen as a seller, not as a buyer.
 struct SellerToggleView: View {
     @EnvironmentObject var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for the marketplace home screen view.
 struct HomeView: View {
     @StateObject private var contentVM = ContentVM()
     @EnvironmentObject var session: OnboardingVM

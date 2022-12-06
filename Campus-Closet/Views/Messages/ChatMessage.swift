@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for the view that shows messages between two users.
 struct Chat_Message: View {
     @EnvironmentObject var messagesVM: MessagesVM
     @EnvironmentObject var session: OnboardingVM

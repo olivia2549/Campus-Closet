@@ -10,6 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
+// Class for a view model that manages bids and their database interactions.
 class BidsVM: ObservableObject, ErrorVM {
     let db = Firestore.firestore()
     @Published var isError = false
@@ -32,7 +33,7 @@ class BidsVM: ObservableObject, ErrorVM {
             return
         }
         
-        // Store new bid in firebase
+        // Store new bid in Firebase.
         let newBid = Bid(
             _id: bidId,
             itemId: item.id,
@@ -48,7 +49,7 @@ class BidsVM: ObservableObject, ErrorVM {
             return
         }
 
-        // Add to the buyer's bids and remove from their saved
+        // Add to the buyer's bids and remove from their saved.
         db.collection("users").document(myId).updateData([
             "bids": FieldValue.arrayUnion([item.id]),
             "saved": FieldValue.arrayRemove([item.id])
@@ -61,7 +62,7 @@ class BidsVM: ObservableObject, ErrorVM {
             }
         }
         
-        // Add user to the item's bid history
+        // Add user to the item's bid history.
         db.collection("items").document(item.id).updateData([
             "bidHistory.\(myId)": bidId,
         ]) { (error) in
@@ -73,7 +74,7 @@ class BidsVM: ObservableObject, ErrorVM {
             }
         }
         
-        // Notify seller that bid was placed
+        // Notify seller that bid was placed.
         NotificationsVM()
             .sendItemNotification(
                 to: item.sellerId,
@@ -128,5 +129,4 @@ class BidsVM: ObservableObject, ErrorVM {
         }
         return offer
     }
-    
 }

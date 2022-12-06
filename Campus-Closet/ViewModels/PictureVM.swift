@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import SwiftUI
 
+// Structure for a view model that manages the selection of images.
 struct PicturePicker: UIViewControllerRepresentable {
     @Binding var chosenPicture: UIImage?
     @Binding var pickerShowing: Bool
@@ -31,6 +32,7 @@ struct PicturePicker: UIViewControllerRepresentable {
     }
 }
 
+// Coordinator class that helps manage image selection.
 class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var parent: PicturePicker
 

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for the input field where users type messages.
 struct MessageField: View {
     @EnvironmentObject var messagesVM: MessagesVM
     @EnvironmentObject var session: OnboardingVM
@@ -16,7 +17,7 @@ struct MessageField: View {
 
     var body: some View {
         HStack {
-            // Custom text field created below
+            // Custom text field created below.
             CustomTextField(placeholder: Text("Enter your message here"), text: $message)
                 .frame(height: 52)
                 .disableAutocorrection(true)
@@ -40,6 +41,7 @@ struct MessageField: View {
         }
 }
 
+// Structure for a text field with custom design.
 struct CustomTextField : View {
     var placeholder: Text
     @Binding var text: String
@@ -47,7 +49,7 @@ struct CustomTextField : View {
     var commit: ()->() = { }
     var body: some View {
         ZStack(alignment: .leading) {
-            // If text is empty, show the placeholder on top of the TextField
+            // If text is empty, show the placeholder on top of the TextField.
             if text.isEmpty {
                 placeholder
                 .opacity(0.5)

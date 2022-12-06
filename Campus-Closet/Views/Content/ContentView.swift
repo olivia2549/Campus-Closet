@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 
+// Structure for the view that manages primary app screens and navigation.
 struct ContentView: View {
     @EnvironmentObject var session: OnboardingVM
     @State private var selection: Int = 0

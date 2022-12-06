@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for a view that uses asynchronous processing to manage scrolling.
 struct OffsetModifier: ViewModifier {
     @Binding var offset: CGFloat
     func body(content: Content) -> some View {

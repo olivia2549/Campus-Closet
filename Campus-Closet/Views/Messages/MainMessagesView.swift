@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 
+// Structure for the main view that shows users their recent message history.
 struct MainMessagesView: View {
     @State var shouldShowLogOutOptions = false
     @State var shouldShowNewMessageScreen = false
@@ -104,6 +105,7 @@ struct MainMessagesView: View {
     }
 }
 
+// Structure that gives a user a shortcut to message another user.
 struct MessageShortcutView: View, Identifiable {
     @StateObject private var profileVM = ProfileVM()
     @EnvironmentObject var session: OnboardingVM

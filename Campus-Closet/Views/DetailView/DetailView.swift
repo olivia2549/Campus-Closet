@@ -11,6 +11,7 @@ import FirebaseAuth
 let maxWidth = UIScreen.main.bounds.width
 let maxHeight = UIScreen.main.bounds.height
 
+// Structure for an item's detail view page.
 struct DetailView: View {
     @EnvironmentObject private var itemVM: ItemVM
     @EnvironmentObject var session: OnboardingVM
@@ -78,6 +79,7 @@ struct DetailView: View {
     }
 }
 
+// Structure for an item's image and corresponding icons.
 struct ItemImage: View {
     @EnvironmentObject private var itemViewModel: ItemVM
     @EnvironmentObject var session: OnboardingVM
@@ -116,9 +118,9 @@ struct ItemImage: View {
                 .foregroundColor(Color("LightGrey"))
         }
     }
-    
 }
 
+// Structure to display item details.
 struct DetailDescription: View {
     @EnvironmentObject private var viewModel: ItemVM
     var body: some View {
@@ -135,6 +137,7 @@ struct DetailDescription: View {
     }
 }
 
+// Structure that contains information about the item's seller.
 struct SellerInfo: View {
     @EnvironmentObject private var profileViewModel: ProfileVM
     @EnvironmentObject private var itemViewModel: ItemVM
@@ -212,46 +215,6 @@ struct SellerInfo: View {
         .sheet(isPresented: $showRatingView) {
             RatingView(sellerID: $itemViewModel.item.sellerId, showRatingView: $showRatingView)
                 .environmentObject(profileViewModel)
-        }
-    }
-}
-
-struct ButtonRow: View {
-    var body: some View{
-        VStack (alignment: .leading){
-            HStack { //fit to text
-                Button(action: {
-                    print("Tag")
-                }){
-                    Text("Sweater")
-                        .frame(minWidth: 0, maxWidth: 100)
-                        .font(.system(size: 18))
-                        .padding()
-                        .foregroundColor(.white)
-                        .overlay (
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke(Color.white, lineWidth: 24)
-                        )
-                }
-                .background(Color("Dark Gray"))
-                .cornerRadius(25)
-                
-                Button(action: {
-                    print("Condition")
-                }){
-                    Text("New")
-                        .frame(minWidth: 0, maxWidth: 50)
-                        .font(.system(size: 18))
-                        .padding()
-                        .foregroundColor(.white)
-                        .overlay (
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke(Color.white, lineWidth:24)
-                        )
-                }
-                .background(Color("Dark Gray"))
-                .cornerRadius(25)
-            }
         }
     }
 }

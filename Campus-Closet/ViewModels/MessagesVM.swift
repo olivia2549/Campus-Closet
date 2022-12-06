@@ -10,6 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
+// Class for a view model that manages messages and their database interactions.
 class MessagesVM: ObservableObject {
     @Published var users: [String] = []
     @Published private(set) var messages: [Message] = []
@@ -118,12 +119,13 @@ class MessagesVM: ObservableObject {
             }
         }
         
-        // Update recent messages to display on main screen
+        // Update recent messages to display on main screen.
         recentMessages[recipient] = messageId
-        // Update lastMessageID for automatic scroll
+        
+        // Update lastMessageID for automatic scroll.
         lastMessageID = messageId
         
-        // send notification to recipient
+        // Send notification to recipient.
         NotificationsVM()
             .sendChatNotification(
                 to: recipient,

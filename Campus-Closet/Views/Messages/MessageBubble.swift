@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseAuth
 
+// Structure for an individual message exchanged with another user.
 struct MessageBubble: View {
     var message: Message
     @State private var showTime = false

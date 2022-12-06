@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for a view that uses asynchronous processing to manage content height.
 struct HeightModifier: ViewModifier {
     @Binding var height: CGFloat
     func body(content: Content) -> some View {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for a tag selection view that lets users choose tags for filtration.
 struct TagPicker<ViewModel>: View where ViewModel: HandlesTagsVM {
     @EnvironmentObject private var viewModel: ViewModel
     @State private var shouldShowDropdown = false
@@ -43,6 +44,5 @@ struct TagPicker<ViewModel>: View where ViewModel: HandlesTagsVM {
         .onTapGesture {
             self.shouldShowDropdown.toggle()
         }
-        
     }
 }

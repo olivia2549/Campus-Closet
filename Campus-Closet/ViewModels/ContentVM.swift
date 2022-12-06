@@ -12,6 +12,7 @@ import FirebaseStorage
 import Foundation
 import SwiftUI
 
+// Class for a view model that manages marketplace management and listings.
 @MainActor class ContentVM: ObservableObject, HandlesTagsVM, RenderContentVM {
     private var db = Firestore.firestore()
     var user = User()

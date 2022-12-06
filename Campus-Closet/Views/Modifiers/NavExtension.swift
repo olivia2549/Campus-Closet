@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-// allow user to swipe back
+// Allow user to swipe back.
 extension UINavigationController: UIGestureRecognizerDelegate {
     override open func viewDidLoad() {
         super.viewDidLoad()

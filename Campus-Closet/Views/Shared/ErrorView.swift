@@ -12,6 +12,7 @@ import SwiftUI
     var message: String {get set}
 }
 
+// Structure for a popup that displays an error message to the user.
 struct ErrorView<ViewModel:ErrorVM>: View {
     @EnvironmentObject private var viewModel: ViewModel
     
