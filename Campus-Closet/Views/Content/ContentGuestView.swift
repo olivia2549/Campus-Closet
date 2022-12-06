@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 
+// Structure for the home screen with limited guest account permissions.
 struct ContentGuestView: View {
     @EnvironmentObject var session: OnboardingVM
     @State var selection: Int = 0

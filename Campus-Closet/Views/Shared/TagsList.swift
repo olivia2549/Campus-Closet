@@ -18,6 +18,7 @@ import SwiftUI
     func removeTag(for tag: String)
 }
 
+// Structure that manages a list of tags used in filtering.
 struct TagsList<ViewModel>: View where ViewModel: HandlesTagsVM {
     @EnvironmentObject private var viewModel: ViewModel
     @State private var totalHeight = CGFloat.infinity
@@ -85,5 +86,4 @@ struct TagsList<ViewModel>: View where ViewModel: HandlesTagsVM {
             return .clear
         }
     }
-
 }

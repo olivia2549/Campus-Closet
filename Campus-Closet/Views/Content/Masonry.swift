@@ -12,6 +12,7 @@ import UIKit
     var sortedColumns: [[String]] { get set }
 }
 
+// Structure for the Masonry, which presents listings in columnar form.
 struct Masonry<ViewModel>: View where ViewModel: RenderContentVM {
     @EnvironmentObject var viewModel: ViewModel
     @EnvironmentObject var session: OnboardingVM

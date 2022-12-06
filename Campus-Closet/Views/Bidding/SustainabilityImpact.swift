@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+// Structure for the sustainability graphic that appears after placing a valid bid.
 struct SustainabilityImpact: View {
     @Binding var showSustainabilityMessage: Bool
     @Binding var showBidView: Bool
+    
     var body: some View {
         var SustainabilityMessages:[String] = ["Did you know that the fashion industry is responsible for 10 % of global carbon emissions! By buying secondhand, you are helping the environment!","Did you know that in 2015, more than 21 billion pounds of clothing went to landfills? Thanks for preventing one more!", "Did you know that extending the average life of clothes by three months of active use gives a 5 - 10 % reduction in each item’s carbon, water and waste footprints?", "Fast Fashion is expected to grow by 20% over the next 10 years, in comparison to second-hand fashion which is expected to grow by 185%. You made the right choice!", "If everyone bought one used item instead of new this year, we would save 5.7B of CO2 emissions. Thanks for making a small step towards a better Earth."]
 
@@ -18,7 +20,7 @@ struct SustainabilityImpact: View {
                 Color.black.opacity(0.35).edgesIgnoringSafeArea(.all)
                 let randomInt = Int.random(in: 0..<5)
                 VStack(alignment: .center, spacing: 0) {
-                    HStack{
+                    HStack {
                         Text("Thanks for your purchase!")
                         Image(systemName: "globe.americas.fill")
                             .resizable()

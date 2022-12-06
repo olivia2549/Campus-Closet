@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// Structure for a view containing all bids.
 struct Bids: View {
     @StateObject private var bidsVM = BidsVM()
     @EnvironmentObject private var itemVM: ItemVM
@@ -39,6 +40,7 @@ struct Bids: View {
     }
 }
 
+// Structure for all anonymous offers on an item.
 struct AnonymousOffers: View {
     var bid: Bid
     var dateFormatter: DateFormatter
@@ -65,6 +67,7 @@ struct AnonymousOffers: View {
     }
 }
 
+// Structure that contains bid details and allow the seller to accept a bid.
 struct AcceptOffers: View {
     @StateObject private var profileVM = ProfileVM()
     @EnvironmentObject private var itemVM: ItemVM

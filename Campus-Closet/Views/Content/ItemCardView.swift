@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for a clickable item listing widget.
 struct ItemCardView: View, Identifiable {
     @StateObject private var viewModel = ItemVM()
     @EnvironmentObject var session: OnboardingVM
@@ -43,6 +44,7 @@ struct ItemCardView: View, Identifiable {
     }
 }
 
+// Structure that offers a preview of item listing details.
 struct PreviewItemInfo: View {
     @EnvironmentObject private var viewModel: ItemVM
     @EnvironmentObject var session: OnboardingVM

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for a chat preview with another user.
 struct ChatView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var viewModel = ProfileVM()
@@ -44,5 +45,4 @@ struct ChatView: View {
         .navigationBarHidden(true)
         .padding()
     }
-    
 }

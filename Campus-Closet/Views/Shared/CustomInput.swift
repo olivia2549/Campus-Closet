@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure that defines a reusable custom input field matching the app's design.
 struct CustomInput: View {
     @Binding var input: String
     let inputLabel: String
@@ -86,6 +87,4 @@ struct CustomInput: View {
         }
         .padding(.bottom, 20)
     }
-    
 }
-

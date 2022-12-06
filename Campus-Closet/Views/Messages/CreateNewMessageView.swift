@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 
+// Overarching structure for view that lets users message any other user.
 struct CreateNewMessageView: View {
     @Environment (\.presentationMode) var presentationMode
     @EnvironmentObject var viewModel: MessagesVM
@@ -45,6 +46,7 @@ struct CreateNewMessageView: View {
     }
 }
 
+// Structure that lists all users in the app as potential conversants.
 struct UserListView: View, Identifiable {
     @StateObject private var profileVM = ProfileVM()
     @EnvironmentObject var session: OnboardingVM

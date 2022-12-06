@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseAuth
 
+// Structure for a footer that persists at the bottom of the item detail page.
 struct StickyFooter: View {
     @EnvironmentObject private var itemVM: ItemVM
     @EnvironmentObject var session: OnboardingVM
@@ -25,15 +26,15 @@ struct StickyFooter: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top) {
-                // Item title and Vandy creator tag
+                // Item title and Vandy creator tag.
                 GeometryReader { proxy in
                     VStack(alignment: .leading) {
-                        // Name of item
+                        // Name of item.
                         HStack(alignment: .top) {
                             Text(itemVM.item.title)
                                 .font(.system(size: 24, weight: .semibold))
                                 .foregroundColor(.black)
-                            if itemVM.item.studentCreated {  // student created logo
+                            if itemVM.item.studentCreated { // Student created logo.
                                 Image(systemName: "v.circle.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -41,7 +42,7 @@ struct StickyFooter: View {
                                     .foregroundStyle(Color("Dark Pink"))
                             }
                         }
-                        // Listed price
+                        // Listed price.
                         Text(String(format: "Listed Price: $%.2f", itemVM.item.price))
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(Styles().darkGray)
@@ -51,7 +52,7 @@ struct StickyFooter: View {
                 
                 Spacer()
                 
-                // Button at right
+                // Button at right.
                 if !session.isGuest && !itemVM.isSeller && !itemVM.isBidder {
                     Button(action: {
                         showBidView = true

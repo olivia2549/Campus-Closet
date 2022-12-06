@@ -8,6 +8,7 @@
 import SwiftUI
 import SegmentedPicker
 
+// Structure for the overarching view for the screen that shows a user's profile.
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileVM()
     @EnvironmentObject var session: OnboardingVM
@@ -64,6 +65,7 @@ struct ProfileView: View {
     
 }
 
+// Structure for the profile header with name and edit profile options.
 struct ProfileHeader: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @Binding var offset: CGFloat
@@ -111,9 +113,9 @@ struct ProfileHeader: View {
         let progress = -offset/(maxHeight*0.6)
         return progress
     }
-    
 }
 
+// Structure for the view component that contains profile data.
 struct ProfileInfo: View {
     @EnvironmentObject private var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM
@@ -174,9 +176,9 @@ struct ProfileInfo: View {
         let opacity = 1-progress
         return offset < 0 ? opacity : 1
     }
-    
 }
 
+// Structure that contains the option to toggle between buyer and seller modes.
 struct ToggleView: View {
     @EnvironmentObject var viewModel: ProfileVM
     @EnvironmentObject var session: OnboardingVM
@@ -241,5 +243,4 @@ struct ToggleView: View {
     func getPosition() -> CGFloat {
         return offset < maxHeight ? (80 - offset) : (maxHeight - offset)
     }
-    
 }

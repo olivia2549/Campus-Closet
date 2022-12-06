@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// Structure for consistent style reused throughout the app.
 struct Styles {
     let themePink = Color("Dark Pink")
     let gray = Color("Gray")
@@ -101,7 +102,7 @@ struct Styles {
     
 }
 
-// Custom RoundedCorner shape used for cornerRadius extension above
+// Custom RoundedCorner shape used for cornerRadius extension above.
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners

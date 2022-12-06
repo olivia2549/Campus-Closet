@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure containing drop down options for item condition.
 struct DropDownMenu: View {
     var body: some View {
         //Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)

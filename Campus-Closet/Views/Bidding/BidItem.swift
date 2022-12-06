@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Structure for the screen where users can bid on an item.
 struct BidItem: View {
     @StateObject private var bidsVM = BidsVM()
     @State private var offer: String = ""

@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 
+// Overarching structure for the search bar.
 struct CustomSearch: View {
     @EnvironmentObject var contentVM: ContentVM
     
@@ -25,6 +26,7 @@ struct CustomSearch: View {
     }
 }
 
+// Structure that defines the view for the search bar.
 struct CustomSearchBar: View {
     @EnvironmentObject var contentVM: ContentVM
     

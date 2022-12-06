@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Overarching structure that manages item posting screens.
 struct PostView: View {
     @StateObject private var postVM = PostVM()
     @EnvironmentObject var session: OnboardingVM
@@ -38,6 +39,7 @@ struct PostView: View {
     }
 }
 
+// First screen in item posting. User uploads a picture from camera roll.
 struct ChoosePicture: View {
     @EnvironmentObject private var viewModel: PostVM
     @EnvironmentObject var session: OnboardingVM
@@ -109,6 +111,7 @@ struct ChoosePicture: View {
     }
 }
 
+// Second screen in item posting. User enters required information with error checking.
 struct BasicInfo: View {
     @ObservedObject var viewModel: PostVM
     @EnvironmentObject var session: OnboardingVM
@@ -258,9 +261,9 @@ struct BasicInfo: View {
                   secondaryButton: .cancel())
         }
     }
-    
 }
 
+// Third screen in error checking. User can input optional information about the item.
 struct OptionalInfo: View {
     @EnvironmentObject private var postVM: PostVM
     @EnvironmentObject var session: OnboardingVM
