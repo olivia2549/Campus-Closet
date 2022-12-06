@@ -99,9 +99,3 @@ struct SignUpFormBox: View {
         .cornerRadius (20)
     }
 }
-
-struct SignUpView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignUpView()
-    }
-}

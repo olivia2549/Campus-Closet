@@ -46,10 +46,3 @@ struct ChatView: View {
     }
     
 }
-
-//struct ChatView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ChatView()
-//            .background(Color("Dark Pink"))
-//    }
-//}

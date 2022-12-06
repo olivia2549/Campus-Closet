@@ -127,11 +127,3 @@ struct CameraIcon: View {
         }
     }
 }
-
-struct EditProfile_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            EditProfile()
-        }
-    }
-}
