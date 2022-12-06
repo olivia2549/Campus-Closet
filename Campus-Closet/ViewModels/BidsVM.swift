@@ -23,11 +23,11 @@ class BidsVM: ObservableObject, ErrorVM {
         }
         let bidId = "\(UUID())"
 
-        guard let bidPrice = Int(offer) else {
+        guard let bidPrice = Float(offer) else {
             isError = true
             return
         }
-        if (bidPrice < Int(item.price)) {
+        if (bidPrice < Float(item.price)) {
             isError = true
             return
         }
