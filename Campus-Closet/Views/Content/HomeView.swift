@@ -15,10 +15,9 @@ struct HomeView: View {
     @State var show = false
     @State var sortLabel = "New Arrivals"
     @Binding var tabSelection: Int
-
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height
-        
+    
     var body: some View {
         VStack(spacing: 0) {
             // Header
@@ -50,21 +49,25 @@ struct HomeView: View {
             .padding(.leading)
             .padding(.trailing)
             
-            // Filter items
+            // Filter and sort items.
             VStack(alignment: .leading, spacing: maxHeight*0.02) {
                 CustomSearch().frame(height: maxHeight*0.05)
                 HStack {
+                    // Select filter options.
                     Text("Filter By")
                         .foregroundColor(.black)
                         .font(.system(size: 20, weight: .semibold))
                     TagPicker<ContentVM>(menuText: "All")
                         .frame(width: maxWidth*0.2)
                     Spacer()
+                    
+                    // Select sorting options.
                     Text("\(sortLabel)")
                         .foregroundColor(.black)
                         .font(.system(size: 20, weight: .semibold))
                         .frame(width: maxWidth*0.4, alignment: .trailing)
                     Menu {
+                        // Sort items from lowest to highest price.
                         Button {
                             contentVM.sortField = "price"
                             contentVM.sortDescending = true
@@ -73,6 +76,8 @@ struct HomeView: View {
                         } label: {
                             Text("Price: Low to High")
                         }
+                        
+                        // Sort items from highest to lowest price.
                         Button {
                             contentVM.sortField = "price"
                             contentVM.sortDescending = false
@@ -81,6 +86,8 @@ struct HomeView: View {
                         } label: {
                             Text("Price: High to Low")
                         }
+                        
+                        // Sort items from most to least recent.
                         Button {
                             contentVM.sortField = "timestamp"
                             contentVM.sortDescending = false
@@ -98,7 +105,7 @@ struct HomeView: View {
             }
             .padding()
             
-            // View items for sale in 2 Masonry-style columns
+            // View items for sale in 2 Masonry-style columns.
             ScrollView {
                 Masonry<ContentVM>(tabSelection: $tabSelection)
             }
@@ -111,4 +118,3 @@ struct HomeView: View {
         .onTapGesture { hideKeyboard() }
     }
 }
-
