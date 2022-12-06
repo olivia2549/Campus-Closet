@@ -28,15 +28,6 @@ struct HomeView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: maxWidth*0.2, height: maxHeight*0.07, alignment: .leading)
                 Spacer()
-                Button(action: {
-                }){
-                    Image(systemName:"magnifyingglass")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: maxWidth*0.06)
-                        .foregroundColor(.black)
-                        .padding(10)
-                }
                 if !session.isGuest {
                     Image(systemName: "plus.app")
                         .resizable()
