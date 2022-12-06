@@ -49,7 +49,7 @@ class ProfileViewUITests: XCTestCase {
         buyerButton.tap()
         
     }
-/*
+
     func testEditProfile() throws {
         // UI tests must launch the application that they test.
         
@@ -64,28 +64,83 @@ class ProfileViewUITests: XCTestCase {
         let namebox = app.staticTexts["Name"]
         XCTAssertTrue(namebox.exists)
         namebox.tap()
-        namebox.typeText("Amanda Test 1")
-        //let textField = app.windows.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
-
-        //textField.tap()
-        app.windows.keys["delete"].press(forDuration: 5)
-        //textField.typeText("Amanda Test 1")
-        let doneButton = app.buttons["Done"]
-        XCTAssertTrue(doneButton.exists)
-        doneButton.tap()
-        let newName = app.scrollViews.otherElements.staticTexts["Amanda Test 1"]
-        XCTAssertTrue(newName.exists)
         
-        /*
-        let app = XCUIApplication()
-        app.tabBars["Tab Bar"].buttons["person"].tap()
-        app.scrollViews.otherElements.buttons["Edit"].tap()
-        app.windows.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.tap()
-        app/*@START_MENU_TOKEN@*/.keys["delete"]/*[[".keyboards.keys[\"delete\"]",".keys[\"delete\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-*/
-    
+        app.keys["delete"].press(forDuration: 2.0)
+        //when deleting and replacing text keyboard taps had to be entered
+        //manually to work
+        app.keys["T"].tap()
+        app.keys["e"].tap()
+        app.keys["s"].tap()
+        app.keys["t"].tap()
+        app.keys["space"].tap()
+        app.buttons["shift"].tap()
+        app.keys["N"].tap()
+        app.keys["a"].tap()
+        app.keys["m"].tap()
+        app.keys["e"].tap()
+        
+        
+        app/*@START_MENU_TOKEN@*/.buttons["done"]/*[[".keyboards",".buttons[\"done\"]",".buttons[\"Done\"]"],[[[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["Done"].tap()
+        
+        //assert that flow navigated back to the profile page
+        let elementsQuery = app.scrollViews.otherElements
+        let buyerButton = elementsQuery.segmentedControls.containing(.button, identifier:"Buyer").element
+        XCTAssertTrue(buyerButton.exists)
+        
+        //assert new Name is present
+        let newName = app.scrollViews.otherElements.staticTexts["Test Name"]
+        XCTAssertTrue(newName.exists)
     }
-  */
+    
+    func testChangeToExistingName() throws{
+        //precondition: profile name is "Test Name"
+        
+        let tabBar = app.tabBars["Tab Bar"]
+        XCTAssertTrue(tabBar.exists)
+        let profileButton = tabBar.buttons["person"]
+        XCTAssertTrue(profileButton.exists)
+        profileButton.tap()
+        
+        let currentName = app.scrollViews.otherElements.staticTexts["Test Name"]
+        currentName.waitForExistence(timeout: 5.0)
+        XCTAssertTrue(currentName.exists)
+        
+        let editButton = app.scrollViews.otherElements.buttons["Edit"]
+        XCTAssertTrue(editButton.exists)
+        editButton.tap()
+        let namebox = app.staticTexts["Name"]
+        XCTAssertTrue(namebox.exists)
+        namebox.tap()
+        
+        app.keys["delete"].press(forDuration: 2.0)
+        //when deleting and replacing text keyboard taps had to be entered
+        //manually to work
+        app.keys["T"].tap()
+        app.keys["e"].tap()
+        app.keys["s"].tap()
+        app.keys["t"].tap()
+        app.keys["space"].tap()
+        app.buttons["shift"].tap()
+        app.keys["N"].tap()
+        app.keys["a"].tap()
+        app.keys["m"].tap()
+        app.keys["e"].tap()
+        
+        
+        app/*@START_MENU_TOKEN@*/.buttons["done"]/*[[".keyboards",".buttons[\"done\"]",".buttons[\"Done\"]"],[[[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["Done"].tap()
+        
+        //assert that flow navigated back to the profile page
+        let elementsQuery = app.scrollViews.otherElements
+        let buyerButton = elementsQuery.segmentedControls.containing(.button, identifier:"Buyer").element
+        XCTAssertTrue(buyerButton.exists)
+        
+        //assert current name is still present
+        XCTAssertTrue(currentName.exists)
+        
+    }
+  
     func testEditProfileNoEdits() throws {
         let tabBar = app.tabBars["Tab Bar"]
         XCTAssertTrue(tabBar.exists)
