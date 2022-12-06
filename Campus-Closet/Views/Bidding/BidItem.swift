@@ -49,8 +49,12 @@ struct BidItem: View {
             HStack {
                 Spacer()
                     Button(action: {
-                        bidsVM.placeBid(item: itemVM.item, offer: offer)
-                        showBidView = false
+                        let success = bidsVM.placeBid(item: itemVM.item, offer: offer)
+                        if (!success) {
+                            showAlert = true
+                        }else {
+                            showBidView = false
+                        }
                     }) {
                         Text("Send Bid Offer")
                             .frame(minWidth: 0, maxWidth: .infinity)

@@ -14,12 +14,14 @@ class BidsVM: ObservableObject {
     let db = Firestore.firestore()
     @Published private(set) var bids: [Bid] = []
     
-    func placeBid(item: Item, offer: String) {
-        guard let myId = Auth.auth().currentUser?.uid else {return}
+    func placeBid(item: Item, offer: String) -> Bool {
+        guard let myId = Auth.auth().currentUser?.uid else {return false}
         let bidId = "\(UUID())"
 
-        // TODO: validate that bidPrice is greater than previous bid price
-        // guard let bidPrice = Int(offer) else {return}
+        guard let bidPrice = Int(offer) else {return false}
+        if (bidPrice < Int(item.price)) {
+            return false
+        }
         
         // Store new bid in firebase
         let newBid = Bid(
@@ -33,7 +35,7 @@ class BidsVM: ObservableObject {
             try db.collection("bids").document(newBid.id).setData(from: newBid)
         } catch {
             print ("Error adding bid to Firestore: \(error)")
-            return
+            return false
         }
 
         // Add to the buyer's bids and remove from their saved
@@ -69,6 +71,8 @@ class BidsVM: ObservableObject {
                 itemName: item.title,
                 price: newBid.offer
             )
+        
+        return true
     }
     
     func getBids(for itemId: String) {

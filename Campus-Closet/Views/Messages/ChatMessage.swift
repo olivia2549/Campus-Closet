@@ -26,7 +26,6 @@ struct Chat_Message: View {
                     .background(.white)
                     .cornerRadius(30, corners: [.topLeft, .topRight])
                     .onChange(of: messagesVM.lastMessageID){ id in
-                        print("changed lastmessageid")
                         withAnimation{
                             proxy.scrollTo(id, anchor: .bottom)
                         }
