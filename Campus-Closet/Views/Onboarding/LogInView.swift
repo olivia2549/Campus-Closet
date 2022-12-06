@@ -21,7 +21,7 @@ struct LogInView: View {
                         GuestLogin(proxy: proxy)
                     }
                     .padding(proxy.size.width*0.02)
-                    ErrorView()
+                    ErrorView<OnboardingVM>()
                 }
                 .navigationBarHidden(true)
                 .onTapGesture { hideKeyboard() }

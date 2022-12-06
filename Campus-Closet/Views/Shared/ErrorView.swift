@@ -7,8 +7,13 @@
 
 import SwiftUI
 
-struct ErrorView: View {
-    @EnvironmentObject private var viewModel: OnboardingVM
+@MainActor protocol ErrorVM: ObservableObject {
+    var isError: Bool {get set}
+    var message: String {get set}
+}
+
+struct ErrorView<ViewModel:ErrorVM>: View {
+    @EnvironmentObject private var viewModel: ViewModel
     
     var body: some View {
         ZStack {
@@ -41,13 +46,5 @@ struct ErrorView: View {
                 .border(.white, width: 3)
             }
         }
-    }
-}
-
-struct ErrorView_Previews: PreviewProvider {
-    @State static private var showMessage: Bool = false
-    
-    static var previews: some View {
-        ErrorView()
     }
 }

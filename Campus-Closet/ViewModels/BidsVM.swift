@@ -10,17 +10,26 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
-class BidsVM: ObservableObject {
+class BidsVM: ObservableObject, ErrorVM {
     let db = Firestore.firestore()
+    @Published var isError = false
+    @Published var message = "Oops! There has been a problem placing your bid. Your bid price may be lower than the current listed price"
     @Published private(set) var bids: [Bid] = []
     
-    func placeBid(item: Item, offer: String) -> Bool {
-        guard let myId = Auth.auth().currentUser?.uid else {return false}
+    func placeBid(item: Item, offer: String) {
+        guard let myId = Auth.auth().currentUser?.uid else {
+            isError = true
+            return
+        }
         let bidId = "\(UUID())"
 
-        guard let bidPrice = Int(offer) else {return false}
+        guard let bidPrice = Int(offer) else {
+            isError = true
+            return
+        }
         if (bidPrice < Int(item.price)) {
-            return false
+            isError = true
+            return
         }
         
         // Store new bid in firebase
@@ -35,7 +44,8 @@ class BidsVM: ObservableObject {
             try db.collection("bids").document(newBid.id).setData(from: newBid)
         } catch {
             print ("Error adding bid to Firestore: \(error)")
-            return false
+            isError = true
+            return
         }
 
         // Add to the buyer's bids and remove from their saved
@@ -71,8 +81,6 @@ class BidsVM: ObservableObject {
                 itemName: item.title,
                 price: newBid.offer
             )
-        
-        return true
     }
     
     func getBids(for itemId: String) {

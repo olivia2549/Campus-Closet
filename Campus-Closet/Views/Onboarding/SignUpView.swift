@@ -22,7 +22,7 @@ struct SignUpView: View {
                     SignUpFormBox(proxy: proxy)
                 }
                 .padding(20)
-                ErrorView()
+                ErrorView<OnboardingVM>()
             }
             .navigationBarBackButtonHidden(true)
             .toolbar(content: {

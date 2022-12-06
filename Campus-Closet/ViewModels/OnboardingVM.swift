@@ -14,7 +14,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-@MainActor class OnboardingVM: ObservableObject {
+@MainActor class OnboardingVM: ObservableObject, ErrorVM {
     @Published var isError: Bool = false
     @Published var isEmailSent: Bool = false
     @Published var message: String = ""
