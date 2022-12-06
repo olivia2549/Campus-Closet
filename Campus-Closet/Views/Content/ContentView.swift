@@ -22,6 +22,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             TabView(selection: $selection) {
+                // Icon to navigate to home marketplace screen.
                 HomeView(tabSelection: $selection)
                     .tabItem {
                         if (selection == 0) {
@@ -33,6 +34,8 @@ struct ContentView: View {
                         }
                     }
                     .tag(0)
+                
+                // Icon to navigate to main messaging screen.
                 MainMessagesView()
                     .tabItem {
                         if (selection == 1) {
@@ -44,6 +47,8 @@ struct ContentView: View {
                         }
                     }
                     .tag(1)
+                
+                // Icon to navigate to profile view screen.
                 ProfileView(tabSelection: $selection)
                     .tabItem {
                         if (selection == 2) {

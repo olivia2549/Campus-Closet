@@ -11,11 +11,10 @@ struct ItemCardView: View, Identifiable {
     @StateObject private var viewModel = ItemVM()
     @EnvironmentObject var session: OnboardingVM
     var tabSelection: Binding<Int>
-    
     let maxWidth = UIScreen.main.bounds.width
     let maxHeight = UIScreen.main.bounds.height
-
     var id: String
+    
     init(for id: String, tabSelection: Binding<Int>) {
         self.id = id
         self.tabSelection = tabSelection
@@ -23,15 +22,15 @@ struct ItemCardView: View, Identifiable {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            // Clickable image card
-            NavigationLink (destination: DetailView(tabSelection: tabSelection).environmentObject(viewModel)){ //look at
+            // Clickable image card.
+            NavigationLink (destination: DetailView(tabSelection: tabSelection).environmentObject(viewModel)) {
                 if (viewModel.itemImage != nil) {   // render item image
                     Image(uiImage: viewModel.itemImage!)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(RoundedRectangle(cornerRadius: 25))
                 }
-                else {  // no image found
+                else { // No image found.
                     Color("LightGrey")
                         .frame(width: maxWidth/2.2, height: maxHeight/3, alignment: .center)
                         .clipShape(RoundedRectangle(cornerRadius: 25))
@@ -47,15 +46,15 @@ struct ItemCardView: View, Identifiable {
 struct PreviewItemInfo: View {
     @EnvironmentObject private var viewModel: ItemVM
     @EnvironmentObject var session: OnboardingVM
-    
     var id: String
+    
     init(for id: String) {
         self.id = id
     }
 
     var body: some View {
-        GeometryReader {proxy in
-            // Information under the image (title, size, and price)
+        GeometryReader { proxy in
+            // Information under the image (title, size, and price).
             HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading) {
                     Text(viewModel.item.title)
@@ -73,7 +72,7 @@ struct PreviewItemInfo: View {
                     .frame(maxWidth: proxy.size.width*0.4, alignment: .trailing)
             }
             .onAppear {
-                viewModel.fetchSeller(for: id, curUser: session.currentUser) {} //look at
+                viewModel.fetchSeller(for: id, curUser: session.currentUser) {}
             }
             .padding(.leading)
             .padding(.trailing)

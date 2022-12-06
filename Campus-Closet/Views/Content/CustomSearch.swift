@@ -35,8 +35,8 @@ struct CustomSearchBar: View {
             contentVM.searchTxt = $0
             contentVM.fetchData()
         })
-
-        HStack{
+        
+        HStack {
             TextField("Search", text: binding)
                 .padding(5)
                 .submitLabel(.search)
@@ -45,7 +45,7 @@ struct CustomSearchBar: View {
                     contentVM.fetchData()
                 }
             if contentVM.searchTxt != "" {
-                Button (action: {
+                Button(action: {
                     contentVM.searchTxt = ""
                     contentVM.fetchData()
                 }){
@@ -57,5 +57,4 @@ struct CustomSearchBar: View {
         }
         .padding(5)
     }
-    
 }
