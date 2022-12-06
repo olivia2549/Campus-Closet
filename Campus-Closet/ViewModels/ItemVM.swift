@@ -26,7 +26,11 @@ import FirebaseStorage
     private var db = Firestore.firestore()
     
     func verifyInfo() -> Bool {
-        return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && Float(chosenPrice) != nil
+        if Float(chosenPrice) != nil {
+            let price: Float = Float(chosenPrice)!
+            return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && price > 0 && price < 1000
+        }
+        return false
     }
     
     func fetchSeller(for itemId: String, curUser: User, completion: @escaping () -> Void) {

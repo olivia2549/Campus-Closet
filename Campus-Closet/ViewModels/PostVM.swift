@@ -34,7 +34,11 @@ import FirebaseStorage
     ]
     
     func verifyInfo() -> Bool {
-        return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && Float(chosenPrice) != nil
+        if Float(chosenPrice) != nil {
+            let price: Float = Float(chosenPrice)!
+            return !item.title.isEmpty && !item.size.isEmpty && !item.condition.isEmpty && price > 0 && price < 1000
+        }
+        return false
     }
     
     func choosePicture(chosenPicture: Binding<UIImage?>, pickerShowing: Binding<Bool>, isLoading: Binding<Bool>) -> some UIViewControllerRepresentable {
