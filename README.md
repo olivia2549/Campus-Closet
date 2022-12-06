@@ -17,12 +17,3 @@ Use cases for sellers include:
 2. accepting offers on their listings
 
 Our implementation uses SwiftUI with Firebase.
-
-### Installation & Deployment Instructions
-To install our latest App Store update:
-1. Download "Campus Closet" from the App Store on an iOS device updated to iOS 16.
-2. Browse the app as a guest or create an account with your Vanderbilt email.
-
-To install our latest changes:
-1. Clone this GitHub project and open in Xcode.
-2. Plug in your iOS device and press play. Ensure that developer mode is enabled.
