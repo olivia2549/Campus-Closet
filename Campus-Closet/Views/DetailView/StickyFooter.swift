@@ -20,7 +20,6 @@ struct StickyFooter: View {
     @State var presentEditScreen = false
     @State var isLoaded = false
     @State var showBidView = false
-    @State var showRatingView = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
@@ -53,19 +52,7 @@ struct StickyFooter: View {
                 Spacer()
                 
                 // Button at right
-                if itemVM.isSold && !itemVM.isSeller {
-                    Button(action: {
-                        showRatingView = true
-                    }){
-                        Text("Rate this seller")
-                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
-                    }
-                    .padding(10)
-                    .background(Styles().themePink)
-                    .cornerRadius(10)
-                    .foregroundColor(.white)
-                }
-                else if !session.isGuest && !itemVM.isSeller && !itemVM.isBidder {
+                if !session.isGuest && !itemVM.isSeller && !itemVM.isBidder {
                     Button(action: {
                         showBidView = true
                         presentationMode.wrappedValue.dismiss()
@@ -114,7 +101,7 @@ struct StickyFooter: View {
                 }
             }
             .padding(.top, 10)
-                        
+            
             if !itemVM.isSeller {
                 SellerInfo(tabSelection: $tabSelection)
             }
@@ -143,10 +130,6 @@ struct StickyFooter: View {
         .sheet(isPresented: $showBidView) {
             BidItem(showBidView: $showBidView)
                 .environmentObject(itemVM)
-        }
-        .sheet(isPresented: $showRatingView) {
-            RatingView(sellerID: $itemVM.item.sellerId, showRatingView: $showRatingView)
-                .environmentObject(profileVM)
         }
     }
 }

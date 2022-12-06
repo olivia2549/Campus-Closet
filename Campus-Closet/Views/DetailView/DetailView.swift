@@ -141,6 +141,7 @@ struct SellerInfo: View {
     @EnvironmentObject var session: OnboardingVM
     @Binding var tabSelection: Int
     @State var sellerId = ""
+    @State var showRatingView = false
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
@@ -184,6 +185,15 @@ struct SellerInfo: View {
                 
                 if !session.isGuest {
                     NavigationLink(destination: Chat_Message(partnerId: sellerId).environmentObject(session).environmentObject(MessagesVM())) {
+                        Button(action: {
+                            showRatingView = true
+                        }){
+                            Image(systemName: "star")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(Color("Dark Pink"))
+                        }
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -199,6 +209,10 @@ struct SellerInfo: View {
                 profileViewModel.fetchUser(userID: item.sellerId)
             }
         })
+        .sheet(isPresented: $showRatingView) {
+            RatingView(sellerID: $itemViewModel.item.sellerId, showRatingView: $showRatingView)
+                .environmentObject(profileViewModel)
+        }
     }
 }
 
