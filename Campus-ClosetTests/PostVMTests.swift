@@ -33,15 +33,6 @@ class PostVMTests : XCTestCase {
         
     }
     
-//    @MainActor func testUploadPicture(){
-//        let postVM = PostVM()
-//        XCTAssertNoThrow(postVM.uploadPicture(), "This call should not throw an exception")
-//
-//        //TO DO:
-//        //test that picture successfully uploads
-//        //test that when picture size > max size, the proper error is thrown
-//        //test that when picture size < max size, program continues as normal
-//    }
     
     @MainActor func testPreconditions(){
         let postVM = PostVM()
@@ -72,19 +63,6 @@ class PostVMTests : XCTestCase {
         for tag in postVM.tagsLeft {
             XCTAssertEqual(tag.value, 1, "No tags should be added")
         }
-    }
-    
-    //test in the process of being resolved
-    @MainActor func testPostItem(){
-        let postVM = PostVM()
-        postVM.postItem() {_ in return }
-        //let user = User()
-        //let profileRef = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
-        //need some sort of call to Auth.auth().currentUser?.uid to get user and test if
-        //they have an added listing
-        //XCTAssertNotEqual(user.listings?.count, 0, "User should have at least one listing")
-        //XCTAssertEqual(user.listings[listings.count - 1], "the id of the item just posted")
-        
     }
     
     @MainActor func testAddRemoveTag(){

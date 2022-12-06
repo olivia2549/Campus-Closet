@@ -26,19 +26,33 @@ class ContentUITests: XCTestCase {
         app = nil
     }
     
-    func testInitialization() throws{
+    func testProfileView() throws{
+        //tapping on an item
+        app.scrollViews.children(matching: .other).element.children(matching: .other).element(boundBy: 0).children(matching: .button).element(boundBy: 0).tap()
         
+        let profileButton = app.buttons["Lauren, @Le-scott, 0.00 (0 Ratings)"]
+        profileButton.tap()
         
+        let elementsQuery = XCUIApplication().scrollViews.otherElements
+        
+        //asserting certain buttons associated with profile view are present
+        //to ascertain we are viewing a profile
+        XCTAssertTrue(elementsQuery.images["Favorite"].exists)
+        XCTAssertTrue(elementsQuery.images["dollarsign.circle"].exists)
+                
+    
     }
 
-    func testHomeFlow() throws {
-        // UI tests must launch the application that they test.
+    func testFilter() throws {
         
         app.tabBars["Tab Bar"].buttons["Home"].tap()
-       
+        app.buttons["All"].tap()
+        app.collectionViews.buttons["womens"].tap()
         
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssertTrue(app.staticTexts["womens"].exists)
+        app.staticTexts["womens"].tap()
+        XCTAssertFalse(app.staticTexts["womens"].exists)
+        
     }
 
     func testLaunchPerformance() throws {

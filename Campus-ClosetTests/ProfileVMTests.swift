@@ -40,16 +40,15 @@ class ProfileVMTests : XCTestCase {
     }
     
     @MainActor func testGetProfileData(){
+        let testUser = User(_id: "0HoTRrq33tWpRdYjchFts7PnJdJ2")
+        
         let profileVM = ProfileVM()
-        XCTAssertNoThrow(profileVM.getProfileData(), "This call should not throw an exception")
-        //TO DO: test error handling on max size of an image
+        XCTAssertNoThrow(profileVM.fetchUser(userID: testUser._id), "This call should not throw an exception")
+        XCTAssertNoThrow(profileVM.getProfileData())
+        XCTAssertTrue(profileVM.fetchUser(userID: testUser._id)._id == profileVM.getProfileData()._id)
+    
     }
     
-    @MainActor func testFetchUser(){
-        let profileVM = ProfileVM()
-        XCTAssertNoThrow(profileVM.fetchUser(userID: Auth.auth().currentUser?.uid ?? "0"), "This call should not throw an exception")
-        profileVM.fetchUser(userID: Auth.auth().currentUser?.uid ?? "0")
-        XCTAssertNotNil(profileVM.user, "User should be fetched and exist")
-    }
+
     
 }

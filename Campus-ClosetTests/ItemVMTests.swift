@@ -6,6 +6,12 @@
 //
 
 import XCTest
+import SwiftUI
+import Firebase
+import FirebaseCore
+import FirebaseAuth
+import FirebaseFirestore
+import FirebaseStorage
 @testable import Campus_Closet
 
 class ItemVMTests : XCTestCase {
@@ -65,6 +71,7 @@ class ItemVMTests : XCTestCase {
         XCTAssertTrue(itemVM.isEditing, "isEditing flag should be true")
         XCTAssertFalse(itemVM.isSeller, "isSeller flag should be false")
     }
+    
     
 
 }
