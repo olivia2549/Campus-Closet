@@ -187,16 +187,16 @@ struct SellerInfo: View {
                 Spacer()
                 
                 if !session.isGuest {
+                    Button(action: {
+                        showRatingView = true
+                    }){
+                        Image(systemName: "star")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color("Dark Pink"))
+                    }
                     NavigationLink(destination: Chat_Message(partnerId: sellerId).environmentObject(session).environmentObject(MessagesVM())) {
-                        Button(action: {
-                            showRatingView = true
-                        }){
-                            Image(systemName: "star")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(Color("Dark Pink"))
-                        }
                         Image(systemName: "ellipsis.message.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)

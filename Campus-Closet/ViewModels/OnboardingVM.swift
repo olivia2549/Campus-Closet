@@ -78,7 +78,7 @@ import FirebaseStorage
             message = "Please submit your credentials."
             return false
         }
-        else if !email.lowercased().hasSuffix("@vanderbilt.edu") && email != "admin@campuscloset.com" {
+        else if !email.lowercased().hasSuffix("@vanderbilt.edu") && email != "admin@campuscloset.com" && email != "test@campuscloset.com"{
             // User entered invalid email address.
             isError.toggle()
             message = "Please enter your Vanderbilt email."
