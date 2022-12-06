@@ -13,7 +13,7 @@ import FirebaseAuth
 class BidsVM: ObservableObject, ErrorVM {
     let db = Firestore.firestore()
     @Published var isError = false
-    @Published var message = "Oops! There has been a problem placing your bid. Your bid price may be lower than the current listed price"
+    @Published var message = "Oops! There has been a problem placing your bid. Your bid price may be lower than the current listed price."
     @Published private(set) var bids: [Bid] = []
     
     func placeBid(item: Item, offer: String) {
