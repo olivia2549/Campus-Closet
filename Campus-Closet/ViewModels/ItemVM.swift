@@ -21,7 +21,6 @@ import FirebaseStorage
     @Published var itemImage: UIImage?
     @Published var isSeller = false
     @Published var isSaved = false
-    @Published var isSold = false
     @Published var isBidder = false
     private var db = Firestore.firestore()
     
@@ -32,7 +31,6 @@ import FirebaseStorage
                 switch result {
                 case .success(let user):
                     self.isSaved = curUser.saved.contains(itemId)
-                    self.isSold = curUser.sold.contains(itemId)
                     completion()
                 case .failure(let error):
                     print("Error decoding user: \(error)")
@@ -70,42 +68,62 @@ import FirebaseStorage
             }
         }
     }
-        
-    // Go through each bidder and remove from their bids.
+    
+    // Sell an item
     func sellItem(bid: Bid) {
-        var sentToBidder = false
-        for bidData in item.bidHistory {
-            db.collection("users").document(bidData.key).updateData([
-                "bids": FieldValue.arrayRemove([item.id])
-            ]) { error in
-                if let e = error {
-                    print("There was an issue saving data to Firestore, \(e).")
-                } else {
-                    print("Successfully removed item from each bidder.")
-                    self.isSold = true
-                    if (bidData.key == bid.bidderId && !sentToBidder) {
-                        sentToBidder = true
-                        // Notify bidder that their offer was accepted.
-                        NotificationsVM()
-                            .sendItemNotification(
-                                to: bid.bidderId,
-                                type: "Offer Accepted",
-                                itemName: self.item.title,
-                                price: bid.offer
-                            )
-                    }
-                    else {
-                        // Notify buyer that the item is no longer up for sale.
-                        NotificationsVM()
-                            .sendItemNotification(
-                                to: bid.bidderId,
-                                type: "Item Sold",
-                                itemName: self.item.title,
-                                price: bid.offer
-                            )
+        db.collection("items").document(item.id).updateData([
+            "isSold": true
+        ]) { error in
+            if let e = error {
+                print("There was an issue saving data to Firestore, \(e).")
+            } else {
+                print("Successfully sold.")
+                removeBids()
+            }
+        }
+        
+        // Go through each bidder and remove from their bids.
+        func removeBids() {
+            var sentToBidder = false
+            for bidData in item.bidHistory {
+                db.collection("users").document(bidData.key).updateData([
+                    "bids": FieldValue.arrayRemove([item.id])
+                ]) { error in
+                    if let e = error {
+                        print("There was an issue saving data to Firestore, \(e).")
+                    } else {
+                        print("Successfully removed item from each bidder.")
+                        // Send according push notifications
+                        if (bidData.key == bid.bidderId && !sentToBidder) {
+                            sentToBidder = true
+                            sendOfferAccepted()
+                        }
+                        else {
+                            sendItemSold()
+                        }
                     }
                 }
             }
+        }
+        
+        func sendOfferAccepted() {
+            NotificationsVM()
+                .sendItemNotification(
+                    to: bid.bidderId,
+                    type: "Offer Accepted",
+                    itemName: self.item.title,
+                    price: bid.offer
+                )
+        }
+        
+        func sendItemSold() {
+            NotificationsVM()
+                .sendItemNotification(
+                    to: bid.bidderId,
+                    type: "Item Sold",
+                    itemName: self.item.title,
+                    price: bid.offer
+                )
         }
     }
     
@@ -168,7 +186,14 @@ import FirebaseStorage
                             print("There was an issue removing from the item's bid history, \(e).")
                         } else {
                             print("Successfully removed bid.")
-                            // TODO: Send notification to seller
+                            // Notify seller that the bid was removed.
+                            NotificationsVM()
+                                .sendItemNotification(
+                                    to: self.item.sellerId,
+                                    type: "Offer Removed",
+                                    itemName: self.item.title,
+                                    price: ""
+                                )
                         }
                     }
                 } else {
@@ -178,14 +203,5 @@ import FirebaseStorage
                 print("Document does not exist")
             }
         }
-        
-        // Notify seller that the bid was removed.
-        NotificationsVM()
-            .sendItemNotification(
-                to: item.sellerId,
-                type: "Offer Removed",
-                itemName: item.title,
-                price: ""
-            )
     }
 }

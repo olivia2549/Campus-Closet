@@ -15,6 +15,7 @@ struct Item: Codable {
     var picture: String = ""
     var description: String = ""
     var sellerId: String = Auth.auth().currentUser!.uid
+    var isSold: Bool = false
     var price: Float = 0.0
     var size: String = ""
     var condition: String = ""

@@ -53,52 +53,55 @@ struct StickyFooter: View {
                 Spacer()
                 
                 // Button at right.
-                if !session.isGuest && !itemVM.isSeller && !itemVM.isBidder {
-                    Button(action: {
-                        showBidView = true
-                        presentationMode.wrappedValue.dismiss()
-                        tabSelection = 2
-                    }){
-                        Text("Place Bid")
-                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
-                    }
-                    .padding(10)
-                    .background(Styles().themePink)
-                    .cornerRadius(10)
-                    .foregroundColor(.white)
-                }
-                else if !session.isGuest && itemVM.isBidder {
-                    Button(action: {
-                        itemVM.removeBid()
-                        presentationMode.wrappedValue.dismiss()
-                    }){
-                        Text("Remove Bid")
-                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
-                    }
-                    .padding(10)
-                    .background(Styles().themePink)
-                    .cornerRadius(10)
-                    .foregroundColor(.white)
-                }
-                else if !session.isGuest && !itemVM.isSold {
-                    Text("Edit Item")
-                        .frame(maxWidth: maxWidth*0.3, alignment: .center)
-                        .onTapGesture {
-                            if (isLoaded) {
-                                self.presentEditScreen = true
-                                isLoaded = false
-                            }
-                        }
-                        .sheet(isPresented: $presentEditScreen, onDismiss: {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }) {
-                            BasicInfo(viewModel: postVM, showDeleteConfirmation: false, tabSelection: $tabSelection, presentationMode: presentationMode, prevPresentationMode: presentationMode)
-                                .environmentObject(session)
+                if !session.isGuest && !itemVM.item.isSold {
+                    if !itemVM.isSeller && !itemVM.isBidder {
+                        Button(action: {
+                            showBidView = true
+                            presentationMode.wrappedValue.dismiss()
+                            tabSelection = 2
+                        }){
+                            Text("Place Bid")
+                                .frame(maxWidth: maxWidth*0.3, alignment: .center)
                         }
                         .padding(10)
                         .background(Styles().themePink)
                         .cornerRadius(10)
                         .foregroundColor(.white)
+                    }
+                    else if itemVM.isBidder {
+                        Button(action: {
+                            itemVM.removeBid()
+                            presentationMode.wrappedValue.dismiss()
+                        }){
+                            Text("Remove Bid")
+                                .frame(maxWidth: maxWidth*0.3, alignment: .center)
+                        }
+                        .padding(10)
+                        .background(Styles().themePink)
+                        .cornerRadius(10)
+                        .foregroundColor(.white)
+                    }
+                    else {
+                        // is the seller
+                        Text("Edit Item")
+                            .frame(maxWidth: maxWidth*0.3, alignment: .center)
+                            .onTapGesture {
+                                if (isLoaded) {
+                                    self.presentEditScreen = true
+                                    isLoaded = false
+                                }
+                            }
+                            .sheet(isPresented: $presentEditScreen, onDismiss: {
+                                self.presentationMode.wrappedValue.dismiss()
+                            }) {
+                                BasicInfo(viewModel: postVM, showDeleteConfirmation: false, tabSelection: $tabSelection, presentationMode: presentationMode, prevPresentationMode: presentationMode)
+                                    .environmentObject(session)
+                            }
+                            .padding(10)
+                            .background(Styles().themePink)
+                            .cornerRadius(10)
+                            .foregroundColor(.white)
+                    }
                 }
             }
             .padding(.top, 10)

@@ -52,10 +52,11 @@ import SwiftUI
                             continue
                         }
                         guard let sellerID = document.get("sellerId") else {return}
+                        guard let isSold = document.get("isSold") as? Bool else {return}
                         guard let userID = Auth.auth().currentUser?.uid else {return}
                         
-                        // Do not show sellers their own items.
-                        if (sellerID as! String) == userID {
+                        // Do not show sellers their own items or items that have been sold.
+                        if ((sellerID as! String) == userID) || isSold {
                             continue
                         }
                         

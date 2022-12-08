@@ -29,7 +29,7 @@ struct DetailView: View {
                 VStack {
                     ItemImage()
                     DetailDescription()
-                    if !session.isGuest && !itemVM.isSold {
+                    if !session.isGuest && !itemVM.item.isSold {
                         VStack(alignment: .leading) {
                             if itemVM.isSeller {
                                 Text("Bidders").font(.system(size: 16, weight: .semibold))
